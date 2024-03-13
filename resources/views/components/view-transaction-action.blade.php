@@ -1,0 +1,1 @@
+{{ ($viewAction)(['id' => $id]) }}

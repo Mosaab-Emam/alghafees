@@ -1,0 +1,1 @@
+{{ ($editAction)(['id' => $id]) }}

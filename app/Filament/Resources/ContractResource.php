@@ -206,7 +206,7 @@ class ContractResource extends Resource
                     ->description(__('tables/contracts.currency'))
                     ->formatStateUsing(fn ($state) => $state)
                     ->sortable(),
-               Tables\Columns\TextColumn::make('total_cost')
+                Tables\Columns\TextColumn::make('total_cost')
                     ->label(__('tables/contracts.total_cost'))
                     ->money('SAR')
                     ->description(__('tables/contracts.currency'))
@@ -236,6 +236,16 @@ class ContractResource extends Resource
                     ->label(__('admin.contracts.download'))
                     ->url(fn ($record) => route('website.download-contract', ['token' => $record->token]))
                     ->icon('heroicon-o-arrow-down-tray'),
+                Tables\Actions\Action::make('revoke-signature')
+                    ->label(__('admin.contracts.revoke_signature'))
+                    ->action(function ($record) {
+                        $record->signature = null;
+                        $record->save();
+                    })
+                    ->color('danger')
+                    ->icon('heroicon-o-x-mark')
+                    ->visible(fn ($record) => $record->signature != null)
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

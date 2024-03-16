@@ -102,10 +102,29 @@ class ContractController extends Controller
                 $pdf->setX(67);
                 $pdf->Cell(0, 0, $contract->representative_name, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(230);
-                $pdf->setX(58);
+                $purpose_line_1 = "لما كان الطرف الأول حاصلاً على ترخيص مزاولة مهنة التقييم وفقاً لأحكام نظام المقيمين المعتمدين الصادر";
+                $pdf->setY(220);
+                $pdf->setX(18);
                 $pdf->setFontSize(14);
-                $pdf->Cell(0, 0, $contract->purpose, 0, 1, 'R', 0, '', 1);
+                $pdf->Cell(0, 0, $purpose_line_1, 0, 1, 'R', 0, '', 1);
+
+                $purpose_line_2 = "بالمرسوم الملكي رقم (م/ 43) وتاريخ: 09/07/1433هـ وتعديلاته، ولحاجة الطرف الثاني، لتقييم أصوله من قبل";
+                $pdf->setY(225);
+                $pdf->setX(18);
+                $pdf->setFontSize(14);
+                $pdf->Cell(0, 0, $purpose_line_2, 0, 1, 'R', 0, '', 1);
+
+                $purpose_line_3 = "مقيم معتمد لغرض (" . $contract->purpose . ") عليه فقد التقت إرادتا الطرفين وكل منهما بالحالة المعتبرة شرعاً";
+                $pdf->setY(230);
+                $pdf->setX(18);
+                $pdf->setFontSize(14);
+                $pdf->Cell(0, 0, $purpose_line_3, 0, 1, 'R', 0, '', 1);
+
+                $purpose_line_4 = "والأهلية الصالحة للإبرام والتصرف والصفة المعتد بها نظاماً على إبرام هذا العقد وذلك بالشروط الآتية:";
+                $pdf->setY(235);
+                $pdf->setX(18);
+                $pdf->setFontSize(14);
+                $pdf->Cell(0, 0, $purpose_line_4, 0, 1, 'R', 0, '', 1);
             }
             if ($pageNo == 2) {
                 $pdf->setY(186);
@@ -196,6 +215,10 @@ class ContractController extends Controller
                 $pdf->setX(124);
                 $pdf->Cell(0, 0, $contract->client_name, 0, 1, 'R', 0, '', 1);
 
+                $pdf->setY(250);
+                $pdf->setX(124);
+                $pdf->Cell(0, 0, explode(" ", $contract->created_at)[0], 0, 1, 'R', 0, '', 1);
+
                 if ($contract->signature != null) {
                     $dataPieces = explode(',', $contract->signature);
                     $encodedImg = $dataPieces[1];
@@ -204,16 +227,11 @@ class ContractController extends Controller
                     if ($decodedImg !== false) {
                         $name = 'signature-' . now()->toDateString() . '.png';
                         if (file_put_contents($name, $decodedImg) !== false) {
-                            $pdf->Image($name, 80, 248, 16, 16, 'png');
+                            $pdf->Image($name, 80, 256, 16, 16, 'png');
                             unlink($name);
                         }
                     }
                 }
-
-                // TODO: make sure date position is not affected by signature size
-                $pdf->setY(266);
-                $pdf->setX(124);
-                $pdf->Cell(0, 0, explode(" ", $contract->created_at)[0], 0, 1, 'R', 0, '', 1);
             }
         }
 

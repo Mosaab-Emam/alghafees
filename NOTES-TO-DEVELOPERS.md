@@ -289,15 +289,18 @@ class PostResource extends SkyResource
 }
 
 ```
-// Atef Badreddine 10/03/2024 ;
-2. change redirectTo() in vendor/filament/filament/src/http/middleware
+
+// Atef Badreddine 10/03/2024 ; 2. change redirectTo() in vendor/filament/filament/src/http/middleware/Authenticate.php
+
 ```php
  protected function redirectTo($request): ?string
     {
         return route('admin.login');
     }
 ```
-3. Change getImageUrl() in vendor/filament/tables/src/columns
+
+3. Change getImageUrl() in vendor/filament/tables/src/Columns/ImageColumn.php
+
 ```php
 public function getImageUrl(?string $state = null): ?string
 {
@@ -334,4 +337,5 @@ return $state;
         return null;
     }
 ```
+
 4. remove all text-white occurences from resources\view\vendor\livewire-powergrid\components\frameworks\tailwind\pagination.blade.php

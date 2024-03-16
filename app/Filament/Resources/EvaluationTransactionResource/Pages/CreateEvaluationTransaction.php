@@ -37,11 +37,10 @@ class CreateEvaluationTransaction extends CreateRecord
 
     protected function afterCreate(): void
     {
-
         $files = $this->files;
         if (is_array($files) && !empty($files)) {
             foreach ($files as $file) {
-                $filename = $file->store('upload/transaction','public');
+                $filename = $file->store('upload/transaction', 'public');
                 $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
                 Transaction_files::create([

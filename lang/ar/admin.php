@@ -221,7 +221,8 @@ return [
         'clear_btn' => 'مسح',
         'submit_btn' => 'تأكيد التوقيع وتحميل العقد',
         'contract_signed' => 'تم توقيع العقد',
-        'download' => 'تحميل'
+        'download' => 'تحميل',
+        'revoke_signature' => 'إلغاء التوقيع'
     ],
     'plan_no' => 'رقم المخطط',
     'plot_no' => 'رقم القطعة',

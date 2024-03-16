@@ -133,7 +133,7 @@ class ContractResource extends Resource
                 Forms\Components\TextInput::make('total_cost')
                     ->label(__('forms/contracts.total_cost'))
                     ->required()
-                    ->helperText(fn (callable $get) => 'شامل الضريبة 15% (' . $get('tax') . ')')
+                    ->helperText(fn(callable $get) => 'شامل الضريبة 15% (' . $get('tax') . ')')
                     ->maxLength(255)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {
@@ -155,13 +155,13 @@ class ContractResource extends Resource
                 Tables\Columns\TextColumn::make('token')
                     ->label(__('tables/contracts.token'))
                     ->numeric()
-                    ->formatStateUsing(fn ($state) => $state)
+                    ->formatStateUsing(fn($state) => $state)
                     ->sortable()
                     ->searchable()
                     ->copyable()
                     ->copyMessage(__('tables/contracts.copy_token'))
                     ->copyMessageDuration(1500)
-                    ->copyableState(fn ($state) => config('app.url') . '/sign/' . $state)
+                    ->copyableState(fn($state) => config('app.url') . '/sign/' . $state)
                     ->description('اضغط لنسخ رابط التوقيع'),
                 Tables\Columns\TextColumn::make('client_name')
                     ->label(__('tables/contracts.client_name'))
@@ -180,12 +180,12 @@ class ContractResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label(__('tables/contracts.type'))
-                    ->formatStateUsing(fn ($state) => __('categories.' . $state))
+                    ->formatStateUsing(fn($state) => __('categories.' . $state))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area')
                     ->label(__('tables/contracts.area'))
                     ->numeric()
-                    ->formatStateUsing(fn ($state) => $state)
+                    ->formatStateUsing(fn($state) => $state)
                     ->description(__('tables/contracts.area_suffix'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('deed_number')
@@ -198,25 +198,25 @@ class ContractResource extends Resource
                 Tables\Columns\TextColumn::make('number_of_assets')
                     ->label(__('tables/contracts.number_of_assets'))
                     ->numeric()
-                    ->formatStateUsing(fn ($state) => $state)
+                    ->formatStateUsing(fn($state) => $state)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cost_per_asset')
                     ->label(__('tables/contracts.cost_per_asset'))
                     ->money('SAR')
                     ->description(__('tables/contracts.currency'))
-                    ->formatStateUsing(fn ($state) => $state)
+                    ->formatStateUsing(fn($state) => $state)
                     ->sortable(),
-               Tables\Columns\TextColumn::make('total_cost')
+                Tables\Columns\TextColumn::make('total_cost')
                     ->label(__('tables/contracts.total_cost'))
                     ->money('SAR')
                     ->description(__('tables/contracts.currency'))
-                    ->formatStateUsing(fn ($state) => $state)
+                    ->formatStateUsing(fn($state) => $state)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tax')
                     ->label(__('tables/contracts.tax'))
                     ->money('SAR')
                     ->description(__('tables/contracts.currency'))
-                    ->formatStateUsing(fn ($state) => $state)
+                    ->formatStateUsing(fn($state) => $state)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('tables/contracts.created_at'))
@@ -232,10 +232,21 @@ class ContractResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
                 Tables\Actions\Action::make('download')
                     ->label(__('admin.contracts.download'))
-                    ->url(fn ($record) => route('website.download-contract', ['token' => $record->token]))
+                    ->url(fn($record) => route('website.download-contract', ['token' => $record->token]))
                     ->icon('heroicon-o-arrow-down-tray'),
+                Tables\Actions\Action::make('revoke-signature')
+                    ->label(__('admin.contracts.revoke_signature'))
+                    ->action(function ($record) {
+                        $record->signature = null;
+                        $record->save();
+                    })
+                    ->color('danger')
+                    ->icon('heroicon-o-x-mark')
+                    ->visible(fn($record) => $record->signature != null)
+                    ->requiresConfirmation(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -258,5 +269,10 @@ class ContractResource extends Resource
             'create' => Pages\CreateContract::route('/create'),
             'edit' => Pages\EditContract::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('created_at', 'desc');
     }
 }

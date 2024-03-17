@@ -11,10 +11,18 @@ class Contract extends Model
 
     protected $guarded = ['id'];
 
-    protected $appends = ['has_been_signed'];
+    protected $appends = ['has_been_signed', 'contract_date'];
 
     public function getHasBeenSignedAttribute()
     {
         return !!$this->signature;
+    }
+
+    public function getContractDateAttribute()
+    {
+        if ($this->date)
+            return $this->date;
+
+        return explode(' ', $this->created_at)[0];
     }
 }

@@ -67,12 +67,12 @@ class ContractController extends Controller
                 $pdf->setX(20);
                 $pdf->setFontSize(13);
                 $date_line = 'حرر هذا العقد بالرياض في '
-                    . ArabicDate::dayName()
+                    . ArabicDate::dayName($contract->contract_date)
                     . ': '
-                    . ArabicDate::gregorianDate()
+                    . $contract->contract_date
                     . 'م'
                     . ' الموافق: '
-                    . ArabicDate::hijriDate()
+                    . \GeniusTS\HijriDate\Hijri::convertToHijri($contract->contract_date)->format('Y-m-d')
                     . 'هـ'
                     . ' بين كل من:';
                 $pdf->Cell(0, 0, $date_line, 0, 1, 'R', 0, '', 1);
@@ -218,6 +218,10 @@ class ContractController extends Controller
                 $pdf->setY(250);
                 $pdf->setX(124);
                 $pdf->Cell(0, 0, explode(" ", $contract->created_at)[0], 0, 1, 'R', 0, '', 1);
+
+                $pdf->setY(250);
+                $pdf->setX(45);
+                $pdf->Cell(0, 0, explode(" ", $contract->contract_date)[0], 0, 1, 'R', 0, '', 1);
 
                 if ($contract->signature != null) {
                     $dataPieces = explode(',', $contract->signature);

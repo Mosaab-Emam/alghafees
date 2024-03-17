@@ -16,11 +16,11 @@ class ArabicDate
         'Fri' => 'الحمعة'
     ];
 
-    public static function dayName()
+    public static function dayName($date = "now")
     {
-        $timestamp = time();
-        $dt = new \DateTime("now", new \DateTimeZone(static::$timezone));
-        $dt->setTimestamp($timestamp);
+        // $timestamp = time();
+        $dt = new \DateTime($date, new \DateTimeZone(static::$timezone));
+        // $dt->setTimestamp($timestamp);
         return static::$day_name_dict[$dt->format('D')];
     }
 

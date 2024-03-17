@@ -316,6 +316,7 @@ class EvaluationTransactionResource extends Resource
                         ->options(EvaluationEmployee::pluck('title', 'id')),
                     Forms\Components\DatePicker::make('date')
                         ->label(__('admin.date'))
+                        ->native(false)
                         ->required(),
 
                 ])->columns(2),
@@ -324,7 +325,8 @@ class EvaluationTransactionResource extends Resource
                         ->label(__('admin.previewer'))
                         ->options(EvaluationEmployee::all()->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('preview_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.preview_datetime')),
+                        ->label(__('admin.evaluation-transactions.forms.preview_datetime'))
+                        ->native(false),
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
@@ -333,14 +335,16 @@ class EvaluationTransactionResource extends Resource
                         ->options(EvaluationEmployee::all()
                             ->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('review_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.review_datetime')),
+                        ->label(__('admin.evaluation-transactions.forms.review_datetime'))
+                        ->native(false),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('income_id')
                         ->label(__('admin.income'))
                         ->options(EvaluationEmployee::all()->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('income_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.income_datetime')),
+                        ->label(__('admin.evaluation-transactions.forms.income_datetime'))
+                        ->native(false),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Textarea::make('notes')

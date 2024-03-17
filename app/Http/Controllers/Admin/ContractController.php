@@ -219,6 +219,10 @@ class ContractController extends Controller
                 $pdf->setX(124);
                 $pdf->Cell(0, 0, explode(" ", $contract->created_at)[0], 0, 1, 'R', 0, '', 1);
 
+                $pdf->setY(250);
+                $pdf->setX(45);
+                $pdf->Cell(0, 0, explode(" ", $contract->contract_date)[0], 0, 1, 'R', 0, '', 1);
+
                 if ($contract->signature != null) {
                     $dataPieces = explode(',', $contract->signature);
                     $encodedImg = $dataPieces[1];

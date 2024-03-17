@@ -77,24 +77,26 @@ class EvaluationTransactionResource extends Resource
         return $infolist
             ->schema([
                 TextEntry::make('id')->label(__('admin.TransactionDetail'))
-                ->getStateUsing(function (EvaluationTransaction $model) {
-                    $output = '<strong>' . '#' . ':</strong> ' . $model->id . '<br/>';
-                    $output .= '<strong>' . __('admin.CreationDate') . ':</strong> ' . Carbon::parse($model->created_at)->format('d/m/Y') . '<br/>';
-                    $output .= '<strong>' . __('admin.instrument_number') . ':</strong> ' . $model->instrument_number . '<br/>';
-                    $output .= '<strong>' . __('admin.transaction_number') . ':</strong> ' . $model->transaction_number . '<br/>';
-                    $output .= '<strong>' . __('admin.Phone') . ':</strong> ' . $model->phone . '<br/>';
-                    return $output;
-                })->html(),
-                ViewEntry::make('details')->view('components.transaction_details',['model' => $infolist->record]),
+                    ->getStateUsing(function (EvaluationTransaction $model) {
+                        $output = '<strong>' . '#' . ':</strong> ' . $model->id . '<br/>';
+                        $output .= '<strong>' . __('admin.CreationDate') . ':</strong> ' . Carbon::parse($model->created_at)->format('d/m/Y') . '<br/>';
+                        $output .= '<strong>' . __('admin.instrument_number') . ':</strong> ' . $model->instrument_number . '<br/>';
+                        $output .= '<strong>' . __('admin.transaction_number') . ':</strong> ' . $model->transaction_number . '<br/>';
+                        $output .= '<strong>' . __('admin.Phone') . ':</strong> ' . $model->phone . '<br/>';
+                        return $output;
+                    })->html(),
+                ViewEntry::make('details')->view('components.transaction_details', ['model' => $infolist->record]),
                 TextEntry::make('previewer.title')->label(__('admin.previewer')),
                 TextEntry::make('company.title')->label(__('admin.company')),
                 TextEntry::make('company_fundoms')->label(__('admin.company_fundoms')),
                 TextEntry::make('review_fundoms')->label(__('admin.review_fundoms'))->columnStart(1),
                 TextEntry::make('notes')->label(__('admin.notes'))->columnSpanFull(),
-                ViewEntry::make('files_t')->label(__('admin.files'))->columnSpanFull()
-                ->view('filament.show-TransactionFiles',[
-                    'files' => Transaction_files::where('transaction_id',$infolist->record->id)->get()
-                ])
+
+                // TODO: uses a permission that does not exist yet
+                // ViewEntry::make('files_t')->label(__('admin.files'))->columnSpanFull()
+                //     ->view('filament.evaluation-transactions.show', [
+                //         'files' => Transaction_files::where('transaction_id', $infolist->record->id)->get()
+                //     ])
 
             ]);
     }
@@ -104,97 +106,96 @@ class EvaluationTransactionResource extends Resource
     {
         return $table->recordAction(null)->recordUrl(null)
             ->columns([
-            Tables\Columns\TextColumn::make('mainInfoSpan')->label(__('#'))
-                ->html()->searchable([
-                    'id','instrument_number','transaction_number'
-                ]),
-            Tables\Columns\TextColumn::make('detailsSpan')->label(__('admin.TransactionDetail'))
-               ->html()->searchable([
-                   'owner_name',
-                ]),
-             Tables\Columns\TextColumn::make('region_attribute')->label(__('admin.region'))->html(),
-             Tables\Columns\TextColumn::make('company.title')->label(__('admin.company')),
-            Tables\Columns\TextColumn::make('isiteratedName')->label(__('admin.is_iterated'))->default("لا")
-                ->badge()->color(fn (string $state): string => $state == __('admin.No') ? 'success' : 'danger'),
-            Tables\Columns\TextColumn::make('statusWords')
-                ->label(__('admin.Status'))
-                ->icon('heroicon-m-pencil-square')
-                ->badge()
-                ->color(fn (string $state) : string => match ($state) {
-                __('admin.NewTransaction') => 'info',
-                __('admin.ContactedRequest') => 'info',
-                __('admin.InReviewRequest') => 'warning',
-                __('admin.PendingRequest') => 'warning',
-                __('admin.FinishedRequest') => 'success',
-                __('admin.Cancelled') => 'danger',
-                __('admin.ReviewedRequest') => 'danger',
-                'default' => 'danger'
-            })
-                ->action(  Tables\Actions\Action::make('update')
-                    ->modalHidden(!can('evaluation-transactions.changeStatus'))
-                    ->fillForm(fn (EvaluationTransaction $record): array => [
-                        'status' => $record->status,
-                    ])
+                Tables\Columns\TextColumn::make('mainInfoSpan')->label(__('#'))
+                    ->html()->searchable([
+                        'id', 'instrument_number', 'transaction_number'
+                    ]),
+                Tables\Columns\TextColumn::make('detailsSpan')->label(__('admin.TransactionDetail'))
+                    ->html()->searchable([
+                        'owner_name',
+                    ]),
+                Tables\Columns\TextColumn::make('region_attribute')->label(__('admin.region'))->html(),
+                Tables\Columns\TextColumn::make('company.title')->label(__('admin.company')),
+                Tables\Columns\TextColumn::make('isiteratedName')->label(__('admin.is_iterated'))->default("لا")
+                    ->badge()->color(fn (string $state): string => $state == __('admin.No') ? 'success' : 'danger'),
+                Tables\Columns\TextColumn::make('statusWords')
+                    ->label(__('admin.Status'))
+                    ->icon('heroicon-m-pencil-square')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        __('admin.NewTransaction') => 'info',
+                        __('admin.ContactedRequest') => 'info',
+                        __('admin.InReviewRequest') => 'warning',
+                        __('admin.PendingRequest') => 'warning',
+                        __('admin.FinishedRequest') => 'success',
+                        __('admin.Cancelled') => 'danger',
+                        __('admin.ReviewedRequest') => 'danger',
+                        'default' => 'danger'
+                    })
+                    ->action(Tables\Actions\Action::make('update')
+                        ->modalHidden(!can('evaluation-transactions.changeStatus'))
+                        ->fillForm(fn (EvaluationTransaction $record): array => [
+                            'status' => $record->status,
+                        ])
+                        ->form([
+                            \Filament\Forms\Components\Select::make('status')
+                                ->label(__('admin.Status'))
+                                ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses))
+                                ->required(),
+                        ])
+                        ->action(function (array $data, EvaluationTransaction $record): void {
+                            $record->status = $data['status'];
+                            $record->save();
+                        })->modalHeading(__('admin.Edit'))->modalIcon('heroicon-o-link')),
+            ])->filters([
+                Filter::make('created_at')
                     ->form([
-                        \Filament\Forms\Components\Select::make('status')
-                            ->label(__('admin.Status'))
-                            ->options(array_map(fn($item) => __('admin.'.$item['title']),Constants::TransactionStatuses))
-                            ->required(),
+                        DatePicker::make('created_from')->label(__('من تاريخ')),
                     ])
-                    ->action(function (array $data, EvaluationTransaction $record): void {
-                        $record->status = $data['status'];
-                        $record->save();
-                    })->modalHeading(__('admin.Edit'))->modalIcon('heroicon-o-link')),
-        ])->filters([
-            Filter::make('created_at')
-                ->form([
-                    DatePicker::make('created_from')->label(__('من تاريخ')),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['created_from'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                        );
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            );
+                    })->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_from']) {
+                            return null;
+                        }
 
-                })->indicateUsing(function (array $data): ?string {
-                    if (! $data['created_from']) {
-                        return null;
-                    }
+                        return 'Created from ' . \Carbon\Carbon::parse($data['created_from'])->toFormattedDateString();
+                    }),
+                Filter::make('created_until')
+                    ->form([
+                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
+                    ])->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_until']) {
+                            return null;
+                        }
 
-                    return 'Created from ' . \Carbon\Carbon::parse($data['created_from'])->toFormattedDateString();
-                }),
-            Filter::make('created_until')
-                ->form([
-                    DatePicker::make('created_until')->label(__('قبل تاريخ')),
-                ])->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['created_until'],
-                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                        );
-                })->indicateUsing(function (array $data): ?string {
-                    if (! $data['created_until']) {
-                        return null;
-                    }
-
-                    return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
-                }),
+                        return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+                    }),
                 Tables\Filters\SelectFilter::make('status')
-                ->label(__('admin.Status'))
-                ->options(array_map(fn($item) : string => __('admin.'.$item['title']),Constants::TransactionStatuses)),
+                    ->label(__('admin.Status'))
+                    ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::TransactionStatuses)),
                 Tables\Filters\SelectFilter::make('company')
                     ->label(__('admin.company'))
                     ->multiple()
                     ->searchable()
                     ->preload()
-                    ->relationship('company','title'),
+                    ->relationship('company', 'title'),
                 Tables\Filters\SelectFilter::make('previewer')
                     ->label(__('admin.previewer'))
                     ->multiple()
                     ->searchable()
                     ->preload()
-                    ->relationship('previewer','title',function (Builder $query) {
+                    ->relationship('previewer', 'title', function (Builder $query) {
                         return $query->orderBy('id');
                     }),
                 Tables\Filters\SelectFilter::make('review')
@@ -202,7 +203,7 @@ class EvaluationTransactionResource extends Resource
                     ->multiple()
                     ->searchable()
                     ->preload()
-                    ->relationship('review','title',function (Builder $query) {
+                    ->relationship('review', 'title', function (Builder $query) {
                         return $query->orderBy('id');
                     }),
                 Tables\Filters\SelectFilter::make('income')
@@ -210,13 +211,13 @@ class EvaluationTransactionResource extends Resource
                     ->multiple()
                     ->searchable()
                     ->preload()
-                    ->relationship('income','title',function (Builder $query) {
+                    ->relationship('income', 'title', function (Builder $query) {
                         return $query->orderBy('id');
                     }),
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label(__('admin.city_id'))
-                    ->options(Category::city()->pluck('title','id')),
-        ], layout: Tables\Enums\FiltersLayout::AboveContent)
+                    ->options(Category::city()->pluck('title', 'id')),
+            ], layout: Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make()->authorize(can('evaluation-transactions.show')),
                 Tables\Actions\EditAction::make()->authorize(can('evaluation-transactions.edit')),
@@ -226,7 +227,7 @@ class EvaluationTransactionResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\BulkAction::make('export_excel')->label(__('تصدير معاملات التقييم'))
                         ->icon('heroicon-m-arrow-down-tray')
-                        ->action(function (\Illuminate\Support\Collection $records)  {
+                        ->action(function (\Illuminate\Support\Collection $records) {
 
                             $columns = [
                                 trans('admin.notes'),
@@ -259,9 +260,9 @@ class EvaluationTransactionResource extends Resource
                             ];
 
 
-                            $exports = new GenericExport($records,$columns,$fields);
+                            $exports = new GenericExport($records, $columns, $fields);
                             $fileName = 'EvaluationTransactions_' . time() . '.xlsx';
-                            return Excel::download($exports,$fileName);
+                            return Excel::download($exports, $fileName);
                         }),
                     Tables\Actions\DeleteBulkAction::make()->authorize(can('evaluation-transactions.delete'))
                 ]),
@@ -273,73 +274,107 @@ class EvaluationTransactionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\TextInput::make('instrument_number')->label(__('admin.instrument_number'))
-                        ->maxLength(255)->unique(fn(string $context) => $context !== 'edit')->required(),
-                    Forms\Components\TextInput::make('transaction_number')->label(__('admin.transaction_number'))
-                        ->maxLength(255)->unique(fn(string $context) => $context !== 'edit')->required(),
-                    Forms\Components\TextInput::make('owner_name')->label(__('admin.owner_name'))
+                    Forms\Components\TextInput::make('instrument_number')
+                        ->label(__('admin.instrument_number'))
+                        ->maxLength(255)
+                        // TODO: Causes Table == '1'. Do it properly
+                        // ->unique(fn (string $context) => $context !== 'edit')
+                        ->required(),
+                    Forms\Components\TextInput::make('transaction_number')
+                        ->label(__('admin.transaction_number'))
+                        ->maxLength(255)
+                        // TODO: Causes Table == '1'. Do it properly
+                        // ->unique(fn (string $context) => $context !== 'edit')
+                        ->required(),
+                    Forms\Components\TextInput::make('owner_name')
+                        ->label(__('admin.owner_name'))
                         ->maxLength(255)->required(),
-                    Forms\Components\Select::make('new_city_id')->label(__('admin.region'))
-                        ->options(City::pluck('name_ar','id'))->required(),
-                    Forms\Components\Select::make('city_id')->label(__('admin.city'))
-                        ->options(Category::city()->pluck('title','id')),
-                    Forms\Components\TextInput::make('plan_no')->label(__('admin.plan_no'))
-                        ->maxLength(255)->required(),
-                    Forms\Components\TextInput::make('plot_no')->label(__('admin.plot_no'))
-                        ->maxLength(255)->required(),
-                    Forms\Components\Select::make('type_id')->label(__('admin.type_id'))
-                        ->options(Category::ApartmentType()->pluck('title','id'))->required(),
-                    Forms\Components\Select::make('evaluation_company_id')->label(__('admin.evaluation_company_id'))
-                        ->options(EvaluationCompany::pluck('title','id')),
-                    Forms\Components\Select::make('evaluation_employee_id')->label(__('admin.evaluation_employee_id'))
-                        ->options(EvaluationEmployee::pluck('title','id')),
+                    Forms\Components\Select::make('new_city_id')
+                        ->label(__('admin.region'))
+                        ->options(City::pluck('name_ar', 'id'))
+                        ->required(),
+                    Forms\Components\Select::make('city_id')
+                        ->label(__('admin.city'))
+                        ->options(Category::city()->pluck('title', 'id')),
+                    Forms\Components\TextInput::make('plan_no')
+                        ->label(__('admin.plan_no'))
+                        ->maxLength(255)
+                        ->required(),
+                    Forms\Components\TextInput::make('plot_no')
+                        ->label(__('admin.plot_no'))
+                        ->maxLength(255)
+                        ->required(),
+                    Forms\Components\Select::make('type_id')
+                        ->label(__('admin.type_id'))
+                        ->options(Category::ApartmentType()->pluck('title', 'id'))
+                        ->required(),
+                    Forms\Components\Select::make('evaluation_company_id')
+                        ->label(__('admin.evaluation_company_id'))
+                        ->options(EvaluationCompany::pluck('title', 'id')),
+                    Forms\Components\Select::make('evaluation_employee_id')
+                        ->label(__('admin.evaluation_employee_id'))
+                        ->options(EvaluationEmployee::pluck('title', 'id')),
                     Forms\Components\DatePicker::make('date')
                         ->label(__('admin.date'))
+                        ->native(false)
                         ->required(),
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Select::make('previewer_id')->label(__('admin.previewer'))
-                    ->options(EvaluationEmployee::all()->pluck('title','id')),
+                    Forms\Components\Select::make('previewer_id')
+                        ->label(__('admin.previewer'))
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('preview_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.preview_datetime')),
+                        ->label(__('admin.evaluation-transactions.forms.preview_datetime'))
+                        ->native(false),
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Select::make('review_id')->label(__('admin.review'))
-                        ->options(EvaluationEmployee::all()->pluck('title','id')),
+                    Forms\Components\Select::make('review_id')
+                        ->label(__('admin.review'))
+                        ->options(EvaluationEmployee::all()
+                            ->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('review_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.review_datetime')),
+                        ->label(__('admin.evaluation-transactions.forms.review_datetime'))
+                        ->native(false),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Select::make('income_id')->label(__('admin.income'))
-                        ->options(EvaluationEmployee::all()->pluck('title','id')),
+                    Forms\Components\Select::make('income_id')
+                        ->label(__('admin.income'))
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('income_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.income_datetime')),
+                        ->label(__('admin.evaluation-transactions.forms.income_datetime'))
+                        ->native(false),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Textarea::make('notes')->label(__('admin.Notes'))
+                    Forms\Components\Textarea::make('notes')
+                        ->label(__('admin.Notes'))
                         ->rows(6),
-                    Forms\Components\TextInput::make('company_fundoms')->label(__('admin.company_fundoms'))
+                    Forms\Components\TextInput::make('company_fundoms')
+                        ->label(__('admin.company_fundoms'))
                         ->numeric(),
-                    Forms\Components\TextInput::make('review_fundoms')->label(__('admin.review_fundoms'))
+                    Forms\Components\TextInput::make('review_fundoms')
+                        ->label(__('admin.review_fundoms'))
                         ->numeric(),
-                    Forms\Components\TextInput::make('phone')->label(__('admin.Phone'))
+                    Forms\Components\TextInput::make('phone')
+                        ->label(__('admin.Phone'))
                         ->tel()
                         ->required()
                         ->maxLength(20),
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\FileUpload::make('files')->label(__('admin.files'))
+                    Forms\Components\FileUpload::make('files')
+                        ->label(__('admin.files'))
                         ->columnSpanFull()
                         ->multiple()->storeFiles(false),
-                    Forms\Components\Select::make('uploaded_files')->label(__('حذف الملفات'))
+                    Forms\Components\Select::make('uploaded_files')
+                        ->label(__('حذف الملفات'))
                         ->multiple()
                         ->visible(fn (string $context) => $context === 'edit')
-                        ->options(Transaction_files::where('transaction_id',$form->getRecord()?->id)->pluck('path','id'))
+                        ->options(Transaction_files::where('transaction_id', $form->getRecord()?->id)->pluck('path', 'id'))
                 ])
-                ]);
+            ]);
     }
 
 

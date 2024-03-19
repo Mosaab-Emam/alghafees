@@ -258,6 +258,13 @@
       0 => 'PowerComponents\\LivewirePowerGrid\\Providers\\PowerGridServiceProvider',
     ),
   ),
+  'pxlrbt/filament-excel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'pxlrbt\\FilamentExcel\\FilamentExcelServiceProvider',
+    ),
+  ),
   'ryangjchandler/blade-capture-directive' => 
   array (
     'providers' => 

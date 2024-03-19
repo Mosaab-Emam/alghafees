@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'id' => '#',
+    'instrument_number' => 'رقم الصك',
+    'repeated' => 'مكرر',
+    'transaction_number' => 'رقم المعاملة',
+    'date' => 'التاريخ',
+    'owner_name' => 'اسم المالك',
+    'phone' => 'رقم الهاتف',
+    'city' => 'المدينة',
+    'plan_no' => 'رقم المخطط',
+    'plot_no' => 'رقم القطعة',
+    'type' => 'نوع العقار',
+    'company' => 'الشركة',
+    'branch' => 'الفرع',
+    'employee' => 'موظف التجهيز والرفع',
+    'reviewer_compensation' => 'أتعاب المعاين',
+    'company_compensation' => 'أتعاب الشركة',
+    'previewer' => 'المعاين',
+    'entry_employee' => 'المدخل',
+    'reviewer' => 'المراجع',
+    'notes' => 'الملاحظات',
+    'status' => 'الحالة',
+    'unset' => 'لم يحدد',
+];

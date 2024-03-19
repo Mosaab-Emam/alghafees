@@ -2,42 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Exports\GenericExport;
-use App\Exports\RateRequestExport;
 use App\Filament\Resources\EvaluationTransactionResource\Pages;
-use App\Filament\Resources\EvaluationTransactionResource\RelationManagers;
 use App\Helpers\Constants;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Evaluation\EvaluationCompany;
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\Evaluation\EvaluationTransaction;
-use App\Models\RateRequest;
 use App\Models\Transaction_files;
-use Excel;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ViewEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\Alignment;
 use Filament\Tables;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Filters\BaseFilter;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
-use Route;
-use WireUi\View\Components\Select;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class EvaluationTransactionResource extends Resource
 {
@@ -104,33 +89,104 @@ class EvaluationTransactionResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table->recordAction(null)->recordUrl(null)
+        return $table
             ->columns([
-                Tables\Columns\TextColumn::make('mainInfoSpan')->label(__('#'))
-                    ->html()->searchable([
-                        'id', 'instrument_number', 'transaction_number'
-                    ]),
-                Tables\Columns\TextColumn::make('detailsSpan')->label(__('admin.TransactionDetail'))
-                    ->html()->searchable([
-                        'owner_name',
-                    ]),
-                Tables\Columns\TextColumn::make('region_attribute')->label(__('admin.region'))->html(),
-                Tables\Columns\TextColumn::make('company.title')->label(__('admin.company')),
-                Tables\Columns\TextColumn::make('isiteratedName')->label(__('admin.is_iterated'))->default("لا")
-                    ->badge()->color(fn (string $state): string => $state == __('admin.No') ? 'success' : 'danger'),
+                Tables\Columns\TextColumn::make('id')
+                    ->label(__('resources/evaluation-transactions.id')),
+                Tables\Columns\TextColumn::make('instrument_number')
+                    ->label(__('resources/evaluation-transactions.instrument_number'))
+                    ->searchable()
+                    ->description(fn ($record) => $record->is_iterated ? __('resources/evaluation-transactions.repeated') : ''),
+                Tables\Columns\TextColumn::make('transaction_number')
+                    ->label(__('resources/evaluation-transactions.transaction_number'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('date')
+                    ->label(__('resources/evaluation-transactions.date'))
+                    ->date()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('owner_name')
+                    ->label(__('resources/evaluation-transactions.owner_name'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label(__('resources/evaluation-transactions.phone'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('compatible_city')
+                    ->label(__('resources/evaluation-transactions.city'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('compatible_plan_no')
+                    ->label(__('resources/evaluation-transactions.plan_no'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('compatible_plot_no')
+                    ->label(__('resources/evaluation-transactions.plot_no'))
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type.title')
+                    ->label(__('resources/evaluation-transactions.type'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('company.title')
+                    ->label(__('resources/evaluation-transactions.company'))
+                    ->sortable()
+                    ->searchable()
+                    ->default(__('resources/evaluation-transactions.unset')),
+                Tables\Columns\TextColumn::make('city.title')
+                    ->label(__('resources/evaluation-transactions.branch'))
+                    ->sortable()
+                    ->searchable()
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->badge(fn ($record) => !$record->city_id)
+                    ->color(fn ($record) => !$record->city_id ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('employee.title')
+                    ->label(__('resources/evaluation-transactions.employee'))
+                    ->sortable()
+                    ->searchable()
+                    ->default(__('resources/evaluation-transactions.unset')),
+                Tables\Columns\TextColumn::make('review_fundoms')
+                    ->label(__('resources/evaluation-transactions.reviewer_compensation'))
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->suffix(fn ($record) => $record->review_fundoms ? 'ر.س' : '')
+                    ->badge(fn ($record) => !$record->review_fundoms)
+                    ->color(fn ($record) => !$record->review_fundoms ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('company_fundoms')
+                    ->label(__('resources/evaluation-transactions.company_compensation'))
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->suffix(fn ($record) => $record->company_fundoms ? 'ر.س' : '')
+                    ->badge(fn ($record) => !$record->company_fundoms)
+                    ->color(fn ($record) => !$record->company_fundoms ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('previewer.title')
+                    ->label(__('resources/evaluation-transactions.previewer'))
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->badge(fn ($record) => !$record->previewer_id)
+                    ->color(fn ($record) => !$record->previewer_id ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('income.title')
+                    ->label(__('resources/evaluation-transactions.entry_employee'))
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->badge(fn ($record) => !$record->income_id)
+                    ->color(fn ($record) => !$record->income_id ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('review.title')
+                    ->label(__('resources/evaluation-transactions.reviewer'))
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->badge(fn ($record) => !$record->review_id)
+                    ->color(fn ($record) => !$record->review_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('statusWords')
-                    ->label(__('admin.Status'))
+                    ->label(__('resources/evaluation-transactions.status'))
                     ->icon('heroicon-m-pencil-square')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        __('admin.NewTransaction') => 'info',
-                        __('admin.ContactedRequest') => 'info',
-                        __('admin.InReviewRequest') => 'warning',
-                        __('admin.PendingRequest') => 'warning',
-                        __('admin.FinishedRequest') => 'success',
-                        __('admin.Cancelled') => 'danger',
-                        __('admin.ReviewedRequest') => 'danger',
-                        'default' => 'danger'
+                    ->color(function (string $state) {
+                        if ($state == __('admin.NewTransaction'))
+                            return 'info';
+                        if ($state == __('admin.ContactedRequest'))
+                            return 'info';
+                        if ($state == __('admin.InReviewRequest'))
+                            return 'warning';
+                        if ($state == __('admin.PendingRequest'))
+                            return 'warning';
+                        if ($state == __('admin.FinishedRequest'))
+                            return 'success';
+                        if ($state == __('admin.Cancelled'))
+                            return 'danger';
+                        if ($state == __('admin.ReviewedRequest'))
+                            return 'danger';
+                        return 'danger';
                     })
                     ->action(Tables\Actions\Action::make('update')
                         ->modalHidden(!can('evaluation-transactions.changeStatus'))
@@ -138,7 +194,7 @@ class EvaluationTransactionResource extends Resource
                             'status' => $record->status,
                         ])
                         ->form([
-                            \Filament\Forms\Components\Select::make('status')
+                            Forms\Components\Select::make('status')
                                 ->label(__('admin.Status'))
                                 ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses))
                                 ->required(),
@@ -146,8 +202,16 @@ class EvaluationTransactionResource extends Resource
                         ->action(function (array $data, EvaluationTransaction $record): void {
                             $record->status = $data['status'];
                             $record->save();
-                        })->modalHeading(__('admin.Edit'))->modalIcon('heroicon-o-link')),
-            ])->filters([
+                        })
+                        ->modalHeading(__('admin.Edit'))
+                        ->modalIcon('heroicon-o-link')),
+                Tables\Columns\TextColumn::make('notes')
+                    ->label(__('resources/evaluation-transactions.notes'))
+                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->badge(fn ($record) => !$record->notes)
+                    ->color(fn ($record) => !$record->notes ? 'danger' : ''),
+            ])
+            ->filters([
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from')->label(__('من تاريخ')),
@@ -224,49 +288,11 @@ class EvaluationTransactionResource extends Resource
                 Tables\Actions\DeleteAction::make()->authorize(can('evaluation-transactions.delete')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('export_excel')->label(__('تصدير معاملات التقييم'))
-                        ->icon('heroicon-m-arrow-down-tray')
-                        ->action(function (\Illuminate\Support\Collection $records) {
-
-                            $columns = [
-                                trans('admin.notes'),
-                                trans('admin.LastUpdate'),
-                                trans('admin.is_iterated'),
-                                trans('admin.Status'),
-                                trans('admin.previewer'),
-                                trans('admin.review_fundoms'),
-                                trans('admin.company_fundoms'),
-                                trans('admin.company'),
-                                trans('admin.phone'),
-                                trans('admin.transaction_number'),
-                                trans('admin.instrument_number'),
-                                '#',
-                            ];
-
-                            $fields = [
-                                'notes',
-                                'created_at',
-                                'isiteratedName',
-                                'statusWords',
-                                'previewer.title',
-                                'review_fundoms',
-                                'company_fundoms',
-                                'company.title',
-                                'phone',
-                                'transaction_number',
-                                'instrument_number',
-                                'id',
-                            ];
-
-
-                            $exports = new GenericExport($records, $columns, $fields);
-                            $fileName = 'EvaluationTransactions_' . time() . '.xlsx';
-                            return Excel::download($exports, $fileName);
-                        }),
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('evaluation-transactions.delete'))
-                ]),
-            ])->filtersFormColumns(4);
+                ExportBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->authorize(can('evaluation-transactions.delete'))
+            ])
+            ->filtersFormColumns(4);
     }
 
     public static function form(Form $form): Form

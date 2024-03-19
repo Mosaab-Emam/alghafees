@@ -129,7 +129,7 @@ class EvaluationTransaction extends Model
 
     public function newCity()
     {
-        return $this->belongsTo(City::class,'new_city_id');
+        return $this->belongsTo(City::class, 'new_city_id');
     }
 
     public function company()
@@ -234,12 +234,12 @@ class EvaluationTransaction extends Model
             return $this->region;
         else {
             $value = '<div><strong>المدينة:</strong> ' . $this->newCity->name_ar . '</div>';
-            $value = $value . '<div><strong>رقم المخطط:</strong> ' .  Str::limit($this->plan_no,12) . '</div>';
-            $value = $value . '<div><strong>رقم القطعة:</strong> ' .  Str::limit($this->plot_no,12) . '</div>';
+            $value = $value . '<div><strong>رقم المخطط:</strong> ' .  Str::limit($this->plan_no, 12) . '</div>';
+            $value = $value . '<div><strong>رقم القطعة:</strong> ' .  Str::limit($this->plot_no, 12) . '</div>';
             return $value;
         }
     }
-    public function getDetailsSpanAttribute() : string
+    public function getDetailsSpanAttribute(): string
     {
         $output = '<strong>' . __('admin.type_id') . ':</strong> ' . \Illuminate\Support\Str::limit($this->type->title ?? '', 25) . '<br/>';
         $output .= '<strong>' . __('admin.owner_name') . ':</strong> ' . Str::limit($this->owner_name, 21) . '<br/>';
@@ -249,13 +249,33 @@ class EvaluationTransaction extends Model
         $output .= '<strong>' . __('admin.income') . ':</strong> ' . Str::limit($this->income->title ?? '', 25);
         return $output;
     }
-    public function getMainInfoSpanAttribute() : string
+    public function getMainInfoSpanAttribute(): string
     {
         $output = '<strong>' . '#' . ':</strong> ' . $this->id . '<br/>';
         $output .= '<strong>' . __('admin.instrument_number') . ':</strong> ' . \Illuminate\Support\Str::limit($this->instrument_number, 15) . '<br/>';
-        $output .= '<strong>' . __('admin.transaction_number') . ':</strong> ' . Str::limit($this->transaction_number, 15) . '<br/>' ;
-        $output .= '<strong>' . __('admin.Phone') . ':</strong> ' . Str::limit($this->phone, 25) . '<br/>' ;
-        $output .= '<strong>' . __('admin.CreationDate') . ':</strong> ' . \Illuminate\Support\Carbon::parse($this->created_at)->format('d/m/Y') ;
+        $output .= '<strong>' . __('admin.transaction_number') . ':</strong> ' . Str::limit($this->transaction_number, 15) . '<br/>';
+        $output .= '<strong>' . __('admin.Phone') . ':</strong> ' . Str::limit($this->phone, 25) . '<br/>';
+        $output .= '<strong>' . __('admin.CreationDate') . ':</strong> ' . \Illuminate\Support\Carbon::parse($this->created_at)->format('d/m/Y');
         return $output;
+    }
+
+    public function getCompatibleCityAttribute()
+    {
+        if ($this->new_city_id == null)
+            return $this->region;
+        return $this->newCity->name_ar;
+    }
+
+    public function getCompatiblePlanNoAttribute()
+    {
+        if ($this->plan_no == null)
+            return 'N/A';
+        return $this->plan_no;
+    }
+    public function getCompatiblePlotNoAttribute()
+    {
+        if ($this->plot_no == null)
+            return 'N/A';
+        return $this->plot_no;
     }
 }

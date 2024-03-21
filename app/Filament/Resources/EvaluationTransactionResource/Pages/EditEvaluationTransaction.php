@@ -19,7 +19,7 @@ class EditEvaluationTransaction extends EditRecord
     protected function mutateFormDataBeforeFill(array $data): array
     {
 
-        $data['uploaded_files'] =  Transaction_files::where('transaction_id',$data['id'])->pluck('id');
+        $data['uploaded_files'] =  Transaction_files::where('transaction_id', $data['id'])->pluck('id');
         $this->old_files = $data['uploaded_files']->toArray();
         return $data;
     }
@@ -38,17 +38,17 @@ class EditEvaluationTransaction extends EditRecord
         }
         $data['status'] = $status;
 
-        $old_files = Transaction_files::where('transaction_id',$this->record->id)->get();
+        $old_files = Transaction_files::where('transaction_id', $this->record->id)->get();
         $updated_files = $data['uploaded_files']; // this is the new array after user deleted the files from select
         foreach ($old_files as $file) {
-           if (!in_array($file->id,$updated_files)) {
-              Transaction_files::find($file->id)->delete();
-           }
+            if (!in_array($file->id, $updated_files)) {
+                Transaction_files::find($file->id)->delete();
+            }
         }
         $files = $data['files'];
         if (is_array($files) && !empty($files)) {
             foreach ($files as $file) {
-                $filename = $file->store('upload/transaction','public');
+                $filename = $file->store('upload/transaction', 'public');
                 $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
                 Transaction_files::create([
@@ -63,8 +63,9 @@ class EditEvaluationTransaction extends EditRecord
 
         return $data;
     }
-    protected function getRedirectUrl(): ?string
+
+    protected function getRedirectUrl(): string
     {
-        return EvaluationTransactionResource::getUrl('view', ['record' => $this->getRecord()]);
+        return static::getResource()::getUrl('index');
     }
 }

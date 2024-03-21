@@ -169,24 +169,29 @@ class EvaluationTransactionResource extends Resource
                     ->suffix(fn ($record) => $record->company_fundoms ? 'ر.س' : '')
                     ->badge(fn ($record) => !$record->company_fundoms)
                     ->color(fn ($record) => !$record->company_fundoms ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('previewer.title')
+                Tables\Columns\SelectColumn::make('previewer_id')
                     ->label(__('resources/evaluation-transaction.previewer'))
                     ->toggleable()
-                    ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn ($record) => !$record->previewer_id)
-                    ->color(fn ($record) => !$record->previewer_id ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('income.title')
+                    ->sortable()
+                    ->searchable()
+                    ->options(EvaluationEmployee::all()->pluck('title', 'id')->toArray())
+                    ->extraAttributes(['style' => 'width: max-content']),
+                Tables\Columns\SelectColumn::make('income_id')
                     ->label(__('resources/evaluation-transaction.entry_employee'))
                     ->toggleable()
-                    ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn ($record) => !$record->income_id)
-                    ->color(fn ($record) => !$record->income_id ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('review.title')
+                    ->sortable()
+                    ->searchable()
+                    ->options(EvaluationEmployee::all()->pluck('title', 'id')->toArray())
+                    ->extraAttributes(['style' => 'width: max-content'])
+                    ->disabled(fn ($record) => !$record->previewer_id),
+                Tables\Columns\SelectColumn::make('review_id')
                     ->label(__('resources/evaluation-transaction.reviewer'))
                     ->toggleable()
-                    ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn ($record) => !$record->review_id)
-                    ->color(fn ($record) => !$record->review_id ? 'danger' : ''),
+                    ->sortable()
+                    ->searchable()
+                    ->options(EvaluationEmployee::all()->pluck('title', 'id')->toArray())
+                    ->extraAttributes(['style' => 'width: max-content'])
+                    ->disabled(fn ($record) => !$record->previewer_id || !$record->income_id),
                 Tables\Columns\SelectColumn::make('status')
                     ->label(__('resources/evaluation-transaction.status'))
                     ->toggleable()

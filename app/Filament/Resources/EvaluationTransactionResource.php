@@ -94,40 +94,51 @@ class EvaluationTransactionResource extends Resource
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))
                     ->searchable()
+                    ->toggleable()
                     ->description(fn ($record) => $record->is_iterated ? __('resources/evaluation-transaction.repeated') : ''),
                 Tables\Columns\TextColumn::make('transaction_number')
                     ->label(__('resources/evaluation-transaction.transaction_number'))
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label(__('resources/evaluation-transaction.date'))
                     ->date()
+                    ->toggleable()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('owner_name')
                     ->label(__('resources/evaluation-transaction.owner_name'))
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->label(__('resources/evaluation-transaction.phone'))
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_city')
                     ->label(__('resources/evaluation-transaction.city'))
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_plan_no')
                     ->label(__('resources/evaluation-transaction.plan_no'))
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_plot_no')
                     ->label(__('resources/evaluation-transaction.plot_no'))
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type.title')
                     ->label(__('resources/evaluation-transaction.type'))
+                    ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('company.title')
                     ->label(__('resources/evaluation-transaction.company'))
+                    ->toggleable()
                     ->sortable()
                     ->searchable()
                     ->default(__('resources/evaluation-transaction.unset')),
                 Tables\Columns\TextColumn::make('city.title')
                     ->label(__('resources/evaluation-transaction.branch'))
+                    ->toggleable()
                     ->sortable()
                     ->searchable()
                     ->default(__('resources/evaluation-transaction.unset'))
@@ -135,38 +146,45 @@ class EvaluationTransactionResource extends Resource
                     ->color(fn ($record) => !$record->city_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('employee.title')
                     ->label(__('resources/evaluation-transaction.employee'))
+                    ->toggleable()
                     ->sortable()
                     ->searchable()
                     ->default(__('resources/evaluation-transaction.unset')),
                 Tables\Columns\TextColumn::make('review_fundoms')
                     ->label(__('resources/evaluation-transaction.reviewer_compensation'))
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->suffix(fn ($record) => $record->review_fundoms ? 'ر.س' : '')
                     ->badge(fn ($record) => !$record->review_fundoms)
                     ->color(fn ($record) => !$record->review_fundoms ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('company_fundoms')
                     ->label(__('resources/evaluation-transaction.company_compensation'))
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->suffix(fn ($record) => $record->company_fundoms ? 'ر.س' : '')
                     ->badge(fn ($record) => !$record->company_fundoms)
                     ->color(fn ($record) => !$record->company_fundoms ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('previewer.title')
                     ->label(__('resources/evaluation-transaction.previewer'))
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->previewer_id)
                     ->color(fn ($record) => !$record->previewer_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('income.title')
                     ->label(__('resources/evaluation-transaction.entry_employee'))
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->income_id)
                     ->color(fn ($record) => !$record->income_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('review.title')
                     ->label(__('resources/evaluation-transaction.reviewer'))
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->review_id)
                     ->color(fn ($record) => !$record->review_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('statusWords')
                     ->label(__('resources/evaluation-transaction.status'))
+                    ->toggleable()
                     ->icon('heroicon-m-pencil-square')
                     ->badge()
                     ->color(function (string $state) {
@@ -205,6 +223,7 @@ class EvaluationTransactionResource extends Resource
                         ->modalIcon('heroicon-o-link')),
                 Tables\Columns\TextColumn::make('notes')
                     ->label(__('resources/evaluation-transaction.notes'))
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->notes)
                     ->color(fn ($record) => !$record->notes ? 'danger' : ''),

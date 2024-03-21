@@ -22,5 +22,10 @@ return [
     'reviewer' => 'المراجع',
     'notes' => 'الملاحظات',
     'status' => 'الحالة',
+    'status_description' => 'انقر للتعديل',
     'unset' => 'لم يحدد',
+
+    // Filters
+    'from' => 'من تاريخ',
+    'to' => 'إلى تاريخ'
 ];

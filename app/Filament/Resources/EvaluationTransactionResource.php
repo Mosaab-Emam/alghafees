@@ -212,42 +212,43 @@ class EvaluationTransactionResource extends Resource
                     ->color(fn ($record) => !$record->notes ? 'danger' : ''),
             ])
             ->filters([
-                Filter::make('created_at')
+                Filter::make('is_iterated')
+                    ->label(__('resources/evaluation-transactions.repeated'))
+                    ->query(fn (Builder $query): Builder => $query->where('is_iterated', true)),
+                Filter::make('from')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
+                        DatePicker::make('from')
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_from']) {
-                            return null;
-                        }
-
-                        return 'Created from ' . \Carbon\Carbon::parse($data['created_from'])->toFormattedDateString();
+                    ->query(
+                        fn (Builder $query, array $data): Builder => $query
+                            ->when($data['from'], fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date))
+                    )
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['from']) return null;
+                        return __('resources/evaluation-transactions.from') . ' ' . \Carbon\Carbon::parse($data['from'])->toDateString();
                     }),
-                Filter::make('created_until')
+                Filter::make('to')
                     ->form([
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
-                    ])->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_until']) {
-                            return null;
-                        }
-
-                        return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+                        DatePicker::make('to')
+                            ->label(__('إلى تاريخ'))
+                            ->native(false),
+                    ])
+                    ->query(
+                        fn (Builder $query, array $data): Builder => $query
+                            ->when($data['to'], fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date))
+                    )
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['to']) return null;
+                        return __('resources/evaluation-transactions.to') . ' ' . \Carbon\Carbon::parse($data['to'])->toDateString();
                     }),
                 Tables\Filters\SelectFilter::make('status')
                     ->label(__('admin.Status'))
-                    ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::TransactionStatuses)),
+                    ->options(array_map(
+                        fn ($item): string => __('admin.' . $item['title']),
+                        Constants::TransactionStatuses
+                    )),
                 Tables\Filters\SelectFilter::make('company')
                     ->label(__('admin.company'))
                     ->multiple()
@@ -281,7 +282,7 @@ class EvaluationTransactionResource extends Resource
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label(__('admin.city_id'))
                     ->options(Category::city()->pluck('title', 'id')),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make()->authorize(can('evaluation-transactions.show')),
                 Tables\Actions\EditAction::make()->authorize(can('evaluation-transactions.edit')),
@@ -291,8 +292,7 @@ class EvaluationTransactionResource extends Resource
                 ExportBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make()
                     ->authorize(can('evaluation-transactions.delete'))
-            ])
-            ->filtersFormColumns(4);
+            ]);
     }
 
     public static function form(Form $form): Form

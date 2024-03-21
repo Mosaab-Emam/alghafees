@@ -91,8 +91,6 @@ class EvaluationTransactionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label(__('resources/evaluation-transactions.id')),
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transactions.instrument_number'))
                     ->searchable()

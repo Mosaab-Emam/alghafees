@@ -265,17 +265,4 @@ class EvaluationTransaction extends Model
             return $this->region;
         return $this->newCity->name_ar;
     }
-
-    public function getCompatiblePlanNoAttribute()
-    {
-        if ($this->plan_no == null)
-            return 'N/A';
-        return $this->plan_no;
-    }
-    public function getCompatiblePlotNoAttribute()
-    {
-        if ($this->plot_no == null)
-            return 'N/A';
-        return $this->plot_no;
-    }
 }

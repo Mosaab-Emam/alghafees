@@ -118,14 +118,20 @@ class EvaluationTransactionResource extends Resource
                     ->label(__('resources/evaluation-transaction.city'))
                     ->toggleable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('compatible_plan_no')
+                Tables\Columns\TextColumn::make('plan_no')
                     ->label(__('resources/evaluation-transaction.plan_no'))
                     ->toggleable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('compatible_plot_no')
+                    ->searchable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->plan_no)
+                    ->color(fn ($record) => !$record->plan_no ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('plot_no')
                     ->label(__('resources/evaluation-transaction.plot_no'))
                     ->toggleable()
-                    ->searchable(),
+                    ->searchable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->plot_no)
+                    ->color(fn ($record) => !$record->plot_no ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('type.title')
                     ->label(__('resources/evaluation-transaction.type'))
                     ->toggleable()

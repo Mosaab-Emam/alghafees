@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('evaluation_transactions', function (Blueprint $table) {
-            $table->foreignId('new_city_id')->nullable()->references('id')
-                ->on('cities')->onDelete('cascade');
+            $table->foreignId('new_city_id')
+                ->nullable()
+                ->references('id')
+                ->on('cities')
+                ->onDelete('cascade');
             $table->string('plan_no')->nullable();
             $table->string('plot_no')->nullable();
         });

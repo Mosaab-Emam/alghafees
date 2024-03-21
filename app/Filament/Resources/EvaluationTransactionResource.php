@@ -39,17 +39,17 @@ class EvaluationTransactionResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('admin.EvaluationTransaction');
+        return __('resources/evaluation-transaction.singular');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('admin.EvaluationTransactions');
+        return __('resources/evaluation-transaction.plural');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('admin.EvaluationTransaction');
+        return __('resources/evaluation-transaction.plural');
     }
 
     public static function getEloquentQuery(): Builder
@@ -92,81 +92,81 @@ class EvaluationTransactionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('instrument_number')
-                    ->label(__('resources/evaluation-transactions.instrument_number'))
+                    ->label(__('resources/evaluation-transaction.instrument_number'))
                     ->searchable()
-                    ->description(fn ($record) => $record->is_iterated ? __('resources/evaluation-transactions.repeated') : ''),
+                    ->description(fn ($record) => $record->is_iterated ? __('resources/evaluation-transaction.repeated') : ''),
                 Tables\Columns\TextColumn::make('transaction_number')
-                    ->label(__('resources/evaluation-transactions.transaction_number'))
+                    ->label(__('resources/evaluation-transaction.transaction_number'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
-                    ->label(__('resources/evaluation-transactions.date'))
+                    ->label(__('resources/evaluation-transaction.date'))
                     ->date()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('owner_name')
-                    ->label(__('resources/evaluation-transactions.owner_name'))
+                    ->label(__('resources/evaluation-transaction.owner_name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->label(__('resources/evaluation-transactions.phone'))
+                    ->label(__('resources/evaluation-transaction.phone'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_city')
-                    ->label(__('resources/evaluation-transactions.city'))
+                    ->label(__('resources/evaluation-transaction.city'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_plan_no')
-                    ->label(__('resources/evaluation-transactions.plan_no'))
+                    ->label(__('resources/evaluation-transaction.plan_no'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_plot_no')
-                    ->label(__('resources/evaluation-transactions.plot_no'))
+                    ->label(__('resources/evaluation-transaction.plot_no'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type.title')
-                    ->label(__('resources/evaluation-transactions.type'))
+                    ->label(__('resources/evaluation-transaction.type'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('company.title')
-                    ->label(__('resources/evaluation-transactions.company'))
+                    ->label(__('resources/evaluation-transaction.company'))
                     ->sortable()
                     ->searchable()
-                    ->default(__('resources/evaluation-transactions.unset')),
+                    ->default(__('resources/evaluation-transaction.unset')),
                 Tables\Columns\TextColumn::make('city.title')
-                    ->label(__('resources/evaluation-transactions.branch'))
+                    ->label(__('resources/evaluation-transaction.branch'))
                     ->sortable()
                     ->searchable()
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->city_id)
                     ->color(fn ($record) => !$record->city_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('employee.title')
-                    ->label(__('resources/evaluation-transactions.employee'))
+                    ->label(__('resources/evaluation-transaction.employee'))
                     ->sortable()
                     ->searchable()
-                    ->default(__('resources/evaluation-transactions.unset')),
+                    ->default(__('resources/evaluation-transaction.unset')),
                 Tables\Columns\TextColumn::make('review_fundoms')
-                    ->label(__('resources/evaluation-transactions.reviewer_compensation'))
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->label(__('resources/evaluation-transaction.reviewer_compensation'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->suffix(fn ($record) => $record->review_fundoms ? 'ر.س' : '')
                     ->badge(fn ($record) => !$record->review_fundoms)
                     ->color(fn ($record) => !$record->review_fundoms ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('company_fundoms')
-                    ->label(__('resources/evaluation-transactions.company_compensation'))
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->label(__('resources/evaluation-transaction.company_compensation'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->suffix(fn ($record) => $record->company_fundoms ? 'ر.س' : '')
                     ->badge(fn ($record) => !$record->company_fundoms)
                     ->color(fn ($record) => !$record->company_fundoms ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('previewer.title')
-                    ->label(__('resources/evaluation-transactions.previewer'))
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->label(__('resources/evaluation-transaction.previewer'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->previewer_id)
                     ->color(fn ($record) => !$record->previewer_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('income.title')
-                    ->label(__('resources/evaluation-transactions.entry_employee'))
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->label(__('resources/evaluation-transaction.entry_employee'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->income_id)
                     ->color(fn ($record) => !$record->income_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('review.title')
-                    ->label(__('resources/evaluation-transactions.reviewer'))
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->label(__('resources/evaluation-transaction.reviewer'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->review_id)
                     ->color(fn ($record) => !$record->review_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('statusWords')
-                    ->label(__('resources/evaluation-transactions.status'))
+                    ->label(__('resources/evaluation-transaction.status'))
                     ->icon('heroicon-m-pencil-square')
                     ->badge()
                     ->color(function (string $state) {
@@ -204,14 +204,14 @@ class EvaluationTransactionResource extends Resource
                         ->modalHeading(__('admin.Edit'))
                         ->modalIcon('heroicon-o-link')),
                 Tables\Columns\TextColumn::make('notes')
-                    ->label(__('resources/evaluation-transactions.notes'))
-                    ->default(__('resources/evaluation-transactions.unset'))
+                    ->label(__('resources/evaluation-transaction.notes'))
+                    ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->notes)
                     ->color(fn ($record) => !$record->notes ? 'danger' : ''),
             ])
             ->filters([
                 Filter::make('is_iterated')
-                    ->label(__('resources/evaluation-transactions.repeated'))
+                    ->label(__('resources/evaluation-transaction.repeated'))
                     ->query(fn (Builder $query): Builder => $query->where('is_iterated', true)),
                 Filter::make('from')
                     ->form([
@@ -225,7 +225,7 @@ class EvaluationTransactionResource extends Resource
                     )
                     ->indicateUsing(function (array $data): ?string {
                         if (!$data['from']) return null;
-                        return __('resources/evaluation-transactions.from') . ' ' . \Carbon\Carbon::parse($data['from'])->toDateString();
+                        return __('resources/evaluation-transaction.from') . ' ' . \Carbon\Carbon::parse($data['from'])->toDateString();
                     }),
                 Filter::make('to')
                     ->form([
@@ -239,7 +239,7 @@ class EvaluationTransactionResource extends Resource
                     )
                     ->indicateUsing(function (array $data): ?string {
                         if (!$data['to']) return null;
-                        return __('resources/evaluation-transactions.to') . ' ' . \Carbon\Carbon::parse($data['to'])->toDateString();
+                        return __('resources/evaluation-transaction.to') . ' ' . \Carbon\Carbon::parse($data['to'])->toDateString();
                     }),
                 Tables\Filters\SelectFilter::make('status')
                     ->label(__('admin.Status'))

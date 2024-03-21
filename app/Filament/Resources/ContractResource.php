@@ -23,17 +23,17 @@ class ContractResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('resources.Contract.singular');
+        return __('resources/contract.singular');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('resources.Contract.plural');
+        return __('resources/contract.plural');
     }
 
     public static function getNavigationLabel(): string
     {
-        return __('resources.Contract.plural');
+        return __('resources/contract.plural');
     }
 
     public static function form(Form $form): Form

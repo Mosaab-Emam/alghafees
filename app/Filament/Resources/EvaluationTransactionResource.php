@@ -188,45 +188,12 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->review_id)
                     ->color(fn ($record) => !$record->review_id ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('statusWords')
+                Tables\Columns\SelectColumn::make('status')
                     ->label(__('resources/evaluation-transaction.status'))
-                    ->toggleable()
-                    ->icon('heroicon-m-pencil-square')
-                    ->badge()
-                    ->color(function (string $state) {
-                        if ($state == __('admin.NewTransaction'))
-                            return 'info';
-                        if ($state == __('admin.ContactedRequest'))
-                            return 'info';
-                        if ($state == __('admin.InReviewRequest'))
-                            return 'warning';
-                        if ($state == __('admin.PendingRequest'))
-                            return 'warning';
-                        if ($state == __('admin.FinishedRequest'))
-                            return 'success';
-                        if ($state == __('admin.Cancelled'))
-                            return 'danger';
-                        if ($state == __('admin.ReviewedRequest'))
-                            return 'danger';
-                        return 'danger';
-                    })
-                    ->action(Tables\Actions\Action::make('update')
-                        ->modalHidden(!can('evaluation-transactions.changeStatus'))
-                        ->fillForm(fn (EvaluationTransaction $record): array => [
-                            'status' => $record->status,
-                        ])
-                        ->form([
-                            Forms\Components\Select::make('status')
-                                ->label(__('admin.Status'))
-                                ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses))
-                                ->required(),
-                        ])
-                        ->action(function (array $data, EvaluationTransaction $record): void {
-                            $record->status = $data['status'];
-                            $record->save();
-                        })
-                        ->modalHeading(__('admin.Edit'))
-                        ->modalIcon('heroicon-o-link')),
+                    ->options(
+                        array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses)
+                    )
+                    ->extraAttributes(['style' => 'width: max-content']),
                 Tables\Columns\TextColumn::make('notes')
                     ->label(__('resources/evaluation-transaction.notes'))
                     ->toggleable()

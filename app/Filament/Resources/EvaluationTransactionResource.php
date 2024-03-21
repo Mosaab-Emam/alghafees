@@ -132,24 +132,23 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->plot_no)
                     ->color(fn ($record) => !$record->plot_no ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('type.title')
+                Tables\Columns\SelectColumn::make('type_id')
                     ->label(__('resources/evaluation-transaction.type'))
                     ->toggleable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('company.title')
+                    ->options(Category::ApartmentType()->pluck('title', 'id')->toArray())
+                    ->extraAttributes(['style' => 'width: max-content']),
+                Tables\Columns\SelectColumn::make('evaluation_company_id')
                     ->label(__('resources/evaluation-transaction.company'))
                     ->toggleable()
-                    ->sortable()
-                    ->searchable()
-                    ->default(__('resources/evaluation-transaction.unset')),
-                Tables\Columns\TextColumn::make('city.title')
+                    ->options(EvaluationCompany::pluck('title', 'id')->toArray())
+                    ->extraAttributes(['style' => 'width: max-content']),
+                Tables\Columns\SelectColumn::make('city_id')
                     ->label(__('resources/evaluation-transaction.branch'))
                     ->toggleable()
                     ->sortable()
                     ->searchable()
-                    ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn ($record) => !$record->city_id)
-                    ->color(fn ($record) => !$record->city_id ? 'danger' : ''),
+                    ->options(Category::city()->pluck('title', 'id')->toArray())
+                    ->extraAttributes(['style' => 'width: max-content']),
                 Tables\Columns\TextColumn::make('employee.title')
                     ->label(__('resources/evaluation-transaction.employee'))
                     ->toggleable()
@@ -190,6 +189,7 @@ class EvaluationTransactionResource extends Resource
                     ->color(fn ($record) => !$record->review_id ? 'danger' : ''),
                 Tables\Columns\SelectColumn::make('status')
                     ->label(__('resources/evaluation-transaction.status'))
+                    ->toggleable()
                     ->options(
                         array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses)
                     )

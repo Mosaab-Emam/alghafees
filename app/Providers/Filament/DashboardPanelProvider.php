@@ -39,23 +39,18 @@ class DashboardPanelProvider extends PanelProvider
             ->default()
             ->id('dashboard')
             ->path('dashboard')
-            ->colors([
-                'primary' => "#09839a",
-            ])
+            ->colors(['primary' => "#09839a"])
             ->userMenuItems([
                 MenuItem::make()
                     ->label(app()->getLocale() == 'ar' ? 'النسخة الإحتياطية' : 'Backup database')
                     ->url('admin/our_backup_database')
-                    ->icon('heroicon-o-circle-stack')
-                ,
-                // ...
+                    ->icon('heroicon-o-circle-stack'),
             ])
             ->navigationGroups([
                 // using __('') method to translate breaks skyplugin translation !!!
                 NavigationGroup::make(app()->getLocale() == 'ar' ? 'معاملات التقييم' : 'Evaluation transactions'),
                 NavigationGroup::make(app()->getLocale() == 'ar' ? 'إدارة المحتوى' : 'Content Management'),
                 NavigationGroup::make(app()->getLocale() == 'ar' ? 'الإعدادات' : 'Settings'),
-
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
@@ -63,8 +58,7 @@ class DashboardPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-            ])
+            ->widgets([])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -79,15 +73,16 @@ class DashboardPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->databaseNotifications()
             ->plugins([
                 SpatieLaravelTranslatablePlugin::make()->defaultLocales([config('app.locale')]),
                 SkyPlugin::make()
                     ->navigationGroupLabel(
                         app()->getLocale() == 'ar' ? 'إدارة المحتوى' : 'Content Management'
                     )
-            ])->brandLogo(asset('images/settings/1691238434rKMpDrJ2EhNquOPc8E04TfgLLnkyWRJpEXWNKeGP.png'))
+            ])
+            ->brandLogo(asset('images/settings/1691238434rKMpDrJ2EhNquOPc8E04TfgLLnkyWRJpEXWNKeGP.png'))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('images/logo.png'))
-            ;
+            ->favicon(asset('images/logo.png'));
     }
 }

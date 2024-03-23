@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 use \App\Helpers\ArabicDate;
+use \App\Models\Category;
 
 class ContractController extends Controller
 {
@@ -145,10 +146,11 @@ class ContractController extends Controller
                 $pdf->setY(212);
                 $pdf->setX(67);
                 $pdf->setFontSize(12);
+                $category = Category::firstWhere('slug', $contract->type);
                 $pdf->Cell(
                     0,
                     0,
-                    'العقار عبارة عن ' . __('categories.' . $contract->type) . ' بمساحة: (' . $contract->area . 'متر مربع)',
+                    'العقار عبارة عن ' . $category->title . ' بمساحة: (' . $contract->area . 'متر مربع)',
                     0,
                     1,
                     'R',

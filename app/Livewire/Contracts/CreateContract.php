@@ -9,6 +9,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Livewire\Component;
 use Illuminate\Contracts\View\View;
+use App\Models\Category;
 
 class CreateContract extends Component implements HasForms
 {
@@ -59,14 +60,7 @@ class CreateContract extends Component implements HasForms
                     ->maxLength(255),
                 Forms\Components\Select::make('type')
                     ->label(__('forms/contracts.type'))
-                    ->options(function () {
-                        $categories = \App\Models\Category::where('type', 1)->get()->toArray();
-                        $options = [];
-                        foreach ($categories as $category) {
-                            $options[$category['slug']] = __('categories.' . $category['slug']);
-                        }
-                        return $options;
-                    })
+                    ->options(Category::ApartmentType()->pluck('title', 'id'))
                     ->required(),
                 Forms\Components\TextInput::make('area')
                     ->label(__('forms/contracts.area'))
@@ -94,7 +88,7 @@ class CreateContract extends Component implements HasForms
                     ->default(1)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {
-                        $og_total = (integer) $get('number_of_assets') * (integer) $get('cost_per_asset');
+                        $og_total = (int) $get('number_of_assets') * (int) $get('cost_per_asset');
                         $set('total_cost', round($og_total * 1.15)); // Apply 15% tax
                         $set('tax', $og_total * 0.15);
                     })
@@ -107,7 +101,7 @@ class CreateContract extends Component implements HasForms
                     ->default(1)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {
-                        $og_total = (integer) $get('number_of_assets') * (integer) $get('cost_per_asset');
+                        $og_total = (int) $get('number_of_assets') * (int) $get('cost_per_asset');
                         $set('total_cost', round($og_total * 1.15)); // Apply 15% tax
                         $set('tax', $og_total * 0.15);
                     })
@@ -118,11 +112,11 @@ class CreateContract extends Component implements HasForms
                 Forms\Components\TextInput::make('total_cost')
                     ->label(__('forms/contracts.total_cost'))
                     ->required()
-                    ->helperText(fn(callable $get) => 'شامل الضريبة 15% (' . $get('tax') . ')')
+                    ->helperText(fn (callable $get) => 'شامل الضريبة 15% (' . $get('tax') . ')')
                     ->maxLength(255)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {
-                        $og_total = (integer) $get('number_of_assets') * (integer) $get('cost_per_asset');
+                        $og_total = (int) $get('number_of_assets') * (int) $get('cost_per_asset');
                         $set('tax', $og_total * 0.15);
                     }),
                 Forms\Components\TextInput::make('total_cost_in_words')

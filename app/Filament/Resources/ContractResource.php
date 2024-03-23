@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Models\Category;
 
 class ContractResource extends Resource
 {
@@ -84,14 +85,7 @@ class ContractResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('type')
                     ->label(__('forms/contracts.type'))
-                    ->options(function () {
-                        $categories = \App\Models\Category::where('type', 1)->get()->toArray();
-                        $options = [];
-                        foreach ($categories as $category) {
-                            $options[$category['slug']] = __('categories.' . $category['slug']);
-                        }
-                        return $options;
-                    })
+                    ->options(Category::ApartmentType()->pluck('title', 'id'))
                     ->required(),
                 Forms\Components\TextInput::make('area')
                     ->label(__('forms/contracts.area'))

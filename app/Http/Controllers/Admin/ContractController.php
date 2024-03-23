@@ -146,7 +146,7 @@ class ContractController extends Controller
                 $pdf->setY(212);
                 $pdf->setX(67);
                 $pdf->setFontSize(12);
-                $category = Category::firstWhere('slug', $contract->type);
+                $category = Category::where('slug', $contract->type)->orWhere('id', $contract->type)->first();
                 $pdf->Cell(
                     0,
                     0,

@@ -298,14 +298,17 @@ class EvaluationTransactionResource extends Resource
                     Forms\Components\TextInput::make('instrument_number')
                         ->label(__('admin.instrument_number'))
                         ->maxLength(255)
-                        // TODO: Causes Table == '1'. Do it properly
-                        // ->unique(fn (string $context) => $context !== 'edit')
+                        ->reactive()
+                        ->suffix(function (callable $get) {
+                            $instrument_number = $get('instrument_number');
+                            $exists = EvaluationTransaction::where('instrument_number', $instrument_number)->exists();
+                            if ($exists)
+                                return "مكرر";
+                        })
                         ->required(),
                     Forms\Components\TextInput::make('transaction_number')
                         ->label(__('admin.transaction_number'))
                         ->maxLength(255)
-                        // TODO: Causes Table == '1'. Do it properly
-                        // ->unique(fn (string $context) => $context !== 'edit')
                         ->required(),
                     Forms\Components\TextInput::make('owner_name')
                         ->label(__('admin.owner_name'))
@@ -313,17 +316,72 @@ class EvaluationTransactionResource extends Resource
                     Forms\Components\Select::make('new_city_id')
                         ->label(__('admin.region'))
                         ->options(City::pluck('name_ar', 'id'))
+                        ->reactive()
+                        ->suffix(function (callable $get) {
+                            $new_city_id = $get('new_city_id');
+                            $plan_no = $get('plan_no');
+                            $plot_no = $get('plot_no');
+
+                            if (
+                                $new_city_id == null ||
+                                $plan_no == null ||
+                                $plot_no == null
+                            ) return "";
+
+                            $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
+                                ->where('plan_no', $plan_no)
+                                ->where('plot_no', $plot_no)
+                                ->exists();
+
+                            if ($exists)
+                                return "مكرر";
+                        })
                         ->required(),
-                    Forms\Components\Select::make('city_id')
-                        ->label(__('admin.city'))
-                        ->options(Category::city()->pluck('title', 'id')),
                     Forms\Components\TextInput::make('plan_no')
                         ->label(__('admin.plan_no'))
                         ->maxLength(255)
+                        ->suffix(function (callable $get) {
+                            $new_city_id = $get('new_city_id');
+                            $plan_no = $get('plan_no');
+                            $plot_no = $get('plot_no');
+
+                            if (
+                                $new_city_id == null ||
+                                $plan_no == null ||
+                                $plot_no == null
+                            ) return "";
+
+                            $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
+                                ->where('plan_no', $plan_no)
+                                ->where('plot_no', $plot_no)
+                                ->exists();
+
+                            if ($exists)
+                                return "مكرر";
+                        })
                         ->required(),
                     Forms\Components\TextInput::make('plot_no')
                         ->label(__('admin.plot_no'))
                         ->maxLength(255)
+                        ->suffix(function (callable $get) {
+                            $new_city_id = $get('new_city_id');
+                            $plan_no = $get('plan_no');
+                            $plot_no = $get('plot_no');
+
+                            if (
+                                $new_city_id == null ||
+                                $plan_no == null ||
+                                $plot_no == null
+                            ) return "";
+
+                            $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
+                                ->where('plan_no', $plan_no)
+                                ->where('plot_no', $plot_no)
+                                ->exists();
+
+                            if ($exists)
+                                return "مكرر";
+                        })
                         ->required(),
                     Forms\Components\Select::make('type_id')
                         ->label(__('admin.type_id'))
@@ -332,6 +390,9 @@ class EvaluationTransactionResource extends Resource
                     Forms\Components\Select::make('evaluation_company_id')
                         ->label(__('admin.evaluation_company_id'))
                         ->options(EvaluationCompany::pluck('title', 'id')),
+                    Forms\Components\Select::make('city_id')
+                        ->label(__('admin.city'))
+                        ->options(Category::city()->pluck('title', 'id')),
                     Forms\Components\Select::make('evaluation_employee_id')
                         ->label(__('admin.evaluation_employee_id'))
                         ->options(EvaluationEmployee::pluck('title', 'id')),

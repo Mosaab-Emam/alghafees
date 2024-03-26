@@ -175,7 +175,22 @@ class EvaluationTransactionResource extends Resource
                     ->sortable()
                     ->searchable()
                     ->options(EvaluationEmployee::all()->pluck('title', 'id')->toArray())
-                    ->extraAttributes(['style' => 'width: max-content']),
+                    ->extraAttributes(['style' => 'width: max-content'])
+                    ->afterStateUpdated(function ($record, $state) {
+                        if ($state == null) {
+                            $record->income_id = null;
+                            $record->review_id = null;
+                        }
+
+                        if ($record->review_id != null)
+                            $record->status = 4;
+                        elseif ($record->previewer_id != null)
+                            $record->status = 3;
+                        else
+                            $record->status = 0;
+
+                        $record->save();
+                    }),
                 Tables\Columns\SelectColumn::make('income_id')
                     ->label(__('resources/evaluation-transaction.entry_employee'))
                     ->toggleable()
@@ -183,7 +198,20 @@ class EvaluationTransactionResource extends Resource
                     ->searchable()
                     ->options(EvaluationEmployee::all()->pluck('title', 'id')->toArray())
                     ->extraAttributes(['style' => 'width: max-content'])
-                    ->disabled(fn ($record) => !$record->previewer_id),
+                    ->disabled(fn ($record) => !$record->previewer_id)
+                    ->afterStateUpdated(function ($record, $state) {
+                        if ($state == null)
+                            $record->review_id = null;
+
+                        if ($record->review_id != null)
+                            $record->status = 4;
+                        elseif ($record->previewer_id != null)
+                            $record->status = 3;
+                        else
+                            $record->status = 0;
+
+                        $record->save();
+                    }),
                 Tables\Columns\SelectColumn::make('review_id')
                     ->label(__('resources/evaluation-transaction.reviewer'))
                     ->toggleable()
@@ -191,7 +219,17 @@ class EvaluationTransactionResource extends Resource
                     ->searchable()
                     ->options(EvaluationEmployee::all()->pluck('title', 'id')->toArray())
                     ->extraAttributes(['style' => 'width: max-content'])
-                    ->disabled(fn ($record) => !$record->previewer_id || !$record->income_id),
+                    ->disabled(fn ($record) => !$record->previewer_id || !$record->income_id)
+                    ->afterStateUpdated(function ($record) {
+                        if ($record->review_id != null)
+                            $record->status = 4;
+                        elseif ($record->previewer_id != null)
+                            $record->status = 3;
+                        else
+                            $record->status = 0;
+
+                        $record->save();
+                    }),
                 Tables\Columns\SelectColumn::make('status')
                     ->label(__('resources/evaluation-transaction.status'))
                     ->toggleable()
@@ -421,20 +459,20 @@ class EvaluationTransactionResource extends Resource
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
+                    Forms\Components\Select::make('income_id')
+                        ->label(__('admin.income'))
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id')),
+                    Forms\Components\DateTimePicker::make('income_date_time')
+                        ->label(__('admin.evaluation-transactions.forms.income_datetime'))
+                        ->native(false),
+                ])->columns(2),
+                Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('review_id')
                         ->label(__('admin.review'))
                         ->options(EvaluationEmployee::all()
                             ->pluck('title', 'id')),
                     Forms\Components\DateTimePicker::make('review_date_time')
                         ->label(__('admin.evaluation-transactions.forms.review_datetime'))
-                        ->native(false),
-                ])->columns(2),
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\Select::make('income_id')
-                        ->label(__('admin.income'))
-                        ->options(EvaluationEmployee::all()->pluck('title', 'id')),
-                    Forms\Components\DateTimePicker::make('income_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.income_datetime'))
                         ->native(false),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([

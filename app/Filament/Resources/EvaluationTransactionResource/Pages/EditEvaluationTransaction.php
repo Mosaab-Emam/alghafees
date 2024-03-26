@@ -28,14 +28,13 @@ class EditEvaluationTransaction extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-
-        if ($data['review_id'] != null) {
+        if ($data['review_id'] != null)
             $status = 4;
-        } elseif ($data['previewer_id'] != null) {
+        elseif ($data['previewer_id'] != null)
             $status = 3;
-        } else {
+        else
             $status = 0;
-        }
+
         $data['status'] = $status;
 
         $old_files = Transaction_files::where('transaction_id', $this->record->id)->get();

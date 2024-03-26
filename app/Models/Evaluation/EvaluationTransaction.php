@@ -265,4 +265,19 @@ class EvaluationTransaction extends Model
             return $this->region;
         return $this->newCity->name_ar;
     }
+
+    public function getHasRepeatedInstrumentNumberAttribute()
+    {
+        $count = EvaluationTransaction::where('instrument_number', $this->instrument_number)->count();
+        return $count > 1;
+    }
+
+    public function getHasRepeatedAddressAttribute()
+    {
+        $count = EvaluationTransaction::where('new_city_id', $this->new_city_id)
+            ->where('plan_no', $this->plan_no)
+            ->where('plot_no', $this->plot_no)
+            ->count();
+        return $count > 1;
+    }
 }

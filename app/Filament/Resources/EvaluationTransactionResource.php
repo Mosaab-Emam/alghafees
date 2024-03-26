@@ -21,6 +21,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -94,8 +95,7 @@ class EvaluationTransactionResource extends Resource
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))
                     ->searchable()
-                    ->toggleable()
-                    ->description(fn ($record) => $record->is_iterated ? __('resources/evaluation-transaction.repeated') : ''),
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('transaction_number')
                     ->label(__('resources/evaluation-transaction.transaction_number'))
                     ->toggleable()
@@ -206,6 +206,13 @@ class EvaluationTransactionResource extends Resource
                     ->badge(fn ($record) => !$record->notes)
                     ->color(fn ($record) => !$record->notes ? 'danger' : ''),
             ])
+            ->recordClasses(function (Model $record) {
+                if ($record->has_repeated_instrument_number)
+                    return 'et-repeated-instrument-number-row';
+
+                if ($record->has_repeated_address)
+                    return 'et-repeated-address-row';
+            })
             ->filters([
                 Filter::make('is_iterated')
                     ->label(__('resources/evaluation-transaction.repeated'))
@@ -340,6 +347,7 @@ class EvaluationTransactionResource extends Resource
                     Forms\Components\TextInput::make('plan_no')
                         ->label(__('admin.plan_no'))
                         ->maxLength(255)
+                        ->reactive()
                         ->suffix(function (callable $get) {
                             $new_city_id = $get('new_city_id');
                             $plan_no = $get('plan_no');
@@ -363,6 +371,7 @@ class EvaluationTransactionResource extends Resource
                     Forms\Components\TextInput::make('plot_no')
                         ->label(__('admin.plot_no'))
                         ->maxLength(255)
+                        ->reactive()
                         ->suffix(function (callable $get) {
                             $new_city_id = $get('new_city_id');
                             $plan_no = $get('plan_no');

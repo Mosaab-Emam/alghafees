@@ -116,8 +116,7 @@ class EvaluationTransactionResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('compatible_city')
                     ->label(__('resources/evaluation-transaction.city'))
-                    ->toggleable()
-                    ->searchable(),
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('plan_no')
                     ->label(__('resources/evaluation-transaction.plan_no'))
                     ->toggleable()

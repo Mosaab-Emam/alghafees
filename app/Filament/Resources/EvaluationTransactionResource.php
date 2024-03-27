@@ -362,6 +362,7 @@ class EvaluationTransactionResource extends Resource
                         ->options(City::pluck('name_ar', 'id'))
                         ->reactive()
                         ->suffix(function (callable $get) {
+                            $instrument_number = $get('instrument_number');
                             $new_city_id = $get('new_city_id');
                             $plan_no = $get('plan_no');
                             $plot_no = $get('plot_no');
@@ -372,7 +373,8 @@ class EvaluationTransactionResource extends Resource
                                 $plot_no == null
                             ) return "";
 
-                            $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
+                            $exists = EvaluationTransaction::where('instrument_number', $instrument_number)
+                                ->where('new_city_id', $new_city_id)
                                 ->where('plan_no', $plan_no)
                                 ->where('plot_no', $plot_no)
                                 ->exists();

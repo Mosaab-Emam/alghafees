@@ -14,10 +14,9 @@ class EvaluationEmployee extends Model
         'price',
         'position',
         'active',
-
     ];
 
-     public function transactionpreviewer()
+    public function transactionpreviewer()
     {
         return $this->hasMany(EvaluationTransaction::class, 'previewer_id');
     }
@@ -32,9 +31,23 @@ class EvaluationEmployee extends Model
         return $this->hasMany(EvaluationTransaction::class, 'review_id');
     }
 
-    public function getTotalAttribute() {
-         return $this->transactionincome_count * .5 + $this->transactionpreviewer_count + $this->transactionreview_count * .5;
+    public function getTotalAttribute()
+    {
+        return $this->transactionincome_count * .5 + $this->transactionpreviewer_count + $this->transactionreview_count * .5;
     }
 
+    public function getStatsAttribute()
+    {
+        $previews = $this->transactionpreviewer->count();
+        $entries = $this->transactionincome->count() * .5;
+        $reviews = $this->transactionreview->count() * .5;
+        $total = $previews + $entries + $reviews;
 
+        return [
+            'total' => $total,
+            'previews' => $previews,
+            'entries' => $entries,
+            'reviews' => $reviews
+        ];
+    }
 }

@@ -4,11 +4,13 @@ namespace App\Livewire;
 
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\Evaluation\EvaluationTransaction;
+use App\Models\User;
 use Livewire\Component;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 
 class EmployeeSummary extends Component implements HasForms
 {
@@ -129,9 +131,15 @@ class EmployeeSummary extends Component implements HasForms
         if ($this->type == 'review') {
             $record->review_id = $this->form->getState()['id'];
             $record->review_date_time = $this->form->getState()['date_time'];
-            if ($record->review_id != null)
+            if ($record->review_id != null) {
                 $record->status = 4;
-            elseif ($record->previewer_id != null)
+
+                $admin = User::find(1);
+                Notification::make()
+                    ->title('الرجاء إكمال معلومات المعاملة')
+                    ->body('المعاملة بالرقم: ' . $record->transaction_number . ' تم إكمالها')
+                    ->sendToDatabase($admin);
+            } elseif ($record->previewer_id != null)
                 $record->status = 3;
             else
                 $record->status = 0;

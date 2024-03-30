@@ -4,8 +4,10 @@ namespace App\Filament\Resources\EvaluationTransactionResource\Pages;
 
 use App\Filament\Resources\EvaluationTransactionResource;
 use App\Models\Transaction_files;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Notifications\Notification;
 
 class CreateEvaluationTransaction extends CreateRecord
 {
@@ -23,6 +25,12 @@ class CreateEvaluationTransaction extends CreateRecord
             $data['review_id'] != null
         ) {
             $status = 4;
+
+            $admin = User::find(1);
+            Notification::make()
+                ->title('الرجاء إكمال معلومات المعاملة')
+                ->body('المعاملة بالرقم: ' . $data['transaction_number'] . ' تم إكمالها')
+                ->sendToDatabase($admin);
         } else if (
             ($data['previewer_id'] != null && $data['income_id'] != null) || $data['previewer_id'] != null
         ) {

@@ -10,6 +10,7 @@ use App\Models\Evaluation\EvaluationCompany;
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\Evaluation\EvaluationTransaction;
 use App\Models\Transaction_files;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
@@ -26,6 +27,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use Filament\Notifications\Notification;
 
 class EvaluationTransactionResource extends Resource
 {
@@ -97,7 +99,10 @@ class EvaluationTransactionResource extends Resource
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))
                     ->searchable()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->instrument_number)
+                    ->color(fn ($record) => !$record->instrument_number ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('transaction_number')
                     ->label(__('resources/evaluation-transaction.transaction_number'))
                     ->toggleable()
@@ -111,14 +116,23 @@ class EvaluationTransactionResource extends Resource
                 Tables\Columns\TextColumn::make('owner_name')
                     ->label(__('resources/evaluation-transaction.owner_name'))
                     ->toggleable()
-                    ->searchable(),
+                    ->searchable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->owner_name)
+                    ->color(fn ($record) => !$record->owner_name ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('phone')
                     ->label(__('resources/evaluation-transaction.phone'))
                     ->toggleable()
-                    ->searchable(),
+                    ->searchable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->phone)
+                    ->color(fn ($record) => !$record->phone ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('compatible_city')
                     ->label(__('resources/evaluation-transaction.city'))
-                    ->toggleable(),
+                    ->toggleable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->new_city_id || !$record->region)
+                    ->color(fn ($record) => !$record->new_city_id || !$record->region ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('plan_no')
                     ->label(__('resources/evaluation-transaction.plan_no'))
                     ->toggleable()
@@ -155,7 +169,9 @@ class EvaluationTransactionResource extends Resource
                     ->toggleable()
                     ->sortable()
                     ->searchable()
-                    ->default(__('resources/evaluation-transaction.unset')),
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->employee)
+                    ->color(fn ($record) => !$record->employee ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('review_fundoms')
                     ->label(__('resources/evaluation-transaction.reviewer_compensation'))
                     ->toggleable()
@@ -283,7 +299,16 @@ class EvaluationTransactionResource extends Resource
                     ->options(
                         array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses)
                     )
-                    ->extraAttributes(['style' => 'width: max-content']),
+                    ->extraAttributes(['style' => 'width: max-content'])
+                    ->afterStateUpdated(function ($record, $state) {
+                        if ($state == 4) {
+                            $admin = User::find(1);
+                            Notification::make()
+                                ->title('الرجاء إكمال معلومات المعاملة')
+                                ->body('المعاملة بالرقم: ' . $record->transaction_number . ' تم إكمالها')
+                                ->sendToDatabase($admin);
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('notes')
                     ->label(__('resources/evaluation-transaction.notes'))
                     ->toggleable()
@@ -396,15 +421,14 @@ class EvaluationTransactionResource extends Resource
                             $exists = EvaluationTransaction::where('instrument_number', $instrument_number)->exists();
                             if ($exists)
                                 return "مكرر";
-                        })
-                        ->required(),
+                        }),
                     Forms\Components\TextInput::make('transaction_number')
                         ->label(__('admin.transaction_number'))
                         ->maxLength(255)
                         ->required(),
                     Forms\Components\TextInput::make('owner_name')
                         ->label(__('admin.owner_name'))
-                        ->maxLength(255)->required(),
+                        ->maxLength(255),
                     Forms\Components\Select::make('new_city_id')
                         ->label(__('admin.region'))
                         ->options(City::pluck('name_ar', 'id'))
@@ -429,8 +453,7 @@ class EvaluationTransactionResource extends Resource
 
                             if ($exists)
                                 return "مكرر";
-                        })
-                        ->required(),
+                        }),
                     Forms\Components\TextInput::make('plan_no')
                         ->label(__('admin.plan_no'))
                         ->maxLength(255)
@@ -453,8 +476,7 @@ class EvaluationTransactionResource extends Resource
 
                             if ($exists)
                                 return "مكرر";
-                        })
-                        ->required(),
+                        }),
                     Forms\Components\TextInput::make('plot_no')
                         ->label(__('admin.plot_no'))
                         ->maxLength(255)
@@ -477,15 +499,14 @@ class EvaluationTransactionResource extends Resource
 
                             if ($exists)
                                 return "مكرر";
-                        })
-                        ->required(),
+                        }),
                     Forms\Components\Select::make('type_id')
                         ->label(__('admin.type_id'))
-                        ->options(Category::ApartmentType()->pluck('title', 'id'))
-                        ->required(),
+                        ->options(Category::ApartmentType()->pluck('title', 'id')),
                     Forms\Components\Select::make('evaluation_company_id')
                         ->label(__('admin.evaluation_company_id'))
-                        ->options(EvaluationCompany::pluck('title', 'id')),
+                        ->options(EvaluationCompany::pluck('title', 'id'))
+                        ->required(),
                     Forms\Components\Select::make('city_id')
                         ->label(__('admin.city'))
                         ->options(Category::city()->pluck('title', 'id')),
@@ -494,9 +515,7 @@ class EvaluationTransactionResource extends Resource
                         ->options(EvaluationEmployee::pluck('title', 'id')),
                     Forms\Components\DatePicker::make('date')
                         ->label(__('admin.date'))
-                        ->native(false)
-                        ->required(),
-
+                        ->native(false),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('previewer_id')
@@ -527,7 +546,8 @@ class EvaluationTransactionResource extends Resource
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Textarea::make('notes')
                         ->label(__('admin.Notes'))
-                        ->rows(6),
+                        ->rows(6)
+                        ->columnSpanFull(),
                     Forms\Components\TextInput::make('company_fundoms')
                         ->label(__('admin.company_fundoms'))
                         ->numeric(),
@@ -537,15 +557,14 @@ class EvaluationTransactionResource extends Resource
                     Forms\Components\TextInput::make('phone')
                         ->label(__('admin.Phone'))
                         ->tel()
-                        ->required()
                         ->maxLength(20),
-
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\FileUpload::make('files')
                         ->label(__('admin.files'))
                         ->columnSpanFull()
-                        ->multiple()->storeFiles(false),
+                        ->multiple()
+                        ->storeFiles(false),
                     Forms\Components\Select::make('uploaded_files')
                         ->label(__('حذف الملفات'))
                         ->multiple()

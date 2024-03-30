@@ -5,8 +5,10 @@ namespace App\Filament\Resources\EvaluationTransactionResource\Pages;
 use App\Filament\Resources\EvaluationTransactionResource;
 use App\Models\ServiceCompany;
 use App\Models\Transaction_files;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Notifications\Notification;
 
 class EditEvaluationTransaction extends EditRecord
 {
@@ -28,9 +30,15 @@ class EditEvaluationTransaction extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if ($data['review_id'] != null)
+        if ($data['review_id'] != null) {
             $status = 4;
-        elseif ($data['previewer_id'] != null)
+
+            $admin = User::find(1);
+            Notification::make()
+                ->title('الرجاء إكمال معلومات المعاملة')
+                ->body('المعاملة بالرقم: ' . $data['transaction_number'] . ' تم إكمالها')
+                ->sendToDatabase($admin);
+        } elseif ($data['previewer_id'] != null)
             $status = 3;
         else
             $status = 0;

@@ -160,7 +160,8 @@ class RateRequestResource extends Resource
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
+                        DatePicker::make('created_from')
+                            ->label(__('من تاريخ')),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -168,36 +169,35 @@ class RateRequestResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_from']) {
-                            return null;
-                        }
-
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_from']) return null;
                         return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                     }),
                 Filter::make('created_until')
                     ->form([
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
-                    ])->query(function (Builder $query, array $data): Builder {
+                        DatePicker::make('created_until')
+                            ->label(__('قبل تاريخ')),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_until']) {
-                            return null;
-                        }
-
+                        if (!$data['created_until']) return null;
                         return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                     }),
                 Tables\Filters\SelectFilter::make('status')
                     ->label(__('admin.Status'))
                     ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::Statuses)),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+            ])
             ->actions([
-                Tables\Actions\ViewAction::make()->authorize(can('rates.show')),
-                Tables\Actions\Action::make('update')->authorize(can('rates.edit'))
+                Tables\Actions\ViewAction::make()
+                    ->authorize(can('rates.show')),
+                Tables\Actions\Action::make('update')
+                    ->authorize(can('rates.edit'))
                     ->label(__('admin.Edit'))
                     ->icon('heroicon-m-pencil-square')
                     ->fillForm(fn (RateRequest $record): array => [
@@ -205,9 +205,11 @@ class RateRequestResource extends Resource
                         'status' => $record->status,
                     ])
                     ->form([
-                        Forms\Components\Textarea::make('notes')->label(__('admin.notes'))
+                        Forms\Components\Textarea::make('notes')
+                            ->label(__('admin.notes'))
                             ->rows(6)
-                            ->required()->columnSpanFull(),
+                            ->required()
+                            ->columnSpanFull(),
                         Select::make('status')
                             ->label(__('admin.Status'))
                             ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::Statuses))
@@ -218,23 +220,25 @@ class RateRequestResource extends Resource
                         $record->notes = $data['notes'];
                         $record->status = $data['status'];
                         $record->save();
-                    })->modalHeading(__('admin.Edit'))
+                    })
+                    ->modalHeading(__('admin.Edit'))
                     ->modalIcon('heroicon-o-link'),
-                Tables\Actions\DeleteAction::make()->authorize(can('rates.delete')),
+                Tables\Actions\DeleteAction::make()
+                    ->authorize(can('rates.delete')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('export_excel')->label(__('تصدير طلبات التقييم'))
-                        ->icon('heroicon-m-arrow-down-tray')
-                        ->action(function (\Illuminate\Support\Collection $records) {
+                Tables\Actions\BulkAction::make('export_excel')
+                    ->label(__('تصدير طلبات التقييم'))
+                    ->icon('heroicon-m-arrow-down-tray')
+                    ->action(function (\Illuminate\Support\Collection $records) {
 
-                            $exports = new RateRequestExport($records);
-                            $fileName = 'rates_' . time() . '.xlsx';
-                            return Excel::download($exports, $fileName);
-                        }),
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('rates.delete'))
-                ]),
-            ])->filtersFormColumns(4);
+                        $exports = new RateRequestExport($records);
+                        $fileName = 'rates_' . time() . '.xlsx';
+                        return Excel::download($exports, $fileName);
+                    }),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->authorize(can('rates.delete'))
+            ]);
     }
 
     public static function getRelations(): array

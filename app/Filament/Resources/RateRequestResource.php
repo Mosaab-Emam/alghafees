@@ -93,6 +93,7 @@ class RateRequestResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('request_no')
                     ->label(__('admin.rate-requests.request_no'))
+                    ->toggleable()
                     ->searchable()
                     ->tooltip(
                         fn (RateRequest $record): string =>
@@ -101,7 +102,6 @@ class RateRequestResource extends Resource
                     ->icon('heroicon-o-eye'),
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('admin.rate-requests.name'))
-                    ->searchable()
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('email')
@@ -148,10 +148,14 @@ class RateRequestResource extends Resource
                         __('admin.InEvaluationRequest') => 'warning',
                         __('admin.CheckedRequest') => 'success',
                         __('admin.SuspendedRequest') => 'danger',
-                    }),
+                    })
+                    ->toggleable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label(__('admin.LastUpdate'))
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([
                 Filter::make('created_at')

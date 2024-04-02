@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RateRequest extends Model implements HasMedia
 {
-    use HasFactory,InteractsWithMedia;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'name',
@@ -60,7 +60,8 @@ class RateRequest extends Model implements HasMedia
         return $query->orderBy('id', 'desc');
     }
 
-    public function getStatusTitleAttribute() {
+    public function getStatusTitleAttribute()
+    {
         $statusId = $this->status;
         $title = '';
         foreach (Constants::Statuses as $status) {
@@ -69,26 +70,25 @@ class RateRequest extends Model implements HasMedia
                 break;
             }
         }
-        return $title !== '' ? __('admin.'.$title) : '';
+        return $title !== '' ? __('admin.' . $title) : '';
     }
-public function getStatusSpanAttribute()
+    public function getStatusSpanAttribute()
     {
         if ($this->status == 0) {
-            return "<span class='badge badge-pill alert-table badge-warning'>".
-            __('admin.NewRequest')."</span>";
+            return "<span class='badge badge-pill alert-table badge-warning'>" .
+                __('admin.NewRequest') . "</span>";
         } elseif ($this->status == 1) {
-            return "<span class='badge badge-pill alert-table badge-info'>".
-            __('admin.NewWorkRequest')."</span>";
+            return "<span class='badge badge-pill alert-table badge-info'>" .
+                __('admin.NewWorkRequest') . "</span>";
         } elseif ($this->status == 2) {
-            return "<span class='badge badge-pill alert-table badge-danger'>".
-            __('admin.InEvaluationRequest')."</span>";
+            return "<span class='badge badge-pill alert-table badge-danger'>" .
+                __('admin.InEvaluationRequest') . "</span>";
         } elseif ($this->status == 3) {
-            return "<span class='badge badge-pill alert-table badge-success'>".
-            __('admin.CheckedRequest')."</span>";
-        }
-        elseif ($this->status == 4) {
-            return "<span class='badge badge-pill alert-table badge-danger'>".
-            __('admin.SuspendedRequest')."</span>";
+            return "<span class='badge badge-pill alert-table badge-success'>" .
+                __('admin.CheckedRequest') . "</span>";
+        } elseif ($this->status == 4) {
+            return "<span class='badge badge-pill alert-table badge-danger'>" .
+                __('admin.SuspendedRequest') . "</span>";
         }
 
         //
@@ -106,7 +106,6 @@ public function getStatusSpanAttribute()
             "<a href='https://wa.me/966{$this->mobile}'><i class='fa fa-whatsapp fa-2x mx-1' style='color:#25d366'></i></a>" .
             "<a href='tel:966$this->mobile'><i class='fa fa-mobile fa-2x mx-1' style='color:#1d8496'></i></a>" .
             "</p>";
-
     }
     public function getClientTitleSpanAttribute()
     {
@@ -114,7 +113,7 @@ public function getStatusSpanAttribute()
         $clientEmail = __('البريد الإلكتروني: ') . $this->email;
         $clientMobile = __('رقم الجوال: ') . $this->mobile;
 
-        return $clientTitle . PHP_EOL. $clientEmail . PHP_EOL . $clientMobile ;
+        return $clientTitle . PHP_EOL . $clientEmail . PHP_EOL . $clientMobile;
     }
 
     public function getApartmentTitleSpanAttribute()
@@ -126,31 +125,30 @@ public function getStatusSpanAttribute()
         $apartmentArea = __('admin.ApartmentArea') . ': ' . $this->real_estate_area;
         $apartmentUsed = __('admin.ApartmentUsed') . ': ' . ($this->usage ? $this->usage->title : '');
 
-        return $apartmentGoal . PHP_EOL. $apartmentType . PHP_EOL. $apartmentEntity . PHP_EOL. $apartmentAge . PHP_EOL. $apartmentArea . PHP_EOL. $apartmentUsed;
+        return $apartmentGoal . PHP_EOL . $apartmentType . PHP_EOL . $apartmentEntity . PHP_EOL . $apartmentAge . PHP_EOL . $apartmentArea . PHP_EOL . $apartmentUsed;
     }
 
 
     public function getApartmentSpanAttribute()
     {
         return "<p>" .
-            "<strong class='text-dark'>".__('admin.ApartmentGoal').":</strong> " . ($this->goal ? $this->goal->title : '') .
+            "<strong class='text-dark'>" . __('admin.ApartmentGoal') . ":</strong> " . ($this->goal ? $this->goal->title : '') .
             "</p>" .
             "<p>" .
-            "<strong class='text-dark'>".__('admin.ApartmentType').":</strong> " . ($this->type ? $this->type->title : '') .
+            "<strong class='text-dark'>" . __('admin.ApartmentType') . ":</strong> " . ($this->type ? $this->type->title : '') .
             "</p>" .
             "<p>" .
-            "<strong class='text-dark'>".__('admin.ApartmentEntity').":</strong> " . ($this->entity ? $this->entity->title : '') .
+            "<strong class='text-dark'>" . __('admin.ApartmentEntity') . ":</strong> " . ($this->entity ? $this->entity->title : '') .
             "</p>" .
             "<p>" .
-            "<strong class='text-dark'>".__('admin.ApartmentAge').":</strong> " . $this->real_estate_age .
+            "<strong class='text-dark'>" . __('admin.ApartmentAge') . ":</strong> " . $this->real_estate_age .
             "</p>" .
             "<p>" .
-            "<strong class='text-dark'>".__('admin.ApartmentArea').":</strong> " . $this->real_estate_area .
+            "<strong class='text-dark'>" . __('admin.ApartmentArea') . ":</strong> " . $this->real_estate_area .
             "</p>" .
             "<p>" .
-            "<strong class='text-dark'>".__('admin.ApartmentUsed').":</strong> " . ($this->usage ? $this->usage->title : '') .
+            "<strong class='text-dark'>" . __('admin.ApartmentUsed') . ":</strong> " . ($this->usage ? $this->usage->title : '') .
             "</p>";
-
     }
 
 
@@ -158,20 +156,19 @@ public function getStatusSpanAttribute()
     {
         if ($this->status == 0) {
             return
-            __('admin.NewRequest');
+                __('admin.NewRequest');
         } elseif ($this->status == 1) {
             return
-            __('admin.NewWorkRequest');
+                __('admin.NewWorkRequest');
         } elseif ($this->status == 2) {
             return
-            __('admin.InEvaluationRequest');
+                __('admin.InEvaluationRequest');
         } elseif ($this->status == 3) {
             return
-            __('admin.CheckedRequest');
-        }
-        elseif ($this->status == 4) {
+                __('admin.CheckedRequest');
+        } elseif ($this->status == 4) {
             return
-            __('admin.SuspendedRequest');
+                __('admin.SuspendedRequest');
         }
 
         //
@@ -207,46 +204,45 @@ public function getStatusSpanAttribute()
         return date($format, strtotime($this->$filedDate));
     }
 
-        // 'instrument_image',
-        // 'construction_license',
-        // 'other_contracts',
+    // 'instrument_image',
+    // 'construction_license',
+    // 'other_contracts',
     public function getOtherImagesAttribute()
     {
-         $images = [];
-         $files = $this->getMedia('other_contracts');
-         if (!empty($files)) {
-             foreach ($files as $file) {
-                 array_push($images, $file->getFullUrl());
-             }
-         }
+        $images = [];
+        $files = $this->getMedia('other_contracts');
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                array_push($images, $file->getFullUrl());
+            }
+        }
 
-         return $images;
-     }
+        return $images;
+    }
 
     public function getInstrumentImagesAttribute()
     {
-         $images = [];
-         $files = $this->getMedia('instrument_image');
-         if (!empty($files)) {
-             foreach ($files as $file) {
-                 array_push($images, $file->getFullUrl());
-             }
-         }
+        $images = [];
+        $files = $this->getMedia('instrument_image');
+        if (!empty($files)) {
+            foreach ($files as $file) {
+                array_push($images, $file->getFullUrl());
+            }
+        }
 
-         return $images;
-     }
+        return $images;
+    }
 
     public function getConstructionImagesAttribute()
     {
-         $images = [];
-         $files = $this->getMedia('construction_license');
-         if (!empty($files)) {
+        $images = [];
+        $files = $this->getMedia('construction_license');
+        if (!empty($files)) {
             foreach ($files as $file) {
-                 array_push($images, $file->getFullUrl());
+                array_push($images, $file->getFullUrl());
             }
-         }
+        }
 
-         return $images;
-     }
-
+        return $images;
+    }
 }

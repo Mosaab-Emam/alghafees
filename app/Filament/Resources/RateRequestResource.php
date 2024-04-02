@@ -68,7 +68,7 @@ class RateRequestResource extends Resource
 
                 TextEntry::make('request_no')->label(__('admin.RatesNo')),
                 TextEntry::make('statusTitle')->label(__('admin.Status'))
-                    ->badge()->color(fn (string $state) : string => match ($state) {
+                    ->badge()->color(fn (string $state): string => match ($state) {
                         __('admin.NewRequest') => 'info',
                         __('admin.NewWorkRequest') => 'info',
                         __('admin.InEvaluationRequest') => 'warning',
@@ -87,22 +87,62 @@ class RateRequestResource extends Resource
 
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('request_no')->label('#')
-                ->searchable()->tooltip(fn(RateRequest $record) : string =>
-                        __('admin.notes').(': '.$record->notes ?? ''))->icon('heroicon-o-eye'),
-                Tables\Columns\TextColumn::make('clientSpan')->disabledClick(true)
-                    ->label(__('admin.Customer'))
-                    ->html(),
-                Tables\Columns\TextColumn::make('apartmentSpan')
-                    ->label(__('admin.ApartmentDetail'))
-                    ->html(),
-                Tables\Columns\TextColumn::make('statusTitle')->label(__('admin.Status'))
-                    ->badge()->color(fn (string $state) : string => match ($state) {
+                Tables\Columns\TextColumn::make('request_no')
+                    ->label(__('admin.rate-requests.request_no'))
+                    ->searchable()
+                    ->tooltip(
+                        fn (RateRequest $record): string =>
+                        __('admin.notes') . (': ' . $record->notes ?? '')
+                    )
+                    ->icon('heroicon-o-eye'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('admin.rate-requests.name'))
+                    ->searchable()
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->label(__('admin.rate-requests.email'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('mobile')
+                    ->label(__('admin.rate-requests.mobile'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('goal.title')
+                    ->label(__('admin.rate-requests.goal'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('type.title')
+                    ->label(__('admin.rate-requests.type'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('entity.title')
+                    ->label(__('admin.rate-requests.entity'))
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('real_estate_age')
+                    ->label(__('admin.rate-requests.real_estate_age'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('real_estate_area')
+                    ->label(__('admin.rate-requests.real_estate_area'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('usage.title')
+                    ->label(__('admin.rate-requests.usage'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('statusTitle')
+                    ->label(__('admin.rate-requests.status'))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
                         __('admin.NewRequest') => 'info',
                         __('admin.NewWorkRequest') => 'info',
                         __('admin.InEvaluationRequest') => 'warning',
@@ -112,10 +152,6 @@ class RateRequestResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label(__('admin.LastUpdate'))
                     ->dateTime(),
-
-                /*Tables\Columns\TextColumn::make('notes')->label(__('admin.notes'))
-                ->limit(50)*/
-
             ])
             ->filters([
                 Filter::make('created_at')
@@ -128,33 +164,32 @@ class RateRequestResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_from']) {
+                        if (!$data['created_from']) {
                             return null;
                         }
 
                         return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                     }),
-               Filter::make('created_until')
-                   ->form([
-                   DatePicker::make('created_until')->label(__('قبل تاريخ')),
-               ])->query(function (Builder $query, array $data): Builder {
-                       return $query
-                           ->when(
-                               $data['created_until'],
-                               fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                           );
-                   })->indicateUsing(function (array $data): ?string {
-                       if (! $data['created_until']) {
-                           return null;
-                       }
+                Filter::make('created_until')
+                    ->form([
+                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
+                    ])->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['created_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_until']) {
+                            return null;
+                        }
 
-                       return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
-                   }),
-                   Tables\Filters\SelectFilter::make('status')
-                       ->label(__('admin.Status'))
-                       ->options(array_map(fn($item) : string => __('admin.'.$item['title']),Constants::Statuses)),
+                        return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+                    }),
+                Tables\Filters\SelectFilter::make('status')
+                    ->label(__('admin.Status'))
+                    ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::Statuses)),
             ], layout: Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
                 Tables\Actions\ViewAction::make()->authorize(can('rates.show')),
@@ -171,7 +206,7 @@ class RateRequestResource extends Resource
                             ->required()->columnSpanFull(),
                         Select::make('status')
                             ->label(__('admin.Status'))
-                            ->options(array_map(fn($item) => __('admin.'.$item['title']),Constants::Statuses))
+                            ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::Statuses))
                             ->visible(can('rates.changeStatus'))
                             ->required(),
                     ])
@@ -187,12 +222,12 @@ class RateRequestResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\BulkAction::make('export_excel')->label(__('تصدير طلبات التقييم'))
                         ->icon('heroicon-m-arrow-down-tray')
-                        ->action(function (\Illuminate\Support\Collection $records)  {
+                        ->action(function (\Illuminate\Support\Collection $records) {
 
-                     $exports = new RateRequestExport($records);
+                            $exports = new RateRequestExport($records);
                             $fileName = 'rates_' . time() . '.xlsx';
-                  return Excel::download($exports,$fileName);
-                 }),
+                            return Excel::download($exports, $fileName);
+                        }),
                     Tables\Actions\DeleteBulkAction::make()->authorize(can('rates.delete'))
                 ]),
             ])->filtersFormColumns(4);
@@ -210,8 +245,6 @@ class RateRequestResource extends Resource
         return [
             'index' => Pages\ListRateRequests::route('/'),
             'view' => Pages\ViewRateRequest::route('/{record}')
-           /* 'create' => Pages\CreateRateRequest::route('/create'),*/
-          /*  'edit' => Pages\EditRateRequest::route('/{record}/edit'),*/
         ];
     }
 }

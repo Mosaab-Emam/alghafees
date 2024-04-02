@@ -219,7 +219,7 @@ class ContractController extends Controller
 
                 $pdf->setY(250);
                 $pdf->setX(124);
-                $pdf->Cell(0, 0, explode(" ", $contract->created_at)[0], 0, 1, 'R', 0, '', 1);
+                $pdf->Cell(0, 0, explode(" ", $contract->contract_date)[0], 0, 1, 'R', 0, '', 1);
 
                 $pdf->setY(250);
                 $pdf->setX(45);

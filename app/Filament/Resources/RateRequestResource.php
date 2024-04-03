@@ -2,31 +2,21 @@
 
 namespace App\Filament\Resources;
 
-use App\Exports\RateRequestExport;
-use App\Filament\Exports\RateRequestExporter;
 use App\Filament\Resources\RateRequestResource\Pages;
-use App\Filament\Resources\RateRequestResource\RelationManagers;
 use App\Helpers\Constants;
 use App\Models\RateRequest;
 use Carbon\Carbon;
-use Excel;
-use Filament\Actions\Action;
-use Filament\Actions\Exports\Models\Export;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Form;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
-use mysql_xdevapi\Collection;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use Storage;
 
 class RateRequestResource extends Resource
 {
@@ -227,15 +217,7 @@ class RateRequestResource extends Resource
                     ->authorize(can('rates.delete')),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('export_excel')
-                    ->label(__('تصدير طلبات التقييم'))
-                    ->icon('heroicon-m-arrow-down-tray')
-                    ->action(function (\Illuminate\Support\Collection $records) {
-
-                        $exports = new RateRequestExport($records);
-                        $fileName = 'rates_' . time() . '.xlsx';
-                        return Excel::download($exports, $fileName);
-                    }),
+                ExportBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make()
                     ->authorize(can('rates.delete'))
             ]);

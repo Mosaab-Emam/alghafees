@@ -253,6 +253,9 @@ return [
         'real_estate_age' => 'عمر العقار (سنة)',
         'real_estate_area' => 'مساحة العفار (م2)',
         'usage' => 'استعمال العقار',
-        'status' => 'الحالة'
+        'status' => 'الحالة',
+        'client_info' => 'بيانات العميل',
+        'asset_info' => 'بيانات العقار',
+        'other_info' => 'بيانات أخرى'
     ]
 ];

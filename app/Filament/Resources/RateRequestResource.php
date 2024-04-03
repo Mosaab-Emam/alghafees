@@ -15,8 +15,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DatePicker;
+use Filament\Infolists\Components\Section;
 use Filament\Tables\Filters\Filter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use Illuminate\Contracts\Support\Htmlable;
 
 class RateRequestResource extends Resource
 {
@@ -55,26 +57,48 @@ class RateRequestResource extends Resource
     {
         return $infolist
             ->schema([
-
-                TextEntry::make('request_no')->label(__('admin.RatesNo')),
-                TextEntry::make('statusTitle')->label(__('admin.Status'))
-                    ->badge()->color(fn (string $state): string => match ($state) {
-                        __('admin.NewRequest') => 'info',
-                        __('admin.NewWorkRequest') => 'info',
-                        __('admin.InEvaluationRequest') => 'warning',
-                        __('admin.CheckedRequest') => 'success',
-                        __('admin.SuspendedRequest') => 'danger',
-                    }),
-                TextEntry::make('clientSpan')
-                    ->label(__('admin.Customer'))
-                    ->html(),
-                TextEntry::make('apartmentSpan')
-                    ->label(__('admin.ApartmentDetail'))
-                    ->html(),
-                TextEntry::make('notes')
-                    ->label(__('admin.notes'))
-                    ->columnSpanFull()
-
+                Section::make(__('admin.rate-requests.client_info'))
+                    ->schema([
+                        TextEntry::make('name')
+                            ->label(__('admin.rate-requests.name')),
+                        TextEntry::make('email')
+                            ->label(__('admin.rate-requests.email')),
+                        TextEntry::make('mobile')
+                            ->label(__('admin.rate-requests.mobile')),
+                        TextEntry::make('request_no')
+                            ->label(__('admin.rate-requests.request_no')),
+                    ])
+                    ->columns(2),
+                Section::make(__('admin.rate-requests.asset_info'))
+                    ->schema([
+                        TextEntry::make('goal.title')
+                            ->label(__('admin.rate-requests.goal')),
+                        TextEntry::make('type.title')
+                            ->label(__('admin.rate-requests.type')),
+                        TextEntry::make('usage.title')
+                            ->label(__('admin.rate-requests.usage')),
+                        TextEntry::make('real_estate_age')
+                            ->label(__('admin.rate-requests.real_estate_age')),
+                        TextEntry::make('real_estate_area')
+                            ->label(__('admin.rate-requests.real_estate_area')),
+                    ])
+                    ->columns(2),
+                Section::make(__('admin.rate-requests.other_info'))
+                    ->schema([
+                        TextEntry::make('statusTitle')
+                            ->label(__('admin.Status'))
+                            ->badge()->color(fn (string $state): string => match ($state) {
+                                __('admin.NewRequest') => 'info',
+                                __('admin.NewWorkRequest') => 'info',
+                                __('admin.InEvaluationRequest') => 'warning',
+                                __('admin.CheckedRequest') => 'success',
+                                __('admin.SuspendedRequest') => 'danger',
+                            }),
+                        TextEntry::make('notes')
+                            ->label(__('admin.notes'))
+                            ->columnSpanFull()
+                    ])
+                    ->columns(2),
             ]);
     }
     public static function table(Table $table): Table

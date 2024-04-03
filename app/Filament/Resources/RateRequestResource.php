@@ -87,7 +87,8 @@ class RateRequestResource extends Resource
                     ->schema([
                         TextEntry::make('statusTitle')
                             ->label(__('admin.Status'))
-                            ->badge()->color(fn (string $state): string => match ($state) {
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
                                 __('admin.NewRequest') => 'info',
                                 __('admin.NewWorkRequest') => 'info',
                                 __('admin.InEvaluationRequest') => 'warning',
@@ -259,6 +260,17 @@ class RateRequestResource extends Resource
         return [
             'index' => Pages\ListRateRequests::route('/'),
             'view' => Pages\ViewRateRequest::route('/{record}')
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            RateRequestResource\Widgets\RateRequestsStatusChart::class,
+            RateRequestResource\Widgets\RateRequestsTypeChart::class,
+            RateRequestResource\Widgets\RateRequestsPurposeChart::class,
+            RateRequestResource\Widgets\RateRequestsEntityChart::class,
+            RateRequestResource\Widgets\RateRequestsUsageChart::class,
         ];
     }
 }

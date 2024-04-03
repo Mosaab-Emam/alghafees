@@ -12,7 +12,16 @@ class ListRateRequests extends ListRecords
 
     protected static string | array $routeMiddleware = 'checkPermission:rates.index';
 
-
+    protected function getFooterWidgets(): array
+    {
+        return [
+            RateRequestResource\Widgets\RateRequestsStatusChart::class,
+            RateRequestResource\Widgets\RateRequestsTypeChart::class,
+            RateRequestResource\Widgets\RateRequestsPurposeChart::class,
+            RateRequestResource\Widgets\RateRequestsEntityChart::class,
+            RateRequestResource\Widgets\RateRequestsUsageChart::class,
+        ];
+    }
 
     protected function getHeaderActions(): array
     {

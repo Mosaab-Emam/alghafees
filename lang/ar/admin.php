@@ -47,7 +47,7 @@ return [
     'SubTitle' => 'وصف مختصر',
     'Slug' => 'Slug',
     'Position' => 'الترتيب',
-    'Publish' => 'نشر',
+    'Publish' => 'حالة النشر',
     'PendingRequest' => ' معلقة',
     'InReviewRequest' => ' جاري العمل عليها',
     'ContactedRequest' => 'تم التواصل',
@@ -257,5 +257,8 @@ return [
         'client_info' => 'بيانات العميل',
         'asset_info' => 'بيانات العقار',
         'other_info' => 'بيانات أخرى'
+    ],
+    'contents' => [
+        'active_filter' => 'منشور'
     ]
 ];

@@ -25,12 +25,14 @@ class CreateCompany extends CreateRecord
         $services = $data['services'];
 
         foreach ($services as $service) {
-            ServiceCompany::updateOrCreate(['company_id'=> $company->id,'service_id'=> $service]);
+            ServiceCompany::updateOrCreate(['company_id' => $company->id, 'service_id' => $service]);
         }
 
-
-
         return $company;
+    }
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

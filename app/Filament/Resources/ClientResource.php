@@ -16,6 +16,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use WireUi\View\Components\Textarea;
 
 class ClientResource extends Resource
@@ -61,8 +62,8 @@ class ClientResource extends Resource
                     ->label(__('admin.Image'))
                     ->image()->columnSpanFull(),
                 Forms\Components\Textarea::make('description')
-                ->label(__('admin.Description'))->rows(6)
-                ->columnSpanFull(),
+                    ->label(__('admin.Description'))->rows(6)
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('active')->label(__('admin.Publish'))
                     ->required(),
             ]);
@@ -74,8 +75,7 @@ class ClientResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('#'),
                 Tables\Columns\ImageColumn::make('image')->label(__('admin.Image'))
-                    ->defaultImageUrl(url('/images/default.png'))->circular()
-                ,
+                    ->defaultImageUrl(url('/images/default.png'))->circular(),
                 Tables\Columns\TextColumn::make('title')->label(__('admin.Title'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('position')->label(__('admin.Position'))
@@ -88,6 +88,9 @@ class ClientResource extends Resource
 
             ])
             ->filters([
+                Filter::make('active')
+                    ->label(__('admin.clients.active_filter'))
+                    ->query(fn (Builder $query): Builder => $query->where('active', true)),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from')->label(__('من تاريخ')),
@@ -98,9 +101,8 @@ class ClientResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_from']) {
+                        if (!$data['created_from']) {
                             return null;
                         }
 
@@ -116,22 +118,20 @@ class ClientResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_until']) {
+                        if (!$data['created_until']) {
                             return null;
                         }
 
                         return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                     }),
-                Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+            ])
             ->actions([
                 Tables\Actions\EditAction::make()->authorize(can('clients.edit')),
                 Tables\Actions\DeleteAction::make()->authorize(can('clients.delete'))
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('clients.delete')),
-                ]),
+                ExportBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()->authorize(can('clients.delete')),
             ]);
     }
 

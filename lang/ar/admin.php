@@ -260,5 +260,8 @@ return [
     ],
     'contents' => [
         'active_filter' => 'منشور'
+    ],
+    'clients' => [
+        'active_filter' => 'منشور'
     ]
 ];

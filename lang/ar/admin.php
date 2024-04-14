@@ -263,5 +263,8 @@ return [
     ],
     'clients' => [
         'active_filter' => 'منشور'
+    ],
+    'users' => [
+        'block_filter' => 'مفعل',
     ]
 ];

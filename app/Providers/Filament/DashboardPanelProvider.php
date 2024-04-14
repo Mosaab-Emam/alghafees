@@ -80,6 +80,12 @@ class DashboardPanelProvider extends PanelProvider
                     ->navigationGroupLabel(
                         app()->getLocale() == 'ar' ? 'إدارة المحتوى' : 'Content Management'
                     )
+                    ->postResource()
+                    ->pageResource(false)
+                    ->faqResource(false)
+                    ->libraryResource(false)
+                    ->tagResource()
+                    ->navigationResource(false)
             ])
             ->brandLogo(asset('images/settings/1691238434rKMpDrJ2EhNquOPc8E04TfgLLnkyWRJpEXWNKeGP.png'))
             ->brandLogoHeight('3rem')

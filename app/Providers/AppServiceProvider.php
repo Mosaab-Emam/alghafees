@@ -24,7 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 
     /**
@@ -34,7 +33,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         FilamentAsset::register([
-            Css::make('admin-css', Vite::asset('resources/css/app.css','build'))
+            Css::make('globals', 'globals.css'),
+            Css::make('admin-css', Vite::asset('resources/css/app.css', 'build'))
         ]);
 
 

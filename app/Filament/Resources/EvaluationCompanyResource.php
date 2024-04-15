@@ -15,6 +15,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class EvaluationCompanyResource extends Resource
 {
@@ -50,14 +51,17 @@ class EvaluationCompanyResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label(__('admin.Title'))
+                Forms\Components\TextInput::make('title')
+                    ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\TextInput::make('position')->label(__('admin.Position'))
+                Forms\Components\TextInput::make('position')
+                    ->label(__('admin.Position'))
                     ->numeric()
                     ->default(0)
                     ->required(),
-                Forms\Components\Toggle::make('active')->label(__('admin.Publish'))
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.Publish'))
                     ->required(),
             ]);
     }
@@ -66,22 +70,35 @@ class EvaluationCompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('#'),
-                Tables\Columns\TextColumn::make('title')->label(__('admin.Title'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('position')->label(__('admin.Position'))
+                Tables\Columns\TextColumn::make('id')
+                    ->label('#')
+                    ->toggleable()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('active')->label(__('admin.Publish'))
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('admin.Title'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label(__('admin.Position'))
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.Publish'))
                     ->boolean(),
-                Tables\Columns\TextColumn::make('updated_at')->label(__('admin.CreationDate'))
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.CreationDate'))
                     ->dateTime()
                     ->sortable()
-
+                    ->toggleable(),
             ])
             ->filters([
+                Tables\Filters\TernaryFilter::make('active')
+                    ->label(__('admin.Publish')),
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
+                        DatePicker::make('created_from')
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -89,40 +106,41 @@ class EvaluationCompanyResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-
-                    })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_from']) {
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_from'])
                             return null;
-                        }
 
                         return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                     }),
                 Filter::make('created_until')
                     ->form([
                         DatePicker::make('created_until')->label(__('قبل تاريخ')),
-                    ])->query(function (Builder $query, array $data): Builder {
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_until']) {
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_until'])
                             return null;
-                        }
 
                         return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                     }),
-                Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+            ])
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('evaluation-companies.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('evaluation-companies.delete'))
+                Tables\Actions\EditAction::make()
+                    ->authorize(can('evaluation-companies.edit')),
+                Tables\Actions\DeleteAction::make()
+                    ->authorize(can('evaluation-companies.delete'))
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('evaluation-companies.delete')),
-                ]),
+                ExportBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->authorize(can('evaluation-companies.delete')),
             ]);
     }
 

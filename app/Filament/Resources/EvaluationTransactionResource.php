@@ -537,7 +537,8 @@ class EvaluationTransactionResource extends Resource
                         ->preload(),
                     Forms\Components\DateTimePicker::make('preview_date_time')
                         ->label(__('admin.evaluation-transactions.forms.preview_datetime'))
-                        ->native(false),
+                        ->native(false)
+                        ->hidden(),
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
@@ -548,7 +549,8 @@ class EvaluationTransactionResource extends Resource
                         ->preload(),
                     Forms\Components\DateTimePicker::make('income_date_time')
                         ->label(__('admin.evaluation-transactions.forms.income_datetime'))
-                        ->native(false),
+                        ->native(false)
+                        ->hidden(),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('review_id')
@@ -558,7 +560,8 @@ class EvaluationTransactionResource extends Resource
                         ->preload(),
                     Forms\Components\DateTimePicker::make('review_date_time')
                         ->label(__('admin.evaluation-transactions.forms.review_datetime'))
-                        ->native(false),
+                        ->native(false)
+                        ->hidden(),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Textarea::make('notes')

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationCompanyResource\Pages;
-use App\Filament\Resources\EvaluationCompanyResource\RelationManagers;
 use App\Models\Evaluation\EvaluationCompany;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -14,7 +13,6 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class EvaluationCompanyResource extends Resource

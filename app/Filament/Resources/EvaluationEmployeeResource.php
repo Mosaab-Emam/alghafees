@@ -3,8 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationEmployeeResource\Pages;
-use App\Filament\Resources\EvaluationEmployeeResource\RelationManagers;
-use App\Helpers\Constants;
 use App\Models\Evaluation\EvaluationEmployee;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -15,7 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class EvaluationEmployeeResource extends Resource
 {
@@ -49,17 +47,22 @@ class EvaluationEmployeeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label(__('admin.Title'))
+                Forms\Components\TextInput::make('title')
+                    ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\TextInput::make('position')->label(__('admin.Position'))
+                Forms\Components\TextInput::make('position')
+                    ->label(__('admin.Position'))
                     ->numeric()
                     ->default(0)
                     ->required(),
-                Forms\Components\TextInput::make('price')->label(__('admin.Price'))
+                Forms\Components\TextInput::make('price')
+                    ->label(__('admin.Price'))
                     ->numeric(),
-                Forms\Components\Toggle::make('active')->label(__('admin.Publish'))
-                    ->required()->columnStart(1),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.Publish'))
+                    ->required()
+                    ->columnStart(1),
             ]);
     }
 
@@ -67,22 +70,34 @@ class EvaluationEmployeeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('#'),
-                Tables\Columns\TextColumn::make('title')->label(__('admin.Title'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('position')->label(__('admin.Position'))
+                Tables\Columns\TextColumn::make('id')
+                    ->label('#')
+                    ->toggleable()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('active')->label(__('admin.Publish'))
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('updated_at')->label(__('admin.CreationDate'))
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('admin.Title'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label(__('admin.Position'))
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.Publish'))
+                    ->boolean()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.CreationDate'))
                     ->dateTime()
                     ->sortable()
-
+                    ->toggleable(),
             ])
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
+                        DatePicker::make('created_from')
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -90,40 +105,44 @@ class EvaluationEmployeeResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_from']) {
+                        if (!$data['created_from'])
                             return null;
-                        }
 
                         return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                     }),
                 Filter::make('created_until')
                     ->form([
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
-                    ])->query(function (Builder $query, array $data): Builder {
+                        DatePicker::make('created_until')
+                            ->label(__('قبل تاريخ'))
+                            ->native(false),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_until']) {
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        if (!$data['created_until'])
                             return null;
-                        }
 
                         return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                     }),
-                Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+                Tables\Filters\TernaryFilter::make('active')
+                    ->label(__('admin.Publish')),
+            ])
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('evaluation-employees.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('evaluation-employees.delete'))
+                Tables\Actions\EditAction::make()
+                    ->authorize(can('evaluation-employees.edit')),
+                Tables\Actions\DeleteAction::make()
+                    ->authorize(can('evaluation-employees.delete'))
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('evaluation-employees.delete')),
-                ]),
+                ExportBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
+                    ->authorize(can('evaluation-employees.delete')),
             ]);
     }
 

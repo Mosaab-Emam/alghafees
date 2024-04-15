@@ -324,9 +324,8 @@ class EvaluationTransactionResource extends Resource
                     return 'et-repeated-address-row';
             })
             ->filters([
-                Filter::make('is_iterated')
-                    ->label(__('resources/evaluation-transaction.repeated'))
-                    ->query(fn (Builder $query): Builder => $query->where('is_iterated', true)),
+                Tables\Filters\TernaryFilter::make('is_iterated')
+                    ->label(__('resources/evaluation-transaction.repeated')),
                 Filter::make('from')
                     ->form([
                         DatePicker::make('from')
@@ -360,7 +359,9 @@ class EvaluationTransactionResource extends Resource
                     ->options(array_map(
                         fn ($item): string => __('admin.' . $item['title']),
                         Constants::TransactionStatuses
-                    )),
+                    ))
+                    ->preload()
+                    ->searchable(),
                 Tables\Filters\SelectFilter::make('company')
                     ->label(__('admin.company'))
                     ->multiple()
@@ -393,7 +394,9 @@ class EvaluationTransactionResource extends Resource
                     }),
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label(__('admin.city_id'))
-                    ->options(Category::city()->pluck('title', 'id')),
+                    ->options(Category::city()->pluck('title', 'id'))
+                    ->searchable()
+                    ->preload()
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->authorize(can('evaluation-transactions.show')),
@@ -411,124 +414,125 @@ class EvaluationTransactionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\TextInput::make('instrument_number')
-                        ->label(__('admin.instrument_number'))
-                        ->maxLength(255)
-                        ->reactive()
-                        ->suffix(function (callable $get) {
-                            $instrument_number = $get('instrument_number');
-                            $exists = EvaluationTransaction::where('instrument_number', $instrument_number)->exists();
-                            if ($exists)
-                                return "مكرر";
-                        }),
-                    Forms\Components\TextInput::make('transaction_number')
-                        ->label(__('admin.transaction_number'))
-                        ->maxLength(255)
-                        ->required(),
-                    Forms\Components\TextInput::make('owner_name')
-                        ->label(__('admin.owner_name'))
-                        ->maxLength(255),
-                    Forms\Components\Select::make('new_city_id')
-                        ->label(__('admin.region'))
-                        ->options(City::pluck('name_ar', 'id'))
-                        ->reactive()
-                        ->searchable()
-                        ->preload()
-                        ->suffix(function (callable $get) {
-                            $instrument_number = $get('instrument_number');
-                            $new_city_id = $get('new_city_id');
-                            $plan_no = $get('plan_no');
-                            $plot_no = $get('plot_no');
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('instrument_number')
+                            ->label(__('admin.instrument_number'))
+                            ->maxLength(255)
+                            ->reactive()
+                            ->suffix(function (callable $get) {
+                                $instrument_number = $get('instrument_number');
+                                $exists = EvaluationTransaction::where('instrument_number', $instrument_number)->exists();
+                                if ($exists)
+                                    return "مكرر";
+                            }),
+                        Forms\Components\TextInput::make('transaction_number')
+                            ->label(__('admin.transaction_number'))
+                            ->maxLength(255)
+                            ->required(),
+                        Forms\Components\TextInput::make('owner_name')
+                            ->label(__('admin.owner_name'))
+                            ->maxLength(255),
+                        Forms\Components\Select::make('new_city_id')
+                            ->label(__('admin.region'))
+                            ->options(City::pluck('name_ar', 'id'))
+                            ->reactive()
+                            ->searchable()
+                            ->preload()
+                            ->suffix(function (callable $get) {
+                                $instrument_number = $get('instrument_number');
+                                $new_city_id = $get('new_city_id');
+                                $plan_no = $get('plan_no');
+                                $plot_no = $get('plot_no');
 
-                            if (
-                                $new_city_id == null ||
-                                $plan_no == null ||
-                                $plot_no == null
-                            ) return "";
+                                if (
+                                    $new_city_id == null ||
+                                    $plan_no == null ||
+                                    $plot_no == null
+                                ) return "";
 
-                            $exists = EvaluationTransaction::where('instrument_number', $instrument_number)
-                                ->where('new_city_id', $new_city_id)
-                                ->where('plan_no', $plan_no)
-                                ->where('plot_no', $plot_no)
-                                ->exists();
+                                $exists = EvaluationTransaction::where('instrument_number', $instrument_number)
+                                    ->where('new_city_id', $new_city_id)
+                                    ->where('plan_no', $plan_no)
+                                    ->where('plot_no', $plot_no)
+                                    ->exists();
 
-                            if ($exists)
-                                return "مكرر";
-                        }),
-                    Forms\Components\TextInput::make('plan_no')
-                        ->label(__('admin.plan_no'))
-                        ->maxLength(255)
-                        ->reactive()
-                        ->suffix(function (callable $get) {
-                            $new_city_id = $get('new_city_id');
-                            $plan_no = $get('plan_no');
-                            $plot_no = $get('plot_no');
+                                if ($exists)
+                                    return "مكرر";
+                            }),
+                        Forms\Components\TextInput::make('plan_no')
+                            ->label(__('admin.plan_no'))
+                            ->maxLength(255)
+                            ->reactive()
+                            ->suffix(function (callable $get) {
+                                $new_city_id = $get('new_city_id');
+                                $plan_no = $get('plan_no');
+                                $plot_no = $get('plot_no');
 
-                            if (
-                                $new_city_id == null ||
-                                $plan_no == null ||
-                                $plot_no == null
-                            ) return "";
+                                if (
+                                    $new_city_id == null ||
+                                    $plan_no == null ||
+                                    $plot_no == null
+                                ) return "";
 
-                            $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
-                                ->where('plan_no', $plan_no)
-                                ->where('plot_no', $plot_no)
-                                ->exists();
+                                $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
+                                    ->where('plan_no', $plan_no)
+                                    ->where('plot_no', $plot_no)
+                                    ->exists();
 
-                            if ($exists)
-                                return "مكرر";
-                        }),
-                    Forms\Components\TextInput::make('plot_no')
-                        ->label(__('admin.plot_no'))
-                        ->maxLength(255)
-                        ->reactive()
-                        ->suffix(function (callable $get) {
-                            $new_city_id = $get('new_city_id');
-                            $plan_no = $get('plan_no');
-                            $plot_no = $get('plot_no');
+                                if ($exists)
+                                    return "مكرر";
+                            }),
+                        Forms\Components\TextInput::make('plot_no')
+                            ->label(__('admin.plot_no'))
+                            ->maxLength(255)
+                            ->reactive()
+                            ->suffix(function (callable $get) {
+                                $new_city_id = $get('new_city_id');
+                                $plan_no = $get('plan_no');
+                                $plot_no = $get('plot_no');
 
-                            if (
-                                $new_city_id == null ||
-                                $plan_no == null ||
-                                $plot_no == null
-                            ) return "";
+                                if (
+                                    $new_city_id == null ||
+                                    $plan_no == null ||
+                                    $plot_no == null
+                                ) return "";
 
-                            $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
-                                ->where('plan_no', $plan_no)
-                                ->where('plot_no', $plot_no)
-                                ->exists();
+                                $exists = EvaluationTransaction::where('new_city_id', $new_city_id)
+                                    ->where('plan_no', $plan_no)
+                                    ->where('plot_no', $plot_no)
+                                    ->exists();
 
-                            if ($exists)
-                                return "مكرر";
-                        }),
-                    Forms\Components\Select::make('type_id')
-                        ->label(__('admin.type_id'))
-                        ->options(Category::ApartmentType()->pluck('title', 'id'))
-                        ->searchable()
-                        ->preload(),
-                    Forms\Components\Select::make('evaluation_company_id')
-                        ->label(__('admin.evaluation_company_id'))
-                        ->options(EvaluationCompany::pluck('title', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                    Forms\Components\Select::make('city_id')
-                        ->label(__('admin.city'))
-                        ->options(Category::city()->pluck('title', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                    Forms\Components\Select::make('evaluation_employee_id')
-                        ->label(__('admin.evaluation_employee_id'))
-                        ->options(EvaluationEmployee::pluck('title', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->required(),
-                    Forms\Components\DatePicker::make('date')
-                        ->label(__('admin.date'))
-                        ->native(false),
-                ])->columns(2),
+                                if ($exists)
+                                    return "مكرر";
+                            }),
+                        Forms\Components\Select::make('type_id')
+                            ->label(__('admin.type_id'))
+                            ->options(Category::ApartmentType()->pluck('title', 'id'))
+                            ->searchable()
+                            ->preload(),
+                        Forms\Components\Select::make('evaluation_company_id')
+                            ->label(__('admin.evaluation_company_id'))
+                            ->options(EvaluationCompany::pluck('title', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Select::make('city_id')
+                            ->label(__('admin.city'))
+                            ->options(Category::city()->pluck('title', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\Select::make('evaluation_employee_id')
+                            ->label(__('admin.evaluation_employee_id'))
+                            ->options(EvaluationEmployee::pluck('title', 'id'))
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Forms\Components\DatePicker::make('date')
+                            ->label(__('admin.date'))
+                            ->native(false),
+                    ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('previewer_id')
                         ->label(__('admin.previewer'))

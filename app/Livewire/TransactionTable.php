@@ -63,17 +63,20 @@ final class TransactionTable extends PowerGridComponent implements HasForms
     public function form(Form $form): Form
     {
         return $form->schema([
-            TextInput::make('transaction_number')->label(trans('admin.transaction_number'))->live(),
+            TextInput::make('transaction_number')
+                ->label(trans('admin.transaction_number'))
+                ->live(),
             Select::make('employee_id')
                 ->label(trans('admin.employee'))
                 ->live()
-                ->searchable(true)
+                ->searchable()
                 ->preload()
                 ->options(EvaluationEmployee::all()->pluck('title', 'id')),
             Select::make('company_id')
+                ->label(trans('admin.company'))
                 ->multiple()
                 ->searchable()
-                ->label(trans('admin.company'))
+                ->preload()
                 ->options(EvaluationCompany::all()->pluck('title', 'id'))
                 ->live()
                 ->hidden(fn () => isset($this->company)),
@@ -81,6 +84,7 @@ final class TransactionTable extends PowerGridComponent implements HasForms
                 ->label(trans('admin.Status'))
                 ->live()
                 ->nullable(true)
+                ->preload()
                 ->searchable()
                 ->options([
                     0 => trans('admin.NewTransaction'),
@@ -93,9 +97,15 @@ final class TransactionTable extends PowerGridComponent implements HasForms
                 ])->default(null),
             Select::make('city_id')
                 ->label(trans('admin.city'))
-                ->live()->options(\App\Models\Category::where('type', \App\Helpers\Constants::CityType)
-                    ->select(['id', 'title'])
-                    ->pluck('title', 'id')->toArray()),
+                ->live()
+                ->options(
+                    \App\Models\Category::where('type', \App\Helpers\Constants::CityType)
+                        ->select(['id', 'title'])
+                        ->pluck('title', 'id')
+                        ->toArray()
+                )
+                ->searchable()
+                ->preload(),
             DatePicker::make('from_date')
                 ->label(trans('admin.LastUpdate') . ' من')
                 ->live()

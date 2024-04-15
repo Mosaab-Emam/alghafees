@@ -43,6 +43,7 @@ class QuickActions extends Widget implements HasForms, HasActions
                                 'السادة'
                             ])
                             ->searchable()
+                            ->preload()
                             ->required(),
                         TextInput::make('client_name')
                             ->label('اسم العميل')
@@ -72,6 +73,7 @@ class QuickActions extends Widget implements HasForms, HasActions
                             ->label(__('نوع العقار'))
                             ->options(Category::where('type', 1)->pluck('title', 'title'))
                             ->searchable()
+                            ->preload()
                             ->required(),
                         TextInput::make('groups.0.number')
                             ->label('رقم الصك')

@@ -89,6 +89,8 @@ class CompanyResource extends Resource
                                     ->label(__('admin.CompanyServices'))
                                     ->options(Content::companyService()->get()->pluck('title', 'id'))
                                     ->multiple()
+                                    ->searchable()
+                                    ->preload()
                                     ->required(),
                             ]),
                         Forms\Components\Textarea::make('description')

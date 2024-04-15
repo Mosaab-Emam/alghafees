@@ -229,6 +229,8 @@ class RateRequestResource extends Resource
                             ->label(__('admin.Status'))
                             ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::Statuses))
                             ->visible(can('rates.changeStatus'))
+                            ->searchable()
+                            ->preload()
                             ->required(),
                     ])
                     ->action(function (array $data, RateRequest $record): void {

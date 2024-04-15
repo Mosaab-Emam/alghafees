@@ -433,6 +433,8 @@ class EvaluationTransactionResource extends Resource
                         ->label(__('admin.region'))
                         ->options(City::pluck('name_ar', 'id'))
                         ->reactive()
+                        ->searchable()
+                        ->preload()
                         ->suffix(function (callable $get) {
                             $instrument_number = $get('instrument_number');
                             $new_city_id = $get('new_city_id');
@@ -502,17 +504,27 @@ class EvaluationTransactionResource extends Resource
                         }),
                     Forms\Components\Select::make('type_id')
                         ->label(__('admin.type_id'))
-                        ->options(Category::ApartmentType()->pluck('title', 'id')),
+                        ->options(Category::ApartmentType()->pluck('title', 'id'))
+                        ->searchable()
+                        ->preload(),
                     Forms\Components\Select::make('evaluation_company_id')
                         ->label(__('admin.evaluation_company_id'))
                         ->options(EvaluationCompany::pluck('title', 'id'))
+                        ->searchable()
+                        ->preload()
                         ->required(),
                     Forms\Components\Select::make('city_id')
                         ->label(__('admin.city'))
-                        ->options(Category::city()->pluck('title', 'id')),
+                        ->options(Category::city()->pluck('title', 'id'))
+                        ->searchable()
+                        ->preload()
+                        ->required(),
                     Forms\Components\Select::make('evaluation_employee_id')
                         ->label(__('admin.evaluation_employee_id'))
-                        ->options(EvaluationEmployee::pluck('title', 'id')),
+                        ->options(EvaluationEmployee::pluck('title', 'id'))
+                        ->searchable()
+                        ->preload()
+                        ->required(),
                     Forms\Components\DatePicker::make('date')
                         ->label(__('admin.date'))
                         ->native(false),
@@ -520,7 +532,9 @@ class EvaluationTransactionResource extends Resource
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('previewer_id')
                         ->label(__('admin.previewer'))
-                        ->options(EvaluationEmployee::all()->pluck('title', 'id')),
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id'))
+                        ->searchable()
+                        ->preload(),
                     Forms\Components\DateTimePicker::make('preview_date_time')
                         ->label(__('admin.evaluation-transactions.forms.preview_datetime'))
                         ->native(false),
@@ -529,7 +543,9 @@ class EvaluationTransactionResource extends Resource
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('income_id')
                         ->label(__('admin.income'))
-                        ->options(EvaluationEmployee::all()->pluck('title', 'id')),
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id'))
+                        ->searchable()
+                        ->preload(),
                     Forms\Components\DateTimePicker::make('income_date_time')
                         ->label(__('admin.evaluation-transactions.forms.income_datetime'))
                         ->native(false),
@@ -537,8 +553,9 @@ class EvaluationTransactionResource extends Resource
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('review_id')
                         ->label(__('admin.review'))
-                        ->options(EvaluationEmployee::all()
-                            ->pluck('title', 'id')),
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id'))
+                        ->searchable()
+                        ->preload(),
                     Forms\Components\DateTimePicker::make('review_date_time')
                         ->label(__('admin.evaluation-transactions.forms.review_datetime'))
                         ->native(false),

@@ -65,6 +65,8 @@ class UserResource extends Resource
                         ->required()
                         ->toggleable()
                         ->relationship('roles', 'title', fn (Builder $query): Builder => $query->orderBy('id', 'asc'))
+                        ->searchable()
+                        ->preload()
                 ]),
                 Forms\Components\TextInput::make('password')
                     ->label(__('admin.Password'))

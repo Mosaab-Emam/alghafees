@@ -74,24 +74,31 @@ class CompanyTransactions extends Page  implements HasTable
             ->filters([
                 Filter::make('all')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
-                        Select::make('status')->label(__('admin.Status'))
-                            ->options(array_map(fn($item) : string => __('admin.'.$item['title']),Constants::TransactionStatuses)),
-                        Select::make('city')->label(__('admin.city'))
-                            ->options(Category::City()->pluck('title','id'))
+                        DatePicker::make('created_from')
+                            ->label(__('من تاريخ')),
+                        DatePicker::make('created_until')
+                            ->label(__('قبل تاريخ')),
+                        Select::make('status')
+                            ->label(__('admin.Status'))
+                            ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::TransactionStatuses))
+                            ->searchable()
+                            ->preload(),
+                        Select::make('city')
+                            ->label(__('admin.city'))
+                            ->options(Category::City()->pluck('title', 'id'))
+                            ->searchable()
+                            ->preload(),
                     ])->baseQuery(function (Builder $query, array $data): Builder {
                         return $query->withCount(['transaction' => function ($q) use ($data) {
                             if ($data['status'] >= 0 && $data['status'] !== null)
                                 $q->where('status', $data['status']);
                             if ($data['city'] >= 0 && $data['city'] !== null)
                                 $q->where('city_id', $data['city']);
-                            if ( $data['created_from'] !== null)
+                            if ($data['created_from'] !== null)
                                 $q->whereDate('created_at', '>=', $data['created_from']);
                             if ($data['created_until'] !== null)
                                 $q->whereDate('created_at', '<=', $data['created_until']);
                         }]);
-
                     })->columnSpanFull()->columns([
                         'default' => 2,
                         'md' => 4
@@ -102,9 +109,10 @@ class CompanyTransactions extends Page  implements HasTable
                 // ...
             ])
             ->bulkActions([
-                BulkAction::make('export_excel')->label(__('تصدير اقفالات الشركات'))
+                BulkAction::make('export_excel')
+                    ->label(__('تصدير اقفالات الشركات'))
                     ->icon('heroicon-m-arrow-down-tray')
-                    ->action(function (\Illuminate\Support\Collection $records)  {
+                    ->action(function (\Illuminate\Support\Collection $records) {
 
                         $columns =  [
                             __('إجمالى المعاملات'),
@@ -116,11 +124,10 @@ class CompanyTransactions extends Page  implements HasTable
                             'title',
                         ];
 
-                        $exports = new GenericExport($records,$columns,$fields);
+                        $exports = new GenericExport($records, $columns, $fields);
                         $fileName = 'CompanyTransactions_' . time() . '.xlsx';
-                        return Excel::download($exports,$fileName);
+                        return Excel::download($exports, $fileName);
                     }),
             ]);
-
     }
 }

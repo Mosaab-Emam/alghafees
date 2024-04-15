@@ -53,16 +53,22 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label(__('admin.Title'))
+                Forms\Components\TextInput::make('title')
+                    ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\TextInput::make('position')->label(__('admin.Position'))
+                Forms\Components\TextInput::make('position')
+                    ->label(__('admin.Position'))
                     ->numeric()
                     ->default(0),
-                Forms\Components\Select::make('type')->label(__('admin.Categories'))
-                    ->options(array_map(fn($item) => __('admin.'.$item) ,Constants::Categories))
+                Forms\Components\Select::make('type')
+                    ->label(__('admin.Categories'))
+                    ->options(array_map(fn ($item) => __('admin.' . $item), Constants::Categories))
+                    ->searchable()
+                    ->preload()
                     ->required(),
-                Forms\Components\Toggle::make('active')->label(__('admin.Publish'))
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.Publish'))
                     ->required()->columnStart(1),
             ]);
     }
@@ -93,9 +99,8 @@ class CategoryResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_from']) {
+                        if (!$data['created_from']) {
                             return null;
                         }
 
@@ -111,7 +116,7 @@ class CategoryResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_until']) {
+                        if (!$data['created_until']) {
                             return null;
                         }
 
@@ -143,15 +148,14 @@ class CategoryResource extends Resource
                         $record->update($data);
                     })->modalHeading(__('admin.Edit'))->authorize(function (Category $record) {
                         $type = Constants::CategoriesPermissionsName[$record?->type];
-                        return can( $type . ".edit");
+                        return can($type . ".edit");
                     })
                     ->modalIcon('heroicon-m-pencil-square'),
                 Tables\Actions\DeleteAction::make()->authorize(function (Category $record) {
                     $type = Constants::CategoriesPermissionsName[$record?->type];
-                    return can( $type . ".delete");
+                    return can($type . ".delete");
                 })
             ]);
-
     }
 
     public static function getRelations(): array
@@ -166,7 +170,7 @@ class CategoryResource extends Resource
         return [
             'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
-           /* 'edit' => Pages\EditCategory::route('/{record}/edit'),*/
+            /* 'edit' => Pages\EditCategory::route('/{record}/edit'),*/
         ];
     }
 }

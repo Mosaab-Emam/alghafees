@@ -43,7 +43,9 @@ class EmployeeSummary extends Component implements HasForms
                         ->label($this->getEmployeeSelectLabel())
                         ->options(EvaluationEmployee::all()->pluck('title', 'id'))
                         ->default($employee->id ?? null)
-                        ->disabled($this->disabled),
+                        ->disabled($this->disabled)
+                        ->searchable()
+                        ->preload(),
                     Forms\Components\DateTimePicker::make('date_time')
                         ->label($this->getEmployeeDateTimeLabel())
                         ->native(false)

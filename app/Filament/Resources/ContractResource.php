@@ -86,6 +86,8 @@ class ContractResource extends Resource
                 Forms\Components\Select::make('type')
                     ->label(__('forms/contracts.type'))
                     ->options(Category::ApartmentType()->pluck('title', 'id'))
+                    ->searchable()
+                    ->preload()
                     ->required(),
                 Forms\Components\TextInput::make('area')
                     ->label(__('forms/contracts.area'))

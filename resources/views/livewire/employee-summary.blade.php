@@ -1,14 +1,5 @@
 @php
-$record = json_decode($record);
-
-if ($record) {
-if ($type == 'previewer')$employee = $record->previewer;
-else if ($type == 'income') $employee = $record->income;
-else if ($type == 'review') $employee = $record->review;
-else $employee = null;
-} else {
-$employee = null;
-}
+$employee = json_decode($employee);
 @endphp
 
 <div class="py-4 px-10 text-center">

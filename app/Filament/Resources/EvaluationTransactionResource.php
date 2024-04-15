@@ -198,14 +198,21 @@ class EvaluationTransactionResource extends Resource
                     ->icon('heroicon-o-chevron-left')
                     ->content(function ($record) {
                         $disabled = false;
+                        $employee = null;
+
                         if ($record->previewer) {
-                            $record_array = $record->toArray();
-                            $record_array['previewer']['stats'] = $record->previewer->stats;
+                            $employee = [
+                                'id' => $record->previewer->id,
+                                'record_id' => $record->id,
+                                'title' => $record->previewer->title,
+                                'date_time' => $record->preview_date_time,
+                                'stats' => $record->previewer->stats
+                            ];
 
                             return new HtmlString(Blade::render("@livewire(
                                 \App\Livewire\EmployeeSummary::class,
                                 [
-                                    'record' => '" . json_encode($record_array) . "',
+                                    'employee' => '" . json_encode($employee) . "',
                                     'type' => 'previewer',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -215,7 +222,7 @@ class EvaluationTransactionResource extends Resource
                         return new HtmlString(Blade::render("@livewire(
                                 \App\Livewire\EmployeeSummary::class,
                                 [
-                                    'record' => '" . json_encode($record) . "',
+                                    'employee' => '" . json_encode($employee) . "',
                                     'type' => 'previewer',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -234,14 +241,21 @@ class EvaluationTransactionResource extends Resource
                     ->icon('heroicon-o-chevron-left')
                     ->content(function ($record) {
                         $disabled = !$record->previewer_id;
+                        $employee = null;
+
                         if ($record->income) {
-                            $record_array = $record->toArray();
-                            $record_array['income']['stats'] = $record->income->stats;
+                            $employee = [
+                                'id' => $record->income->id,
+                                'record_id' => $record->id,
+                                'title' => $record->income->title,
+                                'date_time' => $record->income_date_time,
+                                'stats' => $record->income->stats
+                            ];
 
                             return new HtmlString(Blade::render("@livewire(
                                 \App\Livewire\EmployeeSummary::class,
                                 [
-                                    'record' => '" . json_encode($record_array) . "',
+                                    'employee' => '" . json_encode($employee) . "',
                                     'type' => 'income',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -251,7 +265,7 @@ class EvaluationTransactionResource extends Resource
                         return new HtmlString(Blade::render("@livewire(
                                 \App\Livewire\EmployeeSummary::class,
                                 [
-                                    'record' => '" . json_encode($record) . "',
+                                    'employee' => '" . json_encode($employee) . "',
                                     'type' => 'income',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -269,14 +283,21 @@ class EvaluationTransactionResource extends Resource
                     ->icon('heroicon-o-chevron-left')
                     ->content(function ($record) {
                         $disabled = !$record->previewer_id || !$record->income_id;
+                        $employee = null;
+
                         if ($record->review) {
-                            $record_array = $record->toArray();
-                            $record_array['review']['stats'] = $record->review->stats;
+                            $employee = [
+                                'id' => $record->review->id,
+                                'record_id' => $record->id,
+                                'title' => $record->review->title,
+                                'date_time' => $record->review_date_time,
+                                'stats' => $record->review->stats
+                            ];
 
                             return new HtmlString(Blade::render("@livewire(
                                 \App\Livewire\EmployeeSummary::class,
                                 [
-                                    'record' => '" . json_encode($record_array) . "',
+                                    'employee' => '" . json_encode($employee) . "',
                                     'type' => 'review',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -286,7 +307,7 @@ class EvaluationTransactionResource extends Resource
                         return new HtmlString(Blade::render("@livewire(
                                 \App\Livewire\EmployeeSummary::class,
                                 [
-                                    'record' => '" . json_encode($record) . "',
+                                    'employee' => '" . json_encode($employee) . "',
                                     'type' => 'review',
                                     'disabled' => '" . $disabled . "',
                                 ]

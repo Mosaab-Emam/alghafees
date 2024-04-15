@@ -16,14 +16,14 @@ class EmployeeSummary extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public $record;
+    public $employee;
     public $type;
     public bool $disabled;
     public ?array $data = [];
 
-    public function mount($record, $type, $disabled)
+    public function mount($employee, $type, $disabled)
     {
-        $this->record = $record;
+        $this->employee = $employee == 'null' ? null : $employee;
         $this->type = $type;
         $this->disabled = $disabled;
 
@@ -33,8 +33,11 @@ class EmployeeSummary extends Component implements HasForms
 
     public function form(Form $form): Form
     {
-        $employee = $this->getEmployee();
-        $date_time = $this->getEmployeeDateTime();
+        $employee = $this->employee ? json_decode($this->employee) : null;
+        $date_time = $this->employee ? json_decode($this->employee)->date_time : null;
+
+        if ($employee)
+            error_log($employee->id);
 
         return $form
             ->schema([
@@ -55,33 +58,6 @@ class EmployeeSummary extends Component implements HasForms
             ])->statePath('data');
     }
 
-    private function getEmployee()
-    {
-        try {
-            if ($this->type == 'previewer')
-                return json_decode($this->record)->previewer;
-
-            if ($this->type == 'income')
-                return json_decode($this->record)->income;
-
-            if ($this->type == 'reviewer')
-                return json_decode($this->record)->review;
-        } catch (\Throwable $th) {
-            return null;
-        }
-    }
-
-    private function getEmployeeDateTime()
-    {
-        try {
-            if ($this->type == 'previewer') return json_decode($this->record)->preview_date_time;
-            if ($this->type == 'income') return json_decode($this->record)->income_date_time;
-            if ($this->type == 'review') return json_decode($this->record)->review_date_time;
-        } catch (\Throwable $th) {
-            return null;
-        }
-    }
-
     private function getEmployeeSelectLabel()
     {
         if ($this->type == 'previewer') return __('admin.previewer');
@@ -98,7 +74,7 @@ class EmployeeSummary extends Component implements HasForms
 
     public function create(): void
     {
-        $record = EvaluationTransaction::find(json_decode($this->record)->id);
+        $record = EvaluationTransaction::find(json_decode($this->employee)->record_id);
 
         if ($this->type == 'previewer') {
             $record->previewer_id = $this->form->getState()['id'];
@@ -153,6 +129,6 @@ class EmployeeSummary extends Component implements HasForms
 
     public function render()
     {
-        return view('livewire.employee-summary', ['record', json_decode($this->record)]);
+        return view('livewire.employee-summary', ['employee' => json_decode($this->employee)]);
     }
 }

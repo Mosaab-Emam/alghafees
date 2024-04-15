@@ -2,23 +2,16 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Pages\Settings;
-use App\Filament\Resources\UserResource;
-use App\Http\Controllers\Admin\LoginController;
+use App\Filament\Widgets\QuickActions;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
-use Filament\Navigation\NavigationBuilder;
 use Filament\Navigation\NavigationGroup;
-use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
-use Filament\Support\Assets\Css;
-use Filament\Support\Colors\Color;
-use Filament\Tables\View\TablesRenderHook;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -28,8 +21,6 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use LaraZeus\Sky\SkyPlugin;
-use Illuminate\Contracts\View\View;
-
 
 class DashboardPanelProvider extends PanelProvider
 {
@@ -58,7 +49,10 @@ class DashboardPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([])
+            ->widgets([
+                Widgets\AccountWidget::class,
+                QuickActions::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

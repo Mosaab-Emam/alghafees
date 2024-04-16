@@ -93,7 +93,9 @@ class ClientResource extends Resource
                     ->query(fn (Builder $query): Builder => $query->where('active', true)),
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
+                        DatePicker::make('created_from')
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -110,7 +112,9 @@ class ClientResource extends Resource
                     }),
                 Filter::make('created_until')
                     ->form([
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
+                        DatePicker::make('created_until')
+                            ->label(__('قبل تاريخ'))
+                            ->native(false),
                     ])->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(

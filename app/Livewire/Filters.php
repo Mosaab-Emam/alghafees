@@ -30,14 +30,15 @@ class Filters extends Widget implements HasForms
                         ->live()
                         ->afterStateUpdated(function (Set $set, $state) {
                             $this->dispatch('updateFromDate', from: $state);
-                        }),
+                        })
+                        ->native(false),
                     DatePicker::make('to')->label('الي تاريخ')
                         ->live()
                         ->afterStateUpdated(function (Set $set, $state) {
                             $this->dispatch('updateToDate', to: $state);
                         })
+                        ->native(false)
                 ])->columns(3),
             ]);
     }
 }
-

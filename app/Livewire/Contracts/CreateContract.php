@@ -82,6 +82,7 @@ class CreateContract extends Component implements HasForms
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('deed_issue_date')
                     ->label(__('forms/contracts.deed_issue_date'))
+                    ->native(false)
                     ->required(),
                 Forms\Components\TextInput::make('number_of_assets')
                     ->label(__('forms/contracts.number_of_assets'))

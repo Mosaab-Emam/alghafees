@@ -117,7 +117,8 @@ class UserResource extends Resource
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from')
-                            ->label(__('من تاريخ')),
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -135,7 +136,8 @@ class UserResource extends Resource
                 Filter::make('created_until')
                     ->form([
                         DatePicker::make('created_until')
-                            ->label(__('قبل تاريخ')),
+                            ->label(__('قبل تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

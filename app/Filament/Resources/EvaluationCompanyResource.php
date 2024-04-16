@@ -113,7 +113,9 @@ class EvaluationCompanyResource extends Resource
                     }),
                 Filter::make('created_until')
                     ->form([
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
+                        DatePicker::make('created_until')
+                            ->label(__('قبل تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

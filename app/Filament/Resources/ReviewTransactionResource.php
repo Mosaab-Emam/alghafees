@@ -13,7 +13,6 @@ use App\Models\Evaluation\EvaluationTransaction;
 use App\Models\Evaluation\EvaluationTransaction as Transaction;
 use Excel;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -33,7 +32,7 @@ class ReviewTransactionResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return Transaction::Recent()->where('status',3);
+        return Transaction::Recent()->where('status', 3);
     }
 
     public static function getNavigationGroup(): ?string
@@ -58,26 +57,26 @@ class ReviewTransactionResource extends Resource
 
     public static function table(Table $table): Table
     {
-      $table = EvaluationTransactionResource::table($table);
-      $table->actions([
-          Tables\Actions\ViewAction::make()
-              ->url(fn ($record) : string => EvaluationTransactionResource::getUrl('view',['record' => $record]))
-              ->authorize(can('evaluation-transactions.show')),
-          Tables\Actions\EditAction::make()
-              ->url(fn ($record) : string => EvaluationTransactionResource::getUrl('edit',['record' => $record]))
-              ->authorize(can('evaluation-transactions.edit')),
-          Tables\Actions\DeleteAction::make()
-              ->authorize(can('evaluation-transactions.delete'))
-      ]);
-      return $table;
+        $table = EvaluationTransactionResource::table($table);
+        $table->actions([
+            Tables\Actions\ViewAction::make()
+                ->url(fn ($record): string => EvaluationTransactionResource::getUrl('view', ['record' => $record]))
+                ->authorize(can('evaluation-transactions.show')),
+            Tables\Actions\EditAction::make()
+                ->url(fn ($record): string => EvaluationTransactionResource::getUrl('edit', ['record' => $record]))
+                ->authorize(can('evaluation-transactions.edit')),
+            Tables\Actions\DeleteAction::make()
+                ->authorize(can('evaluation-transactions.delete'))
+        ]);
+        return $table;
     }
 
     public static function getPages(): array
     {
         return [
             'index' => ListReviewTransactions::route('/'),
-         /*   'create' => CreateEvaluationTransaction::route('/create'),*/
-       /*     'edit' => Pages\EditReviewTransaction::route('/{record}/edit'),*/
+            /*   'create' => CreateEvaluationTransaction::route('/create'),*/
+            /*     'edit' => Pages\EditReviewTransaction::route('/{record}/edit'),*/
         ];
     }
 }

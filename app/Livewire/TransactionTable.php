@@ -109,10 +109,12 @@ final class TransactionTable extends PowerGridComponent implements HasForms
             DatePicker::make('from_date')
                 ->label(trans('admin.LastUpdate') . ' من')
                 ->live()
+                ->native(false)
                 ->hidden(fn () => $this->is_daily),
             DatePicker::make('to_date')
                 ->label(trans('admin.LastUpdate') . ' الي')
                 ->live()
+                ->native(false)
                 ->hidden(fn () => $this->is_daily)
         ])->statePath('my_filters')->columns(5);
     }

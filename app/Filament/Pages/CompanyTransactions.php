@@ -72,9 +72,11 @@ class CompanyTransactions extends Page  implements HasTable
                 Filter::make('all')
                     ->form([
                         DatePicker::make('created_from')
-                            ->label(__('من تاريخ')),
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                         DatePicker::make('created_until')
-                            ->label(__('قبل تاريخ')),
+                            ->label(__('قبل تاريخ'))
+                            ->native(false),
                         Select::make('status')
                             ->label(__('admin.Status'))
                             ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::TransactionStatuses))

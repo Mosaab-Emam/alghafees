@@ -79,8 +79,7 @@ class CompanyServiceResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('#'),
                 Tables\Columns\ImageColumn::make('image')->label(__('admin.Image'))
-                    ->defaultImageUrl(url('/images/default.png'))->circular()
-                ,
+                    ->defaultImageUrl(url('/images/default.png'))->circular(),
                 Tables\Columns\TextColumn::make('title')->label(__('admin.Title'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('position')->label(__('admin.Position'))
@@ -95,7 +94,9 @@ class CompanyServiceResource extends Resource
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from')->label(__('من تاريخ')),
+                        DatePicker::make('created_from')
+                            ->label(__('من تاريخ'))
+                            ->native(false),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -103,9 +104,8 @@ class CompanyServiceResource extends Resource
                                 $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
-
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_from']) {
+                        if (!$data['created_from']) {
                             return null;
                         }
 
@@ -113,7 +113,9 @@ class CompanyServiceResource extends Resource
                     }),
                 Filter::make('created_until')
                     ->form([
-                        DatePicker::make('created_until')->label(__('قبل تاريخ')),
+                        DatePicker::make('created_until')
+                            ->label(__('قبل تاريخ'))
+                            ->native(false),
                     ])->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
@@ -121,7 +123,7 @@ class CompanyServiceResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })->indicateUsing(function (array $data): ?string {
-                        if (! $data['created_until']) {
+                        if (!$data['created_until']) {
                             return null;
                         }
 

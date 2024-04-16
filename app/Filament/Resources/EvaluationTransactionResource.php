@@ -100,6 +100,7 @@ class EvaluationTransactionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->heading(null)
             ->columns([
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))
@@ -400,29 +401,21 @@ class EvaluationTransactionResource extends Resource
                     ->searchable()
                     ->preload()
                     ->relationship('company', 'title'),
-                Tables\Filters\SelectFilter::make('previewer')
-                    ->label(__('admin.previewer'))
-                    ->multiple()
-                    ->searchable()
-                    ->preload()
-                    ->relationship('previewer', 'title', function (Builder $query) {
-                        return $query->orderBy('id');
-                    }),
-                Tables\Filters\SelectFilter::make('review')
-                    ->label(__('admin.review'))
-                    ->multiple()
-                    ->searchable()
-                    ->preload()
-                    ->relationship('review', 'title', function (Builder $query) {
-                        return $query->orderBy('id');
-                    }),
-                Tables\Filters\SelectFilter::make('income')
-                    ->label(__('admin.income'))
-                    ->multiple()
-                    ->searchable()
-                    ->preload()
-                    ->relationship('income', 'title', function (Builder $query) {
-                        return $query->orderBy('id');
+                Tables\Filters\Filter::make('employee')
+                    ->label(__('admin.Employee'))
+                    ->form([
+                        Forms\Components\Select::make('employee')
+                            ->label(__('admin.Employee'))
+                            ->options(EvaluationEmployee::pluck('title', 'id'))
+                            ->searchable()
+                            ->preload(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (!$data['employee']) return $query;
+                        return $query
+                            ->where('previewer_id', $data['employee'])
+                            ->orWhere('income_id', $data['employee'])
+                            ->orWhere('review_id', $data['employee']);
                     }),
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label(__('admin.city_id'))

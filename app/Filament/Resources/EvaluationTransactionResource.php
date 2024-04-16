@@ -100,7 +100,12 @@ class EvaluationTransactionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->heading('ملخص الموظف')
+            // ->heading('ملخص الموظف')
+            ->heading(function () {
+                $employee_id = request()->get('tableFilters')['employee']['employee'] ?? null;
+                if (!$employee_id) return null;
+                return 'ملخص الموظف';
+            })
             ->description(function () {
                 $employee_id = request()->get('tableFilters')['employee']['employee'] ?? null;
                 if (!$employee_id) return null;

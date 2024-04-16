@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Carbon\Carbon;
 use Filament\Forms;
@@ -14,7 +13,6 @@ use Filament\Tables;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserResource extends Resource
@@ -43,37 +41,37 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Grid::make(4)->schema([
-                    Forms\Components\TextInput::make('name')
-                        ->unique(fn (string $context) => $context === 'create')
-                        ->label(__('admin.Name'))
-                        ->maxLength(255)
-                        ->required(),
-                    Forms\Components\TextInput::make('email')->label(__('admin.E-mail'))
-                        ->email()
-                        ->unique(fn (string $context) => $context === 'create')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('mobile')
-                        ->label(__('admin.Mobile'))
-                        ->maxLength(255),
-                    Tables\Columns\IconColumn::make('active')
-                        ->label(__('admin.Publish'))
-                        ->boolean(),
-                    Forms\Components\Select::make('roles')
-                        ->label(__('admin.Role'))
-                        ->required()
-                        ->toggleable()
-                        ->relationship('roles', 'title', fn (Builder $query): Builder => $query->orderBy('id', 'asc'))
-                        ->searchable()
-                        ->preload()
-                ]),
+                Forms\Components\TextInput::make('name')
+                    ->unique(ignoreRecord: true)
+                    ->label(__('admin.Name'))
+                    ->maxLength(255)
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->label(__('admin.E-mail'))
+                    ->email()
+                    ->unique(ignoreRecord: true)
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('mobile')
+                    ->label(__('admin.Mobile'))
+                    ->maxLength(255),
+                Forms\Components\Select::make('roles')
+                    ->label(__('admin.Role'))
+                    ->required()
+                    ->relationship('roles', 'title', fn (Builder $query): Builder => $query->orderBy('id', 'asc'))
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.Publish'))
+                    ->required()
+                    ->columnStart(1),
                 Forms\Components\TextInput::make('password')
                     ->label(__('admin.Password'))
                     ->password()
                     ->required(fn (string $context) => $context === 'create')
                     ->confirmed()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnStart(1),
                 Forms\Components\TextInput::make('password_confirmation')
                     ->label(__('admin.PasswordConfirmation'))
                     ->password()
@@ -89,7 +87,6 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
-
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')

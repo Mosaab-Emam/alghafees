@@ -62,6 +62,11 @@ class EvaluationTransactionResource extends Resource
         return parent::getEloquentQuery()->recent();
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('is_iterated', true)->count();
+    }
+
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist

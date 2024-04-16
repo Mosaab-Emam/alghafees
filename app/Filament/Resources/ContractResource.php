@@ -37,6 +37,11 @@ class ContractResource extends Resource
         return __('resources/contract.plural');
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::where('signature', null)->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form

@@ -100,7 +100,14 @@ class EvaluationTransactionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->heading(null)
+            ->heading('ملخص الموظف')
+            ->description(function () {
+                $employee_id = request()->get('tableFilters')['employee']['employee'] ?? null;
+                if (!$employee_id) return null;
+
+                $employee = EvaluationEmployee::find($employee_id);
+                return "المعاملات: " . $employee->stats['total'] . " المعاينات: " . $employee->stats['previews'] . " الإدخال: " . $employee->stats['entries'] . " المراجعة: " . $employee->stats['reviews'];
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))

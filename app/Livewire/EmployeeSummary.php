@@ -36,9 +36,6 @@ class EmployeeSummary extends Component implements HasForms
         $employee = $this->employee ? json_decode($this->employee) : null;
         $date_time = $this->employee ? json_decode($this->employee)->date_time : null;
 
-        if ($employee)
-            error_log($employee->id);
-
         return $form
             ->schema([
                 Forms\Components\Section::make()->schema([

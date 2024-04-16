@@ -17,13 +17,15 @@ class EmployeeSummary extends Component implements HasForms
     use InteractsWithForms;
 
     public $employee;
+    public $record_id;
     public $type;
     public bool $disabled;
     public ?array $data = [];
 
-    public function mount($employee, $type, $disabled)
+    public function mount($employee, $record_id, $type, $disabled)
     {
         $this->employee = $employee == 'null' ? null : $employee;
+        $this->record_id = $record_id;
         $this->type = $type;
         $this->disabled = $disabled;
 
@@ -49,8 +51,9 @@ class EmployeeSummary extends Component implements HasForms
                     Forms\Components\DateTimePicker::make('date_time')
                         ->label($this->getEmployeeDateTimeLabel())
                         ->native(false)
-                        ->default($date_time ?? null)
-                        ->disabled($this->disabled),
+                        // ->default($date_time ?? null)
+                        // ->disabled($this->disabled),
+                        ->disabled(),
                 ])
             ])->statePath('data');
     }
@@ -71,11 +74,11 @@ class EmployeeSummary extends Component implements HasForms
 
     public function create(): void
     {
-        $record = EvaluationTransaction::find(json_decode($this->employee)->record_id);
+        $record = EvaluationTransaction::find($this->record_id);
 
         if ($this->type == 'previewer') {
             $record->previewer_id = $this->form->getState()['id'];
-            $record->preview_date_time = $this->form->getState()['date_time'];
+            // $record->preview_date_time = $this->form->getState()['date_time'];
             if ($this->form->getState()['id'] == null) {
                 $record->income_id = null;
                 $record->review_id = null;
@@ -91,7 +94,7 @@ class EmployeeSummary extends Component implements HasForms
 
         if ($this->type == 'income') {
             $record->income_id = $this->form->getState()['id'];
-            $record->income_date_time = $this->form->getState()['date_time'];
+            // $record->income_date_time = $this->form->getState()['date_time'];
             if ($this->form->getState()['id'] == null)
                 $record->review_id = null;
 
@@ -105,7 +108,7 @@ class EmployeeSummary extends Component implements HasForms
 
         if ($this->type == 'review') {
             $record->review_id = $this->form->getState()['id'];
-            $record->review_date_time = $this->form->getState()['date_time'];
+            // $record->review_date_time = $this->form->getState()['date_time'];
             if ($record->review_id != null) {
                 $record->status = 4;
 

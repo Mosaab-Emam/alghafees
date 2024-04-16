@@ -218,6 +218,7 @@ class EvaluationTransactionResource extends Resource
                                 \App\Livewire\EmployeeSummary::class,
                                 [
                                     'employee' => '" . json_encode($employee) . "',
+                                    'record_id' => $record->id,
                                     'type' => 'previewer',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -228,6 +229,7 @@ class EvaluationTransactionResource extends Resource
                                 \App\Livewire\EmployeeSummary::class,
                                 [
                                     'employee' => '" . json_encode($employee) . "',
+                                    'record_id' => $record->id,
                                     'type' => 'previewer',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -261,6 +263,7 @@ class EvaluationTransactionResource extends Resource
                                 \App\Livewire\EmployeeSummary::class,
                                 [
                                     'employee' => '" . json_encode($employee) . "',
+                                    'record_id' => $record->id,
                                     'type' => 'income',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -271,6 +274,7 @@ class EvaluationTransactionResource extends Resource
                                 \App\Livewire\EmployeeSummary::class,
                                 [
                                     'employee' => '" . json_encode($employee) . "',
+                                    'record_id' => $record->id,
                                     'type' => 'income',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -303,6 +307,7 @@ class EvaluationTransactionResource extends Resource
                                 \App\Livewire\EmployeeSummary::class,
                                 [
                                     'employee' => '" . json_encode($employee) . "',
+                                    'record_id' => $record->id,
                                     'type' => 'review',
                                     'disabled' => '" . $disabled . "',
                                 ]
@@ -313,6 +318,7 @@ class EvaluationTransactionResource extends Resource
                                 \App\Livewire\EmployeeSummary::class,
                                 [
                                     'employee' => '" . json_encode($employee) . "',
+                                    'record_id' => $record->id,
                                     'type' => 'review',
                                     'disabled' => '" . $disabled . "',
                                 ]

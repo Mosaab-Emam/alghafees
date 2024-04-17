@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationEmployeeResource\Pages;
 use App\Models\Evaluation\EvaluationEmployee;
+use App\Models\Scopes\ActiveScope;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -44,7 +45,7 @@ class EvaluationEmployeeResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->orderBy('position');
+        return static::getModel()::withoutGlobalScope(ActiveScope::class)->orderBy('position');
     }
 
 

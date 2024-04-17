@@ -14,7 +14,10 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use App\Models\Scopes\ActiveScope;
 
+#[ScopedBy([ActiveScope::class])]
 class EvaluationCompanyResource extends Resource
 {
     protected static ?string $model = EvaluationCompany::class;
@@ -45,7 +48,7 @@ class EvaluationCompanyResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->orderBy('position');
+        return static::getModel()::withoutGlobalScope(ActiveScope::class)->orderBy('position');
     }
 
     public static function form(Form $form): Form

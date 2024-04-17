@@ -4,7 +4,10 @@ namespace App\Models\Evaluation;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Model;
+use App\Models\Scopes\ActiveScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([ActiveScope::class])]
 class EvaluationEmployee extends Model
 {
     use HasFactory;

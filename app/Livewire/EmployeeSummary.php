@@ -48,6 +48,9 @@ class EmployeeSummary extends Component implements HasForms
                         ->disabled($this->disabled)
                         ->searchable()
                         ->preload(),
+                    Forms\Components\Checkbox::make('apply_employee')
+                        ->label(__('actions.apply_employee'))
+                        ->disabled($this->disabled),
                     Forms\Components\DateTimePicker::make('date_time')
                         ->label($this->getEmployeeDateTimeLabel())
                         ->native(false)
@@ -75,10 +78,17 @@ class EmployeeSummary extends Component implements HasForms
     public function create(): void
     {
         $record = EvaluationTransaction::find($this->record_id);
+        $apply_employee = $this->form->getState()['apply_employee'];
 
         if ($this->type == 'previewer') {
             $record->previewer_id = $this->form->getState()['id'];
             // $record->preview_date_time = $this->form->getState()['date_time'];
+
+            if ($apply_employee) {
+                $record->income_id = $this->form->getState()['id'];
+                $record->review_id = $this->form->getState()['id'];
+            }
+
             if ($this->form->getState()['id'] == null) {
                 $record->income_id = null;
                 $record->review_id = null;
@@ -95,6 +105,12 @@ class EmployeeSummary extends Component implements HasForms
         if ($this->type == 'income') {
             $record->income_id = $this->form->getState()['id'];
             // $record->income_date_time = $this->form->getState()['date_time'];
+
+            if ($apply_employee) {
+                $record->previewer_id = $this->form->getState()['id'];
+                $record->review_id = $this->form->getState()['id'];
+            }
+
             if ($this->form->getState()['id'] == null)
                 $record->review_id = null;
 
@@ -109,6 +125,12 @@ class EmployeeSummary extends Component implements HasForms
         if ($this->type == 'review') {
             $record->review_id = $this->form->getState()['id'];
             // $record->review_date_time = $this->form->getState()['date_time'];
+
+            if ($apply_employee) {
+                $record->previewer_id = $this->form->getState()['id'];
+                $record->income_id = $this->form->getState()['id'];
+            }
+
             if ($record->review_id != null) {
                 $record->status = 4;
 

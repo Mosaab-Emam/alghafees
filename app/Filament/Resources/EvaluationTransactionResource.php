@@ -12,8 +12,10 @@ use App\Models\Evaluation\EvaluationTransaction;
 use App\Models\Transaction_files;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ViewEntry;
 use Filament\Infolists\Infolist;
@@ -574,7 +576,17 @@ class EvaluationTransactionResource extends Resource
                         ->label(__('admin.previewer'))
                         ->options(EvaluationEmployee::all()->pluck('title', 'id'))
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->hintAction(
+                            Action::make('apply_employee')
+                                ->label(__('actions.apply_employee'))
+                                ->icon('heroicon-o-check')
+                                ->action(function (Set $set, $state) {
+                                    $set('previewer_id', $state);
+                                    $set('income_id', $state);
+                                    $set('review_id', $state);
+                                })
+                        ),
                     Forms\Components\DateTimePicker::make('preview_date_time')
                         ->label(__('admin.evaluation-transactions.forms.preview_datetime'))
                         ->native(false)
@@ -586,7 +598,17 @@ class EvaluationTransactionResource extends Resource
                         ->label(__('admin.income'))
                         ->options(EvaluationEmployee::all()->pluck('title', 'id'))
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->hintAction(
+                            Action::make('apply_employee')
+                                ->label(__('actions.apply_employee'))
+                                ->icon('heroicon-o-check')
+                                ->action(function (Set $set, $state) {
+                                    $set('previewer_id', $state);
+                                    $set('income_id', $state);
+                                    $set('review_id', $state);
+                                })
+                        ),
                     Forms\Components\DateTimePicker::make('income_date_time')
                         ->label(__('admin.evaluation-transactions.forms.income_datetime'))
                         ->native(false)
@@ -597,7 +619,17 @@ class EvaluationTransactionResource extends Resource
                         ->label(__('admin.review'))
                         ->options(EvaluationEmployee::all()->pluck('title', 'id'))
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->hintAction(
+                            Action::make('apply_employee')
+                                ->label(__('actions.apply_employee'))
+                                ->icon('heroicon-o-check')
+                                ->action(function (Set $set, $state) {
+                                    $set('previewer_id', $state);
+                                    $set('income_id', $state);
+                                    $set('review_id', $state);
+                                })
+                        ),
                     Forms\Components\DateTimePicker::make('review_date_time')
                         ->label(__('admin.evaluation-transactions.forms.review_datetime'))
                         ->native(false)

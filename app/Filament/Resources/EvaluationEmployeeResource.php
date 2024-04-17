@@ -42,6 +42,11 @@ class EvaluationEmployeeResource extends Resource
         return __('admin.EvaluationEmployees');
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('position');
+    }
+
 
     public static function form(Form $form): Form
     {
@@ -69,23 +74,17 @@ class EvaluationEmployeeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('position')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('#')
-                    ->toggleable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('admin.Title'))
                     ->searchable()
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('position')
-                    ->label(__('admin.Position'))
-                    ->sortable()
-                    ->toggleable(),
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('admin.Publish'))
                     ->boolean()
-                    ->toggleable(),
+                    ->toggleable()
+                    ->columnStart(1),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label(__('admin.CreationDate'))
                     ->dateTime()

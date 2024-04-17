@@ -43,7 +43,10 @@ class EvaluationCompanyResource extends Resource
         return __('admin.EvaluationCompanies');
     }
 
-
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('position');
+    }
 
     public static function form(Form $form): Form
     {
@@ -53,32 +56,21 @@ class EvaluationCompanyResource extends Resource
                     ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\TextInput::make('position')
-                    ->label(__('admin.Position'))
-                    ->numeric()
-                    ->default(0)
-                    ->required(),
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
-                    ->required(),
+                    ->required()
+                    ->columnStart(1),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('position')
             ->columns([
-                Tables\Columns\TextColumn::make('id')
-                    ->label('#')
-                    ->toggleable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('admin.Title'))
                     ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('position')
-                    ->label(__('admin.Position'))
-                    ->sortable()
                     ->toggleable(),
                 Tables\Columns\IconColumn::make('active')
                     ->label(__('admin.Publish'))

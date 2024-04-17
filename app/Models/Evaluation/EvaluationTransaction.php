@@ -274,8 +274,7 @@ class EvaluationTransaction extends Model
 
     public function getHasRepeatedAddressAttribute()
     {
-        $count = EvaluationTransaction::where('instrument_number', $this->instrument_number)
-            ->where('new_city_id', $this->new_city_id)
+        $count = EvaluationTransaction::where('new_city_id', $this->new_city_id)
             ->where('plan_no', $this->plan_no)
             ->where('plot_no', $this->plot_no)
             ->count();

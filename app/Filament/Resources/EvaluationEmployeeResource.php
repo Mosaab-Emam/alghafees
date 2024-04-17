@@ -56,11 +56,6 @@ class EvaluationEmployeeResource extends Resource
                     ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\TextInput::make('position')
-                    ->label(__('admin.Position'))
-                    ->numeric()
-                    ->default(0)
-                    ->required(),
                 Forms\Components\TextInput::make('price')
                     ->label(__('admin.Price'))
                     ->numeric(),

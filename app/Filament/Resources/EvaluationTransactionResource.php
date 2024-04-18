@@ -400,14 +400,6 @@ class EvaluationTransactionResource extends Resource
                         if (!$data['to']) return null;
                         return __('resources/evaluation-transaction.to') . ' ' . \Carbon\Carbon::parse($data['to'])->toDateString();
                     }),
-                Tables\Filters\SelectFilter::make('status')
-                    ->label(__('admin.Status'))
-                    ->options(array_map(
-                        fn ($item): string => __('admin.' . $item['title']),
-                        Constants::TransactionStatuses
-                    ))
-                    ->preload()
-                    ->searchable(),
                 Tables\Filters\SelectFilter::make('company')
                     ->label(__('admin.company'))
                     ->multiple()

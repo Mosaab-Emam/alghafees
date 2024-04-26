@@ -155,13 +155,6 @@
       'Core' => 'LaraZeus\\Core\\CoreFacade',
     ),
   ),
-  'lara-zeus/popover' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'LaraZeus\\Popover\\PopoverServiceProvider',
-    ),
-  ),
   'lara-zeus/sky' => 
   array (
     'providers' => 

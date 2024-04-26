@@ -19,7 +19,6 @@
         "flowframe/laravel-trend": "^0.1.5",
         "geniusts/hijri-dates": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
-        "lara-zeus/popover": "^1.1",
         "lara-zeus/sky": "^3.4",
         "laracasts/flash": "^3.2",
         "laravel/framework": "^10.0",

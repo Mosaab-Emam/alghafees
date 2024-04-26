@@ -205,140 +205,30 @@ class EvaluationTransactionResource extends Resource
                     ->suffix(fn ($record) => $record->company_fundoms ? 'ر.س' : '')
                     ->badge(fn ($record) => !$record->company_fundoms)
                     ->color(fn ($record) => !$record->company_fundoms ? 'danger' : ''),
-                \LaraZeus\Popover\Tables\PopoverColumn::make('previewer.title')
+                Tables\Columns\TextColumn::make('previewer.title')
                     ->label(__('resources/evaluation-transaction.previewer'))
+                    ->toggleable()
                     ->sortable()
                     ->searchable()
-                    ->toggleable()
-                    ->trigger('click')
-                    ->placement('left')
-                    ->offset(10)
-                    ->popOverMaxWidth('none')
-                    ->icon('heroicon-o-chevron-left')
-                    ->content(function ($record) {
-                        $disabled = false;
-                        $employee = null;
-
-                        if ($record->previewer) {
-                            $employee = [
-                                'id' => $record->previewer->id,
-                                'record_id' => $record->id,
-                                'title' => $record->previewer->title,
-                                'date_time' => $record->preview_date_time,
-                                'stats' => $record->previewer->stats
-                            ];
-
-                            return new HtmlString(Blade::render("@livewire(
-                                \App\Livewire\EmployeeSummary::class,
-                                [
-                                    'employee' => '" . json_encode($employee) . "',
-                                    'record_id' => $record->id,
-                                    'type' => 'previewer',
-                                    'disabled' => '" . $disabled . "',
-                                ]
-                            )"));
-                        }
-
-                        return new HtmlString(Blade::render("@livewire(
-                                \App\Livewire\EmployeeSummary::class,
-                                [
-                                    'employee' => '" . json_encode($employee) . "',
-                                    'record_id' => $record->id,
-                                    'type' => 'previewer',
-                                    'disabled' => '" . $disabled . "',
-                                ]
-                            )"));
-                    })
-                    ->default(__('resources/evaluation-transaction.unset')),
-                \LaraZeus\Popover\Tables\PopoverColumn::make('income.title')
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->previewer)
+                    ->color(fn ($record) => !$record->previewer ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('income.title')
                     ->label(__('resources/evaluation-transaction.entry_employee'))
+                    ->toggleable()
                     ->sortable()
                     ->searchable()
-                    ->toggleable()
-                    ->trigger('click')
-                    ->placement('left')
-                    ->offset(10)
-                    ->popOverMaxWidth('none')
-                    ->icon('heroicon-o-chevron-left')
-                    ->content(function ($record) {
-                        $disabled = !$record->previewer_id;
-                        $employee = null;
-
-                        if ($record->income) {
-                            $employee = [
-                                'id' => $record->income->id,
-                                'record_id' => $record->id,
-                                'title' => $record->income->title,
-                                'date_time' => $record->income_date_time,
-                                'stats' => $record->income->stats
-                            ];
-
-                            return new HtmlString(Blade::render("@livewire(
-                                \App\Livewire\EmployeeSummary::class,
-                                [
-                                    'employee' => '" . json_encode($employee) . "',
-                                    'record_id' => $record->id,
-                                    'type' => 'income',
-                                    'disabled' => '" . $disabled . "',
-                                ]
-                            )"));
-                        }
-
-                        return new HtmlString(Blade::render("@livewire(
-                                \App\Livewire\EmployeeSummary::class,
-                                [
-                                    'employee' => '" . json_encode($employee) . "',
-                                    'record_id' => $record->id,
-                                    'type' => 'income',
-                                    'disabled' => '" . $disabled . "',
-                                ]
-                            )"));
-                    })
-                    ->default(__('resources/evaluation-transaction.unset')),
-                \LaraZeus\Popover\Tables\PopoverColumn::make('review.title')
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->income)
+                    ->color(fn ($record) => !$record->income ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('review.title')
                     ->label(__('resources/evaluation-transaction.reviewer'))
+                    ->toggleable()
                     ->sortable()
                     ->searchable()
-                    ->toggleable()
-                    ->placement('left')
-                    ->offset(10)
-                    ->popOverMaxWidth('none')
-                    ->icon('heroicon-o-chevron-left')
-                    ->content(function ($record) {
-                        $disabled = !$record->previewer_id || !$record->income_id;
-                        $employee = null;
-
-                        if ($record->review) {
-                            $employee = [
-                                'id' => $record->review->id,
-                                'record_id' => $record->id,
-                                'title' => $record->review->title,
-                                'date_time' => $record->review_date_time,
-                                'stats' => $record->review->stats
-                            ];
-
-                            return new HtmlString(Blade::render("@livewire(
-                                \App\Livewire\EmployeeSummary::class,
-                                [
-                                    'employee' => '" . json_encode($employee) . "',
-                                    'record_id' => $record->id,
-                                    'type' => 'review',
-                                    'disabled' => '" . $disabled . "',
-                                ]
-                            )"));
-                        }
-
-                        return new HtmlString(Blade::render("@livewire(
-                                \App\Livewire\EmployeeSummary::class,
-                                [
-                                    'employee' => '" . json_encode($employee) . "',
-                                    'record_id' => $record->id,
-                                    'type' => 'review',
-                                    'disabled' => '" . $disabled . "',
-                                ]
-                            )"));
-                    })
-                    ->default(__('resources/evaluation-transaction.unset')),
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->review)
+                    ->color(fn ($record) => !$record->review ? 'danger' : ''),
                 Tables\Columns\SelectColumn::make('status')
                     ->label(__('resources/evaluation-transaction.status'))
                     ->toggleable()

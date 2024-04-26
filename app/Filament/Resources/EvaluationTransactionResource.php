@@ -150,8 +150,8 @@ class EvaluationTransactionResource extends Resource
                     ->label(__('resources/evaluation-transaction.city'))
                     ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn ($record) => !$record->new_city_id || !$record->region)
-                    ->color(fn ($record) => !$record->new_city_id || !$record->region ? 'danger' : ''),
+                    ->badge(fn ($record) => !$record->new_city_id && !$record->region)
+                    ->color(fn ($record) => !$record->new_city_id && !$record->region ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('plan_no')
                     ->label(__('resources/evaluation-transaction.plan_no'))
                     ->toggleable()

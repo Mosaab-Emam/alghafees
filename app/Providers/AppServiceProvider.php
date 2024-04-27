@@ -2,10 +2,7 @@
 
 namespace App\Providers;
 
-use App\Filament\Resources\UserResource;
-use Filament\Facades\Filament;
 use Filament\Notifications\Livewire\Notifications;
-use Filament\Notifications\Notification;
 use Filament\Support\Assets\Css;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\VerticalAlignment;
@@ -13,8 +10,8 @@ use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Filament\Navigation\NavigationBuilder;
-use Filament\Navigation\NavigationGroup;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -41,5 +38,25 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFour();
         Notifications::alignment(Alignment::Right);
         Notifications::verticalAlignment(VerticalAlignment::Start);
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_END,
+            fn (): string => "<script>
+            var last_count = null;
+            setInterval(function () {
+                var notifications_count_el = document.querySelector('.fi-icon-btn-badge-ctn > span:nth-child(1) > span:nth-child(1) > span:nth-child(1)');
+                if (notifications_count_el == null) return;
+
+                if (last_count == null) last_count = notifications_count_el.innerText;
+                else {
+                    if (Number(notifications_count_el.innerText) > Number(last_count)) {
+                        last_count = Number(notifications_count_el.innerText);
+                        var audio = new Audio('/message-notification.mp3');
+                        audio.play()
+                    }
+                }
+            }, 1000);
+            </script>"
+        );
     }
 }

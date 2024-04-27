@@ -12,6 +12,11 @@ class ContractController extends Controller
 {
     public function index()
     {
+        $recipient = auth()->user();
+        \Filament\Notifications\Notification::make()
+            ->title('Saved successfully')
+            ->sendToDatabase($recipient);
+
         return view('admin.contracts.index');
     }
 

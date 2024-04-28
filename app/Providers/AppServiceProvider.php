@@ -43,16 +43,23 @@ class AppServiceProvider extends ServiceProvider
             PanelsRenderHook::BODY_END,
             fn (): string => "<script>
             var last_count = null;
+            var first_time = true;
             setInterval(function () {
                 var notifications_count_el = document.querySelector('.fi-icon-btn-badge-ctn > span:nth-child(1) > span:nth-child(1) > span:nth-child(1)');
                 if (notifications_count_el == null) return;
 
-                if (last_count == null) last_count = notifications_count_el.innerText;
+                if (last_count == null) {
+                last_count = notifications_count_el.innerText;
+                }
                 else {
                     if (Number(notifications_count_el.innerText) > Number(last_count)) {
                         last_count = Number(notifications_count_el.innerText);
-                        var audio = new Audio('/message-notification.mp3');
-                        audio.play()
+                        if (first_time)
+                            first_time = false;
+                        else {
+                            var audio = new Audio('/message-notification.mp3');
+                            audio.play()
+                        }
                     }
                 }
             }, 1000);

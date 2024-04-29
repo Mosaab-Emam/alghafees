@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Model;
 use App\Models\Scopes\ActiveScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 
 #[ScopedBy([ActiveScope::class])]
 class EvaluationEmployee extends Model
@@ -44,6 +45,21 @@ class EvaluationEmployee extends Model
         $previews = $this->transactionpreviewer->count();
         $entries = $this->transactionincome->count() * .5;
         $reviews = $this->transactionreview->count() * .5;
+        $total = $previews + $entries + $reviews;
+
+        return [
+            'total' => $total,
+            'previews' => $previews,
+            'entries' => $entries,
+            'reviews' => $reviews
+        ];
+    }
+
+    public function getQueryStats(Builder $query)
+    {
+        $previews = $query->where('previewer_id', $this->id)->count();
+        $entries = $query->where('income_id', $this->id)->count() * .5;
+        $reviews = $query->where('review_id', $this->id)->count() * .5;
         $total = $previews + $entries + $reviews;
 
         return [

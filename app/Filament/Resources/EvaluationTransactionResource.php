@@ -107,12 +107,14 @@ class EvaluationTransactionResource extends Resource
                 if (!$employee_id) return null;
                 return 'ملخص الموظف';
             })
-            ->description(function ($table) {
+            ->description(function (Table $table) {
                 $employee_id = $table->getFilters()['employee']->getState()['value'];
                 if (!$employee_id) return null;
 
                 $employee = EvaluationEmployee::find($employee_id);
-                return "المعاملات: " . $employee->stats['total'] . " المعاينات: " . $employee->stats['previews'] . " الإدخال: " . $employee->stats['entries'] . " المراجعة: " . $employee->stats['reviews'];
+                $stats = $employee->getQueryStats($table->getLivewire()->getFilteredTableQuery());
+
+                return "المعاملات: " . $stats['total'] . " المعاينات: " . $stats['previews'] . " الإدخال: " . $stats['entries'] . " المراجعة: " . $stats['reviews'];
             })
             ->columns([
                 Tables\Columns\TextColumn::make('instrument_number')

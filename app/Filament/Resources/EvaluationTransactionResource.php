@@ -3,14 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationTransactionResource\Pages;
-use App\Helpers\Constants;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Evaluation\EvaluationCompany;
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\Evaluation\EvaluationTransaction;
 use App\Models\Transaction_files;
-use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DatePicker;
@@ -26,10 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\HtmlString;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use Filament\Notifications\Notification;
 
 class EvaluationTransactionResource extends Resource
 {
@@ -162,23 +157,24 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->plot_no)
                     ->color(fn ($record) => !$record->plot_no ? 'danger' : ''),
-                Tables\Columns\SelectColumn::make('type_id')
+                Tables\Columns\TextColumn::make('type.title')
                     ->label(__('resources/evaluation-transaction.type'))
                     ->toggleable()
-                    ->options(Category::ApartmentType()->pluck('title', 'id')->toArray())
-                    ->extraAttributes(['style' => 'width: max-content']),
-                Tables\Columns\SelectColumn::make('evaluation_company_id')
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->type_id)
+                    ->color(fn ($record) => !$record->type_id ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('company.title')
                     ->label(__('resources/evaluation-transaction.company'))
                     ->toggleable()
-                    ->options(EvaluationCompany::pluck('title', 'id')->toArray())
-                    ->extraAttributes(['style' => 'width: max-content']),
-                Tables\Columns\SelectColumn::make('city_id')
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->evaluation_company_id)
+                    ->color(fn ($record) => !$record->evaluation_company_id ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('city.title')
                     ->label(__('resources/evaluation-transaction.branch'))
                     ->toggleable()
-                    ->sortable()
-                    ->searchable()
-                    ->options(Category::city()->pluck('title', 'id')->toArray())
-                    ->extraAttributes(['style' => 'width: max-content']),
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->city_id)
+                    ->color(fn ($record) => !$record->city_id ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('employee.title')
                     ->label(__('resources/evaluation-transaction.employee'))
                     ->toggleable()
@@ -225,22 +221,13 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->review)
                     ->color(fn ($record) => !$record->review ? 'danger' : ''),
-                Tables\Columns\SelectColumn::make('status')
+                Tables\Columns\TextColumn::make('status_words')
                     ->label(__('resources/evaluation-transaction.status'))
                     ->toggleable()
-                    ->options(
-                        array_map(fn ($item) => __('admin.' . $item['title']), Constants::TransactionStatuses)
-                    )
-                    ->extraAttributes(['style' => 'width: max-content'])
-                    ->afterStateUpdated(function ($record, $state) {
-                        if ($state == 4) {
-                            $admin = User::find(1);
-                            Notification::make()
-                                ->title('الرجاء إكمال معلومات المعاملة')
-                                ->body('المعاملة بالرقم: ' . $record->transaction_number . ' تم إكمالها')
-                                ->sendToDatabase($admin);
-                        }
-                    }),
+                    ->sortable()
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge(fn ($record) => !$record->status)
+                    ->color(fn ($record) => !$record->status ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('notes')
                     ->label(__('resources/evaluation-transaction.notes'))
                     ->toggleable()

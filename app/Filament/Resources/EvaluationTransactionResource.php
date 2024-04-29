@@ -126,12 +126,6 @@ class EvaluationTransactionResource extends Resource
                     ->label(__('resources/evaluation-transaction.transaction_number'))
                     ->toggleable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->label(__('resources/evaluation-transaction.date'))
-                    ->date()
-                    ->toggleable()
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('owner_name')
                     ->label(__('resources/evaluation-transaction.owner_name'))
                     ->toggleable()
@@ -251,6 +245,16 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn ($record) => !$record->notes)
                     ->color(fn ($record) => !$record->notes ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('admin.CreationDate'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('admin.LastUpdate'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->recordClasses(function (Model $record) {
                 if ($record->has_repeated_instrument_number)
@@ -270,7 +274,7 @@ class EvaluationTransactionResource extends Resource
                     ])
                     ->query(
                         fn (Builder $query, array $data): Builder => $query
-                            ->when($data['from'], fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date))
+                            ->when($data['from'], fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date))
                     )
                     ->indicateUsing(function (array $data): ?string {
                         if (!$data['from']) return null;
@@ -284,7 +288,7 @@ class EvaluationTransactionResource extends Resource
                     ])
                     ->query(
                         fn (Builder $query, array $data): Builder => $query
-                            ->when($data['to'], fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date))
+                            ->when($data['to'], fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date))
                     )
                     ->indicateUsing(function (array $data): ?string {
                         if (!$data['to']) return null;
@@ -445,9 +449,6 @@ class EvaluationTransactionResource extends Resource
                             ->searchable()
                             ->preload()
                             ->required(),
-                        Forms\Components\DatePicker::make('date')
-                            ->label(__('admin.date'))
-                            ->native(false),
                     ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('previewer_id')

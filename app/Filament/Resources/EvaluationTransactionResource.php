@@ -297,9 +297,11 @@ class EvaluationTransactionResource extends Resource
                     ->query(function (Builder $query, array $data): Builder {
                         if (!$data['value']) return $query;
                         return $query
-                            ->where('previewer_id', $data['value'])
-                            ->orWhere('income_id', $data['value'])
-                            ->orWhere('review_id', $data['value']);
+                            ->where(function ($q) use ($data) {
+                                $q->where('previewer_id', $data['value'])
+                                    ->orWhere('income_id', $data['value'])
+                                    ->orWhere('review_id', $data['value']);
+                            });
                     }),
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label(__('admin.city_id'))

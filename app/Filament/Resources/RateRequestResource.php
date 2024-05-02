@@ -24,7 +24,6 @@ class RateRequestResource extends Resource
 {
     protected static ?string $model = RateRequest::class;
 
-
     public static function getModelLabel(): string
     {
         return __('admin.Rates');
@@ -46,7 +45,7 @@ class RateRequestResource extends Resource
     }
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 5;
 
     public static function getEloquentQuery(): Builder
     {

@@ -172,7 +172,7 @@ return [
     'CheckedRequest' => 'تم التقييم',
     'InEvaluationRequest' => 'قيد التقييم',
     'Roles' => 'الصلاحيات',
-    'Admins' => 'إدارة الموقع',
+    'Admins' => 'المدراء',
     "Create" => "إضافة",
     'Evaluation' => 'إدارة التقييم',
     'admins' => 'إدارة الصلاحيات',

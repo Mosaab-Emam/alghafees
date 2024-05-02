@@ -12,7 +12,7 @@ class Statistics extends Page
 
     protected ?string $heading = '';
 
-    protected static ?int $navigationSort = 0;
+    protected static ?int $navigationSort = 4;
 
     public static function getNavigationLabel(): string
     {

@@ -14,8 +14,6 @@ class EditEvaluationTransaction extends EditRecord
 {
     protected static string $resource = EvaluationTransactionResource::class;
 
-
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-transactions.edit';
     protected $old_files = [];
 
     protected function mutateFormDataBeforeFill(array $data): array

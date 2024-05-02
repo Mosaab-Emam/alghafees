@@ -12,8 +12,6 @@ class CreateCounter extends CreateRecord
 {
     protected static string $resource = CounterResource::class;
 
-
-    protected static string | array $routeMiddleware = 'checkPermission:counters.create' ;
     protected function getRedirectUrl(): string
     {
         return CounterResource::getUrl('index');

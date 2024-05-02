@@ -12,8 +12,6 @@ class CreateObjective extends CreateRecord
 {
     protected static string $resource = ObjectiveResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:objectives.create' ;
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = Constants::ObjectiveType;

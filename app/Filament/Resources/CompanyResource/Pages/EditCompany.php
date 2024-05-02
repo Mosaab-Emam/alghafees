@@ -12,8 +12,6 @@ class EditCompany extends EditRecord
 {
     protected static string $resource = CompanyResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:companies.edit';
-
     protected function getHeaderActions(): array
     {
         return [
@@ -23,7 +21,7 @@ class EditCompany extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $services = ServiceCompany::where('company_id',$data['id'])->pluck('service_id');
+        $services = ServiceCompany::where('company_id', $data['id'])->pluck('service_id');
         $data['services'] = $services;
         return $data;
     }
@@ -33,19 +31,18 @@ class EditCompany extends EditRecord
         $services = $data['services'];
 
         $company = $this->record;
-        if ( $services) {
+        if ($services) {
             ServiceCompany::where('company_id', $company->id)
                 ->whereNotIn('service_id',  $services)->delete();
 
-            foreach ( $services as $id) {
+            foreach ($services as $id) {
                 ServiceCompany::updateOrCreate(
-                    ['company_id'=> $company->id,'service_id'=> $id],
-                    ['company_id'=> $company->id,'service_id'=> $id]
+                    ['company_id' => $company->id, 'service_id' => $id],
+                    ['company_id' => $company->id, 'service_id' => $id]
                 );
             }
         }
 
         return $data;
     }
-
 }

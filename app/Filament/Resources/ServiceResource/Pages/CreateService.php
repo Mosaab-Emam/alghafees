@@ -12,8 +12,6 @@ class CreateService extends CreateRecord
 {
     protected static string $resource = ServiceResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:services.create';
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug'] = Str::slug($data['title'], '-');

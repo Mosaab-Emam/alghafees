@@ -9,8 +9,4 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewEvaluationTransaction extends ViewRecord
 {
     protected static string $resource = EvaluationTransactionResource::class;
-
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-transactions.show';
-
-
 }

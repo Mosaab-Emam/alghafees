@@ -12,8 +12,6 @@ class EditAbout extends EditRecord
 {
     protected static string $resource = AboutResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:about.edit';
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['title'], '-');

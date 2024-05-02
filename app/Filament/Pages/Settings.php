@@ -37,21 +37,15 @@ class Settings extends Page implements HasForms
 
     protected static ?int $navigationSort = -1;
 
-
-    protected static string | array $routeMiddleware = 'checkPermission:settings.edit';
-
-
     public static function getNavigationLabel(): string
     {
         return __('admin.Settings');
     }
 
-
     public static function getNavigationGroup(): ?string
     {
         return __('admin.GeneralSettings');
     }
-
 
     public  function getTitle(): string
     {
@@ -67,19 +61,17 @@ class Settings extends Page implements HasForms
     private SettingRepositoryInterface $settingRepository;
 
 
-    public function boot(SettingRepositoryInterface $settingRepository) {
+    public function boot(SettingRepositoryInterface $settingRepository)
+    {
         $this->settingRepository = $settingRepository;
     }
 
-    public function mount() {
-
-
+    public function mount()
+    {
         $this->settings = $this->settingRepository->getFirstSettings();
 
         $this->form->fill($this->settings->toArray());
     }
-
-
 
     public function form(Form $form): Form
     {
@@ -147,9 +139,9 @@ class Settings extends Page implements HasForms
                     ])
 
             ])->statePath('data')->model($this->settings);
-
     }
-    public function update() {
+    public function update()
+    {
 
         $labels =   [
             'page_background',
@@ -160,17 +152,14 @@ class Settings extends Page implements HasForms
             'about_image'
         ];
 
-
-
         foreach ($labels as $label) {
             $this->data[$label] = is_array($this->data[$label]) && $this->data[$label] !== [] ? reset($this->data[$label]) : $this->data[$label];
 
             $image = $this->data[$label];
-            if ( $image !== [] && $image instanceof TemporaryUploadedFile) {
-                $this->data[$label] =    $image->store('images/settings','public');
+            if ($image !== [] && $image instanceof TemporaryUploadedFile) {
+                $this->data[$label] =    $image->store('images/settings', 'public');
             }
         }
-
 
         $this->settings->update($this->data);
 
@@ -181,5 +170,4 @@ class Settings extends Page implements HasForms
 
         return redirect(Settings::getUrl());
     }
-
 }

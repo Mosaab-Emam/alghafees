@@ -14,8 +14,6 @@ class ListEvaluationTransactions extends ListRecords
 
     /* protected static string $view = 'filament.pages.evaluation-transactions';*/
 
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-transactions.index';
-
     protected function getHeaderActions(): array
     {
         return [

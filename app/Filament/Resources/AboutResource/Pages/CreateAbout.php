@@ -12,8 +12,6 @@ class CreateAbout extends CreateRecord
 {
     protected static string $resource = AboutResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:about.create';
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = Constants::AboutType;

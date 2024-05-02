@@ -23,8 +23,6 @@ class PrivacyPolicy extends Page implements HasForms
 
     protected static ?int $navigationSort = 8;
 
-    protected static string | array $routeMiddleware = 'checkPermission:services.edit' ;
-
     public static function getNavigationLabel(): string
     {
         return __('admin.privacyPolicy');
@@ -57,7 +55,7 @@ class PrivacyPolicy extends Page implements HasForms
                 RichEditor::make('privacy_ar')->label(__('admin.privacy_ar'))
                     ->required(),
                 RichEditor::make('privacy_en')->label(__('admin.privacy_en'))
-                ->required(),
+                    ->required(),
             ])->columns(2)
             ->statePath('data')
             ->model($this->privacy);
@@ -66,13 +64,12 @@ class PrivacyPolicy extends Page implements HasForms
     public function update(): void
     {
 
-        if($this->data['privacy_ar'] == ""  || $this->data['privacy_en'] == "" ) {
+        if ($this->data['privacy_ar'] == ""  || $this->data['privacy_en'] == "") {
             Notification::make()
                 ->title('Privacy cannot be empty ')
                 ->danger()
                 ->send();
-        }
-        else {
+        } else {
             $this->privacy->privacy_ar = $this->data['privacy_ar'];
             $this->privacy->privacy_en = $this->data['privacy_en'];
             $this->privacy->save();
@@ -82,8 +79,5 @@ class PrivacyPolicy extends Page implements HasForms
                 ->success()
                 ->send();
         }
-
-
     }
-
 }

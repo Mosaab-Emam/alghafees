@@ -26,8 +26,6 @@ class CompanyTransactions extends Page  implements HasTable
 
     protected static ?int $navigationSort = 3;
 
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-transactions.index';
-
     protected ?string $heading = '';
 
     public static function getNavigationGroup(): ?string

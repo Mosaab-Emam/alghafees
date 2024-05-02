@@ -10,8 +10,6 @@ class ListClients extends ListRecords
 {
     protected static string $resource = ClientResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:clients.index';
-
     protected function getHeaderActions(): array
     {
         return [

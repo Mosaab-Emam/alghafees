@@ -10,7 +10,4 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateEvaluationCompany extends CreateRecord
 {
     protected static string $resource = EvaluationCompanyResource::class;
-
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-companies.create';
-
 }

@@ -10,10 +10,6 @@ class ListServices extends ListRecords
 {
     protected static string $resource = ServiceResource::class;
 
-
-    protected static string | array $routeMiddleware = 'checkPermission:services.index';
-
-
     protected function getHeaderActions(): array
     {
         return [

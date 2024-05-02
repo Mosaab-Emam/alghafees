@@ -10,8 +10,6 @@ class ListCounters extends ListRecords
 {
     protected static string $resource = CounterResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:counters.index' ;
-
     protected function getHeaderActions(): array
     {
         return [

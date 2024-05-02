@@ -11,10 +11,6 @@ class EditClient extends EditRecord
 {
     protected static string $resource = ClientResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:clients.edit';
-
-
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['title'], '-');

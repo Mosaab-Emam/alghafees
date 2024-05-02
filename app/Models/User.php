@@ -49,11 +49,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'email_verified_at' => 'datetime',
     ];
 
-    public function hasRole($role)
-    {
-        return true;
-    }
-
     public function setPasswordAttribute($pass)
     {
         $this->attributes['password'] = bcrypt($pass);

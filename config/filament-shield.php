@@ -5,10 +5,10 @@ return [
         'should_register_navigation' => true,
         'slug' => 'shield/roles',
         'navigation_sort' => -1,
-        'navigation_badge' => true,
+        'navigation_badge' => false,
         'navigation_group' => true,
         'is_globally_searchable' => false,
-        'show_model_path' => true,
+        'show_model_path' => false,
         'is_scoped_to_tenant' => true,
         'cluster' => null,
     ],
@@ -19,7 +19,7 @@ return [
 
     'super_admin' => [
         'enabled' => true,
-        'name' => 'super_admin',
+        'name' => 'المدير العام',
         'define_via_gate' => false,
         'intercept_gate' => 'before', // after
     ],
@@ -53,7 +53,7 @@ return [
         'pages' => true,
         'widgets' => true,
         'resources' => true,
-        'custom_permissions' => false,
+        'custom_permissions' => true,
     ],
 
     'generator' => [

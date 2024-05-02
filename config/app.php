@@ -187,7 +187,7 @@ return [
          */
         App\Providers\SettingServicesProvider::class,
         App\Providers\RepositoryServiceProvider::class,
-        Spatie\Permission\PermissionServiceProvider::class,
+        // Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Application Service Providers...

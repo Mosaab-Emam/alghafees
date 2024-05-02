@@ -63,7 +63,7 @@ class EvaluationTransactionPolicy
      */
     public function forceDelete(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
-        return $user->can('force_delete_evaluation::transaction');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class EvaluationTransactionPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_evaluation::transaction');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class EvaluationTransactionPolicy
      */
     public function restore(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
-        return $user->can('restore_evaluation::transaction');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class EvaluationTransactionPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_evaluation::transaction');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class EvaluationTransactionPolicy
      */
     public function replicate(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
-        return $user->can('replicate_evaluation::transaction');
+        return $user->can('{{ Replicate }}');
     }
 
     /**

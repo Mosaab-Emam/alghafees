@@ -63,7 +63,7 @@ class ContentPolicy
      */
     public function forceDelete(User $user, Content $content): bool
     {
-        return $user->can('force_delete_service');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class ContentPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_service');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class ContentPolicy
      */
     public function restore(User $user, Content $content): bool
     {
-        return $user->can('restore_service');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class ContentPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_service');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class ContentPolicy
      */
     public function replicate(User $user, Content $content): bool
     {
-        return $user->can('replicate_service');
+        return $user->can('{{ Replicate }}');
     }
 
     /**

@@ -63,7 +63,7 @@ class RateRequestPolicy
      */
     public function forceDelete(User $user, RateRequest $rateRequest): bool
     {
-        return $user->can('force_delete_rate::request');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class RateRequestPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_rate::request');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class RateRequestPolicy
      */
     public function restore(User $user, RateRequest $rateRequest): bool
     {
-        return $user->can('restore_rate::request');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class RateRequestPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_rate::request');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class RateRequestPolicy
      */
     public function replicate(User $user, RateRequest $rateRequest): bool
     {
-        return $user->can('replicate_rate::request');
+        return $user->can('{{ Replicate }}');
     }
 
     /**

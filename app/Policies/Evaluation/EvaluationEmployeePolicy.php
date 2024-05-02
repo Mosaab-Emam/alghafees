@@ -63,7 +63,7 @@ class EvaluationEmployeePolicy
      */
     public function forceDelete(User $user, EvaluationEmployee $evaluationEmployee): bool
     {
-        return $user->can('force_delete_evaluation::employee');
+        return $user->can('{{ ForceDelete }}');
     }
 
     /**
@@ -71,7 +71,7 @@ class EvaluationEmployeePolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_evaluation::employee');
+        return $user->can('{{ ForceDeleteAny }}');
     }
 
     /**
@@ -79,7 +79,7 @@ class EvaluationEmployeePolicy
      */
     public function restore(User $user, EvaluationEmployee $evaluationEmployee): bool
     {
-        return $user->can('restore_evaluation::employee');
+        return $user->can('{{ Restore }}');
     }
 
     /**
@@ -87,7 +87,7 @@ class EvaluationEmployeePolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_evaluation::employee');
+        return $user->can('{{ RestoreAny }}');
     }
 
     /**
@@ -95,7 +95,7 @@ class EvaluationEmployeePolicy
      */
     public function replicate(User $user, EvaluationEmployee $evaluationEmployee): bool
     {
-        return $user->can('replicate_evaluation::employee');
+        return $user->can('{{ Replicate }}');
     }
 
     /**

@@ -55,12 +55,6 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('mobile')
                     ->label(__('admin.Mobile'))
                     ->maxLength(255),
-                Forms\Components\Select::make('roles')
-                    ->label(__('admin.Role'))
-                    ->required()
-                    ->relationship('roles', 'title', fn (Builder $query): Builder => $query->orderBy('id', 'asc'))
-                    ->searchable()
-                    ->preload(),
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
                     ->required()

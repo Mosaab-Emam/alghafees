@@ -27,19 +27,19 @@ class UserResource extends Resource
 
     public static function getNavigationLabel(): string
     {
+        return __('admin.Admins');
+    }
+    public static function getModelLabel(): string
+    {
         if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
             return __('admin.Admins');
         }
         return __('admin.Admin');
     }
-    public static function getModelLabel(): string
-    {
-        return __('admin.Users');
-    }
 
     public static function getPluralLabel(): ?string
     {
-        return __('admin.Users');
+        return __('admin.Admins');
     }
 
     public static function form(Form $form): Form

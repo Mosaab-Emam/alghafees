@@ -10,8 +10,6 @@ class ListCompanies extends ListRecords
 {
     protected static string $resource = CompanyResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:companies.index';
-
     protected function getHeaderActions(): array
     {
         return [

@@ -12,9 +12,6 @@ class CreateCompany extends CreateRecord
 {
     protected static string $resource = CompanyResource::class;
 
-
-    protected static string | array $routeMiddleware = 'checkPermission:companies.create';
-
     protected function handleRecordCreation(array $data): Model
     {
 

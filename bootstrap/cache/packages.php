@@ -20,6 +20,17 @@
       0 => 'FilamentTiptapEditor\\FilamentTiptapEditorServiceProvider',
     ),
   ),
+  'bezhansalleh/filament-shield' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'FilamentShield' => 'BezhanSalleh\\FilamentShield\\Facades\\FilamentShield',
+    ),
+  ),
   'blade-ui-kit/blade-heroicons' => 
   array (
     'providers' => 

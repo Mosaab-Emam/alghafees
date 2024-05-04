@@ -24,10 +24,12 @@ class RateRequestResource extends Resource
 {
     protected static ?string $model = RateRequest::class;
 
-
     public static function getModelLabel(): string
     {
-        return __('admin.Rates');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Rates');
+        }
+        return __('admin.Rate');
     }
 
     public static function getPluralModelLabel(): string
@@ -46,7 +48,7 @@ class RateRequestResource extends Resource
     }
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 5;
 
     public static function getEloquentQuery(): Builder
     {

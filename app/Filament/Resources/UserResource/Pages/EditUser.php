@@ -10,9 +10,6 @@ class EditUser extends EditRecord
 {
     protected static string $resource = UserResource::class;
 
-
-    protected static string | array $routeMiddleware = 'checkPermission:admins.edit';
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
 
@@ -22,7 +19,6 @@ class EditUser extends EditRecord
         }
 
         return $data;
-
     }
 
     protected function getRedirectUrl(): ?string

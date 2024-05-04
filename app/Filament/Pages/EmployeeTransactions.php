@@ -10,12 +10,14 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class EmployeeTransactions extends Page implements HasTable
 {
     use InteractsWithTable;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
@@ -46,6 +48,12 @@ class EmployeeTransactions extends Page implements HasTable
     {
         return __('admin.user_transactions');
     }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('admin.user_transactions');
+    }
+
     public function table(Table $table): Table
     {
         return $table

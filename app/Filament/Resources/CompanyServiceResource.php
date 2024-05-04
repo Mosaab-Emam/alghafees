@@ -32,7 +32,10 @@ class CompanyServiceResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('admin.CompanyServices');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.CompanyServices');
+        }
+        return __('admin.CompanyService');
     }
 
     public static function getPluralModelLabel(): string

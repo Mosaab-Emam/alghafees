@@ -14,7 +14,9 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'LaraZeus\Sky\Models\Post' => 'App\Policies\PostPolicy',
+        'LaraZeus\Sky\Models\Tag' => 'App\Policies\TagPolicy',
+        'Spatie\Permission\Models\Role' => 'App\Policies\RolePolicy',
     ];
 
     /**
@@ -23,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-       $this->registerPolicies();
+        $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
             return $user->hasRole('admin') ? true : null;

@@ -13,8 +13,6 @@ class CreateEvaluationTransaction extends CreateRecord
 {
     protected static string $resource = EvaluationTransactionResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-transactions.create';
-
     protected $files = [];
 
     protected function mutateFormDataBeforeCreate(array $data): array

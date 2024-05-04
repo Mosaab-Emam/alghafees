@@ -11,11 +11,9 @@ class EditObjective extends EditRecord
 {
     protected static string $resource = ObjectiveResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:objectives.edit' ;
-
-   protected function mutateFormDataBeforeSave(array $data): array
-   {
-       $data['slug'] = Str::slug($data['title'], '-');
-       return $data;
-   }
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['slug'] = Str::slug($data['title'], '-');
+        return $data;
+    }
 }

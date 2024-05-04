@@ -12,8 +12,6 @@ class EditCounter extends EditRecord
 {
     protected static string $resource = CounterResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:counters.edit';
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['title'], '-');

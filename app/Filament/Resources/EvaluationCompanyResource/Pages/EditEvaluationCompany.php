@@ -9,8 +9,4 @@ use Filament\Resources\Pages\EditRecord;
 class EditEvaluationCompany extends EditRecord
 {
     protected static string $resource = EvaluationCompanyResource::class;
-
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-companies.edit';
-
-
 }

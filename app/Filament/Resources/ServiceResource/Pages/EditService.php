@@ -12,8 +12,6 @@ class EditService extends EditRecord
 {
     protected static string $resource = ServiceResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:services.edit';
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['title'], '-');

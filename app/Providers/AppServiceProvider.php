@@ -63,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
             }, 1000);
+
+            // Translate widget names
+            if (window.location.pathname.includes('shield/roles')) {
+                console.log(document.querySelectorAll('span.fi-fo-checkbox-list-option-label')[0].innerText.trim());
+            }
             </script>"
         );
     }

@@ -6,13 +6,15 @@ use Filament\Pages\Page;
 
 class Statistics extends Page
 {
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
+
     protected static ?string $navigationIcon = 'heroicon-o-chart-pie';
 
     protected static string $view = 'filament.pages.statistics';
 
     protected ?string $heading = '';
 
-    protected static ?int $navigationSort = 0;
+    protected static ?int $navigationSort = 4;
 
     public static function getNavigationLabel(): string
     {

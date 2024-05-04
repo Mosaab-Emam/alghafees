@@ -25,7 +25,8 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 7;
+
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->company();
@@ -33,6 +34,9 @@ class CompanyResource extends Resource
 
     public static function getModelLabel(): string
     {
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Companies');
+        }
         return __('admin.Company');
     }
 

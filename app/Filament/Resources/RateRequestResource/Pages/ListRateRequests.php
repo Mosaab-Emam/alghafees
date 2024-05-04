@@ -10,8 +10,6 @@ class ListRateRequests extends ListRecords
 {
     protected static string $resource = RateRequestResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:rates.index';
-
     protected function getFooterWidgets(): array
     {
         return [

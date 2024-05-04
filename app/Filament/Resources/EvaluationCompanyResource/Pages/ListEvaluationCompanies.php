@@ -10,8 +10,6 @@ class ListEvaluationCompanies extends ListRecords
 {
     protected static string $resource = EvaluationCompanyResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-companies.index';
-
     protected function getHeaderActions(): array
     {
         return [

@@ -21,11 +21,16 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-library';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $navigationGroup = 'إدارة الوصول';
 
     public static function getNavigationLabel(): string
     {
-        return __('admin.Admins');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Admins');
+        }
+        return __('admin.Admin');
     }
     public static function getModelLabel(): string
     {
@@ -57,10 +62,10 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('roles')
                     ->label(__('admin.Role'))
-                    ->required()
-                    ->relationship('roles', 'title', fn (Builder $query): Builder => $query->orderBy('id', 'asc'))
-                    ->searchable()
-                    ->preload(),
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
                     ->required()

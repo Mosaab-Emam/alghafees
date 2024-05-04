@@ -10,8 +10,6 @@ class ListUsers extends ListRecords
 {
     protected static string $resource = UserResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:admins.index';
-
     protected function getHeaderActions(): array
     {
         return [

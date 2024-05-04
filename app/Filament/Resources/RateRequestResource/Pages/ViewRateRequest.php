@@ -9,6 +9,4 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewRateRequest extends ViewRecord
 {
     protected static string $resource = RateRequestResource::class;
-
-    protected static string | array $routeMiddleware = 'checkPermission:rates.show';
 }

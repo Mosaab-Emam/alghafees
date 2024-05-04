@@ -69,6 +69,7 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->databaseNotifications()
             ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 SpatieLaravelTranslatablePlugin::make()->defaultLocales([config('app.locale')]),
                 SkyPlugin::make()
                     ->navigationGroupLabel(

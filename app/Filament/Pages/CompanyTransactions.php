@@ -19,14 +19,13 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 class CompanyTransactions extends Page  implements HasTable
 {
     use InteractsWithTable;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 
     protected static string $view = 'filament.pages.company-transactions';
 
     protected static ?int $navigationSort = 3;
-
-    protected static string | array $routeMiddleware = 'checkPermission:evaluation-transactions.index';
 
     protected ?string $heading = '';
 

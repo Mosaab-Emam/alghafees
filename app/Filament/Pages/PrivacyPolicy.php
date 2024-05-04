@@ -11,19 +11,18 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-
+use Illuminate\Contracts\Support\Htmlable;
 
 class PrivacyPolicy extends Page implements HasForms
 {
     use InteractsWithForms;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
     protected static string $view = 'filament.pages.privacy-policy';
 
     protected static ?int $navigationSort = 8;
-
-    protected static string | array $routeMiddleware = 'checkPermission:services.edit' ;
 
     public static function getNavigationLabel(): string
     {
@@ -34,6 +33,11 @@ class PrivacyPolicy extends Page implements HasForms
     public static function getNavigationGroup(): ?string
     {
         return __('admin.GeneralSettings');
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('admin.privacyPolicy');
     }
 
     protected ?string $heading = '';
@@ -57,7 +61,7 @@ class PrivacyPolicy extends Page implements HasForms
                 RichEditor::make('privacy_ar')->label(__('admin.privacy_ar'))
                     ->required(),
                 RichEditor::make('privacy_en')->label(__('admin.privacy_en'))
-                ->required(),
+                    ->required(),
             ])->columns(2)
             ->statePath('data')
             ->model($this->privacy);
@@ -66,13 +70,12 @@ class PrivacyPolicy extends Page implements HasForms
     public function update(): void
     {
 
-        if($this->data['privacy_ar'] == ""  || $this->data['privacy_en'] == "" ) {
+        if ($this->data['privacy_ar'] == ""  || $this->data['privacy_en'] == "") {
             Notification::make()
                 ->title('Privacy cannot be empty ')
                 ->danger()
                 ->send();
-        }
-        else {
+        } else {
             $this->privacy->privacy_ar = $this->data['privacy_ar'];
             $this->privacy->privacy_en = $this->data['privacy_en'];
             $this->privacy->save();
@@ -82,8 +85,5 @@ class PrivacyPolicy extends Page implements HasForms
                 ->success()
                 ->send();
         }
-
-
     }
-
 }

@@ -10,8 +10,6 @@ class ListAbouts extends ListRecords
 {
     protected static string $resource = AboutResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:about.index';
-
     protected function getHeaderActions(): array
     {
         return [

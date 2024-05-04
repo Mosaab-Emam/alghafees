@@ -12,7 +12,6 @@ class CreateClient extends CreateRecord
 {
     protected static string $resource = ClientResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:clients.create';
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['type'] = Constants::ClientType;

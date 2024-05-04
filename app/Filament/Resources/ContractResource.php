@@ -20,10 +20,13 @@ class ContractResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 6;
 
     public static function getModelLabel(): string
     {
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('resources/contract.plural');
+        }
         return __('resources/contract.singular');
     }
 

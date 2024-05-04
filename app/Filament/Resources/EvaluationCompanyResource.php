@@ -33,7 +33,10 @@ class EvaluationCompanyResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('admin.EvaluationCompanies');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.EvaluationCompanies');
+        }
+        return __('admin.EvaluationCompany');
     }
 
     public static function getPluralModelLabel(): string

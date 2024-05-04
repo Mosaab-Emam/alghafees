@@ -10,8 +10,6 @@ class ListObjectives extends ListRecords
 {
     protected static string $resource = ObjectiveResource::class;
 
-    protected static string | array $routeMiddleware = 'checkPermission:objectives.index';
-
     protected function getHeaderActions(): array
     {
         return [

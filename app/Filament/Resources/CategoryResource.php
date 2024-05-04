@@ -32,7 +32,10 @@ class CategoryResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('admin.Categories');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Categories');
+        }
+        return __('admin.Category');
     }
 
     public static function getPluralModelLabel(): string

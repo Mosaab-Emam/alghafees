@@ -57,6 +57,12 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('mobile')
                     ->label(__('admin.Mobile'))
                     ->maxLength(255),
+                Forms\Components\Select::make('roles')
+                    ->label(__('admin.Role'))
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
                     ->required()

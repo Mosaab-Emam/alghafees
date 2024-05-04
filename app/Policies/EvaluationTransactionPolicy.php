@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Policies\Evaluation;
+namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Evaluation\EvaluationCompany;
+use App\Models\Evaluation\EvaluationTransaction;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class EvaluationCompanyPolicy
+class EvaluationTransactionPolicy
 {
     use HandlesAuthorization;
 
@@ -15,15 +15,15 @@ class EvaluationCompanyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_evaluation::company');
+        return $user->can('view_any_evaluation::transaction');
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, EvaluationCompany $evaluationCompany): bool
+    public function view(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
-        return $user->can('view_evaluation::company');
+        return $user->can('view_evaluation::transaction');
     }
 
     /**
@@ -31,23 +31,23 @@ class EvaluationCompanyPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_evaluation::company');
+        return $user->can('create_evaluation::transaction');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, EvaluationCompany $evaluationCompany): bool
+    public function update(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
-        return $user->can('update_evaluation::company');
+        return $user->can('update_evaluation::transaction');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, EvaluationCompany $evaluationCompany): bool
+    public function delete(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
-        return $user->can('delete_evaluation::company');
+        return $user->can('delete_evaluation::transaction');
     }
 
     /**
@@ -55,13 +55,13 @@ class EvaluationCompanyPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_evaluation::company');
+        return $user->can('delete_any_evaluation::transaction');
     }
 
     /**
      * Determine whether the user can permanently delete.
      */
-    public function forceDelete(User $user, EvaluationCompany $evaluationCompany): bool
+    public function forceDelete(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
         return $user->can('{{ ForceDelete }}');
     }
@@ -77,7 +77,7 @@ class EvaluationCompanyPolicy
     /**
      * Determine whether the user can restore.
      */
-    public function restore(User $user, EvaluationCompany $evaluationCompany): bool
+    public function restore(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
         return $user->can('{{ Restore }}');
     }
@@ -93,7 +93,7 @@ class EvaluationCompanyPolicy
     /**
      * Determine whether the user can replicate.
      */
-    public function replicate(User $user, EvaluationCompany $evaluationCompany): bool
+    public function replicate(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
         return $user->can('{{ Replicate }}');
     }
@@ -103,6 +103,6 @@ class EvaluationCompanyPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_evaluation::company');
+        return $user->can('reorder_evaluation::transaction');
     }
 }

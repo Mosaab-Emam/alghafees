@@ -14,7 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'LaraZeus\Sky\Models\Post' => 'App\Policies\PostPolicy',
+        'LaraZeus\Sky\Models\Tag' => 'App\Policies\TagPolicy',
         'Spatie\Permission\Models\Role' => 'App\Policies\RolePolicy',
     ];
 

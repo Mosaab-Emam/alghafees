@@ -14,6 +14,8 @@ use Tiptap\Nodes\Text;
 
 class LatestOrders extends BaseWidget
 {
+    use \BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+
     protected static ?int $sort = 1;
 
     protected int | string | array $columnSpan = 'full';
@@ -42,9 +44,9 @@ class LatestOrders extends BaseWidget
                                 break;
                             }
                         }
-                        return $title !== '' ? __('admin.'.$title) : 'غير معلوم';
+                        return $title !== '' ? __('admin.' . $title) : 'غير معلوم';
                     })
-                    ->badge()->color(fn (string $state) : string => match ($state) {
+                    ->badge()->color(fn (string $state): string => match ($state) {
                         __('admin.NewRequest') => 'info',
                         __('admin.NewWorkRequest') => 'info',
                         __('admin.InEvaluationRequest') => 'warning',

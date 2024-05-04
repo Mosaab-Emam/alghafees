@@ -28,8 +28,7 @@ class Settings extends Page implements HasForms
 {
 
     use InteractsWithForms;
-
-
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
 

@@ -19,6 +19,7 @@ use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 class CompanyTransactions extends Page  implements HasTable
 {
     use InteractsWithTable;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-check';
 

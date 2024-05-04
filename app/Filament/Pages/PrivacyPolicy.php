@@ -16,6 +16,7 @@ use Filament\Pages\Page;
 class PrivacyPolicy extends Page implements HasForms
 {
     use InteractsWithForms;
+    use \BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 

@@ -19,6 +19,7 @@ class QuickActions extends Widget implements HasForms, HasActions
 {
     use InteractsWithActions;
     use InteractsWithForms;
+    use \BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
 
     protected static bool $isLazy = false;
 

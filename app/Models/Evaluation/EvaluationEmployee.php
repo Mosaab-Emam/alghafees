@@ -57,9 +57,17 @@ class EvaluationEmployee extends Model
 
     public function getQueryStats(Builder $query)
     {
-        $previews = $query->where('previewer_id', $this->id)->count();
-        $entries = $query->where('income_id', $this->id)->count() * .5;
-        $reviews = $query->where('review_id', $this->id)->count() * .5;
+        $items = $query->get();
+        $previews = 0;
+        $entries = 0;
+        $reviews = 0;
+
+        foreach ($items as $item) {
+            if ($item->previewer_id == $this->id) $previews += 1;
+            if ($item->income_id == $this->id) $entries += 0.5;
+            if ($item->review_id == $this->id) $reviews += 0.5;
+        }
+
         $total = $previews + $entries + $reviews;
 
         return [

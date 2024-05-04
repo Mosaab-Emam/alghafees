@@ -11,7 +11,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-
+use Illuminate\Contracts\Support\Htmlable;
 
 class PrivacyPolicy extends Page implements HasForms
 {
@@ -33,6 +33,11 @@ class PrivacyPolicy extends Page implements HasForms
     public static function getNavigationGroup(): ?string
     {
         return __('admin.GeneralSettings');
+    }
+
+    public function getTitle(): string|Htmlable
+    {
+        return __('admin.privacyPolicy');
     }
 
     protected ?string $heading = '';

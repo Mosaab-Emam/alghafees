@@ -30,6 +30,9 @@ class CounterResource extends Resource
 
     public static function getModelLabel(): string
     {
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Counter');
+        }
         return __('admin.Counter');
     }
 

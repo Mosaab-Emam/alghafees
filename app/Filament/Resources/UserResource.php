@@ -27,7 +27,10 @@ class UserResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('admin.Admins');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Admins');
+        }
+        return __('admin.Admin');
     }
     public static function getModelLabel(): string
     {

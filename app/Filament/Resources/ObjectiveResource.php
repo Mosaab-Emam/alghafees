@@ -32,6 +32,9 @@ class ObjectiveResource extends Resource
 
     public static function getModelLabel(): string
     {
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Objectives');
+        }
         return __('admin.Objective');
     }
 

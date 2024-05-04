@@ -36,7 +36,10 @@ class EvaluationTransactionResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('admin.EvaluationTransactions');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.EvaluationTransactions');
+        }
+        return __('admin.EvaluationTransaction');
     }
 
     public static function getModelLabel(): string

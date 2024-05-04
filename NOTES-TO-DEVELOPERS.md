@@ -339,3 +339,28 @@ return $state;
 ```
 
 4. remove all text-white occurences from resources\view\vendor\livewire-powergrid\components\frameworks\tailwind\pagination.blade.php
+
+5. On any composer install or composer update, replace the contents of:
+   vendor/bezhansalleh/filament-shield/src/Resources/RoleResource::getWidgetOptions()
+   with
+
+```
+        $og_array = collect(FilamentShield::getWidgets())
+            ->flatMap(fn ($widget) => [
+                $widget['permission'] => static::shield()->hasLocalizedPermissionLabels()
+                    ? FilamentShield::getLocalizedWidgetLabel($widget['class'])
+                    : $widget['permission'],
+            ])
+            ->toArray();
+        $final_array = [];
+
+        foreach ($og_array as $key => $value) {
+            if ($value == 'Quick Actions') $value = 'عمليات سريعة';
+            if ($value == 'Stats Overview') $value = 'نظرة إحصائية';
+            if ($value == 'Latest Orders') $value = 'آخر طلبات التقييم';
+
+            $final_array[$key] = $value;
+        }
+
+        return $final_array;
+```

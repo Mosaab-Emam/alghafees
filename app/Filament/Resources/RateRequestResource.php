@@ -26,7 +26,10 @@ class RateRequestResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('admin.Rates');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Rates');
+        }
+        return __('admin.Rate');
     }
 
     public static function getPluralModelLabel(): string

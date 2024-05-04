@@ -34,7 +34,10 @@ class ClientResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('admin.Clients');
+        if (str_starts_with(request()->route()->uri(), 'dashboard/shield/roles')) {
+            return __('admin.Clients');
+        }
+        return __('admin.Client');
     }
 
     public static function getPluralModelLabel(): string

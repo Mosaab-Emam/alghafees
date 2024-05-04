@@ -18,4 +18,15 @@ class CreateAbout extends CreateRecord
         $data['slug'] = Str::slug($data['title'], '-');
         return  $data;
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('جديد في "عنا"')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة عنصر جديد في "عنا"')
+                ->sendToDatabase($super_admins);
+    }
 }

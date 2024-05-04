@@ -56,6 +56,14 @@ class CreateEvaluationTransaction extends CreateRecord
                 ]);
             }
         }
+
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('معاملة تقييم جديدة')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة معاملة تقييم جديدة')
+                ->sendToDatabase($super_admins);
     }
 
     protected function getRedirectUrl(): string

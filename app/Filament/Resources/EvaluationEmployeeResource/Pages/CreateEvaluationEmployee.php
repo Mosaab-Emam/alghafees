@@ -13,4 +13,15 @@ class CreateEvaluationEmployee extends CreateRecord
     {
         return static::getResource()::getUrl('index');
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('موظف تقييم جديد')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة موظف تقييم جديد')
+                ->sendToDatabase($super_admins);
+    }
 }

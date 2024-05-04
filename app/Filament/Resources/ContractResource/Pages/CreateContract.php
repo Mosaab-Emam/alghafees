@@ -14,4 +14,15 @@ class CreateContract extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('عقد جديد')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة عقد جديد')
+                ->sendToDatabase($super_admins);
+    }
 }

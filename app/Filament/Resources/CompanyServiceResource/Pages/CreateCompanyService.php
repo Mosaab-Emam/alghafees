@@ -18,4 +18,15 @@ class CreateCompanyService extends CreateRecord
         $data['type'] = Constants::CompanyServiceType;
         return $data;
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('خدمة شركات جديدة')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة خدمة شركات جديدة')
+                ->sendToDatabase($super_admins);
+    }
 }

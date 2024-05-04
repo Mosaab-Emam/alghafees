@@ -22,4 +22,15 @@ class CreateClient extends CreateRecord
     {
         return ClientResource::getUrl('index');
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('عميل جديد')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة عميل جديد')
+                ->sendToDatabase($super_admins);
+    }
 }

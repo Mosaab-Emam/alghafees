@@ -24,4 +24,15 @@ class CreateCategory extends CreateRecord
         $data['slug'] = Str::slug($data['title'], '-');
         return $data;
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('إعداد عقار جديد')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة إعداد عقار')
+                ->sendToDatabase($super_admins);
+    }
 }

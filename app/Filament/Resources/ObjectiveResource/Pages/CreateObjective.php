@@ -18,4 +18,15 @@ class CreateObjective extends CreateRecord
         $data['slug'] = Str::slug($data['title'], '-');
         return $data;
     }
+
+    protected function afterCreate(): void
+    {
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('هدف جديد')
+                ->body('المدير: ' . auth()->user()->name . ' قام بإضافة هدف جديد')
+                ->sendToDatabase($super_admins);
+    }
 }

@@ -59,7 +59,7 @@ class EvaluationTransactionResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->recent();
+        return parent::getEloquentQuery();
     }
 
     public static function getNavigationBadge(): ?string

@@ -39,6 +39,15 @@ class EvaluationTransactionPolicy
      */
     public function update(User $user, EvaluationTransaction $evaluationTransaction): bool
     {
+        $record_month = \Carbon\Carbon::parse($evaluationTransaction->updated_at)->format('F');
+        $this_month = \Carbon\Carbon::parse(now())->format('F');
+        if (
+            !$user->hasRole('المدير العام') &&
+            $evaluationTransaction->status == 4 &&
+            $record_month != $this_month
+        ) {
+            return false;
+        }
         return $user->can('update_evaluation::transaction');
     }
 

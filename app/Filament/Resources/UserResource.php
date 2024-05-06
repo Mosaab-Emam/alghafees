@@ -159,17 +159,12 @@ class UserResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->authorize(can('admins.edit')),
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->authorize(function (User $record) {
-                        return can('admins.delete') && $record->id !== 1;
-                    }),
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
-                Tables\Actions\DeleteBulkAction::make()
-                    ->authorize(can('clients.delete')),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

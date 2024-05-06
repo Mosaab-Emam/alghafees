@@ -218,10 +218,9 @@ class RateRequestResource extends Resource
                     ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::Statuses)),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->authorize(can('rates.show')),
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\Action::make('update')
-                    ->authorize(can('rates.edit'))
+
                     ->label(__('admin.Edit'))
                     ->icon('heroicon-m-pencil-square')
                     ->fillForm(fn (RateRequest $record): array => [
@@ -249,13 +248,12 @@ class RateRequestResource extends Resource
                     })
                     ->modalHeading(__('admin.Edit'))
                     ->modalIcon('heroicon-o-link'),
-                Tables\Actions\DeleteAction::make()
-                    ->authorize(can('rates.delete')),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make()
-                    ->authorize(can('rates.delete'))
+
             ]);
     }
 

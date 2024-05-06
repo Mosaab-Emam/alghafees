@@ -131,12 +131,12 @@ class CounterResource extends Resource
                 Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
             ], layout: Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('counters.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('counters.delete'))
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('counters.delete')),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

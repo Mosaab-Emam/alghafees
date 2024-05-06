@@ -128,12 +128,12 @@ class AboutResource extends Resource
                 Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
             ], layout: Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('about.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('about.delete'))
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('about.delete')),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

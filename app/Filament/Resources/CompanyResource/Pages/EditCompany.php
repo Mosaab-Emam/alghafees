@@ -15,7 +15,7 @@ class EditCompany extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->authorize(can('companies.delete')),
+            Actions\DeleteAction::make(),
         ];
     }
 

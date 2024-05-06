@@ -313,14 +313,14 @@ class EvaluationTransactionResource extends Resource
                     ->preload()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->authorize(can('evaluation-transactions.show')),
-                Tables\Actions\EditAction::make()->authorize(can('evaluation-transactions.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('evaluation-transactions.delete')),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
                 Tables\Actions\DeleteBulkAction::make()
-                    ->authorize(can('evaluation-transactions.delete'))
+
             ]);
     }
 

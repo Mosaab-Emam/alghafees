@@ -135,12 +135,12 @@ class ObjectiveResource extends Resource
                 Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
             ], layout: Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('objectives.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('objectives.delete'))
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->authorize(can('objectives.delete')),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

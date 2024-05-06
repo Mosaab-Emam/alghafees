@@ -132,15 +132,13 @@ class EvaluationEmployeeResource extends Resource
                     ->label(__('admin.Publish')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->authorize(can('evaluation-employees.edit')),
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->authorize(can('evaluation-employees.delete'))
+
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
-                Tables\Actions\DeleteBulkAction::make()
-                    ->authorize(can('evaluation-employees.delete')),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

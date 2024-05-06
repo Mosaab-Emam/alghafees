@@ -130,15 +130,13 @@ class EvaluationCompanyResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->authorize(can('evaluation-companies.edit')),
+                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                    ->authorize(can('evaluation-companies.delete'))
+
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
-                Tables\Actions\DeleteBulkAction::make()
-                    ->authorize(can('evaluation-companies.delete')),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

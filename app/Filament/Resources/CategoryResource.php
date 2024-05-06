@@ -153,15 +153,8 @@ class CategoryResource extends Resource
                     ->action(function (array $data, Category $record): void {
                         $data['slug'] = Str::slug($data['title'], '-');
                         $record->update($data);
-                    })->modalHeading(__('admin.Edit'))->authorize(function (Category $record) {
-                        $type = Constants::CategoriesPermissionsName[$record?->type];
-                        return can($type . ".edit");
-                    })
-                    ->modalIcon('heroicon-m-pencil-square'),
-                Tables\Actions\DeleteAction::make()->authorize(function (Category $record) {
-                    $type = Constants::CategoriesPermissionsName[$record?->type];
-                    return can($type . ".delete");
-                })
+                    })->modalHeading(__('admin.Edit'))->modalIcon('heroicon-m-pencil-square'),
+                Tables\Actions\DeleteAction::make()
             ]);
     }
 

@@ -133,12 +133,12 @@ class ClientResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('clients.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('clients.delete'))
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 ExportBulkAction::make(),
-                Tables\Actions\DeleteBulkAction::make()->authorize(can('clients.delete')),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

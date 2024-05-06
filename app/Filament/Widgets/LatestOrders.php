@@ -61,8 +61,8 @@ class LatestOrders extends BaseWidget
 
             ])
             ->actions([
-                Tables\Actions\EditAction::make()->authorize(can('rates.edit')),
-                Tables\Actions\DeleteAction::make()->authorize(can('rates.delete'))
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->paginated(false)->heading(__('أحدث طلبات التقييم'));
     }

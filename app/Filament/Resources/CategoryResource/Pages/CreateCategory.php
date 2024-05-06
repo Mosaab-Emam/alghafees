@@ -11,14 +11,6 @@ class CreateCategory extends CreateRecord
 {
     protected static string $resource = CategoryResource::class;
 
-    protected static string | array $routeMiddleware = [
-        'checkPermission:goals.create',
-        'checkPermission:types.create',
-        'checkPermission:entities.create',
-        'checkPermission:usages.create',
-        'checkPermission:cities.create',
-    ];
-
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['slug'] = Str::slug($data['title'], '-');

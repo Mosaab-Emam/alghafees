@@ -2,6 +2,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/signed-contracts
 /storage/*.key
 /storage/framework/sessions
 /vendor

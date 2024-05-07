@@ -156,7 +156,12 @@ class ContractResource extends Resource
                         $set('tax', $og_total * 0.15);
                     }),
                 Forms\Components\TextInput::make('total_cost_in_words')
-                    ->label(__('forms/contracts.total_cost_in_words'))
+                    ->label(__('forms/contracts.total_cost_in_words')),
+                Forms\Components\FileUpload::make('signature')
+                    ->label('رفع ملف عقد موقع')
+                    ->directory('signed-contracts')
+                    ->acceptedFileTypes(['application/pdf'])
+                    ->hidden(fn (Contract $contract) => $contract->signature != null && str_starts_with($contract->signature, 'data'))
             ]);
     }
 
@@ -164,9 +169,13 @@ class ContractResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('has_been_signed')
-                    ->label(__('tables/contracts.has_been_signed'))
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('signature_status')
+                    ->label(__('tables/contracts.signature_status'))
+                    ->badge()
+                    ->color(function (Contract $contract) {
+                        if ($contract->signature == null) return 'danger';
+                        else return 'success';
+                    }),
                 Tables\Columns\TextColumn::make('token')
                     ->label(__('tables/contracts.token'))
                     ->numeric()

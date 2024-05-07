@@ -44,6 +44,11 @@ class ContractController extends Controller
         if ($contract == null)
             abort(404);
 
+        if (!str_starts_with($contract->signature, 'data'))
+            return response()
+                ->download(public_path($contract->signature))
+                ->deleteFileAfterSend(false);
+
         $pdf = new \App\Helpers\MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
         $pageCount = $pdf->setSourceFile(storage_path('pdf-templates/contract-template.pdf'));

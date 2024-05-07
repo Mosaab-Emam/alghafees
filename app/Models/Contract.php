@@ -25,4 +25,11 @@ class Contract extends Model
 
         return explode(' ', $this->created_at)[0];
     }
+
+    public function getSignatureStatusAttribute()
+    {
+        if ($this->signature == null) return __('admin.null_signature');
+        if (str_starts_with($this->signature, 'data')) return __('admin.electronic_signature');
+        return __('admin.paper_signature');
+    }
 }

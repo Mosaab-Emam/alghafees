@@ -117,6 +117,18 @@ class CategoryResource extends Resource
                     ->action(function (array $data, Category $record): void {
                         $data['slug'] = Str::slug($data['title'], '-');
                         $record->update($data);
+
+                        $super_admins = \App\Models\User::role('المدير العام')->get();
+                        if (!auth()->user()->hasRole('المدير العام'))
+                            \Filament\Notifications\Notification::make()
+                                ->title('تعديل إعداد عقار')
+                                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل إعداد عقار')
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label(__('admin.ViewRecord'))
+                                        ->url('dashboard/categories/' . $record->id)
+                                ])
+                                ->sendToDatabase($super_admins);
                     })
                     ->modalHeading(__('admin.Edit'))
                     ->modalIcon('heroicon-m-pencil-square'),

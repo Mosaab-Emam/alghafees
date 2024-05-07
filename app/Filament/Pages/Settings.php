@@ -137,7 +137,9 @@ class Settings extends Page implements HasForms
                             ])->columns(2),
                     ])
 
-            ])->statePath('data')->model($this->settings);
+            ])
+            ->statePath('data')
+            ->model($this->settings);
     }
     public function update()
     {
@@ -162,10 +164,17 @@ class Settings extends Page implements HasForms
 
         $this->settings->update($this->data);
 
-        Notification::make()
-            ->title('Updated successfully')
-            ->success()
-            ->send();
+        $super_admins = \App\Models\User::role('المدير العام')->get();
+        if (!auth()->user()->hasRole('المدير العام'))
+            \Filament\Notifications\Notification::make()
+                ->title('تعديل إعدادات الموقع')
+                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل إعدادات الموقع')
+                ->actions([
+                    \Filament\Notifications\Actions\Action::make('view')
+                        ->label(__('admin.ViewSettings'))
+                        ->url('dashboard/settings')
+                ])
+                ->sendToDatabase($super_admins);
 
         return redirect(Settings::getUrl());
     }

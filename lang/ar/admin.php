@@ -287,5 +287,6 @@ return [
     'electronic_signature' => 'تم التوقيع إلكترونياً',
     'paper_signature' => 'تم التوقيع على الورق',
     'null_signature' => 'لم يتم التوقيع',
-    'ViewRecord' => 'عرض العنصر'
+    'ViewRecord' => 'عرض العنصر',
+    'ViewSettings' => 'عرض الإعدادات'
 ];

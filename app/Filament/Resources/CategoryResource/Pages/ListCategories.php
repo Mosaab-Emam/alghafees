@@ -12,8 +12,6 @@ class ListCategories extends ListRecords
 {
     protected static string $resource = CategoryResource::class;
 
-
-
     protected function getHeaderActions(): array
     {
         return [
@@ -23,16 +21,20 @@ class ListCategories extends ListRecords
     public function getTabs(): array
     {
         return [
-            'All' => Tab::make()->label('الكل'),
-            'AppartmentTypes' => Tab::make()->label( __('admin.Types'))
+            'AppartmentTypes' => Tab::make()
+                ->label(__('admin.Types'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->apartmentType()),
-             'AppartmentGoal' => Tab::make()->label( __('admin.ApartmentGoal'))
+            'AppartmentGoal' => Tab::make()
+                ->label(__('admin.ApartmentGoal'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->apartmentGoal()),
-             'AppartmentEntity' => Tab::make()->label(__('admin.ApartmentEntity'))
+            'AppartmentEntity' => Tab::make()
+                ->label(__('admin.ApartmentEntity'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->apartmentEntity()),
-             'Usages' => Tab::make()->label(__('admin.Usages'))
+            'Usages' => Tab::make()
+                ->label(__('admin.Usages'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->apartmentUsage()),
-             'City' => Tab::make()->label(__('admin.city'))
+            'City' => Tab::make()
+                ->label(__('admin.city'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->city()),
         ];
     }

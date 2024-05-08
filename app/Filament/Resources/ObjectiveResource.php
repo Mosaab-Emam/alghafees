@@ -114,6 +114,7 @@ class ObjectiveResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('position')
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label(__('admin.Image'))

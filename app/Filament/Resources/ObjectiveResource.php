@@ -29,7 +29,7 @@ class ObjectiveResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return static::getModel()::withoutGlobalScopes()->objective()->orderBy('position');
+        return static::getModel()::withoutGlobalScope(ActiveScope::class)->objective()->orderBy('position');
     }
 
     public static function getModelLabel(): string

@@ -5,14 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ServiceResource\Pages;
 use App\Models\Content;
 use App\Models\Scopes\ActiveScope;
-use Carbon\Carbon;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -58,28 +55,34 @@ class ServiceResource extends Resource
     public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist->schema([
-            Infolists\Components\Grid::make(2)->schema([
-                Infolists\Components\ImageEntry::make('image')
-                    ->label(__('admin.Image'))
-                    ->circular()
-                    ->columnSpanFull(),
-                Infolists\Components\TextEntry::make('title')
-                    ->label(__('admin.Title')),
-                Infolists\Components\TextEntry::make('position')
-                    ->label(__('admin.Position')),
-                Infolists\Components\IconEntry::make('active')
-                    ->label(__('admin.Publish'))
-                    ->boolean(),
-                Infolists\Components\TextEntry::make('description')
-                    ->label(__('admin.Description'))
-                    ->columnSpanFull(),
-                Infolists\Components\TextEntry::make('created_at')
-                    ->label(__('admin.CreationDate'))
-                    ->dateTime(),
-                Infolists\Components\TextEntry::make('updated_at')
-                    ->label(__('admin.LastUpdate'))
-                    ->dateTime(),
-            ])
+            Infolists\Components\Split::make([
+                Infolists\Components\Section::make([
+                    Infolists\Components\Grid::make(2)->schema([
+                        Infolists\Components\TextEntry::make('title')
+                            ->label(__('admin.Title')),
+                        Infolists\Components\TextEntry::make('position')
+                            ->label(__('admin.Position')),
+                        Infolists\Components\IconEntry::make('active')
+                            ->label(__('admin.Publish'))
+                            ->boolean(),
+                        Infolists\Components\TextEntry::make('description')
+                            ->label(__('admin.Description'))
+                            ->columnSpanFull(),
+                    ])
+                ]),
+                Infolists\Components\Section::make([
+                    Infolists\Components\ImageEntry::make('image')
+                        ->label(false)
+                        ->circular()
+                        ->columnSpanFull(),
+                    Infolists\Components\TextEntry::make('created_at')
+                        ->label(__('admin.CreationDate'))
+                        ->dateTime(),
+                    Infolists\Components\TextEntry::make('updated_at')
+                        ->label(__('admin.LastUpdate'))
+                        ->dateTime(),
+                ])->grow(false)
+            ])->from('md')->columnSpanFull()
         ]);
     }
 

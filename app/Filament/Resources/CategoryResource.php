@@ -54,6 +54,35 @@ class CategoryResource extends Resource
         return static::getModel()::withoutGlobalScope(ActiveScope::class)->orderBy('position');
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Components\Split::make([
+                    Components\Section::make([
+                        Components\Grid::make(2)->schema([
+                            Components\TextEntry::make('title')
+                                ->label(__('admin.Title')),
+                            Components\TextEntry::make('position')
+                                ->label(__('admin.Position')),
+                            Components\IconEntry::make('active')
+                                ->label(__('admin.Publish'))
+                                ->boolean(),
+                        ])
+                    ]),
+                    Components\Section::make([
+                        Components\TextEntry::make('created_at')
+                            ->label(__('admin.CreationDate'))
+                            ->dateTime()
+                            ->columnStart(1),
+                        Components\TextEntry::make('updated_at')
+                            ->label(__('admin.LastUpdate'))
+                            ->dateTime()
+                    ])->grow(false),
+                ])->from('md')->columnSpanFull()
+            ]);
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -136,30 +165,6 @@ class CategoryResource extends Resource
             ])
             ->bulkActions([
                 ExportBulkAction::make()
-            ]);
-    }
-
-    public static function infolist(Infolist $infolist): Infolist
-    {
-        return $infolist
-            ->schema([
-                Components\Grid::make(2)
-                    ->schema([
-                        Components\TextEntry::make('title')
-                            ->label(__('admin.Title')),
-                        Components\TextEntry::make('position')
-                            ->label(__('admin.Position')),
-                        Components\IconEntry::make('active')
-                            ->label(__('admin.Publish'))
-                            ->boolean(),
-                        Components\TextEntry::make('created_at')
-                            ->label(__('admin.CreationDate'))
-                            ->dateTime()
-                            ->columnStart(1),
-                        Components\TextEntry::make('updated_at')
-                            ->label(__('admin.LastUpdate'))
-                            ->dateTime()
-                    ])
             ]);
     }
 

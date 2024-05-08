@@ -89,7 +89,8 @@ return [
     'AllStatus' => 'مفعل/غير مفعل',
     'SearchNow' => 'المدينة,  بالعنوان، رقم التسلسلي',
     "NoClients" => "عدد المجلدات",
-    "Counter" => "العدد",
+    "Count" => "العدد",
+    "Counter" => "عدد",
     "Counters" => "العداد",
     "Titles" => "العناوين",
     "Note" => "ملاحظات",
@@ -288,5 +289,6 @@ return [
     'paper_signature' => 'تم التوقيع على الورق',
     'null_signature' => 'لم يتم التوقيع',
     'ViewRecord' => 'عرض العنصر',
-    'ViewSettings' => 'عرض الإعدادات'
+    'ViewSettings' => 'عرض الإعدادات',
+    'Sign' => 'الإشارة'
 ];

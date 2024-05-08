@@ -3,20 +3,20 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompanyServiceResource\Pages;
-use App\Filament\Resources\CompanyServiceResource\RelationManagers;
-use App\Models\CompanyService;
 use App\Models\Content;
-use Carbon\Carbon;
+use App\Models\Scopes\ActiveScope;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use Filament\Infolists;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 
+#[ScopedBy([ActiveScope::class])]
 class CompanyServiceResource extends Resource
 {
     protected static ?string $model = Content::class;
@@ -27,7 +27,7 @@ class CompanyServiceResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->companyService();
+        return static::getModel()::withoutGlobalScope(ActiveScope::class)->companyService()->orderBy('position');
     }
 
     public static function getModelLabel(): string
@@ -51,6 +51,29 @@ class CompanyServiceResource extends Resource
     public static function getNavigationGroup(): ?string
     {
         return __('admin.GeneralSettings');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist->schema([
+            Infolists\Components\Grid::make(2)->schema([
+                Infolists\Components\ImageEntry::make('image')
+                    ->label(__('admin.Image')),
+                Infolists\Components\TextEntry::make('title')
+                    ->label(__('admin.Title')),
+                Infolists\Components\TextEntry::make('position')
+                    ->label(__('admin.Position')),
+                Infolists\Components\IconEntry::make('active')
+                    ->label(__('admin.Publish'))
+                    ->boolean(),
+                Infolists\Components\TextEntry::make('created_at')
+                    ->label(__('admin.CreationDate'))
+                    ->dateTime(),
+                Infolists\Components\TextEntry::make('updated_at')
+                    ->label(__('admin.LastUpdate'))
+                    ->dateTime(),
+            ])
+        ]);
     }
 
     public static function form(Form $form): Form
@@ -79,69 +102,35 @@ class CompanyServiceResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('position')
             ->columns([
-                Tables\Columns\TextColumn::make('id')->label('#'),
-                Tables\Columns\ImageColumn::make('image')->label(__('admin.Image'))
-                    ->defaultImageUrl(url('/images/default.png'))->circular(),
-                Tables\Columns\TextColumn::make('title')->label(__('admin.Title'))
+                Tables\Columns\ImageColumn::make('image')
+                    ->label(__('admin.Image'))
+                    ->toggleable()
+                    ->defaultImageUrl(url('/images/default.png'))
+                    ->circular(),
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('admin.Title'))
+                    ->toggleable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('position')->label(__('admin.Position'))
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('active')->label(__('admin.Publish'))
+                Tables\Columns\IconColumn::make('active')
+                    ->label(__('admin.Publish'))
+                    ->toggleable()
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')->label(__('admin.CreationDate'))
-                    ->dateTime()
-                    ->sortable()
 
             ])
             ->filters([
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('created_from')
-                            ->label(__('من تاريخ'))
-                            ->native(false),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_from']) {
-                            return null;
-                        }
-
-                        return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
-                    }),
-                Filter::make('created_until')
-                    ->form([
-                        DatePicker::make('created_until')
-                            ->label(__('قبل تاريخ'))
-                            ->native(false),
-                    ])->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_until']) {
-                            return null;
-                        }
-
-                        return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
-                    }),
-                Tables\Filters\TernaryFilter::make('active')->label(__('admin.Publish')),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+                Tables\Filters\TernaryFilter::make('active')
+                    ->label(__('admin.Publish')),
+            ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ExportBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -156,6 +145,7 @@ class CompanyServiceResource extends Resource
     {
         return [
             'index' => Pages\ListCompanyServices::route('/'),
+            'view' => Pages\ViewCompanyService::route('/{record}'),
             'create' => Pages\CreateCompanyService::route('/create'),
             'edit' => Pages\EditCompanyService::route('/{record}/edit'),
         ];

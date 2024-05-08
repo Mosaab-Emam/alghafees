@@ -5,14 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CounterResource\Pages;
 use App\Models\Content;
 use App\Models\Scopes\ActiveScope;
-use Carbon\Carbon;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
@@ -137,7 +134,22 @@ class CounterResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        function ($record) {
+                            if (auth()->user()->hasRole('المدير العام')) return null;
+                            $super_admins = \App\Models\User::role('المدير العام')->get();
+                            return \Filament\Notifications\Notification::make()
+                                ->title('تعديل عدد')
+                                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل عدد')
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label(__('admin.ViewRecord'))
+                                        ->url('/dashboard/counters/' . $record->id)
+                                ])
+                                ->sendToDatabase($super_admins);
+                        }
+                    ),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
@@ -159,7 +171,7 @@ class CounterResource extends Resource
             'index' => Pages\ListCounters::route('/'),
             'view' => Pages\ViewCounter::route('/{record}'),
             'create' => Pages\CreateCounter::route('/create'),
-            'edit' => Pages\EditCounter::route('/{record}/edit'),
+            // 'edit' => Pages\EditCounter::route('/{record}/edit'),
         ];
     }
 }

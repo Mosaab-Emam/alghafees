@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CompanyServiceResource\Pages;
+use App\Models\Category;
 use App\Models\Content;
 use App\Models\Scopes\ActiveScope;
 use Filament\Forms;
@@ -87,21 +88,21 @@ class CompanyServiceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')->label(__('admin.Title'))
+                Forms\Components\TextInput::make('title')
+                    ->label(__('admin.Title'))
                     ->maxLength(255)
-                    ->required(),
-                Forms\Components\TextInput::make('position')->label(__('admin.Position'))
-                    ->numeric()
-                    ->default(0)
                     ->required(),
                 Forms\Components\FileUpload::make('image')
                     ->directory('images/company-services')
                     ->label(__('admin.Image'))
-                    ->image()->columnSpanFull(),
-
-                Forms\Components\Textarea::make('description')->label(__('admin.Description'))
-                    ->rows(8)->columnSpanFull(),
-                Forms\Components\Toggle::make('active')->label(__('admin.Publish'))
+                    ->image()
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('description')
+                    ->label(__('admin.Description'))
+                    ->rows(8)
+                    ->columnSpanFull(),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.Publish'))
                     ->required(),
             ]);
     }
@@ -124,7 +125,6 @@ class CompanyServiceResource extends Resource
                     ->label(__('admin.Publish'))
                     ->toggleable()
                     ->boolean(),
-
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('active')
@@ -132,7 +132,23 @@ class CompanyServiceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        function ($record) {
+                            if (auth()->user()->hasRole('المدير العام')) return null;
+
+                            $super_admins = \App\Models\User::role('المدير العام')->get();
+                            return \Filament\Notifications\Notification::make()
+                                ->title('تعديل خدمة شركات')
+                                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل خدمة شركات')
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label(__('admin.ViewRecord'))
+                                        ->url('/dashboard/company-services/' . $record->id)
+                                ])
+                                ->sendToDatabase($super_admins);
+                        }
+                    ),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
@@ -154,7 +170,7 @@ class CompanyServiceResource extends Resource
             'index' => Pages\ListCompanyServices::route('/'),
             'view' => Pages\ViewCompanyService::route('/{record}'),
             'create' => Pages\CreateCompanyService::route('/create'),
-            'edit' => Pages\EditCompanyService::route('/{record}/edit'),
+            // 'edit' => Pages\EditCompanyService::route('/{record}/edit'),
         ];
     }
 }

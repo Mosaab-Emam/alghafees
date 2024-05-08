@@ -155,7 +155,7 @@ class CategoryResource extends Resource
                                 ->actions([
                                     \Filament\Notifications\Actions\Action::make('view')
                                         ->label(__('admin.ViewRecord'))
-                                        ->url('dashboard/categories/' . $record->id)
+                                        ->url('/dashboard/categories/' . $record->id)
                                 ])
                                 ->sendToDatabase($super_admins);
                     })
@@ -164,7 +164,8 @@ class CategoryResource extends Resource
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
-                ExportBulkAction::make()
+                ExportBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()
             ]);
     }
 

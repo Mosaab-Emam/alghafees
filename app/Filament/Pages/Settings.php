@@ -172,7 +172,7 @@ class Settings extends Page implements HasForms
                 ->actions([
                     \Filament\Notifications\Actions\Action::make('view')
                         ->label(__('admin.ViewSettings'))
-                        ->url('dashboard/settings')
+                        ->url('/dashboard/settings')
                 ])
                 ->sendToDatabase($super_admins);
 

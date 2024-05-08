@@ -95,7 +95,8 @@ class AboutResource extends Resource
                     ->required(),
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
-                    ->required(),
+                    ->required()
+                    ->columnStart(1),
             ]);
     }
 
@@ -120,7 +121,23 @@ class AboutResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        function ($record) {
+                            if (auth()->user()->hasRole('المدير العام')) return null;
+
+                            $super_admins = \App\Models\User::role('المدير العام')->get();
+                            return \Filament\Notifications\Notification::make()
+                                ->title('تعديل عنصر في "عنا"')
+                                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل عنصر في "عنا"')
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label(__('admin.ViewRecord'))
+                                        ->url('/dashboard/about/' . $record->id)
+                                ])
+                                ->sendToDatabase($super_admins);
+                        }
+                    ),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
@@ -142,7 +159,7 @@ class AboutResource extends Resource
             'index' => Pages\ListAbouts::route('/'),
             'view' => Pages\ViewAbout::route('/{record}'),
             'create' => Pages\CreateAbout::route('/create'),
-            'edit' => Pages\EditAbout::route('/{record}/edit'),
+            // 'edit' => Pages\EditAbout::route('/{record}/edit'),
         ];
     }
 }

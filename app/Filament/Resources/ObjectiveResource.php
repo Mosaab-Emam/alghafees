@@ -101,13 +101,13 @@ class ObjectiveResource extends Resource
                     ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\Toggle::make('active')
-                    ->label(__('admin.Publish'))
-                    ->required(),
                 Forms\Components\Textarea::make('description')
                     ->label(__('admin.Description'))
                     ->rows(8)
                     ->columnSpanFull(),
+                Forms\Components\Toggle::make('active')
+                    ->label(__('admin.Publish'))
+                    ->required(),
             ]);
     }
 
@@ -136,7 +136,23 @@ class ObjectiveResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        function ($record) {
+                            if (auth()->user()->hasRole('المدير العام')) return null;
+
+                            $super_admins = \App\Models\User::role('المدير العام')->get();
+                            return \Filament\Notifications\Notification::make()
+                                ->title('تعديل هدف')
+                                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل هدف')
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label(__('admin.ViewRecord'))
+                                        ->url('/dashboard/objectives/' . $record->id)
+                                ])
+                                ->sendToDatabase($super_admins);
+                        }
+                    ),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
@@ -158,7 +174,7 @@ class ObjectiveResource extends Resource
             'index' => Pages\ListObjectives::route('/'),
             'view' => Pages\ViewObjective::route('/{record}'),
             'create' => Pages\CreateObjective::route('/create'),
-            'edit' => Pages\EditObjective::route('/{record}/edit'),
+            // 'edit' => Pages\EditObjective::route('/{record}/edit'),
         ];
     }
 }

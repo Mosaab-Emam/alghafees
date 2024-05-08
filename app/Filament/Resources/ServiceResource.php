@@ -94,11 +94,6 @@ class ServiceResource extends Resource
                     ->label(__('admin.Title'))
                     ->maxLength(255)
                     ->required(),
-                Forms\Components\TextInput::make('position')
-                    ->label(__('admin.Position'))
-                    ->numeric()
-                    ->default(0)
-                    ->required(),
                 Forms\Components\FileUpload::make('image')
                     ->directory('images/services')
                     ->label(__('admin.Image'))
@@ -111,7 +106,6 @@ class ServiceResource extends Resource
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
                     ->required(),
-
             ]);
     }
 
@@ -140,7 +134,23 @@ class ServiceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->successNotification(
+                        function ($record) {
+                            if (auth()->user()->hasRole('المدير العام')) return null;
+
+                            $super_admins = \App\Models\User::role('المدير العام')->get();
+                            return \Filament\Notifications\Notification::make()
+                                ->title('تعديل خدمة')
+                                ->body('المدير: ' . auth()->user()->name . ' قام بتعديل خدمة')
+                                ->actions([
+                                    \Filament\Notifications\Actions\Action::make('view')
+                                        ->label(__('admin.ViewRecord'))
+                                        ->url('/dashboard/services/' . $record->id)
+                                ])
+                                ->sendToDatabase($super_admins);
+                        }
+                    ),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
@@ -162,7 +172,7 @@ class ServiceResource extends Resource
             'index' => Pages\ListServices::route('/'),
             'view' => Pages\ViewService::route('/{record}'),
             'create' => Pages\CreateService::route('/create'),
-            'edit' => Pages\EditService::route('/{record}/edit'),
+            // 'edit' => Pages\EditService::route('/{record}/edit'),
         ];
     }
 }

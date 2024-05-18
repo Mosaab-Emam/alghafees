@@ -2,6 +2,8 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Evaluation\EvaluationEmployee;
+use App\Models\Evaluation\EvaluationTransaction;
 use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Page;
@@ -55,83 +57,87 @@ class EmployeeTransactions extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(\App\Models\Evaluation\EvaluationEmployee::query()->withCount('transactionpreviewer', 'transactionincome', 'transactionreview'))
+            ->query(EvaluationEmployee::query())
             ->columns([
                 TextColumn::make('title')
                     ->label(__('admin.Title'))
                     ->searchable()
                     ->toggleable(),
-                TextColumn::make('total')
-                    ->label('إجمالى المعاملات')
-                    ->toggleable()
-                    ->sortable(),
-                TextColumn::make('transactionpreviewer_count')
-                    ->label(' المعاينات')
-                    ->toggleable()
-                    ->sortable(),
-                TextColumn::make('transactionincome_count')
-                    ->formatStateUsing(fn (string $state) => $state * .5)
+                TextColumn::make('stats_total')
+                    ->label('إجمالي المعاملات')
+                    ->default(function ($record, $table) {
+                        $transactions_from = $table->getFilters()['transactions_from']->getState()['transactions_from'];
+                        $transactions_until = $table->getFilters()['transactions_until']->getState()['transactions_until'];
+                        $query = EvaluationTransaction::query()
+                            ->when($transactions_from, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date))
+                            ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
+                        return $record->getQueryStats($query)['total'];
+                    })
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('stats_previews')
+                    ->label('المعاينات')
+                    ->default(function ($record, $table) {
+                        $transactions_from = $table->getFilters()['transactions_from']->getState()['transactions_from'];
+                        $transactions_until = $table->getFilters()['transactions_until']->getState()['transactions_until'];
+                        $query = EvaluationTransaction::query()
+                            ->when($transactions_from, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date))
+                            ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
+                        return $record->getQueryStats($query)['previews'];
+                    })
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('stats_entries')
                     ->label('الإدخال')
-                    ->toggleable()
-                    ->sortable(),
-                TextColumn::make('transactionreview_count')
-                    ->formatStateUsing(fn (string $state) => $state * .5)
+                    ->default(function ($record, $table) {
+                        $transactions_from = $table->getFilters()['transactions_from']->getState()['transactions_from'];
+                        $transactions_until = $table->getFilters()['transactions_until']->getState()['transactions_until'];
+                        $query = EvaluationTransaction::query()
+                            ->when($transactions_from, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date))
+                            ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
+                        return $record->getQueryStats($query)['entries'];
+                    })
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('stats_reviews')
                     ->label('المراجعة')
-                    ->toggleable()
-                    ->sortable(),
+                    ->default(function ($record, $table) {
+                        $transactions_from = $table->getFilters()['transactions_from']->getState()['transactions_from'];
+                        $transactions_until = $table->getFilters()['transactions_until']->getState()['transactions_until'];
+                        $query = EvaluationTransaction::query()
+                            ->when($transactions_from, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '>=', $date))
+                            ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
+                        return $record->getQueryStats($query)['reviews'];
+                    })
+                    ->searchable()
+                    ->toggleable(),
             ])
             ->filters([
-                Filter::make('created_at')
+                Filter::make('transactions_from')
                     ->form([
-                        DatePicker::make('created_from')
-                            ->label(__('من تاريخ'))
+                        DatePicker::make('transactions_from')
+                            ->label(__('للمعاملات من تاريخ'))
                             ->native(false),
                     ])
-                    ->baseQuery(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->withCount(['transactionpreviewer' => function ($q) use ($date) {
-                                    $q->whereDate('created_at', '>=', $date);
-                                }])->withCount(['transactionincome' => function ($q) use ($date) {
-                                    $q->whereDate('created_at', '>=', $date);
-                                }])->withCount(['transactionreview' => function ($q) use ($date) {
-                                    $q->whereDate('created_at', '>=', $date);
-                                }]),
-                            );
-                    })
+                    ->baseQuery(fn (Builder $query): Builder => $query)
                     ->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_from'])
+                        if (!$data['transactions_from'])
                             return null;
 
-                        return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
+                        return 'للمعاملات من تاريخ ' . Carbon::parse($data['transactions_from'])->toDateString();
                     }),
-                Filter::make('created_until')
+                Filter::make('transactions_until')
                     ->form([
-                        DatePicker::make('created_until')
-                            ->label(__('قبل تاريخ'))
+                        DatePicker::make('transactions_until')
+                            ->label(__('للمعاملات حتى تاريخ'))
                             ->native(false),
                     ])
-                    ->baseQuery(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_until'],
-                                function (Builder $query, $date): Builder {
-                                    return $query->withCount(['transactionpreviewer' => function ($q) use ($date) {
-                                        $q->whereDate('created_at', '<=', $date);
-                                    }])->withCount(['transactionincome' => function ($q) use ($date) {
-                                        $q->whereDate('created_at', '<=', $date);
-                                    }])->withCount(['transactionreview' => function ($q) use ($date) {
-                                        $q->whereDate('created_at', '<=', $date);
-                                    }]);
-                                },
-                            );
-                    })
+                    ->baseQuery(fn (Builder $query): Builder => $query)
                     ->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_until'])
+                        if (!$data['transactions_until'])
                             return null;
 
-                        return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
+                        return 'للمعاملات حتى تاريخ ' . Carbon::parse($data['transactions_until'])->toDateString();
                     }),
             ])
             ->actions([

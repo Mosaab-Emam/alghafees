@@ -3,6 +3,12 @@
 /public/hot
 /public/storage
 /public/signed-contracts
+/public/media
+/public/img
+/public/images
+/public/panel
+/public/upload
+/public/vendor
 /storage/*.key
 /storage/framework/sessions
 /vendor

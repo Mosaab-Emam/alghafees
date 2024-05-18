@@ -44,7 +44,7 @@ class ContractController extends Controller
         if ($contract == null)
             abort(404);
 
-        if (!str_starts_with($contract->signature, 'data'))
+        if ($contract->signature != null && !str_starts_with($contract->signature, 'data'))
             return response()
                 ->download(public_path($contract->signature))
                 ->deleteFileAfterSend(false);

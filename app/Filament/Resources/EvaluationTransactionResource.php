@@ -59,7 +59,7 @@ class EvaluationTransactionResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery();
+        return parent::getEloquentQuery()->orderBy('created_at', 'desc');
     }
 
     public static function getNavigationBadge(): ?string

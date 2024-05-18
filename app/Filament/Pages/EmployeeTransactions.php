@@ -73,7 +73,6 @@ class EmployeeTransactions extends Page implements HasTable
                             ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
                         return $record->getQueryStats($query)['total'];
                     })
-                    ->searchable()
                     ->toggleable(),
                 TextColumn::make('stats_previews')
                     ->label('المعاينات')
@@ -85,7 +84,6 @@ class EmployeeTransactions extends Page implements HasTable
                             ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
                         return $record->getQueryStats($query)['previews'];
                     })
-                    ->searchable()
                     ->toggleable(),
                 TextColumn::make('stats_entries')
                     ->label('الإدخال')
@@ -97,7 +95,6 @@ class EmployeeTransactions extends Page implements HasTable
                             ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
                         return $record->getQueryStats($query)['entries'];
                     })
-                    ->searchable()
                     ->toggleable(),
                 TextColumn::make('stats_reviews')
                     ->label('المراجعة')
@@ -109,7 +106,6 @@ class EmployeeTransactions extends Page implements HasTable
                             ->when($transactions_until, fn (Builder $query, $date): Builder => $query->whereDate('updated_at', '<=', $date));
                         return $record->getQueryStats($query)['reviews'];
                     })
-                    ->searchable()
                     ->toggleable(),
             ])
             ->filters([

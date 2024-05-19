@@ -92,7 +92,7 @@
     @stack('scripts')
     @livewireScripts
     @filamentScripts
-    @livewire('database-notifications')
+    {{-- @livewire('database-notifications') --}}
 
     <script>
         const theme = localStorage.getItem('theme')

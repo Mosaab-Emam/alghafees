@@ -1,5 +1,6 @@
 /.phpunit.cache
 /node_modules
+/public/sitemap.xml
 /public/hot
 /public/storage
 /public/signed-contracts

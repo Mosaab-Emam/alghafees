@@ -8,6 +8,7 @@ use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Spatie\Sitemap\SitemapGenerator;
 
 class Kernel extends ConsoleKernel
 {
@@ -35,9 +36,16 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute();
 
-        $schedule->command('queue:work --stop-when-empty')
-            ->everyMinute()
-            ->withoutOverlapping();
+        // Generate sitemap.xml
+        $schedule->call(function () {
+            SitemapGenerator::create('https://alghafestaqeem.com')
+                ->writeToFile(public_path('sitemap.xml'));
+        })->everyMinute();
+
+
+        // $schedule->command('queue:work --stop-when-empty')
+        //     ->everyMinute()
+        //     ->withoutOverlapping();
     }
 
     /**

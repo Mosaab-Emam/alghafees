@@ -21,8 +21,8 @@ class RequestRate extends Request
                     'real_estate_age' => 'required|integer|min:1',
                     'real_estate_area' => 'required|integer|min:1',
                     'usage_id' => 'exists:categories,id',
-                    'latitude' => ['nullable', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-                    'longitude' => ['nullable', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+                    'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+                    'longitude' => ['nullable', 'numeric', 'between:-180,180'],
                     'location' => 'required|string|max:255',
                 ];
             }
@@ -41,8 +41,8 @@ class RequestRate extends Request
                     'real_estate_age' => 'integer|min:1',
                     'real_estate_area' => 'integer|min:1',
                     'usage_id' => 'exists:categories,id',
-                    'latitude' => ['nullable', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-                    'longitude' => ['nullable', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+                    'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+                    'longitude' => ['nullable', 'numeric', 'between:-180,180'],
                     'location' => 'string|max:255',
                 ];
             }

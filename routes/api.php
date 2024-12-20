@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'App\\Http\\Controllers\\API', 'as' => 'api.'], function () {
     Route::apiResource('rate-requests', RateRequestAPIController::class);
+    // Route::get('/tracking', 'RateRequestsController@tracking');
 });
 
 Route::group(['namespace' => 'App\\Http\\Controllers\\Api'], function () {
@@ -36,8 +37,6 @@ Route::group(['namespace' => 'App\\Http\\Controllers\\Api'], function () {
     Route::get('/counters', 'ContentController@counters');
     Route::get('/objectives', 'ContentController@objectives');
     Route::get('/about-company', 'ContentController@about');
-    Route::post('/rate-request', 'RateRequestsController@store');
-    Route::get('/tracking', 'RateRequestsController@tracking');
 
 
     Route::get('/apartment-goal', 'CategoriesController@apartmentGoal');

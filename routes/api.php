@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\RateRequestAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,16 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['namespace' => 'App\\Http\\Controllers\\API', 'as' => 'api.'], function () {
+    Route::apiResource('rate-requests', RateRequestAPIController::class);
+});
+
 Route::group(['namespace' => 'App\\Http\\Controllers\\Api'], function () {
 
     Route::get('/about', 'AboutController@index');
     Route::get('/clients', 'ContentController@clients');
     Route::get('/services', 'ContentController@services');
-        Route::get('/Prviacy-ploice', 'ContentController@privacy');
-                Route::get('/show', 'ContentController@show');
+    Route::get('/Prviacy-ploice', 'ContentController@privacy');
+    Route::get('/show', 'ContentController@show');
     Route::get('/setting', 'ContentController@contactUs');
 
-                
+
 
 
     Route::get('/company-services', 'ContentController@companyServices');

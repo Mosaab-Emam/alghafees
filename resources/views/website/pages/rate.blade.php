@@ -3,10 +3,11 @@
 @section('content')
 
 <section class="wizard-section">
-    <div class="row no-gutters  justify-content-center">
+    <div class="row no-gutters justify-content-center">
         <div class="col-11 col-sm-9 col-md-8 col-lg-6 text-center p-0 mt-3 mb-2">
             <div class="form-wizard">
-                <form id="form" role="form" action="{{ route('website.rate-request.store') }}" method="post" enctype='multipart/form-data'>
+                <form id="form" role="form" action="{{ route('website.rate-request.store') }}" method="post"
+                    enctype='multipart/form-data'>
                     <h2 class=" ltn__secondary-color-3"><strong>قدم طلب تقييم عقار </strong></h2>
                     @csrf
                     <div class="form-wizard-header">
@@ -95,7 +96,7 @@
     let map, marker;
 
     function initialise() {
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(function (position) {
             document.getElementById("latitude").value = position.coords.latitude;
             document.getElementById("longitude").value = position.coords.longitude;
             var latitude = position.coords.latitude;
@@ -113,10 +114,11 @@
             marker = new google.maps.Marker({
                 position: myCenter
                 , draggable: true
-            , });
+                ,
+            });
             marker.setMap(map);
             geocodePosition(marker.getPosition());
-            new google.maps.event.addListener(marker, 'dragend', function() {
+            new google.maps.event.addListener(marker, 'dragend', function () {
 
                 geocodePosition(marker.getPosition());
                 $("#latitude").val(this.getPosition().lat());
@@ -124,13 +126,13 @@
 
             });
 
-        }, function() {
+        }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
         //var geoloccontrol = new klokantech.GeolocationControl(map, 20);
 
     }
-    $(".locatinId").bind('change paste keyup', function() {
+    $(".locatinId").bind('change paste keyup', function () {
         var latitude = document.getElementById("latitude").value;
 
         var longitude = document.getElementById("longitude").value;
@@ -147,7 +149,7 @@
         geocoder.geocode({
             latLng: pos
 
-        }, function(responses) {
+        }, function (responses) {
             if (responses && responses.length > 0) {
                 $("#location").val(responses[0].formatted_address);
             }

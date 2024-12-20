@@ -7,6 +7,7 @@ use Filament\Support\Assets\Css;
 use Filament\Support\Enums\Alignment;
 use Filament\Support\Enums\VerticalAlignment;
 use Filament\Support\Facades\FilamentAsset;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -28,7 +29,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Force the use of https
+        URL::forceScheme('https');
+
         FilamentAsset::register([
             Css::make('globals', 'globals.css'),
             Css::make('admin-css', Vite::asset('resources/css/app.css', 'build'))
@@ -41,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
 
         FilamentView::registerRenderHook(
             PanelsRenderHook::BODY_END,
-            fn (): string => "<script>
+            fn(): string => "<script>
             var last_count = null;
             var first_time = true;
             setInterval(function () {

@@ -16,7 +16,7 @@ endpoints:
         APIs for categories
       subgroup: ''
       subgroupDescription: ''
-      title: 'Fetch goals'
+      title: 'GET Fetch goals'
       description: 'This endpoint fetches all goals.'
       authenticated: false
       custom: []
@@ -38,7 +38,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '47'
+          x-ratelimit-remaining: '55'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -59,7 +59,7 @@ endpoints:
         APIs for categories
       subgroup: ''
       subgroupDescription: ''
-      title: 'Fetch types'
+      title: 'GET Fetch types'
       description: 'This endpoint fetches all types.'
       authenticated: false
       custom: []
@@ -81,7 +81,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '46'
+          x-ratelimit-remaining: '54'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -102,7 +102,7 @@ endpoints:
         APIs for categories
       subgroup: ''
       subgroupDescription: ''
-      title: 'Fetch entities'
+      title: 'GET Fetch entities'
       description: 'This endpoint fetches all entities.'
       authenticated: false
       custom: []
@@ -124,7 +124,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '45'
+          x-ratelimit-remaining: '53'
           access-control-allow-origin: '*'
         description: null
         custom: []
@@ -145,7 +145,7 @@ endpoints:
         APIs for categories
       subgroup: ''
       subgroupDescription: ''
-      title: 'Fetch usages'
+      title: 'GET Fetch usages'
       description: 'This endpoint fetches all usages.'
       authenticated: false
       custom: []
@@ -167,7 +167,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '60'
-          x-ratelimit-remaining: '44'
+          x-ratelimit-remaining: '52'
           access-control-allow-origin: '*'
         description: null
         custom: []

@@ -14,7 +14,7 @@ endpoints:
         APIs for rate requests
       subgroup: ''
       subgroupDescription: ''
-      title: 'Add a request to the database'
+      title: 'POST Add a request to the database'
       description: 'This endpoint accepts a new rate request input.'
       authenticated: false
       custom: []

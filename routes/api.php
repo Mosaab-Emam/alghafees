@@ -19,10 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\\Http\\Controllers\\API', 'as' => 'api.'], function () {
     Route::apiResource('rate-requests', RateRequestAPIController::class);
     // Route::get('/tracking', 'RateRequestsController@tracking');
-    Route::get('/categories/goals', [CategoryAPIController::class, 'goals'])->name('categories.goals');
-    Route::get('/categories/types', [CategoryAPIController::class, 'types'])->name('categories.types');
-    Route::get('/categories/entities', [CategoryAPIController::class, 'entities'])->name('categories.entities');
-    Route::get('/categories/usages', [CategoryAPIController::class, 'usages'])->name('categories.usages');
+    Route::get('categories/goals', [CategoryAPIController::class, 'goals'])->name('categories.goals');
+    Route::get('categories/types', [CategoryAPIController::class, 'types'])->name('categories.types');
+    Route::get('categories/entities', [CategoryAPIController::class, 'entities'])->name('categories.entities');
+    Route::get('categories/usages', [CategoryAPIController::class, 'usages'])->name('categories.usages');
 });
 
 Route::group(['namespace' => 'App\\Http\\Controllers\\Api'], function () {

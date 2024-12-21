@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Http\Resources\CategoryResource;
 use App\Interfaces\CategoryRepositoryInterface;
 
+/**
+ * @group Categories
+ *
+ * APIs for categories
+ */
 class CategoryAPIController extends ResponseController
 {
     private CategoryRepositoryInterface $categoryRepository;
@@ -16,6 +21,12 @@ class CategoryAPIController extends ResponseController
         $this->categoryRepository = $categoryRepository;
     }
 
+    /**
+     * Fetch goals
+     *
+     * This endpoint fetches all goals.
+     * 
+     */
     public function goals(Request $request)
     {
         $data = $this->categoryRepository->getPublishCategories('ApartmentGoal', 999, $request->input('list', []));
@@ -27,6 +38,12 @@ class CategoryAPIController extends ResponseController
         );
     }
 
+    /**
+     * Fetch types
+     *
+     * This endpoint fetches all types.
+     * 
+     */
     public function types(Request $request)
     {
         $data = $this->categoryRepository->getPublishCategories('ApartmentType', 999, $request->input('list', []));
@@ -38,6 +55,12 @@ class CategoryAPIController extends ResponseController
         );
     }
 
+    /**
+     * Fetch entities
+     *
+     * This endpoint fetches all entities.
+     * 
+     */
     public function entities(Request $request)
     {
         $data = $this->categoryRepository->getPublishCategories('ApartmentEntity', 999, $request->input('list', []));
@@ -49,6 +72,12 @@ class CategoryAPIController extends ResponseController
         );
     }
 
+    /**
+     * Fetch usages
+     *
+     * This endpoint fetches all usages.
+     * 
+     */
     public function usages(Request $request)
     {
         $data = $this->categoryRepository->getPublishCategories('ApartmentUsage', 999, $request->input('list', []));

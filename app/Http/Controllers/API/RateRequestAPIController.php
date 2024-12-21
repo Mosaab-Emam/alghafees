@@ -23,7 +23,7 @@ class RateRequestAPIController extends ResponseController
     }
 
     /**
-     * Add a request to the database
+     * POST Add a request to the database
      *
      * This endpoint accepts a new rate request input.
      * 
@@ -43,23 +43,22 @@ class RateRequestAPIController extends ResponseController
                         $fileAdder->toMediaCollection($item);
                     });
             }
-
         }
 
-        // $title = 'رسائل الموقع رقم ' . $data['request_no'];
-        // $content = __('website.RateRequestContent', ['item' => $evaluation]);
-        // $view = 'contact';
-        // event(new RequestEmailEvent($title, $content, $view, $item));
-
-        return response()->json([
-            "data" => $evaluation
-        ]);
-
-        return $this->successResponse([], trans(' تم استلام طلبك رقم ' . $data['request_no'] . 'سيقوم فريق العمل بشركة صالح الغفيص للتقييم العقارى بالتواصل معك قريباَ'), 200);
+        return $this->successResponse(
+            $evaluation,
+            'Rate request created successfully',
+            200
+        );
     }
 
-
-    public function tracking(request $request)
+    /**
+     * GET Track a request
+     *
+     * This endpoint tracks a rate request by its request number.
+     * 
+     */
+    public function tracking(Request $request)
     {
         if ($request->request_no) {
             $trackId = $request->request_no;
@@ -68,26 +67,27 @@ class RateRequestAPIController extends ResponseController
             if ($order) {
                 $orderDetails = $order->getStatusApi();
 
-                return response()->json(
+                return $this->successResponse(
                     [
                         'order' => $order,
                         'status' => $orderDetails,
                     ],
+                    'Order tracked successfully',
                     200
                 );
-
-
-
             } else {
-                return response()->json([
-                    'message' => 'لا يوجد طلب بهذا الرقم' . $trackId . '',
-                ], 503);
+                return $this->successResponse(
+                    null,
+                    'No order found with this number: ' . $trackId,
+                    503
+                );
             }
         } else {
-            return response()->json([
-                'message' => 'يجب أدخال رقم الطلب',
-            ], 503);
+            return $this->successResponse(
+                null,
+                'Request number is required',
+                503
+            );
         }
-
     }
 }

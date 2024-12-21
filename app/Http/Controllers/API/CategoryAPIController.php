@@ -22,7 +22,7 @@ class CategoryAPIController extends ResponseController
     }
 
     /**
-     * Fetch goals
+     * GET Fetch goals
      *
      * This endpoint fetches all goals.
      * 
@@ -39,7 +39,7 @@ class CategoryAPIController extends ResponseController
     }
 
     /**
-     * Fetch types
+     * GET Fetch types
      *
      * This endpoint fetches all types.
      * 
@@ -56,7 +56,7 @@ class CategoryAPIController extends ResponseController
     }
 
     /**
-     * Fetch entities
+     * GET Fetch entities
      *
      * This endpoint fetches all entities.
      * 
@@ -73,7 +73,7 @@ class CategoryAPIController extends ResponseController
     }
 
     /**
-     * Fetch usages
+     * GET Fetch usages
      *
      * This endpoint fetches all usages.
      * 

@@ -29,8 +29,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Force the use of https
-        URL::forceScheme('https');
+        // Force the use of https if the environment (APP_URL) starts with https
+        if (str_starts_with(config('app.url'), 'https')) {
+            URL::forceScheme('https');
+        }
+
+        // Print the app url
 
         FilamentAsset::register([
             Css::make('globals', 'globals.css'),

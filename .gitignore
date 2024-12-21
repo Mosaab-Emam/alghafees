@@ -10,6 +10,14 @@
 /public/panel
 /public/upload
 /public/vendor
+/public/*.png
+/public/*.jpg
+/public/*.jpeg
+/public/*.gif
+/public/*.bmp
+/public/*.tiff
+/public/*.svg
+/public/[0-9]*/
 /storage/*.key
 /storage/framework/sessions
 /vendor

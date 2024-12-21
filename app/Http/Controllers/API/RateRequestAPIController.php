@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\RateRequest;
 use App\Interfaces\RateRequestRepositoryInterface;
 
+/**
+ * @group Rate Requests
+ *
+ * APIs for rate requests
+ */
 class RateRequestAPIController extends ResponseController
 {
     private RateRequestRepositoryInterface $rateRepository;
@@ -17,6 +22,12 @@ class RateRequestAPIController extends ResponseController
         $this->rateRepository = $rateRepository;
     }
 
+    /**
+     * Add a request to the database
+     *
+     * This endpoint accepts a new rate request input.
+     * 
+     */
     public function store(RequestRate $request)
     {
         $data = $request->all();

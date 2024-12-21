@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Test title</title>
+    <title>API docs</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -26,7 +26,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "https://8000-atefbadreddine-alghafis-sapest63fzc.ws-us117.gitpod.io";
+        var tryItOutBaseUrl = "http://localhost";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -66,13 +66,13 @@
                     <a href="#authenticating-requests">Authenticating requests</a>
                 </li>
                             </ul>
-                    <ul id="tocify-header-endpoints" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="endpoints">
-                    <a href="#endpoints">Endpoints</a>
+                    <ul id="tocify-header-rate-requests" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="rate-requests">
+                    <a href="#rate-requests">Rate Requests</a>
                 </li>
-                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="endpoints-POSTapi-rate-requests">
-                                <a href="#endpoints-POSTapi-rate-requests">POST api/rate-requests</a>
+                                    <ul id="tocify-subheader-rate-requests" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="rate-requests-POSTapi-rate-requests">
+                                <a href="#rate-requests-POSTapi-rate-requests">Add a request to the database</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -85,7 +85,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: December 20, 2024</li>
+        <li>Last updated: December 21, 2024</li>
     </ul>
 </div>
 
@@ -93,8 +93,9 @@
     <div class="dark-box"></div>
     <div class="content">
         <h1 id="introduction">Introduction</h1>
+<p>API documentation for</p>
 <aside>
-    <strong>Base URL</strong>: <code>https://8000-atefbadreddine-alghafis-sapest63fzc.ws-us117.gitpod.io</code>
+    <strong>Base URL</strong>: <code>http://localhost</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -103,16 +104,16 @@ You can switch the language used with the tabs at the top right (or from the nav
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
-        <h1 id="endpoints">Endpoints</h1>
+        <h1 id="rate-requests">Rate Requests</h1>
 
-    
+    <p>APIs for rate requests</p>
 
-                                <h2 id="endpoints-POSTapi-rate-requests">POST api/rate-requests</h2>
+                                <h2 id="rate-requests-POSTapi-rate-requests">Add a request to the database</h2>
 
 <p>
 </p>
 
-
+<p>This endpoint accepts a new rate request input.</p>
 
 <span id="example-requests-POSTapi-rate-requests">
 <blockquote>Example request:</blockquote>
@@ -120,30 +121,32 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "https://8000-atefbadreddine-alghafis-sapest63fzc.ws-us117.gitpod.io/api/rate-requests" \
+    "http://localhost/api/rate-requests" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"lgdtwgwamohgorivwskvbcp\",
-    \"mobile\": \"0557339515\",
-    \"email\": \"orie.waelchi@example.org\",
-    \"address\": \"khfe\",
-    \"goal_id\": \"nisi\",
-    \"notes\": \"id\",
-    \"type_id\": \"autem\",
-    \"real_estate_details\": \"inventore\",
-    \"real_estate_age\": 38,
-    \"real_estate_area\": 64,
-    \"latitude\": -90,
-    \"longitude\": -180,
-    \"location\": \"acftcnkerfldzwsglj\"
+    \"name\": \"رضا عياد\",
+    \"mobile\": \"0545853228\",
+    \"email\": \"redayadmm1234@gmail.com\",
+    \"address\": \"شارع النصر، حي النصر، مدينة الرياض\",
+    \"goal_id\": 1,
+    \"notes\": \"يرجى التواصل معي في أقرب وقت ممكن\",
+    \"type_id\": 1,
+    \"real_estate_details\": \"يحتوي على 3 غرف نوم وصالة ومطبخ وحمامين\",
+    \"entity_id\": 1,
+    \"real_estate_age\": 5,
+    \"real_estate_area\": 200,
+    \"usage_id\": 1,
+    \"latitude\": \"24.7136\",
+    \"longitude\": \"46.6753\",
+    \"location\": \"شارع النصر، حي النصر، مدينة الرياض\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://8000-atefbadreddine-alghafis-sapest63fzc.ws-us117.gitpod.io/api/rate-requests"
+    "http://localhost/api/rate-requests"
 );
 
 const headers = {
@@ -152,19 +155,21 @@ const headers = {
 };
 
 let body = {
-    "name": "lgdtwgwamohgorivwskvbcp",
-    "mobile": "0557339515",
-    "email": "orie.waelchi@example.org",
-    "address": "khfe",
-    "goal_id": "nisi",
-    "notes": "id",
-    "type_id": "autem",
-    "real_estate_details": "inventore",
-    "real_estate_age": 38,
-    "real_estate_area": 64,
-    "latitude": -90,
-    "longitude": -180,
-    "location": "acftcnkerfldzwsglj"
+    "name": "رضا عياد",
+    "mobile": "0545853228",
+    "email": "redayadmm1234@gmail.com",
+    "address": "شارع النصر، حي النصر، مدينة الرياض",
+    "goal_id": 1,
+    "notes": "يرجى التواصل معي في أقرب وقت ممكن",
+    "type_id": 1,
+    "real_estate_details": "يحتوي على 3 غرف نوم وصالة ومطبخ وحمامين",
+    "entity_id": 1,
+    "real_estate_age": 5,
+    "real_estate_area": 200,
+    "usage_id": 1,
+    "latitude": "24.7136",
+    "longitude": "46.6753",
+    "location": "شارع النصر، حي النصر، مدينة الرياض"
 };
 
 fetch(url, {
@@ -253,10 +258,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-rate-requests"
-               value="lgdtwgwamohgorivwskvbcp"
+               value="رضا عياد"
                data-component="body">
     <br>
-<p>يجب أن لا يتجاوز طول نّص حقل value 255 حروفٍ/حرفًا. Example: <code>lgdtwgwamohgorivwskvbcp</code></p>
+<p>The name of the requester. Example: <code>رضا عياد</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>mobile</code></b>&nbsp;&nbsp;
@@ -264,10 +269,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="mobile"                data-endpoint="POSTapi-rate-requests"
-               value="0557339515"
+               value="0545853228"
                data-component="body">
     <br>
-<p>Must match the regex /^05[0-9]{8}$/. Example: <code>0557339515</code></p>
+<p>Must match the regex /^05[0-9]{8}$/. Example: <code>0545853228</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -275,10 +280,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-rate-requests"
-               value="orie.waelchi@example.org"
+               value="redayadmm1234@gmail.com"
                data-component="body">
     <br>
-<p>من فضلك قم بإدخال بريد إلكتروني صحيح يجب أن لا يتجاوز طول نّص حقل value 255 حروفٍ/حرفًا. Example: <code>orie.waelchi@example.org</code></p>
+<p>The email of the requester. Example: <code>redayadmm1234@gmail.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
@@ -286,21 +291,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="address"                data-endpoint="POSTapi-rate-requests"
-               value="khfe"
+               value="شارع النصر، حي النصر، مدينة الرياض"
                data-component="body">
     <br>
-<p>يجب أن لا يتجاوز طول نّص حقل value 255 حروفٍ/حرفًا. Example: <code>khfe</code></p>
+<p>The address of the requester. Example: <code>شارع النصر، حي النصر، مدينة الرياض</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>goal_id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="goal_id"                data-endpoint="POSTapi-rate-requests"
-               value="nisi"
+                <input type="number" style="display: none"
+               step="any"               name="goal_id"                data-endpoint="POSTapi-rate-requests"
+               value="1"
                data-component="body">
     <br>
-<p>The <code>id</code> of an existing record in the categories table. Example: <code>nisi</code></p>
+<p>The id of an existing record in the categories table. Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>notes</code></b>&nbsp;&nbsp;
@@ -308,21 +313,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="notes"                data-endpoint="POSTapi-rate-requests"
-               value="id"
+               value="يرجى التواصل معي في أقرب وقت ممكن"
                data-component="body">
     <br>
-<p>Example: <code>id</code></p>
+<p>Additional information. Example: <code>يرجى التواصل معي في أقرب وقت ممكن</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>type_id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="type_id"                data-endpoint="POSTapi-rate-requests"
-               value="autem"
+                <input type="number" style="display: none"
+               step="any"               name="type_id"                data-endpoint="POSTapi-rate-requests"
+               value="1"
                data-component="body">
     <br>
-<p>The <code>id</code> of an existing record in the categories table. Example: <code>autem</code></p>
+<p>The id of an existing record in the categories table. Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>real_estate_details</code></b>&nbsp;&nbsp;
@@ -330,21 +335,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="real_estate_details"                data-endpoint="POSTapi-rate-requests"
-               value="inventore"
+               value="يحتوي على 3 غرف نوم وصالة ومطبخ وحمامين"
                data-component="body">
     <br>
-<p>Example: <code>inventore</code></p>
+<p>More details about the property. Example: <code>يحتوي على 3 غرف نوم وصالة ومطبخ وحمامين</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>entity_id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="entity_id"                data-endpoint="POSTapi-rate-requests"
-               value=""
+                <input type="number" style="display: none"
+               step="any"               name="entity_id"                data-endpoint="POSTapi-rate-requests"
+               value="1"
                data-component="body">
     <br>
-<p>The <code>id</code> of an existing record in the categories table.</p>
+<p>The id of an existing record in the categories table. Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>real_estate_age</code></b>&nbsp;&nbsp;
@@ -352,10 +357,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="real_estate_age"                data-endpoint="POSTapi-rate-requests"
-               value="38"
+               value="5"
                data-component="body">
     <br>
-<p>يجب أن تكون قيمة حقل value مساوية أو أكبر من 1. Example: <code>38</code></p>
+<p>The age of the property. Example: <code>5</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>real_estate_area</code></b>&nbsp;&nbsp;
@@ -363,43 +368,43 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="real_estate_area"                data-endpoint="POSTapi-rate-requests"
-               value="64"
+               value="200"
                data-component="body">
     <br>
-<p>يجب أن تكون قيمة حقل value مساوية أو أكبر من 1. Example: <code>64</code></p>
+<p>The area of the property in square meters. Example: <code>200</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>usage_id</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+<small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
-                <input type="text" style="display: none"
-                              name="usage_id"                data-endpoint="POSTapi-rate-requests"
-               value=""
+                <input type="number" style="display: none"
+               step="any"               name="usage_id"                data-endpoint="POSTapi-rate-requests"
+               value="1"
                data-component="body">
     <br>
-<p>The <code>id</code> of an existing record in the categories table.</p>
+<p>The id of an existing record in the categories table. Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>latitude</code></b>&nbsp;&nbsp;
-<small>number</small>&nbsp;
+<small>numeric</small>&nbsp;
 <i>optional</i> &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="latitude"                data-endpoint="POSTapi-rate-requests"
-               value="-90"
+                <input type="text" style="display: none"
+                              name="latitude"                data-endpoint="POSTapi-rate-requests"
+               value="24.7136"
                data-component="body">
     <br>
-<p>يجب أن تكون قيمة حقل value بين -90 و 90. Example: <code>-90</code></p>
+<p>Between -90 and 90. Example: <code>24.7136</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>longitude</code></b>&nbsp;&nbsp;
-<small>number</small>&nbsp;
+<small>numeric</small>&nbsp;
 <i>optional</i> &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="longitude"                data-endpoint="POSTapi-rate-requests"
-               value="-180"
+                <input type="text" style="display: none"
+                              name="longitude"                data-endpoint="POSTapi-rate-requests"
+               value="46.6753"
                data-component="body">
     <br>
-<p>يجب أن تكون قيمة حقل value بين -180 و 180. Example: <code>-180</code></p>
+<p>Between -180 and 180. Example: <code>46.6753</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>location</code></b>&nbsp;&nbsp;
@@ -407,10 +412,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="location"                data-endpoint="POSTapi-rate-requests"
-               value="acftcnkerfldzwsglj"
+               value="شارع النصر، حي النصر، مدينة الرياض"
                data-component="body">
     <br>
-<p>يجب أن لا يتجاوز طول نّص حقل value 255 حروفٍ/حرفًا. Example: <code>acftcnkerfldzwsglj</code></p>
+<p>The location of the property. Example: <code>شارع النصر، حي النصر، مدينة الرياض</code></p>
         </div>
         </form>
 

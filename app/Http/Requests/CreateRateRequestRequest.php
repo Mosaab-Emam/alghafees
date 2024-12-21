@@ -19,7 +19,7 @@ namespace App\Http\Requests;
  * @bodyParam longitude numeric Between -180 and 180. Example: 46.6753
  * @bodyParam location string required The location of the property. Example: شارع النصر، حي النصر، مدينة الرياض
  */
-class RequestRate extends Request
+class CreateRateRequestRequest extends Request
 {
     public function rules()
     {

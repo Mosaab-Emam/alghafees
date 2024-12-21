@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Website;
 
 use App\Events\RequestEmailEvent;
-use App\Http\Requests\RequestRate;
+use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Controllers\Controller;
 use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\RateRequestRepositoryInterface;
@@ -37,7 +37,7 @@ class RateRequestsController extends Controller
 
     }
 
-    public function store(RequestRate $request)
+    public function store(CreateRateRequestRequest $request)
     {
         $data = $request->all();
         $data['request_no'] = !empty(RateRequest::latest()->first()->id) ? RateRequest::latest()->first()->id * 100 : '1000';

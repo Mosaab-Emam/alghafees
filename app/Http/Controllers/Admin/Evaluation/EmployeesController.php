@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Evaluation;
 
 use App\Helpers\Constants;
 use Illuminate\Http\Request;
-use App\Http\Requests\RequestRate;
+use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContentRequest;
 use App\Models\Evaluation\EvaluationEmployee;
@@ -17,7 +17,7 @@ class EmployeesController extends Controller
     public function __construct(EmployeeRepositoryInterface $employeeRepository)
     {
         $this->employeeRepository = $employeeRepository;
-         $this->middleware('auth');
+        $this->middleware('auth');
         $this->middleware('checkPermission:evaluation-employees.index')->only(['index']);
         $this->middleware('checkPermission:evaluation-employees.show')->only(['show']);
         $this->middleware('checkPermission:evaluation-employees.edit')->only(['edit']);
@@ -65,7 +65,7 @@ class EmployeesController extends Controller
 
         if (isset($request->action) && $request->action == 'preview') {
             return redirect()->route('admin.evaluation-employees.store')
-                    ->with('message', __('admin.AddedMessage'));
+                ->with('message', __('admin.AddedMessage'));
         }
 
         return redirect()->route('admin.evaluation-employees.index')
@@ -87,7 +87,7 @@ class EmployeesController extends Controller
 
     public function update(ContentRequest $request, $id)
     {
-        $data = $request->except(['_token', '_method' ]);
+        $data = $request->except(['_token', '_method']);
 
         $this->employeeRepository->updateEmployee($id, $data);
 

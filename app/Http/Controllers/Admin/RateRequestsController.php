@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Constants;
 use Illuminate\Http\Request;
-use App\Http\Requests\RequestRate;
+use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangeStatusRequest;
 use App\Interfaces\RateRequestRepositoryInterface;
@@ -65,7 +65,7 @@ class RateRequestsController extends Controller
         return view('admin.rates.create_and_edit', compact('item', 'statuses'));
     }
 
-    public function update(RequestRate $request, $id)
+    public function update(CreateRateRequestRequest $request, $id)
     {
         $data = $request->except(['_token', '_method']);
 

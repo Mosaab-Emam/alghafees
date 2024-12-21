@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\RequestRate;
+use App\Http\Requests\CreateRateRequestRequest;
 use Illuminate\Http\Request;
 use App\Models\RateRequest;
 use App\Interfaces\RateRequestRepositoryInterface;
@@ -28,7 +28,7 @@ class RateRequestAPIController extends ResponseController
      * This endpoint accepts a new rate request input.
      * 
      */
-    public function store(RequestRate $request)
+    public function store(CreateRateRequestRequest $request)
     {
         $data = $request->all();
 

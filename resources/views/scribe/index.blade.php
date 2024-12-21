@@ -8,8 +8,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ asset("/vendor/scribe/css/theme-default.style.css") }}" media="screen">
-    <link rel="stylesheet" href="{{ asset("/vendor/scribe/css/theme-default.print.css") }}" media="print">
+    <link rel="stylesheet" href="scribe/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="scribe/css/theme-default.print.css" media="print">
 
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
@@ -19,26 +19,32 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
 
-    <style id="language-style">
-        /* starts out as display none and is replaced with js later  */
-                    body .content .bash-example code { display: none; }
-                    body .content .javascript-example code { display: none; }
-            </style>
+            <style id="language-style">
+            /* starts out as display none and is replaced with js later  */
+                            body .content .bash-example code {
+                    display: none;
+                }
 
-    <script>
-        var tryItOutBaseUrl = "http://localhost";
-        var useCsrf = Boolean();
-        var csrfUrl = "/sanctum/csrf-cookie";
-    </script>
-    <script src="{{ asset("/vendor/scribe/js/tryitout-4.38.0.js") }}"></script>
+                            body .content .javascript-example code {
+                    display: none;
+                }
 
-    <script src="{{ asset("/vendor/scribe/js/theme-default-4.38.0.js") }}"></script>
+                    </style>
+    
+            <script>
+            var tryItOutBaseUrl = "http://localhost";
+            var useCsrf = Boolean();
+            var csrfUrl = "/sanctum/csrf-cookie";
+        </script>
+        <script src="scribe/js/tryitout-4.38.0.js"></script>
+    
+    <script src="scribe/js/theme-default-4.38.0.js"></script>
 
 </head>
 
 <body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
 
-<a href="#" id="nav-button">
+    <a href="#" id="nav-button">
     <span>
         MENU
         <img src="{{ asset("/vendor/scribe/images/navbar.png") }}" alt="navbar-image"/>
@@ -108,10 +114,10 @@
     </ul>
 </div>
 
-<div class="page-wrapper">
-    <div class="dark-box"></div>
-    <div class="content">
-        <h1 id="introduction">Introduction</h1>
+    <div class="page-wrapper">
+        <div class="dark-box"></div>
+        <div class="content">
+            <h1 id="introduction">Introduction</h1>
 <p>API documentation for</p>
 <aside>
     <strong>Base URL</strong>: <code>http://localhost</code>
@@ -120,7 +126,7 @@
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
 You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
 
-        <h1 id="authenticating-requests">Authenticating requests</h1>
+            <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
         <h1 id="categories">Categories</h1>
@@ -173,7 +179,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 55
+x-ratelimit-remaining: 59
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -343,7 +349,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 54
+x-ratelimit-remaining: 58
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -637,7 +643,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 53
+x-ratelimit-remaining: 57
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -787,7 +793,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 52
+x-ratelimit-remaining: 56
 access-control-allow-origin: *
  </code></pre></details>         <pre>
 
@@ -1232,7 +1238,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
             
 
-        
+            
+        </div>
+        <div class="dark-box">
+                            <div class="lang-selector">
+                                                                    <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                                                    <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                                    </div>
+                    </div>
     </div>
     <div class="dark-box">
                     <div class="lang-selector">

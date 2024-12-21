@@ -33,3 +33,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+.scribe/*
+resources/views/scribe/index.blade.php

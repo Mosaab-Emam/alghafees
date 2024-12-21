@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -13,8 +14,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 
-    <link rel="stylesheet"
-          href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/styles/obsidian.min.css">
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.6.0/highlight.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
@@ -32,7 +32,7 @@
                     </style>
     
             <script>
-            var tryItOutBaseUrl = "http://localhost";
+            var tryItOutBaseUrl = "https://alghafestaqeem.com";
             var useCsrf = Boolean();
             var csrfUrl = "/sanctum/csrf-cookie";
         </script>
@@ -120,7 +120,7 @@
             <h1 id="introduction">Introduction</h1>
 <p>API documentation for</p>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost</code>
+    <strong>Base URL</strong>: <code>https://alghafestaqeem.com</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -129,7 +129,7 @@ You can switch the language used with the tabs at the top right (or from the nav
             <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
-        <h1 id="categories">Categories</h1>
+            <h1 id="categories">Categories</h1>
 
     <p>APIs for categories</p>
 
@@ -146,14 +146,14 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/categories/goals" \
+    --get "https://alghafestaqeem.com/api/categories/goals" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/categories/goals"
+    "https://alghafestaqeem.com/api/categories/goals"
 );
 
 const headers = {
@@ -316,14 +316,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/categories/types" \
+    --get "https://alghafestaqeem.com/api/categories/types" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/categories/types"
+    "https://alghafestaqeem.com/api/categories/types"
 );
 
 const headers = {
@@ -359,8 +359,48 @@ access-control-allow-origin: *
     &quot;message&quot;: &quot;Property types retrieved successfully&quot;,
     &quot;data&quot;: [
         {
-            &quot;id&quot;: 80,
-            &quot;title&quot;: &quot;ارض  و مزرعة &quot;
+            &quot;id&quot;: 50,
+            &quot;title&quot;: &quot;أرض&quot;
+        },
+        {
+            &quot;id&quot;: 51,
+            &quot;title&quot;: &quot;أرض تجاري&quot;
+        },
+        {
+            &quot;id&quot;: 54,
+            &quot;title&quot;: &quot;مجمع تجاري&quot;
+        },
+        {
+            &quot;id&quot;: 55,
+            &quot;title&quot;: &quot;مدرسة&quot;
+        },
+        {
+            &quot;id&quot;: 56,
+            &quot;title&quot;: &quot;مستودع&quot;
+        },
+        {
+            &quot;id&quot;: 57,
+            &quot;title&quot;: &quot;برج اتصالات&quot;
+        },
+        {
+            &quot;id&quot;: 58,
+            &quot;title&quot;: &quot;قصر&quot;
+        },
+        {
+            &quot;id&quot;: 59,
+            &quot;title&quot;: &quot;مجمع سكني&quot;
+        },
+        {
+            &quot;id&quot;: 63,
+            &quot;title&quot;: &quot;ارض سكنية&quot;
+        },
+        {
+            &quot;id&quot;: 64,
+            &quot;title&quot;: &quot;ارض سكنية تجارية&quot;
+        },
+        {
+            &quot;id&quot;: 65,
+            &quot;title&quot;: &quot;أرض مرفق&quot;
         },
         {
             &quot;id&quot;: 66,
@@ -403,8 +443,8 @@ access-control-allow-origin: *
             &quot;title&quot;: &quot;3 محطات &quot;
         },
         {
-            &quot;id&quot;: 65,
-            &quot;title&quot;: &quot;أرض مرفق&quot;
+            &quot;id&quot;: 80,
+            &quot;title&quot;: &quot;ارض  و مزرعة &quot;
         },
         {
             &quot;id&quot;: 81,
@@ -441,46 +481,6 @@ access-control-allow-origin: *
         {
             &quot;id&quot;: 91,
             &quot;title&quot;: &quot;عقارات متعددة&quot;
-        },
-        {
-            &quot;id&quot;: 64,
-            &quot;title&quot;: &quot;ارض سكنية تجارية&quot;
-        },
-        {
-            &quot;id&quot;: 50,
-            &quot;title&quot;: &quot;أرض&quot;
-        },
-        {
-            &quot;id&quot;: 51,
-            &quot;title&quot;: &quot;أرض تجاري&quot;
-        },
-        {
-            &quot;id&quot;: 54,
-            &quot;title&quot;: &quot;مجمع تجاري&quot;
-        },
-        {
-            &quot;id&quot;: 55,
-            &quot;title&quot;: &quot;مدرسة&quot;
-        },
-        {
-            &quot;id&quot;: 56,
-            &quot;title&quot;: &quot;مستودع&quot;
-        },
-        {
-            &quot;id&quot;: 57,
-            &quot;title&quot;: &quot;برج اتصالات&quot;
-        },
-        {
-            &quot;id&quot;: 58,
-            &quot;title&quot;: &quot;قصر&quot;
-        },
-        {
-            &quot;id&quot;: 59,
-            &quot;title&quot;: &quot;مجمع سكني&quot;
-        },
-        {
-            &quot;id&quot;: 63,
-            &quot;title&quot;: &quot;ارض سكنية&quot;
         },
         {
             &quot;id&quot;: 40,
@@ -610,14 +610,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/categories/entities" \
+    --get "https://alghafestaqeem.com/api/categories/entities" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/categories/entities"
+    "https://alghafestaqeem.com/api/categories/entities"
 );
 
 const headers = {
@@ -760,14 +760,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/categories/usages" \
+    --get "https://alghafestaqeem.com/api/categories/usages" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/categories/usages"
+    "https://alghafestaqeem.com/api/categories/usages"
 );
 
 const headers = {
@@ -938,7 +938,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/rate-requests" \
+    "https://alghafestaqeem.com/api/rate-requests" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -963,7 +963,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/rate-requests"
+    "https://alghafestaqeem.com/api/rate-requests"
 );
 
 const headers = {
@@ -1247,12 +1247,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
                                     </div>
                     </div>
     </div>
-    <div class="dark-box">
-                    <div class="lang-selector">
-                                                        <button type="button" class="lang-button" data-language-name="bash">bash</button>
-                                                        <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
-                            </div>
-            </div>
-</div>
 </body>
+
 </html>

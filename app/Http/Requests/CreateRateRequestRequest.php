@@ -23,52 +23,23 @@ class CreateRateRequestRequest extends Request
 {
     public function rules()
     {
-        switch ($this->method()) {
-            case 'POST': {
-                return [
-                    'name' => 'required|string|max:255',
-                    'mobile' => ['required', 'string', 'regex:/^05[0-9]{8}$/'],
-                    'email' => 'required|email:rfc|max:255',
-                    'address' => 'required|string|max:255',
-                    'goal_id' => 'required|exists:categories,id',
-                    'notes' => 'required|string',
-                    'type_id' => 'required|exists:categories,id',
-                    'real_estate_details' => 'nullable|string',
-                    'entity_id' => 'exists:categories,id',
-                    'real_estate_age' => 'required|integer|min:1',
-                    'real_estate_area' => 'required|integer|min:1',
-                    'usage_id' => 'exists:categories,id',
-                    'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-                    'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-                    'location' => 'required|string|max:255',
-                ];
-            }
-            case 'PUT':
-            case 'PATCH': {
-                return [
-                    'name' => 'string|max:255',
-                    'mobile' => 'string|regex:/^05[0-9]{8}$/',
-                    'email' => 'email:rfc|max:255',
-                    'address' => 'string|max:255',
-                    'goal_id' => 'exists:categories,id',
-                    'notes' => 'string',
-                    'type_id' => 'exists:categories,id',
-                    'real_estate_details' => 'nullable|string',
-                    'entity_id' => 'exists:categories,id',
-                    'real_estate_age' => 'integer|min:1',
-                    'real_estate_area' => 'integer|min:1',
-                    'usage_id' => 'exists:categories,id',
-                    'latitude' => ['nullable', 'numeric', 'between:-90,90'],
-                    'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-                    'location' => 'string|max:255',
-                ];
-            }
-            case 'GET':
-            case 'DELETE':
-            default: {
-                return [];
-            }
-        }
+        return [
+            'name' => 'required|string|max:255',
+            'mobile' => ['required', 'string', 'regex:/^05[0-9]{8}$/'],
+            'email' => 'required|email:rfc|max:255',
+            'address' => 'required|string|max:255',
+            'goal_id' => 'required|exists:categories,id',
+            'notes' => 'required|string',
+            'type_id' => 'required|exists:categories,id',
+            'real_estate_details' => 'nullable|string',
+            'entity_id' => 'exists:categories,id',
+            'real_estate_age' => 'required|integer|min:1',
+            'real_estate_area' => 'required|integer|min:1',
+            'usage_id' => 'exists:categories,id',
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'location' => 'required|string|max:255',
+        ];
     }
 
     public function messages()

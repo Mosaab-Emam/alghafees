@@ -22,13 +22,13 @@
   ),
   'bezhansalleh/filament-shield' => 
   array (
-    'providers' => 
-    array (
-      0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
-    ),
     'aliases' => 
     array (
       'FilamentShield' => 'BezhanSalleh\\FilamentShield\\Facades\\FilamentShield',
+    ),
+    'providers' => 
+    array (
+      0 => 'BezhanSalleh\\FilamentShield\\FilamentShieldServiceProvider',
     ),
   ),
   'blade-ui-kit/blade-heroicons' => 
@@ -128,24 +128,24 @@
   ),
   'intervention/image' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
     'aliases' => 
     array (
       'Image' => 'Intervention\\Image\\Facades\\Image',
     ),
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
+    ),
   ),
   'itsgoingd/clockwork' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Clockwork\\Support\\Laravel\\ClockworkServiceProvider',
-    ),
     'aliases' => 
     array (
       'Clockwork' => 'Clockwork\\Support\\Laravel\\Facade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Clockwork\\Support\\Laravel\\ClockworkServiceProvider',
     ),
   ),
   'kirschbaum-development/eloquent-power-joins' => 
@@ -155,15 +155,22 @@
       0 => 'Kirschbaum\\PowerJoins\\PowerJoinsServiceProvider',
     ),
   ),
-  'lara-zeus/core' => 
+  'knuckleswtf/scribe' => 
   array (
     'providers' => 
     array (
-      0 => 'LaraZeus\\Core\\CoreServiceProvider',
+      0 => 'Knuckles\\Scribe\\ScribeServiceProvider',
     ),
+  ),
+  'lara-zeus/core' => 
+  array (
     'aliases' => 
     array (
       'Core' => 'LaraZeus\\Core\\CoreFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'LaraZeus\\Core\\CoreServiceProvider',
     ),
   ),
   'lara-zeus/sky' => 
@@ -175,13 +182,13 @@
   ),
   'laracasts/flash' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Laracasts\\Flash\\FlashServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flash' => 'Laracasts\\Flash\\Flash',
+    ),
+    'providers' => 
+    array (
+      0 => 'Laracasts\\Flash\\FlashServiceProvider',
     ),
   ),
   'laravel/sail' => 
@@ -207,13 +214,13 @@
   ),
   'livewire/livewire' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Livewire\\LivewireServiceProvider',
-    ),
     'aliases' => 
     array (
       'Livewire' => 'Livewire\\Livewire',
+    ),
+    'providers' => 
+    array (
+      0 => 'Livewire\\LivewireServiceProvider',
     ),
   ),
   'maatwebsite/excel' => 
@@ -278,13 +285,13 @@
   ),
   'ryangjchandler/blade-capture-directive' => 
   array (
-    'providers' => 
-    array (
-      0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
-    ),
     'aliases' => 
     array (
       'BladeCaptureDirective' => 'RyanChandler\\BladeCaptureDirective\\Facades\\BladeCaptureDirective',
+    ),
+    'providers' => 
+    array (
+      0 => 'RyanChandler\\BladeCaptureDirective\\BladeCaptureDirectiveServiceProvider',
     ),
   ),
   'spatie/eloquent-sortable' => 
@@ -303,13 +310,13 @@
   ),
   'spatie/laravel-ignition' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
   'spatie/laravel-medialibrary' => 
@@ -328,13 +335,13 @@
   ),
   'spatie/laravel-signal-aware-command' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
-    ),
     'aliases' => 
     array (
       'Signal' => 'Spatie\\SignalAwareCommand\\Facades\\Signal',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\SignalAwareCommand\\SignalAwareCommandServiceProvider',
     ),
   ),
   'spatie/laravel-sitemap' => 
@@ -360,12 +367,12 @@
   ),
   'wireui/wireui' => 
   array (
+    'aliases' => 
+    array (
+    ),
     'providers' => 
     array (
       0 => 'WireUi\\Providers\\WireUiServiceProvider',
-    ),
-    'aliases' => 
-    array (
     ),
   ),
 );

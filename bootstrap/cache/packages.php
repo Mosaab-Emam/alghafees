@@ -126,6 +126,13 @@
       'Trend' => 'Flowframe\\Trend\\TrendFacade',
     ),
   ),
+  'inertiajs/inertia-laravel' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Inertia\\ServiceProvider',
+    ),
+  ),
   'intervention/image' => 
   array (
     'aliases' => 

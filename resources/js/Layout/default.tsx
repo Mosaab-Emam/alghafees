@@ -1,6 +1,7 @@
 // import React, { PropsWithChildren, Suspense, lazy } from "react";
 // import { Footer, Navbar, ScrollProgress } from "../_components";
 
+import Navbar from "@/Components/Navbar";
 import { PropsWithChildren } from "react";
 
 // import { Route, Routes } from "react-router-dom"; // Corrected import
@@ -56,8 +57,8 @@ import { PropsWithChildren } from "react";
 export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
     return (
         <div className="flex flex-col min-h-screen relative overflow-hidden max-w-[1440px] mx-auto">
-            {/* <ScrollProgress />
-            <Navbar /> */}
+            {/* <ScrollProgress / */}
+            <Navbar />
             <main className="flex-grow">
                 Layout
                 {/* <Routes> */}

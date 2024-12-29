@@ -1,3 +1,4 @@
+import react from '@vitejs/plugin-react';
 import laravel, { refreshPaths } from "laravel-vite-plugin";
 import { defineConfig } from "vite";
 
@@ -13,7 +14,9 @@ export default defineConfig({
                 "resources/js/signature_pad.umd.js",
                 "resources/js/sign.js",
                 "resources/js/app.js",
+                "resources/js/app.tsx",
             ],
+            ssr: "resources/js/ssr.tsx",
             refresh: [
                 ...refreshPaths,
                 "app/Filament/**",
@@ -24,5 +27,6 @@ export default defineConfig({
                 "app/Tables/Columns/**",
             ],
         }),
+        react(),
     ],
 });

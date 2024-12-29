@@ -21,6 +21,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Artisan;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
+use App\Http\Controllers\Website\HomeController;
 
 Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
@@ -42,7 +43,7 @@ Route::get('/public/{extra}', function ($extra) {
 })
     ->where('extra', '.*');
 Route::group(['namespace' => 'App\\Http\\Controllers\\Website', 'as' => 'website.'], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/rate-request', 'RateRequestsController@show')->name('rate-request.show');
     Route::post('/rate-request', 'RateRequestsController@store')->name('rate-request.store');
     Route::get('/contactUs', 'HomeController@contactUs')->name('contactUs');

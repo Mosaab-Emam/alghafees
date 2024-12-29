@@ -51,7 +51,7 @@ const BlogDetailsPage = lazy(
 // NotFound page
 const NotFoundPage = lazy(() => import("../Pages/notFoundPage/NotFoundPage"));
 
-function Layout({ children }: PropsWithChildren<{}>) {
+export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
     return (
         <div className="flex flex-col min-h-screen relative overflow-hidden max-w-[1440px] mx-auto">
             <ScrollProgress />
@@ -218,5 +218,3 @@ function Layout({ children }: PropsWithChildren<{}>) {
         </div>
     );
 }
-
-export default Layout;

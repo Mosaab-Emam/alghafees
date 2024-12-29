@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interfaces\ContentRepositoryInterface;
 use App\Models\Privacy;
-
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -29,20 +29,21 @@ class HomeController extends Controller
         $result['companyServices'] = $this->contentRepository->getPublishContents('CompanyService', 15);
 
 
-        return view('website.home.index', compact('result'));
+        return Inertia::render('Home', compact('result'));
+        // return view('website.home.index', compact('result'));
     }
-      public function contactUs()
+    public function contactUs()
     {
         return view('website.contact');
 
 
     }
-         public function Prviacyploice()
+    public function Prviacyploice()
     {
-        $Prviacyploice=Privacy::first();
-               return view('website.Prviacyploice', compact('Prviacyploice'));
+        $Prviacyploice = Privacy::first();
+        return view('website.Prviacyploice', compact('Prviacyploice'));
 
 
     }
-    
+
 }

@@ -1,3 +1,4 @@
+import Layout from "@/Layout/default";
 import { PageProps } from "@/types";
 import { Head, Link } from "@inertiajs/react";
 
@@ -7,7 +8,7 @@ export default function Welcome({
     phpVersion,
 }: PageProps<{ laravelVersion: string; phpVersion: string }>) {
     return (
-        <>
+        <Layout>
             <Head title="Welcome" />
             <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
                 <div className="max-w-7xl mx-auto p-6 lg:p-8">
@@ -299,6 +300,6 @@ export default function Welcome({
                     }
                 }
             `}</style>
-        </>
+        </Layout>
     );
 }

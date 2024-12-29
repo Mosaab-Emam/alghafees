@@ -1,0 +1,30 @@
+.bg-vision-img {
+	position: absolute;
+	transform: translate(100%, 0%);
+	right: 6%;
+	bottom: 0;
+
+	background: rgba(254, 255, 255, 0.5)
+		url("../../assets/images/about/about-vision-img.svg") 35% 35% no-repeat;
+	background-size: inherit;
+	overflow: hidden;
+	width: 235px;
+	height: 235px;
+	border-radius: 0px 0px 300px 0px;
+	border: 2px solid var(--Primary-06, #0f819f);
+}
+
+@media (max-width: 1200px) {
+	.bg-vision-img {
+		width: 160px;
+		height: 160px;
+		background-size: 50%;
+	}
+}
+@media (max-width: 768px) {
+	.bg-vision-img {
+		width: 104px;
+		height: 104px;
+		background-size: 50%;
+	}
+}

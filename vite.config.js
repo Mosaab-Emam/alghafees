@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import laravel, { refreshPaths } from "laravel-vite-plugin";
 import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
     server: {
@@ -28,5 +29,6 @@ export default defineConfig({
             ],
         }),
         react(),
+        svgr()
     ],
 });

@@ -1,55 +1,55 @@
 import React, { PropsWithChildren, Suspense, lazy } from "react";
-import { Footer, Navbar, ScrollProgress } from "../components";
+import { Footer, Navbar, ScrollProgress } from "../_components";
 
 import { Route, Routes } from "react-router-dom"; // Corrected import
-import BackToTop from "../components/BackToTop";
-import NewLetter from "../components/footer/newsLetter/NewsLetter";
-import PreLoadingPage from "../Pages/preLoadingPage/PreLoadingPage";
+import BackToTop from "../_components/BackToTop";
+import NewLetter from "../_components/footer/newsLetter/NewsLetter";
+import PreLoadingPage from "../_pages/preLoadingPage/PreLoadingPage";
 
-const Home = lazy(() => import("../Pages/home/Home"));
-const AboutUs = lazy(() => import("../Pages/aboutUs/AboutUs"));
-const OurClients = lazy(() => import("../Pages/ourClients/OurClients"));
+const Home = lazy(() => import("../_pages/home/Home"));
+const AboutUs = lazy(() => import("../_pages/aboutUs/AboutUs"));
+const OurClients = lazy(() => import("../_pages/ourClients/OurClients"));
 
 const RequestEvaluation = lazy(
-    () => import("../Pages/requestEvaluation/RequestEvaluation")
+    () => import("../_pages/requestEvaluation/RequestEvaluation")
 );
 
-const JoinUs = lazy(() => import("../Pages/joinUs/JoinUs"));
-const ContactUs = lazy(() => import("../Pages/contactUs/ContactUs"));
+const JoinUs = lazy(() => import("../_pages/joinUs/JoinUs"));
+const ContactUs = lazy(() => import("../_pages/contactUs/ContactUs"));
 const TrackYourRequest = lazy(
-    () => import("../Pages/trackYourRequest/TrackYourRequest")
+    () => import("../_pages/trackYourRequest/TrackYourRequest")
 );
 const PrivacyPolicy = lazy(
-    () => import("../Pages/privacyPolicy/PrivacyPolicy")
+    () => import("../_pages/privacyPolicy/PrivacyPolicy")
 );
 
 // our services
-const OurServices = lazy(() => import("../Pages/ourServices/OurServices"));
+const OurServices = lazy(() => import("../_pages/ourServices/OurServices"));
 const ServicesMainContent = lazy(
-    () => import("../Pages/ourServices/ServicesMainContent")
+    () => import("../_pages/ourServices/ServicesMainContent")
 );
 const OurServicesDetails = lazy(
-    () => import("../Pages/nestedPages/ourServicesDetails/OurServicesDetails")
+    () => import("../_pages/nestedPages/ourServicesDetails/OurServicesDetails")
 );
 
 // Events
-const Events = lazy(() => import("../Pages/events/Events"));
+const Events = lazy(() => import("../_pages/events/Events"));
 const EventsMainContent = lazy(
-    () => import("../Pages/events/EventsMainContent")
+    () => import("../_pages/events/EventsMainContent")
 );
 const EventDetailsPage = lazy(
-    () => import("../Pages/nestedPages/eventDetailsPage/EventDetailsPage")
+    () => import("../_pages/nestedPages/eventDetailsPage/EventDetailsPage")
 );
 
 // blog
-const Blog = lazy(() => import("../Pages/blog/Blog"));
-const BlogMainContent = lazy(() => import("../Pages/blog/BlogMainContent"));
+const Blog = lazy(() => import("../_pages/blog/Blog"));
+const BlogMainContent = lazy(() => import("../_pages/blog/BlogMainContent"));
 const BlogDetailsPage = lazy(
-    () => import("../Pages/nestedPages/blogDetailsPage/BlogDetailsPage")
+    () => import("../_pages/nestedPages/blogDetailsPage/BlogDetailsPage")
 );
 
 // NotFound page
-const NotFoundPage = lazy(() => import("../Pages/notFoundPage/NotFoundPage"));
+const NotFoundPage = lazy(() => import("../_pages/notFoundPage/NotFoundPage"));
 
 export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
     return (

@@ -14,7 +14,6 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/signature_pad.umd.js",
                 "resources/js/sign.js",
-                "resources/js/app.js",
                 "resources/js/app.tsx",
             ],
             ssr: "resources/js/ssr.tsx",

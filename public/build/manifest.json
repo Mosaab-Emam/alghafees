@@ -1,47 +1,82 @@
 {
   "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.eot": {
-    "file": "assets/fontawesome-webfont-7bfcab6d.eot",
+    "file": "assets/fontawesome-webfont-G5YE5S7X.eot",
     "src": "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.eot"
   },
   "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.svg": {
-    "file": "assets/fontawesome-webfont-ad615792.svg",
+    "file": "assets/fontawesome-webfont-D13rzr4g.svg",
     "src": "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.svg"
   },
   "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.ttf": {
-    "file": "assets/fontawesome-webfont-aa58f33f.ttf",
+    "file": "assets/fontawesome-webfont-CQDK8MU3.ttf",
     "src": "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.ttf"
   },
   "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.woff": {
-    "file": "assets/fontawesome-webfont-ba0c59de.woff",
+    "file": "assets/fontawesome-webfont-CDK5bt4p.woff",
     "src": "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.woff"
   },
   "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.woff2": {
-    "file": "assets/fontawesome-webfont-2adefcbc.woff2",
+    "file": "assets/fontawesome-webfont-B-jkhYfk.woff2",
     "src": "public/panel/vendors/font-awesome/fonts/fontawesome-webfont.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-92785046.css",
-    "isEntry": true,
-    "src": "resources/css/app.css"
+    "file": "assets/app-mJIvlhLC.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
   },
   "resources/css/signature-pad.css": {
-    "file": "assets/signature-pad-a65c6db4.css",
-    "isEntry": true,
-    "src": "resources/css/signature-pad.css"
+    "file": "assets/signature-pad-Dnwr-i4q.css",
+    "src": "resources/css/signature-pad.css",
+    "isEntry": true
   },
-  "resources/js/app.js": {
-    "file": "assets/app-4ed993c7.js",
+  "resources/js/Pages/Home.tsx": {
+    "file": "assets/Home-BQYuKK-p.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ],
+    "css": [
+      "assets/app-mJIvlhLC.css"
+    ],
+    "assets": [
+      "assets/fontawesome-webfont-G5YE5S7X.eot",
+      "assets/fontawesome-webfont-B-jkhYfk.woff2",
+      "assets/fontawesome-webfont-CDK5bt4p.woff",
+      "assets/fontawesome-webfont-CQDK8MU3.ttf",
+      "assets/fontawesome-webfont-D13rzr4g.svg"
+    ]
+  },
+  "resources/js/app.tsx": {
+    "file": "assets/app-Dtr5eUI7.js",
+    "name": "app",
+    "src": "resources/js/app.tsx",
     "isEntry": true,
-    "src": "resources/js/app.js"
+    "dynamicImports": [
+      "resources/js/Pages/Home.tsx"
+    ],
+    "css": [
+      "assets/app-mJIvlhLC.css"
+    ],
+    "assets": [
+      "assets/fontawesome-webfont-G5YE5S7X.eot",
+      "assets/fontawesome-webfont-B-jkhYfk.woff2",
+      "assets/fontawesome-webfont-CDK5bt4p.woff",
+      "assets/fontawesome-webfont-CQDK8MU3.ttf",
+      "assets/fontawesome-webfont-D13rzr4g.svg"
+    ]
   },
   "resources/js/sign.js": {
-    "file": "assets/sign-dbbd30c0.js",
-    "isEntry": true,
-    "src": "resources/js/sign.js"
+    "file": "assets/sign-CE1ST42W.js",
+    "name": "sign",
+    "src": "resources/js/sign.js",
+    "isEntry": true
   },
   "resources/js/signature_pad.umd.js": {
-    "file": "assets/signature_pad.umd-8db9d02f.js",
-    "isEntry": true,
-    "src": "resources/js/signature_pad.umd.js"
+    "file": "assets/signature_pad.umd-CRpX6FGC.js",
+    "name": "signature_pad.umd",
+    "src": "resources/js/signature_pad.umd.js",
+    "isEntry": true
   }
 }

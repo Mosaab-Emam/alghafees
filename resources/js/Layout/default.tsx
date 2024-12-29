@@ -1,96 +1,99 @@
-import React, { PropsWithChildren, Suspense, lazy } from "react";
-import { Footer, Navbar, ScrollProgress } from "../_components";
+// import React, { PropsWithChildren, Suspense, lazy } from "react";
+// import { Footer, Navbar, ScrollProgress } from "../_components";
 
-import { Route, Routes } from "react-router-dom"; // Corrected import
-import BackToTop from "../_components/BackToTop";
-import NewLetter from "../_components/footer/newsLetter/NewsLetter";
-import PreLoadingPage from "../_pages/preLoadingPage/PreLoadingPage";
+import { PropsWithChildren } from "react";
 
-const Home = lazy(() => import("../_pages/home/Home"));
-const AboutUs = lazy(() => import("../_pages/aboutUs/AboutUs"));
-const OurClients = lazy(() => import("../_pages/ourClients/OurClients"));
+// import { Route, Routes } from "react-router-dom"; // Corrected import
+// import BackToTop from "../_components/BackToTop";
+// import NewLetter from "../_components/footer/newsLetter/NewsLetter";
+// import PreLoadingPage from "../_pages/preLoadingPage/PreLoadingPage";
 
-const RequestEvaluation = lazy(
-    () => import("../_pages/requestEvaluation/RequestEvaluation")
-);
+// const Home = lazy(() => import("../_pages/home/Home"));
+// const AboutUs = lazy(() => import("../_pages/aboutUs/AboutUs"));
+// const OurClients = lazy(() => import("../_pages/ourClients/OurClients"));
 
-const JoinUs = lazy(() => import("../_pages/joinUs/JoinUs"));
-const ContactUs = lazy(() => import("../_pages/contactUs/ContactUs"));
-const TrackYourRequest = lazy(
-    () => import("../_pages/trackYourRequest/TrackYourRequest")
-);
-const PrivacyPolicy = lazy(
-    () => import("../_pages/privacyPolicy/PrivacyPolicy")
-);
+// const RequestEvaluation = lazy(
+//     () => import("../_pages/requestEvaluation/RequestEvaluation")
+// );
 
-// our services
-const OurServices = lazy(() => import("../_pages/ourServices/OurServices"));
-const ServicesMainContent = lazy(
-    () => import("../_pages/ourServices/ServicesMainContent")
-);
-const OurServicesDetails = lazy(
-    () => import("../_pages/nestedPages/ourServicesDetails/OurServicesDetails")
-);
+// const JoinUs = lazy(() => import("../_pages/joinUs/JoinUs"));
+// const ContactUs = lazy(() => import("../_pages/contactUs/ContactUs"));
+// const TrackYourRequest = lazy(
+//     () => import("../_pages/trackYourRequest/TrackYourRequest")
+// );
+// const PrivacyPolicy = lazy(
+//     () => import("../_pages/privacyPolicy/PrivacyPolicy")
+// );
 
-// Events
-const Events = lazy(() => import("../_pages/events/Events"));
-const EventsMainContent = lazy(
-    () => import("../_pages/events/EventsMainContent")
-);
-const EventDetailsPage = lazy(
-    () => import("../_pages/nestedPages/eventDetailsPage/EventDetailsPage")
-);
+// // our services
+// const OurServices = lazy(() => import("../_pages/ourServices/OurServices"));
+// const ServicesMainContent = lazy(
+//     () => import("../_pages/ourServices/ServicesMainContent")
+// );
+// const OurServicesDetails = lazy(
+//     () => import("../_pages/nestedPages/ourServicesDetails/OurServicesDetails")
+// );
 
-// blog
-const Blog = lazy(() => import("../_pages/blog/Blog"));
-const BlogMainContent = lazy(() => import("../_pages/blog/BlogMainContent"));
-const BlogDetailsPage = lazy(
-    () => import("../_pages/nestedPages/blogDetailsPage/BlogDetailsPage")
-);
+// // Events
+// const Events = lazy(() => import("../_pages/events/Events"));
+// const EventsMainContent = lazy(
+//     () => import("../_pages/events/EventsMainContent")
+// );
+// const EventDetailsPage = lazy(
+//     () => import("../_pages/nestedPages/eventDetailsPage/EventDetailsPage")
+// );
 
-// NotFound page
-const NotFoundPage = lazy(() => import("../_pages/notFoundPage/NotFoundPage"));
+// // blog
+// const Blog = lazy(() => import("../_pages/blog/Blog"));
+// const BlogMainContent = lazy(() => import("../_pages/blog/BlogMainContent"));
+// const BlogDetailsPage = lazy(
+//     () => import("../_pages/nestedPages/blogDetailsPage/BlogDetailsPage")
+// );
+
+// // NotFound page
+// const NotFoundPage = lazy(() => import("../_pages/notFoundPage/NotFoundPage"));
 
 export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
     return (
         <div className="flex flex-col min-h-screen relative overflow-hidden max-w-[1440px] mx-auto">
-            <ScrollProgress />
-            <Navbar />
+            {/* <ScrollProgress />
+            <Navbar /> */}
             <main className="flex-grow">
-                <Routes>
-                    <Route
+                Layout
+                {/* <Routes> */}
+                {/* <Route
                         path="/"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <Home />
                             </Suspense>
                         }
-                    />
-                    <Route
+                    /> */}
+                {/* <Route
                         path="/about-us"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <AboutUs />
                             </Suspense>
                         }
-                    />
-                    <Route
+                    /> */}
+                {/* <Route
                         path="/our-services"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <OurServices />
                             </Suspense>
                         }
-                    >
-                        <Route
+                    > */}
+                {/* <Route
                             index
                             element={
                                 <Suspense fallback={<PreLoadingPage />}>
                                     <ServicesMainContent />
                                 </Suspense>
                             }
-                        />
-                        <Route
+                        /> */}
+                {/* <Route
                             path=":serviceId"
                             element={
                                 <Suspense fallback={<PreLoadingPage />}>
@@ -98,34 +101,33 @@ export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
                                 </Suspense>
                             }
                         />
-                    </Route>
-
-                    <Route
+                    </Route> */}
+                {/* <Route
                         path="/our-clients"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <OurClients />
                             </Suspense>
                         }
-                    />
-                    {/* events */}
-                    <Route
+                    /> */}
+                {/* events */}
+                {/* <Route
                         path="/events"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <Events />
                             </Suspense>
                         }
-                    >
-                        <Route
+                    > */}
+                {/* <Route
                             index
                             element={
                                 <Suspense fallback={<PreLoadingPage />}>
                                     <EventsMainContent />
                                 </Suspense>
                             }
-                        />
-                        <Route
+                        /> */}
+                {/* <Route
                             path=":eventId"
                             element={
                                 <Suspense fallback={<PreLoadingPage />}>
@@ -133,33 +135,32 @@ export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
                                 </Suspense>
                             }
                         />
-                    </Route>
-                    <Route
+                    </Route> */}
+                {/* <Route
                         path="/request-evaluation"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <RequestEvaluation />
                             </Suspense>
                         }
-                    />
-
-                    <Route
+                    /> */}
+                {/* <Route
                         path="/blog"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <Blog />
                             </Suspense>
                         }
-                    >
-                        <Route
+                    > */}
+                {/* <Route
                             index
                             element={
                                 <Suspense fallback={<PreLoadingPage />}>
                                     <BlogMainContent />
                                 </Suspense>
                             }
-                        />
-                        <Route
+                        /> */}
+                {/* <Route
                             path=":blogId"
                             element={
                                 <Suspense fallback={<PreLoadingPage />}>
@@ -167,41 +168,40 @@ export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
                                 </Suspense>
                             }
                         />
-                    </Route>
-                    <Route
+                    </Route> */}
+                {/* <Route
                         path="/contact-us"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <ContactUs />
                             </Suspense>
                         }
-                    />
-                    <Route
+                    /> */}
+                {/* <Route
                         path="/join-us"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <JoinUs />
                             </Suspense>
                         }
-                    />
-                    <Route
+                    /> */}
+                {/* <Route
                         path="/track-your-request"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <TrackYourRequest />
                             </Suspense>
                         }
-                    />
-                    <Route
+                    /> */}
+                {/* <Route
                         path="/privacy-policy"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
                                 <PrivacyPolicy />
                             </Suspense>
                         }
-                    />
-
-                    <Route
+                    /> */}
+                {/* <Route
                         path="*"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
@@ -209,12 +209,12 @@ export default function DefaultLayout({ children }: PropsWithChildren<{}>) {
                             </Suspense>
                         }
                     />
-                </Routes>
+                </Routes> */}
                 {children}
             </main>
-            <BackToTop />
+            {/* <BackToTop />
             <NewLetter className="flex md:hidden" />
-            <Footer />
+            <Footer /> */}
         </div>
     );
 }

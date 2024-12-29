@@ -3,6 +3,9 @@
 use App\Helpers\MYPDF;
 use Filament\Pages\Dashboard;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +21,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
+
+Route::get('/welcome', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => false,
+        'canRegister' => false,
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');

@@ -23,13 +23,8 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
 
-Route::get('/welcome', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => false,
-        'canRegister' => false,
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', function () {
+    return Inertia::render('layout/Layout');
 });
 
 Route::get('/clear-cache', function () {
@@ -43,7 +38,7 @@ Route::get('/public/{extra}', function ($extra) {
 })
     ->where('extra', '.*');
 Route::group(['namespace' => 'App\\Http\\Controllers\\Website', 'as' => 'website.'], function () {
-    Route::get('/', [HomeController::class, 'index'])->name('home');
+    // Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/rate-request', 'RateRequestsController@show')->name('rate-request.show');
     Route::post('/rate-request', 'RateRequestsController@store')->name('rate-request.store');
     Route::get('/contactUs', 'HomeController@contactUs')->name('contactUs');

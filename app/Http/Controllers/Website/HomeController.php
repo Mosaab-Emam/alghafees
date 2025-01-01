@@ -28,9 +28,7 @@ class HomeController extends Controller
         $result['about'] = $this->contentRepository->getPublishContents('About', 15);
         $result['companyServices'] = $this->contentRepository->getPublishContents('CompanyService', 15);
 
-
-        return Inertia::render('Home', compact('result'));
-        // return view('website.home.index', compact('result'));
+        return view('website.home.index', compact('result'));
     }
     public function contactUs()
     {

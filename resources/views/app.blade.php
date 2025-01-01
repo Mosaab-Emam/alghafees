@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" style="overflow-x: hidden;">
 
 <head>
     <meta charset="utf-8">

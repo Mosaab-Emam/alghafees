@@ -13,6 +13,7 @@
 /public/panel
 /public/upload
 /public/vendor
+/public/files
 /public/*.png
 /public/*.jpg
 /public/*.jpeg

@@ -23,10 +23,6 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
 
-Route::get('/', function () {
-    return Inertia::render('layout/Layout');
-});
-
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
     Artisan::call('route:clear');
@@ -37,8 +33,9 @@ Route::get('/public/{extra}', function ($extra) {
     return redirect('/' . $extra);
 })
     ->where('extra', '.*');
-Route::group(['namespace' => 'App\\Http\\Controllers\\Website', 'as' => 'website.'], function () {
-    // Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::group(['namespace' => 'App\\Http\\Controllers\\Website', 'as' => 'website.', 'prefix' => 'legacy'], function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/rate-request', 'RateRequestsController@show')->name('rate-request.show');
     Route::post('/rate-request', 'RateRequestsController@store')->name('rate-request.store');
     Route::get('/contactUs', 'HomeController@contactUs')->name('contactUs');
@@ -57,4 +54,6 @@ Route::get('/commands', function () {
     // return Artisan::call('migrate', ["--force" => true ]);
 });
 
-
+Route::fallback(function () {
+    return Inertia::render('layout/Layout');
+});

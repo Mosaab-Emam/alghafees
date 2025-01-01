@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('file');
             $table->enum('type', ['report', 'evaluation']);
+            $table->integer('position');
             $table->timestamps();
         });
     }

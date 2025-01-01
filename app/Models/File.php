@@ -10,15 +10,15 @@ class File extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'file', 'type'];
+    protected $fillable = ['title', 'file', 'type', 'position'];
 
     public function scopeReports(Builder $query): Builder
     {
-        return $query->where('type', 'report');
+        return $query->where('type', 'report')->orderBy('position');
     }
 
     public function scopeEvaluations(Builder $query): Builder
     {
-        return $query->where('type', 'evaluation');
+        return $query->where('type', 'evaluation')->orderBy('position');
     }
 }

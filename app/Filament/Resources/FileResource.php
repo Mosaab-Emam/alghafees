@@ -119,4 +119,9 @@ class FileResource extends Resource
             'edit' => Pages\EditFile::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->orderBy('position');
+    }
 }

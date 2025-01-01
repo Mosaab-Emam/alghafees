@@ -51,9 +51,10 @@ const NotFoundPage = lazy(() => import("../notFoundPage/NotFoundPage"));
 type LayoutProps = {
     reports: Array<BackendFile>;
     evaluations: Array<BackendFile>;
+    home_report: BackendFile;
 };
 
-function Layout({ reports, evaluations }: LayoutProps) {
+function Layout({ reports, evaluations, home_report }: LayoutProps) {
     return (
         <div className="flex flex-col min-h-screen relative overflow-hidden max-w-[1440px] mx-auto">
             <ScrollProgress />
@@ -64,7 +65,7 @@ function Layout({ reports, evaluations }: LayoutProps) {
                         path="/"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
-                                <Home />
+                                <Home home_report={home_report} />
                             </Suspense>
                         }
                     />

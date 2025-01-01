@@ -1,1 +1,0 @@
-import{j as e}from"./app-Dtr5eUI7.js";/* empty css            */function o({children:r}){return e.jsx("div",{className:"flex flex-col min-h-screen relative overflow-hidden max-w-[1440px] mx-auto",children:e.jsxs("main",{className:"flex-grow",children:["Layout",r]})})}function t(){return e.jsx(o,{children:e.jsx("div",{children:"Home"})})}export{t as default};

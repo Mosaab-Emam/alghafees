@@ -31,6 +31,8 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@reduxjs/toolkit": "^2.5.0",
+        "react-redux": "^9.2.0",
         "alpinejs": "^3.13.1",
         "flatpickr": "^4.6.13",
         "tom-select": "^2.2.2",

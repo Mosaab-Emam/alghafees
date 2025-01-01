@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import TabsButtonBox from "./tabsButtonBox/TabsButtonBox";
 import TabsContent from "./tabsContent/TabsContent";
 
-const ReportsTabs = () => {
-	const [activeTab, setActiveTab] = useState(0);
+const ReportsTabs = ({ reports, evaluations }) => {
+    const [activeTab, setActiveTab] = useState(0);
 
-	return (
-		<section className='flex flex-col items-end gap-8'>
-			<TabsButtonBox activeTab={activeTab} setActiveTab={setActiveTab} />
+    return (
+        <section className="flex flex-col items-end gap-8">
+            <TabsButtonBox activeTab={activeTab} setActiveTab={setActiveTab} />
 
-			<TabsContent activeTab={activeTab} />
-		</section>
-	);
+            <TabsContent
+                activeTab={activeTab}
+                reports={reports}
+                evaluations={evaluations}
+            />
+        </section>
+    );
 };
 
 export default ReportsTabs;

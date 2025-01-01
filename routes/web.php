@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Artisan;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
+use App\Models\File;
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -55,5 +56,11 @@ Route::get('/commands', function () {
 });
 
 Route::fallback(function () {
-    return Inertia::render('layout/Layout');
+    $reports = File::reports()->get();
+    $evaluations = File::evaluations()->get();
+
+    return Inertia::render('layout/Layout', [
+        'reports' => $reports,
+        'evaluations' => $evaluations,
+    ]);
 });

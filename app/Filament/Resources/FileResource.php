@@ -20,6 +20,7 @@ class FileResource extends Resource
     protected static ?string $model = File::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?int $navigationSort = 8;
 
     public static function getModelLabel(): string
     {

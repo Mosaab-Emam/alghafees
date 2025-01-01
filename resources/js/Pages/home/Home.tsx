@@ -1,3 +1,4 @@
+import { BackendFile } from "@/types";
 import {
     AboutSection,
     ContactUsSection,
@@ -7,12 +8,12 @@ import {
     OurServices,
 } from "../../components";
 
-function Home() {
+function Home({ home_report }: { home_report: BackendFile }) {
     return (
         <>
             <Hero />
             <OurPartners />
-            <AboutSection />
+            <AboutSection report={home_report} />
             <OurServices />
             <OurClients />
             <ContactUsSection

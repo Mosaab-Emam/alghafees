@@ -59,8 +59,11 @@ Route::fallback(function () {
     $reports = File::reports()->get();
     $evaluations = File::evaluations()->get();
 
+    $home_report = File::reports()->where('position', 1)->first();
+
     return Inertia::render('layout/Layout', [
         'reports' => $reports,
         'evaluations' => $evaluations,
+        'home_report' => $home_report,
     ]);
 });

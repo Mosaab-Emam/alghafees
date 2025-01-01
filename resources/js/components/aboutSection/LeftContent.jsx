@@ -12,14 +12,14 @@ import { useNavigate } from "react-router-dom";
 import { samplePdf } from "../../assets/pdf-docs";
 import { aboutData } from "../../data";
 
-const LeftContent = () => {
+export default function LeftContent({ report }) {
     const navigate = useNavigate();
 
     const handleDownload = () => {
         const link = document.createElement("a");
 
-        link.href = samplePdf;
-        link.download = `${"تقرير السوق العقاري 2024"}.pdf`;
+        link.href = report.file;
+        link.download = report.file;
         link.click();
     };
 
@@ -42,7 +42,7 @@ const LeftContent = () => {
                 flexDirection={"flex-col-reverse"}
                 icon={<DownloadIcon />}
                 outlineBtnContent={"عرض المزيد من التقارير المعتمدة"}
-                primaryBtnContent={"تحميل تقرير السوق العقاري 2024"}
+                primaryBtnContent={report?.title}
                 primaryButtonOnClick={handleDownload}
                 outLinButtonOnClick={() => {
                     navigate("/about-us");
@@ -51,6 +51,4 @@ const LeftContent = () => {
             />
         </section>
     );
-};
-
-export default LeftContent;
+}

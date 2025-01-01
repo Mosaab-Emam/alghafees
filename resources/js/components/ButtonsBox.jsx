@@ -27,14 +27,16 @@ const ButtonsBox = ({
                     outlineBtnContent
                 )}
             </Button>
-            <Button
-                onClick={primaryButtonOnClick}
-                className={`sm:h-[48px] lg:h-[46px] xl:h-[48px] ${btnWidth}`}
-                radius={radius}
-            >
-                {icon && <span className="w-5 h-5">{icon}</span>}
-                {primaryBtnContent}
-            </Button>
+            {primaryBtnContent && (
+                <Button
+                    onClick={primaryButtonOnClick}
+                    className={`sm:h-[48px] lg:h-[46px] xl:h-[48px] ${btnWidth}`}
+                    radius={radius}
+                >
+                    {icon && <span className="w-5 h-5">{icon}</span>}
+                    {primaryBtnContent}
+                </Button>
+            )}
         </div>
     );
 };

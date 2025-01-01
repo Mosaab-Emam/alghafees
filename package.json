@@ -36,5 +36,9 @@
         "react-modal-video": "^2.0.2",
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.0.1"
+    },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "4.6.1",
+        "@esbuild/linux-x64": "^0.24.2"
     }
 }

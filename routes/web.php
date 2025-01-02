@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Artisan;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
+use App\Models\Category;
 use App\Models\File;
 
 Route::get('/clear-cache', function () {
@@ -55,15 +56,38 @@ Route::get('/commands', function () {
     // return Artisan::call('migrate', ["--force" => true ]);
 });
 
+Route::get('/request-evaluation', function () {
+    $goals = Category::apartmentGoal()->get();
+    $types = Category::apartmentType()->get();
+    $entities = Category::apartmentEntity()->get();
+    $usage = Category::apartmentUsage()->get();
+
+    return Inertia::render('requestEvaluation/RequestEvaluation', [
+        'goals' => $goals,
+        'types' => $types,
+        'entities' => $entities,
+        'usage' => $usage,
+    ]);
+});
+
 Route::fallback(function () {
     $reports = File::reports()->get();
     $evaluations = File::evaluations()->get();
 
     $home_report = $reports->first();
 
-    return Inertia::render('layout/Layout', [
+    $goals = Category::apartmentGoal()->get();
+    $types = Category::apartmentType()->get();
+    $entities = Category::apartmentEntity()->get();
+    $usage = Category::apartmentUsage()->get();
+
+    return Inertia::render('layout/Layout', props: [
         'reports' => $reports,
         'evaluations' => $evaluations,
         'home_report' => $home_report,
+        'goals' => $goals,
+        'types' => $types,
+        'entities' => $entities,
+        'usage' => $usage,
     ]);
 });

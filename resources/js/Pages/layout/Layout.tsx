@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Footer, Navbar, ScrollProgress } from "../../components";
 
-import { BackendFile } from "@/types";
+import { BackendFile, SelectItem } from "@/types";
 import { Route, Routes } from "react-router-dom"; // Corrected import
 import BackToTop from "../../components/BackToTop.jsx";
 import NewLetter from "../../components/footer/newsLetter/NewsLetter.jsx";
@@ -52,9 +52,21 @@ type LayoutProps = {
     reports: Array<BackendFile>;
     evaluations: Array<BackendFile>;
     home_report: BackendFile;
+    goals: Array<SelectItem>;
+    types: Array<SelectItem>;
+    entities: Array<SelectItem>;
+    usage: Array<SelectItem>;
 };
 
-function Layout({ reports, evaluations, home_report }: LayoutProps) {
+function Layout({
+    reports,
+    evaluations,
+    home_report,
+    goals,
+    types,
+    entities,
+    usage,
+}: LayoutProps) {
     return (
         <div className="flex flex-col min-h-screen relative overflow-hidden max-w-[1440px] mx-auto">
             <ScrollProgress />
@@ -144,7 +156,12 @@ function Layout({ reports, evaluations, home_report }: LayoutProps) {
                         path="/request-evaluation"
                         element={
                             <Suspense fallback={<PreLoadingPage />}>
-                                <RequestEvaluation />
+                                <RequestEvaluation
+                                    goals={goals}
+                                    types={types}
+                                    entities={entities}
+                                    usage={usage}
+                                />
                             </Suspense>
                         }
                     />

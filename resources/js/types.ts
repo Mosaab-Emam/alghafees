@@ -3,3 +3,8 @@ export type BackendFile = {
     title: string;
     file: string;
 };
+
+export type SelectItem = {
+    id: string;
+    title: string;
+};

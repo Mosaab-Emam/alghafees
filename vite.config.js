@@ -15,7 +15,6 @@ export default defineConfig({
                 "resources/js/signature_pad.umd.js",
                 "resources/js/sign.js",
                 "resources/js/app.tsx",
-                "resources/js/**/*.css",
             ],
             ssr: "resources/js/ssr.tsx",
             refresh: [

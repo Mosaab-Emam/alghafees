@@ -4,6 +4,7 @@ import { BackendFile } from "../../types";
 import AboutBoxOne from "./AboutBoxOne";
 import AboutBoxTwo from "./AboutBoxTwo";
 
+import Layout from "../layout/Layout";
 import "./AboutUs.css";
 
 type AboutUsProps = {
@@ -16,7 +17,7 @@ export default function AboutUs({ reports, evaluations }: AboutUsProps) {
         window.scrollTo(0, 0);
     }, []);
     return (
-        <>
+        <Layout>
             <PageTopSection title={"من نحن"} description={"خبرة موثوقة"} />
             <>
                 <AboutBoxOne />
@@ -25,6 +26,6 @@ export default function AboutUs({ reports, evaluations }: AboutUsProps) {
                 <OurValues />
                 <ReportsSection reports={reports} evaluations={evaluations} />
             </>
-        </>
+        </Layout>
     );
 }

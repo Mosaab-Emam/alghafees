@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Website;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Interfaces\ContentRepositoryInterface;
+use App\Models\File;
 use App\Models\Privacy;
 use Inertia\Inertia;
 

@@ -56,6 +56,76 @@ Route::get('/commands', function () {
     // return Artisan::call('migrate', ["--force" => true ]);
 });
 
+Route::get('/', function () {
+    $report = File::reports()->first();
+
+    return Inertia::render('home/Home', [
+        'report' => $report
+    ]);
+});
+
+Route::get('/about-us', function () {
+    $reports = File::reports()->get();
+    $evaluations = File::evaluations()->get();
+
+    return Inertia::render('aboutUs/AboutUs', [
+        'reports' => $reports,
+        'evaluations' => $evaluations
+    ]);
+});
+
+Route::get('/our-services', function () {
+    return Inertia::render('ourServices/OurServices');
+});
+
+Route::get('/our-services/{serviceId}', function () {
+    return Inertia::render('ourServices/Service', [
+        'params' => [
+            'serviceId' => request()->serviceId
+        ]
+    ]);
+});
+
+Route::get('/our-clients', function () {
+    return Inertia::render('ourClients/OurClients');
+});
+
+Route::get('/events', function () {
+    return Inertia::render('events/Events');
+});
+
+Route::get('/events/{eventId}', function () {
+    return Inertia::render('nestedPages/eventDetailsPage/EventDetailsPage');
+});
+
+Route::get('/blog', function () {
+    return Inertia::render('blog/Blog');
+});
+
+Route::get('/blog/{blogId}', function () {
+    return Inertia::render('nestedPages/blogDetailsPage/BlogDetailsPage', [
+        'params' => [
+            'blogId' => request()->blogId
+        ]
+    ]);
+});
+
+Route::get('/contact-us', function () {
+    return Inertia::render('contactUs/ContactUs');
+});
+
+Route::get('/track-your-request', function () {
+    return Inertia::render('trackYourRequest/TrackYourRequest');
+});
+
+Route::get('/join-us', function () {
+    return Inertia::render('joinUs/JoinUs');
+});
+
+Route::get('/privacy-policy', function () {
+    return Inertia::render('privacyPolicy/PrivacyPolicy');
+});
+
 Route::get('/request-evaluation', function () {
     $goals = Category::apartmentGoal()->get();
     $types = Category::apartmentType()->get();
@@ -71,23 +141,5 @@ Route::get('/request-evaluation', function () {
 });
 
 Route::fallback(function () {
-    $reports = File::reports()->get();
-    $evaluations = File::evaluations()->get();
-
-    $home_report = $reports->first();
-
-    $goals = Category::apartmentGoal()->get();
-    $types = Category::apartmentType()->get();
-    $entities = Category::apartmentEntity()->get();
-    $usage = Category::apartmentUsage()->get();
-
-    return Inertia::render('layout/Layout', props: [
-        'reports' => $reports,
-        'evaluations' => $evaluations,
-        'home_report' => $home_report,
-        'goals' => $goals,
-        'types' => $types,
-        'entities' => $entities,
-        'usage' => $usage,
-    ]);
+    return Inertia::render('notFoundPage/NotFoundPage');
 });

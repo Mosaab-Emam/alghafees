@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { PageTopSection } from "../../components";
-import { Outlet } from "react-router-dom";
+import Layout from "../layout/Layout";
+import BlogMainContent from "./BlogMainContent";
 
 const Blog = () => {
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-	return (
-		<>
-			<PageTopSection title={"المدونة"} description={"نصائح عقارية"} />
-			<Outlet />
-		</>
-	);
+    return (
+        <Layout>
+            <PageTopSection title={"المدونة"} description={"نصائح عقارية"} />
+            <BlogMainContent />
+        </Layout>
+    );
 };
 
 export default Blog;

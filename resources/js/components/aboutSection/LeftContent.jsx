@@ -8,13 +8,10 @@ import AboutGoals from "./AboutGoals";
 import { DownloadIcon } from "../../assets/icons";
 
 // data
-import { useNavigate } from "react-router-dom";
 import { samplePdf } from "../../assets/pdf-docs";
 import { aboutData } from "../../data";
 
 export default function LeftContent({ report }) {
-    const navigate = useNavigate();
-
     const handleDownload = () => {
         const link = document.createElement("a");
 
@@ -44,9 +41,7 @@ export default function LeftContent({ report }) {
                 outlineBtnContent={"عرض المزيد من التقارير المعتمدة"}
                 primaryBtnContent={report?.title}
                 primaryButtonOnClick={handleDownload}
-                outLinButtonOnClick={() => {
-                    navigate("/about-us");
-                }}
+                outLinButtonOnClick={() => (window.location.href = "/about-us")}
                 secondaryBtnHref="/about-us"
             />
         </section>

@@ -8,11 +8,11 @@ export default {
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
-        './resources/css/**/*.css',
         './resources/views/**/*.blade.php',
-        './resources/js/**/*.{js,jsx,ts,tsx}',
         './app/Filament/**/*.php',
         './vendor/filament/**/*.blade.php',
+        './resources/css/**/*.css',
+        './resources/js/**/*.{js,jsx,ts,tsx}',
     ],
 
     theme: {

@@ -8,6 +8,7 @@ import {
 } from "../../components";
 import { useSubmitRateRequestMutation } from "../../query";
 import { SelectItem } from "../../types";
+import Layout from "../layout/Layout";
 import FormBox from "./FormBox";
 import TextBox from "./TextBox";
 
@@ -62,7 +63,7 @@ export default function RequestEvaluation({
     }, []);
 
     return (
-        <>
+        <Layout>
             <PageTopSection title={"طلب تقييم"} description={"تقييم شامل"} />
 
             <section className="container md:mt-[211px] mt-[6rem] md:mb-0 mb-[50px] relative">
@@ -88,6 +89,6 @@ export default function RequestEvaluation({
                     position={"md:flex hidden left-[-49px] top-1/2 z-[-1]"}
                 />
             </section>
-        </>
+        </Layout>
     );
 }

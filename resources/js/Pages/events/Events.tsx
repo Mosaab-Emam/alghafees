@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { PageTopSection } from "../../components";
+import Layout from "../layout/Layout";
+import EventsMainContent from "./EventsMainContent";
 
-import { Outlet } from "react-router-dom";
+export default function Events() {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-const Events = () => {
-	useEffect(() => {
-		window.scrollTo(0, 0);
-	}, []);
-
-	return (
-		<>
-			<PageTopSection title={"الفعاليات"} description={"أحدث الفعاليات"} />
-			<Outlet />
-		</>
-	);
-};
-
-export default Events;
+    return (
+        <Layout>
+            <PageTopSection
+                title={"الفعاليات"}
+                description={"أحدث الفعاليات"}
+            />
+            <EventsMainContent />
+        </Layout>
+    );
+}

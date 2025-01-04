@@ -23,6 +23,7 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
 use App\Models\Category;
+use App\Models\Event;
 use App\Models\File;
 
 Route::get('/clear-cache', function () {
@@ -58,9 +59,11 @@ Route::get('/commands', function () {
 
 Route::get('/', function () {
     $report = File::reports()->first();
+    $events = Event::orderBy('id', 'desc')->take(2)->get();
 
     return Inertia::render('home/Home', [
-        'report' => $report
+        'report' => $report,
+        'events' => $events
     ]);
 });
 
@@ -91,11 +94,16 @@ Route::get('/our-clients', function () {
 });
 
 Route::get('/events', function () {
-    return Inertia::render('events/Events');
+    $events = Event::all();
+    return Inertia::render('events/Events', [
+        'events' => $events
+    ]);
 });
 
-Route::get('/events/{eventId}', function () {
-    return Inertia::render('nestedPages/eventDetailsPage/EventDetailsPage');
+Route::get('/events/{event}', function (Event $event) {
+    return Inertia::render('nestedPages/eventDetailsPage/EventDetailsPage', [
+        'event' => $event
+    ]);
 });
 
 Route::get('/blog', function () {

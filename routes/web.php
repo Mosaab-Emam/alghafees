@@ -127,12 +127,14 @@ Route::get('/privacy-policy', function () {
 });
 
 Route::get('/request-evaluation', function () {
+    $post_endpoints = config('app.url') . '/api/rate-requests';
     $goals = Category::apartmentGoal()->get();
     $types = Category::apartmentType()->get();
     $entities = Category::apartmentEntity()->get();
     $usage = Category::apartmentUsage()->get();
 
     return Inertia::render('requestEvaluation/RequestEvaluation', [
+        'post_endpoint' => $post_endpoints,
         'goals' => $goals,
         'types' => $types,
         'entities' => $entities,

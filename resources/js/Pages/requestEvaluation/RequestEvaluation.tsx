@@ -13,11 +13,13 @@ import FormBox from "./FormBox";
 import TextBox from "./TextBox";
 
 export default function RequestEvaluation({
+    post_endpoint,
     goals,
     types,
     entities,
     usage,
 }: {
+    post_endpoint: string;
     goals: Array<SelectItem>;
     types: Array<SelectItem>;
     entities: Array<SelectItem>;
@@ -42,7 +44,10 @@ export default function RequestEvaluation({
     // handle steps
     const handleNextStep = async () => {
         if (step === 4) {
-            const { error } = await submitRateRequest(formData);
+            const { error } = await submitRateRequest({
+                body: formData,
+                url: post_endpoint,
+            });
             if (error) {
                 // Show error page
             } else {

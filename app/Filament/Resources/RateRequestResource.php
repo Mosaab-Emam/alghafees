@@ -66,14 +66,21 @@ class RateRequestResource extends Resource
             ->schema([
                 Section::make(__('admin.rate-requests.client_info'))
                     ->schema([
+                        TextEntry::make('request_no')
+                            ->label(__('admin.rate-requests.request_no'))
+                            ->badge()
+                            ->columnSpanFull(),
                         TextEntry::make('name')
                             ->label(__('admin.rate-requests.name')),
                         TextEntry::make('email')
                             ->label(__('admin.rate-requests.email')),
                         TextEntry::make('mobile')
                             ->label(__('admin.rate-requests.mobile')),
-                        TextEntry::make('request_no')
-                            ->label(__('admin.rate-requests.request_no')),
+                        TextEntry::make('address')
+                            ->label(__('admin.rate-requests.address')),
+                        TextEntry::make('notes')
+                            ->label(__('admin.notes'))
+                            ->columnSpanFull()
                     ])
                     ->columns(2),
                 Section::make(__('admin.rate-requests.asset_info'))
@@ -84,10 +91,18 @@ class RateRequestResource extends Resource
                             ->label(__('admin.rate-requests.type')),
                         TextEntry::make('usage.title')
                             ->label(__('admin.rate-requests.usage')),
+                        TextEntry::make('entity.title')
+                            ->label(__('admin.rate-requests.entity')),
                         TextEntry::make('real_estate_age')
                             ->label(__('admin.rate-requests.real_estate_age')),
                         TextEntry::make('real_estate_area')
                             ->label(__('admin.rate-requests.real_estate_area')),
+                        TextEntry::make('location')
+                            ->label(__('admin.rate-requests.location'))
+                            ->columnSpanFull(),
+                        TextEntry::make('real_estate_details')
+                            ->label(__('admin.rate-requests.real_estate_details'))
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
                 Section::make(__('admin.rate-requests.other_info'))
@@ -95,16 +110,13 @@ class RateRequestResource extends Resource
                         TextEntry::make('statusTitle')
                             ->label(__('admin.Status'))
                             ->badge()
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 __('admin.NewRequest') => 'info',
                                 __('admin.NewWorkRequest') => 'info',
                                 __('admin.InEvaluationRequest') => 'warning',
                                 __('admin.CheckedRequest') => 'success',
                                 __('admin.SuspendedRequest') => 'danger',
                             }),
-                        TextEntry::make('notes')
-                            ->label(__('admin.notes'))
-                            ->columnSpanFull()
                     ])
                     ->columns(2),
             ]);
@@ -118,7 +130,7 @@ class RateRequestResource extends Resource
                     ->toggleable()
                     ->searchable()
                     ->tooltip(
-                        fn (RateRequest $record): string =>
+                        fn(RateRequest $record): string =>
                         __('admin.notes') . (': ' . $record->notes ?? '')
                     )
                     ->icon('heroicon-o-eye'),
@@ -164,7 +176,7 @@ class RateRequestResource extends Resource
                 Tables\Columns\TextColumn::make('statusTitle')
                     ->label(__('admin.rate-requests.status'))
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         __('admin.NewRequest') => 'info',
                         __('admin.NewWorkRequest') => 'info',
                         __('admin.InEvaluationRequest') => 'warning',
@@ -190,11 +202,12 @@ class RateRequestResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_from']) return null;
+                        if (!$data['created_from'])
+                            return null;
                         return 'Created from ' . Carbon::parse($data['created_from'])->toFormattedDateString();
                     }),
                 Filter::make('created_until')
@@ -207,15 +220,16 @@ class RateRequestResource extends Resource
                         return $query
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })->indicateUsing(function (array $data): ?string {
-                        if (!$data['created_until']) return null;
+                        if (!$data['created_until'])
+                            return null;
                         return 'Created until ' . Carbon::parse($data['created_until'])->toFormattedDateString();
                     }),
                 Tables\Filters\SelectFilter::make('status')
                     ->label(__('admin.Status'))
-                    ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::Statuses)),
+                    ->options(array_map(fn($item): string => __('admin.' . $item['title']), Constants::Statuses)),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -223,7 +237,7 @@ class RateRequestResource extends Resource
 
                     ->label(__('admin.Edit'))
                     ->icon('heroicon-m-pencil-square')
-                    ->fillForm(fn (RateRequest $record): array => [
+                    ->fillForm(fn(RateRequest $record): array => [
                         'notes' => $record->notes,
                         'status' => $record->status,
                     ])
@@ -235,7 +249,7 @@ class RateRequestResource extends Resource
                             ->columnSpanFull(),
                         Select::make('status')
                             ->label(__('admin.Status'))
-                            ->options(array_map(fn ($item) => __('admin.' . $item['title']), Constants::Statuses))
+                            ->options(array_map(fn($item) => __('admin.' . $item['title']), Constants::Statuses))
                             ->visible(can('rates.changeStatus'))
                             ->searchable()
                             ->preload()

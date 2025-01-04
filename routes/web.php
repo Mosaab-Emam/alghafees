@@ -57,6 +57,9 @@ Route::get('/commands', function () {
     // return Artisan::call('migrate', ["--force" => true ]);
 });
 
+Route::get('/sign/{token}', [Controllers\Admin\ContractController::class, 'signaturePad']);
+Route::post('/sign/{token}', [Controllers\Admin\ContractController::class, 'sign']);
+
 Route::get('/', function () {
     $report = File::reports()->first();
     $events = Event::orderBy('id', 'desc')->take(2)->get();

@@ -14,6 +14,7 @@
 /public/upload
 /public/vendor
 /public/files
+/public/events
 /public/*.png
 /public/*.jpg
 /public/*.jpeg

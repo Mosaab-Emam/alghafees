@@ -9,13 +9,19 @@ import {
 } from "../../components";
 import Layout from "../layout/Layout";
 
-function Home({ home_report }: { home_report: BackendFile }) {
+function Home({
+    home_report,
+    events,
+}: {
+    home_report: BackendFile;
+    events: Array<Event>;
+}) {
     return (
         <Layout>
             <Hero />
             <OurPartners />
             <AboutSection report={home_report} />
-            <OurServices />
+            <OurServices events={events} />
             <OurClients />
             <ContactUsSection
                 position={

@@ -1,13 +1,13 @@
 import Button from "../button/Button";
-import TopSection from "./TopSection";
-
 import EventsSection from "./eventsSection/EventsSection";
 import "./OurEvents.css";
-const OurEvents = () => {
+import TopSection from "./TopSection";
+
+export default function OurEvents({ events }) {
     return (
         <>
             <TopSection />
-            <EventsSection />
+            <EventsSection events={events} />
             <Button
                 onClick={() => (window.location.href = "/events")}
                 className={
@@ -18,6 +18,4 @@ const OurEvents = () => {
             </Button>
         </>
     );
-};
-
-export default OurEvents;
+}

@@ -5,13 +5,14 @@ import { Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import "../../../components/hero/Hero.css";
-import { EventsSliderData } from "../../../data/ourEventsData";
 
-const EventsSliderBox = ({
+export default function EventsSliderBox({
+    images,
     swiperRef,
 }: {
+    images: Array<string>;
     swiperRef: React.RefObject<SwiperType>;
-}) => {
+}) {
     const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
     const [visibleCount, setVisibleCount] = React.useState(4);
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -29,7 +30,7 @@ const EventsSliderBox = ({
         }
     };
 
-    const remainingImages = EventsSliderData.length - visibleCount;
+    const remainingImages = images.length - visibleCount;
 
     return (
         <div className="relative flex justify-center items-center w-full">
@@ -44,12 +45,12 @@ const EventsSliderBox = ({
                 modules={[Thumbs]}
                 className="md:w-[747px] w-full md:h-[597px] h-[285.557px]"
             >
-                {EventsSliderData.map((item) => (
+                {images.map((image) => (
                     <SwiperSlide
-                        key={item.id}
+                        key={image}
                         className="md:w-[747px] w-full md:h-[597px] h-[285.557px flex justify-center items-end md:gap-[10px] gap-[4.783px] md:py-6 py-[11.48px] md:px-[55px] px-[26.308px] md:rounded-br-[100px] md:rounded-tl-[100px] rounded-br-[47.832px] rounded-tl-[47.832px] md:border-[8px] border-[3.827px] border-primary-600 section-box-shadow"
                         style={{
-                            background: `url(${item.event_image}) lightgray 50% / cover no-repeat`,
+                            background: `url(/${image}) lightgray 50% / cover no-repeat`,
                         }}
                     />
                 ))}
@@ -64,24 +65,24 @@ const EventsSliderBox = ({
                 modules={[Thumbs]}
                 className="thumb-slider !absolute -bottom-5 left-1/2 -translate-x-1/2 section-box-shadow"
             >
-                {EventsSliderData.slice(startIndex, startIndex + 4).map(
-                    (item, index) => (
+                {images
+                    .slice(startIndex, startIndex + 4)
+                    .map((image, index) => (
                         <SwiperSlide
-                            key={item.id}
+                            key={image}
                             className={`relative cursor-pointer md:!w-[139px] !w-[66.486px] md:!h-[111px] !h-[53.094px] md:border-[4px] border-[1.913px]  ${
                                 activeIndex === startIndex + index
                                     ? "border-primary-600"
                                     : "border-bg-01"
                             }`}
                             style={{
-                                background: `url(${item.event_image}) lightgray 50% / cover no-repeat`,
+                                background: `url(/${image}) lightgray 50% / cover no-repeat`,
                             }}
                         >
                             {/* Show remaining count on last visible thumbnail */}
                             {index === 0 &&
                                 remainingImages > 0 &&
-                                EventsSliderData.length - (startIndex + 4) !==
-                                    0 && (
+                                events.length - (startIndex + 4) !== 0 && (
                                     <div className="absolute inset-0 flex items-center justify-center  !cursor-default">
                                         <span
                                             className="text-white md:head-line-h3 head-line-h5 w-full h-full flex items-center justify-center"
@@ -89,18 +90,13 @@ const EventsSliderBox = ({
                                                 background: `linear-gradient(0deg, rgba(0, 0, 0, 0.70) 0%, rgba(0, 0, 0, 0.70) 100%),   50% / cover no-repeat`,
                                             }}
                                         >
-                                            +
-                                            {EventsSliderData.length -
-                                                (startIndex + 4)}
+                                            +{events.length - (startIndex + 4)}
                                         </span>
                                     </div>
                                 )}
                         </SwiperSlide>
-                    )
-                )}
+                    ))}
             </Swiper>
         </div>
     );
-};
-
-export default EventsSliderBox;
+}

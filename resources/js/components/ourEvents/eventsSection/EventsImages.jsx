@@ -1,16 +1,15 @@
-import { ourEventsData } from "../../../data/ourEventsData";
 import ShowMoreBtn from "../ShowMoreBtn";
 
-const EventsImages = () => {
+export default function EventsImages({ events }) {
     return (
         <div className="flex md:flex-col flex-row md:gap-5 gap-4 self-center ">
-            {ourEventsData.map((item) => (
+            {events.map((item) => (
                 <div key={item.id}>
                     <div
                         className="lg:w-[200px] xl:w-[285px] w-[172px] lg:h-[200px] xl:h-[249px] h-[150.274px] relative "
                         style={{
                             borderRadius: "50px 0px 0px 50px",
-                            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%) , url(${item?.event_image})  lightgray 50% / cover no-repeat`,
+                            background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%) , url(${item?.images[0]})  lightgray 50% / cover no-repeat`,
                         }}
                     >
                         <ShowMoreBtn
@@ -27,6 +26,4 @@ const EventsImages = () => {
             ))}
         </div>
     );
-};
-
-export default EventsImages;
+}

@@ -1,7 +1,8 @@
+import { Event } from "@/types";
 import EventsVideo from "../../components/ourEvents/eventsSection/EventsVideo";
 import EventsSlider from "../nestedPages/eventDetailsPage/eventsSlider/EventsSlider";
 
-const EventsMainContent = () => {
+const EventsMainContent = ({ events }: { events: Array<Event> }) => {
     return (
         <section className="container md:mt-[211px] mt-[6rem] mb-[85px] relative">
             <div className="relative xl:w-[1200px] lg:w-[1024px] w-[360px] xl:h-[550px] lg:h-auto h-[206.747px] mb-[50px]">
@@ -24,7 +25,7 @@ const EventsMainContent = () => {
                 </h3>
             </div>
 
-            <EventsSlider />
+            <EventsSlider events={events} />
         </section>
     );
 };

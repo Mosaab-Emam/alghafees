@@ -111,7 +111,13 @@ Route::get('/blog', function () {
         'author' => function ($query) {
             $query->select('id', 'name', 'image');
         }
-    ])->orderBy('published_at', 'desc')->get();
+    ])
+        ->orderBy('published_at', 'desc')
+        ->get();
+
+    foreach ($posts as $post) {
+        $post->featured_image = $post->image();
+    }
 
     return Inertia::render('blog/Blog', [
         'posts' => $posts

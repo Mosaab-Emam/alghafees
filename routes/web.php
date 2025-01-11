@@ -1,10 +1,6 @@
 <?php
 
-use App\Helpers\MYPDF;
-use Filament\Pages\Dashboard;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Inertia\Inertia;
 
 /*
@@ -25,6 +21,7 @@ use App\Http\Controllers\Website\HomeController;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\File;
+use LaraZeus\Sky\Models\Post;
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -51,9 +48,9 @@ Route::group(['namespace' => 'App\\Http\\Controllers\\Website', 'as' => 'website
 });
 
 Route::get('/commands', function () {
-    \Artisan::call('optimize');
+    Artisan::call('optimize');
     // \Artisan::call('storage:link');
-    return \Artisan::call('db:seed --class=MainPermissionsTableDataSeeder --force');
+    return Artisan::call('db:seed --class=MainPermissionsTableDataSeeder --force');
     // return Artisan::call('migrate', ["--force" => true ]);
 });
 
@@ -110,7 +107,7 @@ Route::get('/events/{event}', function (Event $event) {
 });
 
 Route::get('/blog', function () {
-    $posts = \LaraZeus\Sky\Models\Post::with([
+    $posts = Post::with([
         'author' => function ($query) {
             $query->select('id', 'name', 'image');
         }
@@ -122,7 +119,7 @@ Route::get('/blog', function () {
 });
 
 Route::get('/blog/{id}', function ($id) {
-    $post = \LaraZeus\Sky\Models\Post::with(['author' => fn($q) => $q->select('id', 'name', 'image')])
+    $post = Post::with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->find($id);
 
 
@@ -171,13 +168,13 @@ Route::get('/blog/{id}', function ($id) {
         $post->parseContent($post->content)
     );
 
-    $latest_posts = \LaraZeus\Sky\Models\Post::orderBy('published_at', 'desc')
+    $latest_posts = Post::orderBy('published_at', 'desc')
         ->with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->where('id', '!=', $post->id)
         ->limit(2)
         ->get();
 
-    $related_posts = \LaraZeus\Sky\Models\Post::withAnyTagsOfAnyType($post->tags)
+    $related_posts = Post::withAnyTagsOfAnyType($post->tags)
         ->with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->where('id', '!=', $post->id)
         ->get();

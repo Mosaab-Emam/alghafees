@@ -128,6 +128,7 @@ Route::get('/blog/{id}', function ($id) {
     $post = Post::with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->find($id);
 
+    $post->featured_image = $post->image();
 
     // Remove default styles
     $post->content = preg_replace(
@@ -184,6 +185,14 @@ Route::get('/blog/{id}', function ($id) {
         ->with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->where('id', '!=', $post->id)
         ->get();
+
+    foreach ($latest_posts as $post) {
+        $post->featured_image = $post->image();
+    }
+
+    foreach ($related_posts as $post) {
+        $post->featured_image = $post->image();
+    }
 
     return Inertia::render('nestedPages/blogDetailsPage/BlogDetailsPage', [
         'post' => $post,

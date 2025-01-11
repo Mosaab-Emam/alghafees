@@ -1,15 +1,17 @@
-import React from "react";
 import BlogCard from "../../../../../blog/blogsBox/BlogCard";
-import { blogsData } from "../../../../../../data/blogData";
 
-const LatestTopicImagBox = ({ className }) => {
-	return (
-		<div className={`${className}`}>
-			{blogsData.slice(0, 2).map((blog) => (
-				<BlogCard key={blog.id} blog={blog} isLatestTopic={true} />
-			))}
-		</div>
-	);
-};
-
-export default LatestTopicImagBox;
+export default function LatestTopicImagBox({
+    className,
+    latest_posts,
+}: {
+    className?: string;
+    latest_posts: Array<any>;
+}) {
+    return (
+        <div className={`${className}`}>
+            {latest_posts.map((post) => (
+                <BlogCard key={post.id} post={post} isLatestTopic={true} />
+            ))}
+        </div>
+    );
+}

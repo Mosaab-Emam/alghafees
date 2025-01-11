@@ -1,31 +1,41 @@
-import React from "react";
-import { AuthorImg, CalenderIcon } from "../../../assets/images/blog";
-import { Button, ParagraphContent } from "../../../components";
+import { Post } from "@/types";
+import { CalenderIcon } from "../../../assets/images/blog";
+import { Button } from "../../../components";
 import BlogIcon from "../BlogIcon";
 
-const BlogCard = ({ blog, isLatestTopic }) => {
+export default function BlogCard({
+    post,
+    isLatestTopic,
+}: {
+    post: Post;
+    isLatestTopic: boolean;
+}) {
     return (
         <a
-            href={`/blog/${blog.id}`}
-            className="2xl:w-[410px] xl:w-[387px] 2xl:max-h-[570px] lg:w-[340px] w-full max-h-[555px] flex items-center gap-[10px] p-4 rounded-tl-[100px] bg-bg-01 border border-bg-01 shadow-[12px_12px_35px_0px_rgba(29,42,45,0.07)]"
+            href={`/blog/${post.id}`}
+            className="2xl:w-[410px] xl:w-[387px] 2xl:max-h-[570px] lg:w-[340px] w-full max-h-[555px] flex items-center gap-[10px] rounded-tl-[100px] bg-bg-01 border border-bg-01 shadow-[12px_12px_35px_0px_rgba(29,42,45,0.07)]"
         >
             <div className="flex flex-col items-start flex-1 gap-6">
                 <div className="h-[226px] self-stretch rounded-tl-[100px]">
                     <img
-                        className="w-full h-full object-contain rounded-tl-[100px]"
-                        src={blog.image}
-                        alt={blog.title}
+                        className="w-full h-full object-cover rounded-tl-[100px]"
+                        src={
+                            post.featured_image
+                                ? post.featured_image
+                                : "/default-post-image.jpg"
+                        }
+                        alt={post.title.ar}
                         loading="lazy"
                     />
                 </div>
 
-                <div className="flex flex-col items-start  gap-6 self-stretch">
+                <div className="flex flex-col items-start  gap-6 self-stretch p-4 pt-0">
                     <div className="flex flex-col items-start  gap-4 self-stretch">
                         <div className="flex justify-between items-start self-stretch">
                             <div className="flex items-center gap-2">
                                 <CalenderIcon className="w-5 h-5" />
                                 <p className=" regular-b1 text-right text-Gray-scale-02">
-                                    {blog.date}
+                                    {post.published_at.slice(0, 10)}
                                 </p>
                             </div>
                         </div>
@@ -54,46 +64,49 @@ const BlogCard = ({ blog, isLatestTopic }) => {
                                     height="24"
                                 />
                                 <h4 className="head-line-h4 text-right text-Black-01">
-                                    {blog.title}
+                                    {post.title.ar}
                                 </h4>
                             </div>
-                            {!isLatestTopic && (
-                                <ParagraphContent>
-                                    {blog.description}
-                                </ParagraphContent>
-                            )}
+                            <p className="regular-b1 text-right text-Gray-scale-02 text-ellipsis line-clamp-3">
+                                {post.description.ar}
+                            </p>
                         </div>
                     </div>
 
-                    {!isLatestTopic && (
-                        <div className="flex justify-between items-center self-stretch">
-                            <Button
-                                onClick={() =>
-                                    (window.location.href = `/blog/${blog.id}`)
+                    {/* {!isLatestTopic && ( */}
+                    <div className="flex justify-between items-center self-stretch">
+                        <Button
+                            onClick={() =>
+                                (window.location.href = `/blog/${post.id}`)
+                            }
+                            variant="primary"
+                            className={
+                                "h-[40px] md:py-[15px] py-[14px] md:px-[80px] px-[60px]"
+                            }
+                        >
+                            قراءة المزيد
+                        </Button>
+                        <div className="flex items-center gap-2">
+                            <img
+                                className="rounded-full"
+                                src={
+                                    post.author.image
+                                        ? post.author.image
+                                        : `https://api.dicebear.com/9.x/initials/svg?seed=${post.author.name}`
                                 }
-                                variant="primary"
-                                className={
-                                    "h-[40px] md:py-[15px] py-[14px] md:px-[80px] px-[60px]"
-                                }
-                            >
-                                قراءة المزيد
-                            </Button>
-                            <div className="flex items-center gap-4 ">
-                                <img
-                                    src={AuthorImg}
-                                    alt={blog.author}
-                                    lading="lazy"
-                                />
-                                <p className="regular-b1 text-right text-Gray-scale-02">
-                                    {blog.author}
-                                </p>
-                            </div>
+                                width={32}
+                                height={32}
+                                alt={post.author.name}
+                                loading="lazy"
+                            />
+                            <p className="regular-b1 text-right text-Gray-scale-02">
+                                {post.author.name}
+                            </p>
                         </div>
-                    )}
+                    </div>
+                    {/* )} */}
                 </div>
             </div>
         </a>
     );
-};
-
-export default BlogCard;
+}

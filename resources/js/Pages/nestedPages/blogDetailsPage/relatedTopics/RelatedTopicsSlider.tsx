@@ -1,9 +1,8 @@
-import React, { useRef } from "react";
+import { Post } from "@/types";
+import { useRef } from "react";
 import RelatedSlidBox from "./RelatedSlidBox";
 
-const RelatedTopicsSlider = () => {
-	const swiperRef = useRef(null);
-	return <RelatedSlidBox swiperRef={swiperRef} />;
-};
-
-export default RelatedTopicsSlider;
+export default function RelatedTopicsSlider({ posts }: { posts: Array<Post> }) {
+    const swiperRef = useRef(null);
+    return <RelatedSlidBox swiperRef={swiperRef} posts={posts} />;
+}

@@ -113,11 +113,7 @@ Route::get('/blog', function () {
     $page = request('page', 1);
     $perPage = 9;
 
-    $query = Post::with([
-        'author' => function ($query) {
-            $query->select('id', 'name', 'image');
-        }
-    ])
+    $query = Post::orderBy('published_at', 'desc')
         ->when($search_query, function ($queryBuilder) use ($search_query) {
             return $queryBuilder->where('title', 'like', '%' . $search_query . '%');
         })
@@ -125,8 +121,7 @@ Route::get('/blog', function () {
             return $queryBuilder->whereHas('tags', function ($query) use ($tag_slug) {
                 $query->where('slug->ar', $tag_slug);
             });
-        })
-        ->orderBy('published_at', 'desc');
+        });
 
     $posts = $query->paginate($perPage, ['*'], 'page', $page);
 
@@ -148,8 +143,7 @@ Route::get('/blog', function () {
 });
 
 Route::get('/blog/{id}', function ($id) {
-    $post = Post::with(['author' => fn($q) => $q->select('id', 'name', 'image')])
-        ->find($id);
+    $post = Post::find($id);
 
     $post->featured_image = $post->image();
 
@@ -199,13 +193,11 @@ Route::get('/blog/{id}', function ($id) {
     );
 
     $latest_posts = Post::orderBy('published_at', 'desc')
-        ->with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->where('id', '!=', $post->id)
         ->limit(2)
         ->get();
 
     $related_posts = Post::withAnyTagsOfAnyType($post->tags)
-        ->with(['author' => fn($q) => $q->select('id', 'name', 'image')])
         ->where('id', '!=', $post->id)
         ->get();
 

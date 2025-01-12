@@ -86,23 +86,6 @@ export default function BlogCard({
                         >
                             قراءة المزيد
                         </Button>
-                        <div className="flex items-center gap-2">
-                            <img
-                                className="rounded-full"
-                                src={
-                                    post.author.image
-                                        ? post.author.image
-                                        : `https://api.dicebear.com/9.x/initials/svg?seed=${post.author.name}`
-                                }
-                                width={32}
-                                height={32}
-                                alt={post.author.name}
-                                loading="lazy"
-                            />
-                            <p className="regular-b1 text-right text-Gray-scale-02">
-                                {post.author.name}
-                            </p>
-                        </div>
                     </div>
                     {/* )} */}
                 </div>

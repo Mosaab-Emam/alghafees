@@ -18,12 +18,6 @@ export type Event = {
     images: Array<string>;
 };
 
-type Author = {
-    id: number;
-    name: string;
-    image: string;
-};
-
 export type Post = {
     id: number;
     user_id: number;
@@ -35,7 +29,6 @@ export type Post = {
     title: { ar: string; en?: string };
     slug: string;
     description: { ar: string; en?: string };
-    author: Author;
     featured_image: string | null;
     content: { ar: string; en?: string };
     created_at: string;

@@ -22,6 +22,7 @@ use App\Models\Category;
 use App\Models\Event;
 use App\Models\File;
 use LaraZeus\Sky\Models\Post;
+use LaraZeus\Sky\Models\Tag;
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -108,6 +109,7 @@ Route::get('/events/{event}', function (Event $event) {
 
 Route::get('/blog', function () {
     $search_query = request('search');
+    $tag_slug = request('tag'); // Accepting tag as an optional parameter
     $page = request('page', 1);
     $perPage = 9;
 
@@ -117,11 +119,16 @@ Route::get('/blog', function () {
         }
     ])
         ->when($search_query, function ($queryBuilder) use ($search_query) {
-            return $queryBuilder->where('title', 'like', '%' . $search_query . '%'); // Match the query against post titles
+            return $queryBuilder->where('title', 'like', '%' . $search_query . '%');
+        })
+        ->when($tag_slug, function ($queryBuilder) use ($tag_slug) {
+            return $queryBuilder->whereHas('tags', function ($query) use ($tag_slug) {
+                $query->where('slug->ar', $tag_slug);
+            });
         })
         ->orderBy('published_at', 'desc');
 
-    $posts = $query->paginate($perPage, ['*'], 'page', $page); // Use pagination
+    $posts = $query->paginate($perPage, ['*'], 'page', $page);
 
     foreach ($posts as $post) {
         $post->featured_image = $post->image();
@@ -129,9 +136,14 @@ Route::get('/blog', function () {
 
     $max_pages = $posts->lastPage();
 
+    $tags = Tag::withCount('postsPublished')
+        ->orderBy('posts_published_count', 'desc')
+        ->get();
+
     return Inertia::render('blog/Blog', [
         'posts' => $posts->getCollection(),
-        'max_pages' => $max_pages
+        'max_pages' => $max_pages,
+        'tags' => $tags
     ]);
 });
 

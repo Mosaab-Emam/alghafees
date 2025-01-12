@@ -43,3 +43,14 @@ export type Post = {
     published_at: string;
     deleted_at: string;
 };
+
+export type Tag = {
+    id: number;
+    name: { ar: string };
+    order_column: number;
+    posts_published_count: number;
+    slug: { ar: string };
+    type: "tag";
+    created_at: string;
+    updated_at: string;
+};

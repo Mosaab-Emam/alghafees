@@ -107,11 +107,16 @@ Route::get('/events/{event}', function (Event $event) {
 });
 
 Route::get('/blog', function () {
+    $query = request('search');
+
     $posts = Post::with([
         'author' => function ($query) {
             $query->select('id', 'name', 'image');
         }
     ])
+        ->when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('title', 'like', '%' . $query . '%'); // Match the query against post titles
+        })
         ->orderBy('published_at', 'desc')
         ->get();
 

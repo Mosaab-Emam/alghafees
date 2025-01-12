@@ -6,7 +6,11 @@ import BlogMainContent from "./BlogMainContent";
 
 const Blog = ({ posts }: { posts: Array<Post> }) => {
     useEffect(() => {
-        window.scrollTo(0, 0);
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has("search")) {
+            const element = document.getElementById("search-title");
+            if (element) element.scrollIntoView({ behavior: "smooth" });
+        }
     }, []);
 
     return (

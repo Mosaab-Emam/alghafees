@@ -1,22 +1,261 @@
 @import "/public/panel/vendors/font-awesome/css/font-awesome.min.css";
 
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    /* colors styles */
+    --BG-01: #feffff;
+    --BG-02: #f3f9fa;
 
+    --Gray-scale-01: #a8b2b5;
+    --Gray-scale-02: #51656a;
+    --Gray-scale-03: #808282;
+    --Gray-scale-04: #ececec;
 
+    --Primary-01: #e7f2f5;
+    --primary-02: #cfe6ec;
+    --primary-03: #9fcdd9;
+    --primary-04: #6fb3c5;
+    --primary-05: #3f9ab2;
+
+    --Black-01: #26292a;
+    --Black-02: #000;
+
+    /* btn radius */
+    --rtl-btn-radius: 0px 50px;
+    --ltr-btn-radius: 50px 0px;
+
+    /* shadow */
+    --btn-primary-shadow: 0px 12px 16.1px 0px rgba(15, 129, 159, 0.12);
+    --reports-box-shadow: 0px 0px 35px 0px rgba(15, 129, 159, 0.16);
+    --section-box-shadow: 0px 16px 35px 0px rgba(15, 129, 159, 0.07);
+    --section-box-shadow-hover: 0px 12.321px 16.429px 0px
+        rgba(15, 129, 159, 0.1);
+    --btn-transition: all 0.2s ease-in-out;
+
+    /* font size */
+    --fs-h2: 42px;
+    --fs-h3: 32px;
+    --fs-h4: 22px;
+    --fs-h5: 20px;
+
+    --fs-regular-b1: 14px;
+
+    /** font weight */
+    --fw-h2: 400;
+    --fw-h3: 400;
+    --fw-h4: 400;
+    --fw-h5: 400;
+    --fw-regular-b1: 400;
+
+    /* line height */
+    --lh-h2: 58.8px;
+    --lh-h3: 44.8px;
+    --lh-h4: 30.8px;
+    --lh-h5: 24px;
+    --lh-regular-b1: 22.4px;
+
+    /* letter spacing */
+    --f-style: normal;
+}
+
+/* fonts styles */
+@font-face {
+    font-family: "Hacen Tunisia Bd";
+    src: url("/fonts/Hacen-Tunisia-Bd.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    font-family: "Hacen Tunisia Bd" sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Hacen Tunisia Bd", sans-serif !important;
+    overflow-x: hidden;
+    background-color: #fdffff;
+}
+
+input,
+textarea {
+    outline: none;
+}
+
+/* Webkit browsers (Chrome, Safari, newer Edge) */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--BG-02);
+    backdrop-filter: blur(8.050000190734863px);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-04);
+    border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-05);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-04) var(--BG-02);
+}
+
+.glass-effect {
+    backdrop-filter: blur(8.050000190734863px);
+}
+
+.glass-effect-bg-primary-2 {
+    border: 1px solid var(--Primary-02, #cfe6ec);
+    background: rgba(255, 255, 255, 0.5);
+}
+.glass-effect-bg-primary-3 {
+    border: 1px solid var(--Primary-03, #9fcdd9);
+    background: rgba(255, 255, 255, 0.5);
+}
+.head-line-h2 {
+    font-size: var(--fs-h2);
+    font-style: var(--f-style);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+.head-line-h3 {
+    font-size: var(--fs-h3);
+    font-style: var(--f-style);
+    font-weight: var(--fw-h3);
+    line-height: var(--lh-h3);
+}
+
+.head-line-h4 {
+    font-size: var(--fs-h4);
+    font-style: var(--f-style);
+    font-weight: var(--fw-h4);
+    line-height: var(--lh-h4);
+}
+.head-line-h5 {
+    font-size: var(--fs-h5);
+    font-style: var(--f-style);
+    font-weight: var(--fw-h5);
+    line-height: var(--lh-h5);
+}
+/* Buttons/B1/REGULAR */
+.regular-b1 {
+    font-size: var(--fs-regular-b1);
+    font-style: var(--f-style);
+    font-weight: var(--fw-regular-b1);
+    line-height: var(--lh-regular-b1);
+}
+
+.reports-box-shadow {
+    box-shadow: var(--reports-box-shadow);
+}
+
+.section-box-shadow {
+    box-shadow: var(--section-box-shadow);
+}
+.section-box-shadow-hover {
+    box-shadow: var(--section-box-shadow-hover);
+}
+.arrow-filter {
+    filter: drop-shadow(0px 0px 35px rgba(15, 129, 159, 0.16));
+}
+
+/* swiper custom pagination and buttons */
+.prev-button,
+.next-button {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.prev-button:hover,
+.next-button:hover {
+    opacity: 0.7;
+}
+
+.next-button[disabled] {
+    cursor: not-allowed;
+}
+
+.custom-pagination .swiper-pagination-bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50px;
+    border-radius: 2.5px;
+    background: var(--Primary-05, #3f9ab2);
+    margin: 0 6px; /* Spacing between bullets */
+    transition: all 0.3s ease; /* Smooth transition for size and background */
+}
+
+/* Active bullet styled as a scrollbar */
+.custom-pagination .swiper-pagination-bullet-active {
+    display: flex;
+    width: 100px;
+    height: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    border-radius: 50px;
+    background: var(--Primary-06, #0f819f);
+    transition: all 0.3s ease;
+}
+/* end swiper custom pagination and buttons */
+
+/* media queries mobile screen */
+
+@media (max-width: 768px) {
+    :root {
+        /* btn radius */
+        --rtl-btn-radius: 0px 50px;
+        --ltr-btn-radius: 50px 0px;
+
+        /* font size */
+        --fs-h2: 42px;
+        --fs-h3: 32px;
+        --fs-h4: 22px;
+        --fs-h5: 20px;
+
+        --fs-regular-b1: 14px;
+
+        /** font weight */
+        --fw-h2: 400;
+        --fw-h3: 400;
+        --fw-h4: 400;
+        --fw-h5: 400;
+        --fw-regular-b1: 400;
+
+        /* line height */
+        --lh-h2: 58.8px;
+        --lh-h3: 44.8px;
+        --lh-h4: 30.8px;
+        --lh-h5: 24px;
+        --lh-regular-b1: 22.4px;
+
+        /* letter spacing */
+        --f-style: normal;
+    }
+}
 
 svg.w-5.h-5 {
-     width: 20px !important;
- }
+    width: 20px !important;
+}
 
 [x-cloak] {
     display: none !important;
 }
-
 
 .collapse {
     visibility: inherit !important;

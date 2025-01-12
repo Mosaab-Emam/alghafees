@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Constants;
 use Illuminate\Http\Request;
 use App\Models\Permission\Role;
-use App\Http\Requests\RequestRate;
+use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\ContentRequest;
@@ -76,7 +76,7 @@ class RolesController extends Controller
         }
         if (isset($request->action) && $request->action == 'preview') {
             return redirect()->route('admin.roles.store')
-                    ->with('message', __('admin.AddedMessage'));
+                ->with('message', __('admin.AddedMessage'));
         }
 
         return redirect()->route('admin.roles.index')
@@ -99,7 +99,7 @@ class RolesController extends Controller
 
     public function update(ContentRequest $request, $id)
     {
-        $data = $request->except(['_token', '_method' ]);
+        $data = $request->except(['_token', '_method']);
 
         $this->roleRepository->updateRole($id, $data);
         $role = $this->roleRepository->getRoleById($id);

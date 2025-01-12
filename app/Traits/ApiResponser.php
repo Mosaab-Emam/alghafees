@@ -12,29 +12,30 @@ trait ApiResponser
 {
 
     protected function successResponse($data, $message = null, $code = 200)
-	{
-		return response()->json(
+    {
+
+        return response()->json(
             [
                 'status' => $code,
                 'success' => true,
                 'message' => $message,
                 'data' => $data
-		    ],
-                $code
-            );
-	}
+            ],
+            $code
+        );
+    }
 
-	protected function errorResponse($message = null , $code)
-	{
-		return response()->json(
+    protected function errorResponse($code, $message = null)
+    {
+        return response()->json(
             [
                 'status' => $code,
                 'success' => false,
                 'message' => $message,
                 'data' => null
-		    ],
-                $code
+            ],
+            $code
         );
-	}
+    }
 
 }

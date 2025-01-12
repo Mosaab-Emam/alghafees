@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Evaluation;
 
 use App\Helpers\Constants;
 use Illuminate\Http\Request;
-use App\Http\Requests\RequestRate;
+use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContentRequest;
 use App\Models\Evaluation\EvaluationCompany;
@@ -17,7 +17,7 @@ class CompaniesController extends Controller
     public function __construct(CompanyRepositoryInterface $companyRepository)
     {
         $this->companyRepository = $companyRepository;
-         $this->middleware('auth');
+        $this->middleware('auth');
         $this->middleware('checkPermission:evaluation-companies.index')->only(['index']);
         $this->middleware('checkPermission:evaluation-companies.show')->only(['show']);
         $this->middleware('checkPermission:evaluation-companies.edit')->only(['edit']);
@@ -65,7 +65,7 @@ class CompaniesController extends Controller
 
         if (isset($request->action) && $request->action == 'preview') {
             return redirect()->route('admin.evaluation-companies.store')
-                    ->with('message', __('admin.AddedMessage'));
+                ->with('message', __('admin.AddedMessage'));
         }
 
         return redirect()->route('admin.evaluation-companies.index')
@@ -87,7 +87,7 @@ class CompaniesController extends Controller
 
     public function update(ContentRequest $request, $id)
     {
-        $data = $request->except(['_token', '_method' ]);
+        $data = $request->except(['_token', '_method']);
 
         $this->companyRepository->updateCompany($id, $data);
 

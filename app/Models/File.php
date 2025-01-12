@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+class File extends Model
+{
+    use HasFactory;
+
+    protected $fillable = ['title', 'file', 'type', 'position'];
+
+    public function scopeReports(Builder $query): Builder
+    {
+        return $query->where('type', 'report')->orderBy('position');
+    }
+
+    public function scopeEvaluations(Builder $query): Builder
+    {
+        return $query->where('type', 'evaluation')->orderBy('position');
+    }
+}

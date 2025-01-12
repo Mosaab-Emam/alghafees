@@ -1,0 +1,8 @@
+.box-bg-glass {
+	border-radius: 150px 0px;
+	border: 1px solid var(--Primary-03, #9fcdd9);
+	background: rgba(254, 255, 255, 0.5);
+
+	/* gLASS */
+	backdrop-filter: blur(8.050000190734863px);
+}

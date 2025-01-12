@@ -1,5 +1,8 @@
 /.phpunit.cache
+/bootstrap/ssr
 /node_modules
+/ignore
+/public/build
 /public/sitemap.xml
 /public/hot
 /public/storage
@@ -10,6 +13,8 @@
 /public/panel
 /public/upload
 /public/vendor
+/public/files
+/public/events
 /public/*.png
 /public/*.jpg
 /public/*.jpeg
@@ -33,3 +38,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+.scribe/*
+resources/views/scribe/index.blade.php

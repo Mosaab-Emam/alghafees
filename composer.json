@@ -20,6 +20,7 @@
         "flowframe/laravel-trend": "^0.1.5",
         "geniusts/hijri-dates": "^1.1",
         "guzzlehttp/guzzle": "^7.2",
+        "inertiajs/inertia-laravel": "^0.6.3",
         "lara-zeus/sky": "^3.4",
         "laracasts/flash": "^3.2",
         "laravel/framework": "^10.0",
@@ -37,11 +38,13 @@
         "spatie/laravel-sitemap": "*",
         "symfony/filesystem": "^6.4",
         "tecnickcom/tcpdf": "^6.6",
+        "tightenco/ziggy": "^2.0",
         "wireui/wireui": "^1.18"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
         "itsgoingd/clockwork": "^5.1",
+        "knuckleswtf/scribe": "*",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",

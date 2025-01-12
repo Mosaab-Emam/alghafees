@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "swiper/css";
 import "swiper/css/thumbs";
 import { Thumbs } from "swiper/modules";
@@ -13,10 +13,10 @@ export default function EventsSliderBox({
     images: Array<string>;
     swiperRef: React.RefObject<SwiperType>;
 }) {
-    const [thumbsSwiper, setThumbsSwiper] = React.useState(null);
-    const [visibleCount, setVisibleCount] = React.useState(4);
-    const [activeIndex, setActiveIndex] = React.useState(0);
-    const [startIndex, setStartIndex] = React.useState(0);
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
+    const [visibleCount, setVisibleCount] = useState(4);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [startIndex, setStartIndex] = useState(0);
 
     // Update this function to handle thumbnail window
     const handleSlideChange = (swiper: SwiperType) => {

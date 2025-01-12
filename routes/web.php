@@ -107,25 +107,31 @@ Route::get('/events/{event}', function (Event $event) {
 });
 
 Route::get('/blog', function () {
-    $query = request('search');
+    $search_query = request('search');
+    $page = request('page', 1);
+    $perPage = 9;
 
-    $posts = Post::with([
+    $query = Post::with([
         'author' => function ($query) {
             $query->select('id', 'name', 'image');
         }
     ])
-        ->when($query, function ($queryBuilder) use ($query) {
-            return $queryBuilder->where('title', 'like', '%' . $query . '%'); // Match the query against post titles
+        ->when($search_query, function ($queryBuilder) use ($search_query) {
+            return $queryBuilder->where('title', 'like', '%' . $search_query . '%'); // Match the query against post titles
         })
-        ->orderBy('published_at', 'desc')
-        ->get();
+        ->orderBy('published_at', 'desc');
+
+    $posts = $query->paginate($perPage, ['*'], 'page', $page); // Use pagination
 
     foreach ($posts as $post) {
         $post->featured_image = $post->image();
     }
 
+    $max_pages = $posts->lastPage();
+
     return Inertia::render('blog/Blog', [
-        'posts' => $posts
+        'posts' => $posts->getCollection(),
+        'max_pages' => $max_pages
     ]);
 });
 

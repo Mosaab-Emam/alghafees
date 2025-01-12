@@ -4,7 +4,13 @@ import { PageTopSection } from "../../components";
 import Layout from "../layout/Layout";
 import BlogMainContent from "./BlogMainContent";
 
-const Blog = ({ posts }: { posts: Array<Post> }) => {
+export default function Blog({
+    posts,
+    max_pages,
+}: {
+    posts: Array<Post>;
+    max_pages: number;
+}) {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("search")) {
@@ -16,9 +22,7 @@ const Blog = ({ posts }: { posts: Array<Post> }) => {
     return (
         <Layout>
             <PageTopSection title={"المدونة"} description={"نصائح عقارية"} />
-            <BlogMainContent posts={posts} />
+            <BlogMainContent posts={posts} max_pages={max_pages} />
         </Layout>
     );
-};
-
-export default Blog;
+}

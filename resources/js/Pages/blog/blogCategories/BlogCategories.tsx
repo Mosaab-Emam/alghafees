@@ -3,7 +3,6 @@ import BlogIcon from "../BlogIcon";
 import CategoryIcon from "./CategoryIcon";
 
 export default function BlogCategories({ tags }: { tags: Array<Tag> }) {
-    console.log(tags);
     return (
         <section
             dir="ltr"

@@ -1,7 +1,13 @@
-import { Post } from "@/types";
+import { Post, Tag } from "@/types";
 import BlogCategories from "../../blog/blogCategories/BlogCategories";
 
-export default function BlogDetailsTopBox({ post }: { post: Post }) {
+export default function BlogDetailsTopBox({
+    post,
+    tags,
+}: {
+    post: Post;
+    tags: Array<Tag>;
+}) {
     return (
         <div className="flex md:flex-row flex-col md:gap-0 gap-[49px] xl:mb-[136px] lg:mb-[80px] mb-[50px]">
             <div className="xl:w-[745px] lg:w-[570px] w-[360px] md:h-[447px] h-[213.422px]">
@@ -17,7 +23,7 @@ export default function BlogDetailsTopBox({ post }: { post: Post }) {
                 />
             </div>
 
-            <BlogCategories />
+            <BlogCategories tags={tags} />
         </div>
     );
 }

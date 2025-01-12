@@ -143,6 +143,7 @@ Route::get('/blog', function () {
 });
 
 Route::get('/blog/{id}', function ($id) {
+    $tags = Tag::withCount('postsPublished')->get();
     $post = Post::find($id);
 
     $post->featured_image = $post->image();
@@ -210,6 +211,7 @@ Route::get('/blog/{id}', function ($id) {
     }
 
     return Inertia::render('nestedPages/blogDetailsPage/BlogDetailsPage', [
+        'tags' => $tags,
         'post' => $post,
         'latest_posts' => $latest_posts,
         'related_posts' => $related_posts

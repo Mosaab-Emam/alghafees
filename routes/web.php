@@ -21,6 +21,7 @@ use App\Http\Controllers\Website\HomeController;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\File;
+use App\Models\HomeStaticContent;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
 
@@ -59,10 +60,12 @@ Route::get('/sign/{token}', [Controllers\Admin\ContractController::class, 'signa
 Route::post('/sign/{token}', [Controllers\Admin\ContractController::class, 'sign']);
 
 Route::get('/', function () {
+    $static_content = HomeStaticContent::first();
     $report = File::reports()->first();
     $events = Event::orderBy('id', 'desc')->take(2)->get();
 
     return Inertia::render('home/Home', [
+        'static_content' => $static_content,
         'report' => $report,
         'events' => $events
     ]);

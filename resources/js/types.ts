@@ -47,3 +47,20 @@ export type Tag = {
     created_at: string;
     updated_at: string;
 };
+
+export type HomeStaticContent = {
+    id: number;
+    hero_small_top_title: string;
+    hero_main_title: string;
+    hero_image: string;
+    description: string;
+    hero_main_button_text: string;
+    hero_main_button_link: string;
+    hero_secondary_button_text: string;
+    hero_secondary_button_link: string;
+    hero_download_box_text: string;
+    hero_x_link: string;
+    hero_linkedin_link: string;
+    hero_youtube_link: string;
+    hero_vertical_text: string;
+};

@@ -1,4 +1,4 @@
-import { BackendFile } from "@/types";
+import { BackendFile, HomeStaticContent } from "@/types";
 import {
     AboutSection,
     ContactUsSection,
@@ -10,15 +10,17 @@ import {
 import Layout from "../layout/Layout";
 
 function Home({
+    static_content,
     home_report,
     events,
 }: {
+    static_content: HomeStaticContent;
     home_report: BackendFile;
     events: Array<Event>;
 }) {
     return (
         <Layout>
-            <Hero />
+            <Hero static_content={static_content} />
             <OurPartners />
             <AboutSection report={home_report} />
             <OurServices events={events} />

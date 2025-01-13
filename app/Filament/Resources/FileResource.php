@@ -21,7 +21,7 @@ class FileResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'الموقع';
+    protected static ?string $navigationGroup = 'الموقع (المحتوى المتغير)';
 
     protected static ?int $navigationSort = 8;
 

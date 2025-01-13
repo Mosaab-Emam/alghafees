@@ -21,7 +21,7 @@ class EventResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
-    protected static ?string $navigationGroup = 'الموقع';
+    protected static ?string $navigationGroup = 'الموقع (المحتوى المتغير)';
 
     public static function getModelLabel(): string
     {

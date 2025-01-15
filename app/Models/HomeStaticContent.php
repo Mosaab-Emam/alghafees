@@ -10,7 +10,7 @@ class HomeStaticContent extends Model
     use HasFactory;
 
     protected $fillable = [
-        // Heor Section
+        // Hero Section
         'hero_small_top_title',
         'hero_main_title',
         'hero_description',

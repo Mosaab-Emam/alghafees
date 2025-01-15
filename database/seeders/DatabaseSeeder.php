@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            HomeStaticContentSeeder::class
+            AboutUsStaticContentSeeder::class,
+            // Other seeders can be added here
         ]);
     }
 }

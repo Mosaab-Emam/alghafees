@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\RequestEvaluationStaticContentSeeder;
+use Database\Seeders\BlogStaticContentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             OurClientsStaticContentSeeder::class,
             EventsStaticContentSeeder::class,
             RequestEvaluationStaticContentSeeder::class,
+            BlogStaticContentSeeder::class,
             // Other seeders can be added here
         ]);
     }

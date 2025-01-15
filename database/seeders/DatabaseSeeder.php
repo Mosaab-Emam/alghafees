@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             AboutUsStaticContentSeeder::class,
             OurServicesStaticContentSeeder::class,
             OurClientsStaticContentSeeder::class,
+            EventsStaticContentSeeder::class,
             // Other seeders can be added here
         ]);
     }

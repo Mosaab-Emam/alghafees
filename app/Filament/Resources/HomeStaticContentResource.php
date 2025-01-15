@@ -39,11 +39,6 @@ class HomeStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('hero_image')
-                    ->label(__('static_content.home.hero_image'))
-                    ->image()
-                    ->directory('upload/static_content')
-                    ->required(),
                 Forms\Components\TextInput::make('hero_small_top_title')
                     ->label(__('static_content.home.hero_small_top_title'))
                     ->columnStart(1)
@@ -51,8 +46,8 @@ class HomeStaticContentResource extends Resource
                 Forms\Components\TextInput::make('hero_main_title')
                     ->label(__('static_content.home.hero_main_title'))
                     ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->label(__('static_content.home.description'))
+                Forms\Components\Textarea::make('hero_description')
+                    ->label(__('static_content.home.hero_description'))
                     ->columnSpanFull()
                     ->required(),
                 Forms\Components\TextInput::make('hero_main_button_text')

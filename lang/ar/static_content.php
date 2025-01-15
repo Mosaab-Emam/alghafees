@@ -7,7 +7,7 @@ return [
     'hero_small_top_title' => 'العنوان  الصغير العلوي',
     'hero_main_title' => 'العنوان الرئيسي',
     'hero_image' => 'صورة القسم العلوي',
-    'description' => 'الوصف',
+    'hero_description' => 'الوصف',
     'hero_main_button_text' => 'نص الزر الرئيسي',
     'hero_main_button_link' => 'رابط الزر الرئيسي',
     'hero_secondary_button_text' => 'نص الزر الثانوي',

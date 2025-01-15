@@ -11,7 +11,7 @@ class AboutUsStaticContent extends Model
 
     protected $fillable = [
         "small_top_title",
-        "main_title",
+        "main_top_title",
         "about_top_title",
         "about_first_title",
         "about_first_description",

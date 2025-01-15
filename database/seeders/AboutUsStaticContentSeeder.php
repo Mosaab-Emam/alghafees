@@ -15,7 +15,7 @@ class AboutUsStaticContentSeeder extends Seeder
     {
         AboutUsStaticContent::create([
             'small_top_title' => '',
-            'main_title' => '',
+            'main_top_title' => '',
             'about_top_title' => '',
             'about_first_title' => '',
             'about_first_description' => '',

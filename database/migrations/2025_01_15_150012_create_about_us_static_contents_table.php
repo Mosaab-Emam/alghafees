@@ -16,7 +16,7 @@ return new class extends Migration {
 
             // Adding columns based on the fillable properties without nullable()
             $table->string('small_top_title');
-            $table->string('main_title');
+            $table->string('main_top_title');
             $table->string('about_top_title');
             $table->string('about_first_title');
             $table->text('about_first_description');

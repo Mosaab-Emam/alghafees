@@ -8,6 +8,7 @@ use Database\Seeders\RequestEvaluationStaticContentSeeder;
 use Database\Seeders\BlogStaticContentSeeder;
 use Database\Seeders\ContactUsStaticContentSeeder;
 use Database\Seeders\TrackYourRequestStaticContentSeeder;
+use Database\Seeders\JoinUsStaticContentSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             BlogStaticContentSeeder::class,
             ContactUsStaticContentSeeder::class,
             TrackYourRequestStaticContentSeeder::class,
+            JoinUsStaticContentSeeder::class,
             // Other seeders can be added here
         ]);
     }

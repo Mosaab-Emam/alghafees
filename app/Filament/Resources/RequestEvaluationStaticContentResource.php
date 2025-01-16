@@ -47,4 +47,19 @@ class RequestEvaluationStaticContentResource extends Resource
     {
         return route(static::getRouteBaseName() . '.edit', 1);
     }
+
+    public static function getModelLabel(): string
+    {
+        return __('static_content.request-evaluation.model_label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('static_content.request-evaluation.model_label');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('static_content.request-evaluation.navigation_label');
+    }
 }

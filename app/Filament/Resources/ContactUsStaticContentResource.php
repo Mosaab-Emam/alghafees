@@ -47,4 +47,19 @@ class ContactUsStaticContentResource extends Resource
     {
         return route(static::getRouteBaseName() . '.edit', 1);
     }
+
+    public static function getModelLabel(): string
+    {
+        return __('static_content.contact-us.model_label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('static_content.contact-us.model_label');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('static_content.contact-us.navigation_label');
+    }
 }

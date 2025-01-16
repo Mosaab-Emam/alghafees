@@ -1,4 +1,5 @@
 import { Post } from "@/types";
+import { Link } from "@inertiajs/react";
 import { CalenderIcon } from "../../../assets/images/blog";
 import { Button } from "../../../components";
 import BlogIcon from "../BlogIcon";
@@ -11,7 +12,7 @@ export default function BlogCard({
     isLatestTopic: boolean;
 }) {
     return (
-        <a
+        <Link
             href={`/blog/${post.id}`}
             className="2xl:w-[410px] xl:w-[387px] 2xl:max-h-[570px] lg:w-[340px] w-full max-h-[555px] flex items-center gap-[10px] rounded-tl-[100px] bg-bg-01 border border-bg-01 shadow-[12px_12px_35px_0px_rgba(29,42,45,0.07)]"
         >
@@ -75,21 +76,20 @@ export default function BlogCard({
 
                     {/* {!isLatestTopic && ( */}
                     <div className="flex justify-between items-center self-stretch">
-                        <Button
-                            onClick={() =>
-                                (window.location.href = `/blog/${post.id}`)
-                            }
-                            variant="primary"
-                            className={
-                                "h-[40px] md:py-[15px] py-[14px] md:px-[80px] px-[60px]"
-                            }
-                        >
-                            قراءة المزيد
-                        </Button>
+                        <Link href={`/blog/${post.id}`}>
+                            <Button
+                                variant="primary"
+                                className={
+                                    "h-[40px] md:py-[15px] py-[14px] md:px-[80px] px-[60px]"
+                                }
+                            >
+                                قراءة المزيد
+                            </Button>
+                        </Link>
                     </div>
                     {/* )} */}
                 </div>
             </div>
-        </a>
+        </Link>
     );
 }

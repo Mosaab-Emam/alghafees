@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import Button from "./button/Button";
 
 const ButtonsBox = ({
@@ -22,7 +23,7 @@ const ButtonsBox = ({
                 variant="out-line"
             >
                 {secondaryBtnHref ? (
-                    <a href={secondaryBtnHref}>{outlineBtnContent}</a>
+                    <Link href={secondaryBtnHref}>{outlineBtnContent}</Link>
                 ) : (
                     outlineBtnContent
                 )}

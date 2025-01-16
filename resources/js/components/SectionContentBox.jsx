@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import ParagraphContent from "./ParagraphContent";
 import SectionTitle from "./SectionTitle";
 import TextContent from "./TextContent";
@@ -37,12 +38,11 @@ const SectionContentBox = ({
                 </ParagraphContent>
             </div>
             <div className="">
-                <Button
-                    onClick={() => (window.location.href = navigateTo)}
-                    className={`py-[15px] ${butWidth}`}
-                >
-                    عرض الكل
-                </Button>
+                <Link href={navigateTo}>
+                    <Button className={`py-[15px] ${butWidth}`}>
+                        عرض الكل
+                    </Button>
+                </Link>
             </div>
         </div>
     );

@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import { ourServicesData } from "../../data";
 import Button from "../button/Button";
 import ParagraphContent from "../ParagraphContent";
@@ -71,13 +72,9 @@ const ServicesImages = () => {
                                     >
                                         {item.description}
                                     </ParagraphContent>
-                                    <Button
-                                        onClick={() =>
-                                            (window.location.href = `/our-services/${item?.id}`)
-                                        }
-                                    >
-                                        المزيد
-                                    </Button>
+                                    <Link href={`/our-services/${item?.id}`}>
+                                        <Button>المزيد</Button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import { Button } from "../../components";
 
 function NotFoundPage() {
@@ -83,12 +84,11 @@ function NotFoundPage() {
             <p className=" head-line-h4 text-Gray-scale-02">
                 الصفحة المطلوبة غير موجودة{" "}
             </p>
-            <Button
-                className={" px-[80px] py-4 mx-auto"}
-                onClick={() => (window.location.href = "/")}
-            >
-                العودة للصفحة الرئيسية{" "}
-            </Button>
+            <Link href="/">
+                <Button className={" px-[80px] py-4 mx-auto"}>
+                    العودة للصفحة الرئيسية{" "}
+                </Button>
+            </Link>
         </div>
     );
 }

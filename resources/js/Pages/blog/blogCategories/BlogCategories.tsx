@@ -1,4 +1,5 @@
 import { Tag } from "@/types";
+import { Link } from "@inertiajs/react";
 import BlogIcon from "../BlogIcon";
 import CategoryIcon from "./CategoryIcon";
 
@@ -21,28 +22,27 @@ export default function BlogCategories({ tags }: { tags: Array<Tag> }) {
 
                 <div className="flex flex-col items-start self-stretch gap-6">
                     {tags.map((tag, index) => (
-                        <button
-                            key={tag.id}
-                            className={`${
-                                index === tags.length - 1
-                                    ? ""
-                                    : "border-b border-primary-200"
-                            } flex  justify-between items-center self-stretch gap-6 pb-2`}
-                            onClick={() =>
-                                (window.location.href = `/blog?tag=${tag.slug.ar}`)
-                            }
-                        >
-                            <div className="flex items-center gap-[9px]">
-                                <CategoryIcon />
-                                <h3 className="regular-b1 text-right text-primary-600">
-                                    {tag.name.ar}
-                                </h3>
-                            </div>
+                        <Link href={`/blog?tag=${tag.slug.ar}`}>
+                            <button
+                                key={tag.id}
+                                className={`${
+                                    index === tags.length - 1
+                                        ? ""
+                                        : "border-b border-primary-200"
+                                } flex  justify-between items-center self-stretch gap-6 pb-2`}
+                            >
+                                <div className="flex items-center gap-[9px]">
+                                    <CategoryIcon />
+                                    <h3 className="regular-b1 text-right text-primary-600">
+                                        {tag.name.ar}
+                                    </h3>
+                                </div>
 
-                            <p className=" regular-b1 text-right text-Gray-scale-02">
-                                {tag.posts_published_count} مقالات
-                            </p>
-                        </button>
+                                <p className=" regular-b1 text-right text-Gray-scale-02">
+                                    {tag.posts_published_count} مقالات
+                                </p>
+                            </button>
+                        </Link>
                     ))}
                 </div>
             </div>

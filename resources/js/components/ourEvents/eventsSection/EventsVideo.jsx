@@ -7,6 +7,7 @@ import { OurEventsVideoCover } from "../../../assets/images/our-events";
 // Import the ModalVideo component from the react-modal-video library
 import ModalVideo from "react-modal-video";
 import "react-modal-video/css/modal-video.css";
+import { Link } from "react-router-dom";
 
 const EventsVideo = ({
     radius = "rounded-tr-[50px] rounded-br-[50px]",
@@ -37,9 +38,9 @@ const EventsVideo = ({
                 }}
             >
                 {!hideButton && (
-                    <ShowMoreBtn
-                        onClick={() => (window.location.href = `/events/${1}`)}
-                    />
+                    <Link href={`/events/${1}`}>
+                        <ShowMoreBtn />
+                    </Link>
                 )}
 
                 <PlayVideoBtn onClick={openModal} />

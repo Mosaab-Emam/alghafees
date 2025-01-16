@@ -1,3 +1,4 @@
+import { Link } from "@inertiajs/react";
 import {
     Button,
     ContactUsSection,
@@ -14,16 +15,17 @@ const ContactUs = () => {
                 description={"ابقَ على اتصال"}
             />
             <section className="container md:mt-[220px] mt-[6rem] md:mb-[131px] mb-[6rem] relative">
-                <Button
-                    onClick={() =>
-                        (window.location.href = "/request-evaluation")
-                    }
-                    className={"md:flex hidden mt-[100px] w-[290px] mr-auto"}
-                    variant="primary"
-                    radius={"left"}
-                >
-                    طلب تقييم{" "}
-                </Button>
+                <Link href="/request-evaluation">
+                    <Button
+                        className={
+                            "md:flex hidden mt-[100px] w-[290px] mr-auto"
+                        }
+                        variant="primary"
+                        radius={"left"}
+                    >
+                        طلب تقييم
+                    </Button>
+                </Link>
 
                 <ContactUsSection
                     showPriceOffer={true}

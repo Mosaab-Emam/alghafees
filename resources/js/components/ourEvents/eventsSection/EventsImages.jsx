@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ShowMoreBtn from "../ShowMoreBtn";
 
 export default function EventsImages({ events }) {
@@ -12,12 +13,9 @@ export default function EventsImages({ events }) {
                             background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%) , url(${item?.images[0]})  lightgray 50% / cover no-repeat`,
                         }}
                     >
-                        <ShowMoreBtn
-                            onClick={() =>
-                                (window.location.href = `/events/${item.id}`)
-                            }
-                            position="right-0 top-0"
-                        />
+                        <Link href={`/events/${item.id}`}>
+                            <ShowMoreBtn position="right-0 top-0" />
+                        </Link>
                         <h4 className="md:block hidden lg:pt-[130px] xl:pt-[181px] pb-[24px] pr-[12px] pl-[26px] h-[24px] text-center  text-bg-01  head-line-h5">
                             {item.title}
                         </h4>

@@ -1,3 +1,4 @@
+import { router } from "@inertiajs/react";
 import React, { useEffect } from "react";
 import ButtonsBox from "../../ButtonsBox";
 import WebsiteLink from "../WebsiteLink";
@@ -48,14 +49,12 @@ const MobileMenu = ({ onClickMenu, toggleMobileMenu }) => {
                 ))}
                 <ButtonsBox
                     gap="gap-4"
-                    outLinButtonOnClick={() =>
-                        (window.location.href = "/track-your-request")
-                    }
-                    primaryButtonOnClick={() =>
-                        (window.location.href = "/join-us")
-                    }
-                    outlineBtnContent={"تتبع طلبك "}
                     primaryBtnContent={"انضم إلينا"}
+                    primaryButtonOnClick={() => router.visit("/join-us")}
+                    outlineBtnContent={"تتبع طلبك "}
+                    outLinButtonOnClick={() =>
+                        router.visit("/track-your-request")
+                    }
                 />
             </div>
         </div>

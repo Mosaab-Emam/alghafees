@@ -1,3 +1,4 @@
+import { router } from "@inertiajs/react";
 import React from "react";
 import ButtonsBox from "../../ButtonsBox";
 import ParagraphContent from "../../ParagraphContent";
@@ -19,14 +20,10 @@ const ContentBox = ({ className }) => {
                 gap="gap-4"
                 flexDirection="xl:justify-start"
                 btnWidth="md:w-[280px] "
-                outlineBtnContent={"تقدم بطلبك الآن "}
-                primaryButtonOnClick={() =>
-                    (window.location.href = "/contact-us")
-                }
-                outLinButtonOnClick={() =>
-                    (window.location.href = "/request-evaluation")
-                }
                 primaryBtnContent={"اتصل بنا"}
+                primaryButtonOnClick={() => router.visit("/contact-us")}
+                outlineBtnContent={"تقدم بطلبك الآن "}
+                outLinButtonOnClick={() => router.visit("/request-evaluation")}
             />
         </div>
     );

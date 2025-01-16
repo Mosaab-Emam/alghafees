@@ -1,3 +1,4 @@
+import { Post } from "@/types";
 import BlogCard from "../../../../../blog/blogsBox/BlogCard";
 
 export default function LatestTopicImagBox({
@@ -5,7 +6,7 @@ export default function LatestTopicImagBox({
     latest_posts,
 }: {
     className?: string;
-    latest_posts: Array<any>;
+    latest_posts: Array<Post>;
 }) {
     return (
         <div className={`${className}`}>

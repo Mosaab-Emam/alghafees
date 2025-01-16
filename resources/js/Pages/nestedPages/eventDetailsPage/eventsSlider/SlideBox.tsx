@@ -1,4 +1,5 @@
 import { Event } from "@/types";
+import { Link } from "@inertiajs/react";
 import ShowMoreBtn from "../../../../components/ourEvents/ShowMoreBtn";
 
 const SlideBox = ({ item }: { item: Event }) => {
@@ -12,12 +13,9 @@ const SlideBox = ({ item }: { item: Event }) => {
                     background: `linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, #000 100%) , url(${item?.images[0]})  lightgray 50% / cover no-repeat`,
                 }}
             >
-                <ShowMoreBtn
-                    onClick={() =>
-                        (window.location.href = `/events/${item.id}`)
-                    }
-                    position="right-0 top-0"
-                />
+                <Link href={`/events/${item.id}`}>
+                    <ShowMoreBtn position="right-0 top-0" />
+                </Link>
 
                 <h4 className="lg:pt-[135px] pt-[230px] pb-[24px] pr-[12px] pl-[26px] h-[24px] text-center flex-shrink-0 text-bg-01  head-line-h5">
                     {item.title}

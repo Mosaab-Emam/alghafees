@@ -1,3 +1,4 @@
+import { router } from "@inertiajs/react";
 import ButtonsBox from "../../ButtonsBox";
 import WebsiteLinks from "../WebsiteLinks";
 
@@ -16,12 +17,10 @@ export default function DesktopMenu() {
             <WebsiteLinks links={links} />
 
             <ButtonsBox
-                outLinButtonOnClick={() =>
-                    (window.location.href = "/track-your-request")
-                }
-                primaryButtonOnClick={() => (window.location.href = "/join-us")}
-                outlineBtnContent={"تتبع طلبك "}
                 primaryBtnContent={"انضم إلينا"}
+                primaryButtonOnClick={() => router.visit("/join-us")}
+                outlineBtnContent={"تتبع طلبك "}
+                outLinButtonOnClick={() => router.visit("/track-your-request")}
             />
         </div>
     );

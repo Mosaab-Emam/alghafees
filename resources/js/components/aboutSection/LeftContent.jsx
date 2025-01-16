@@ -8,6 +8,7 @@ import AboutGoals from "./AboutGoals";
 import { DownloadIcon } from "../../assets/icons";
 
 // data
+import { router } from "@inertiajs/react";
 import { samplePdf } from "../../assets/pdf-docs";
 import { aboutData } from "../../data";
 
@@ -41,7 +42,7 @@ export default function LeftContent({ report }) {
                 outlineBtnContent={"عرض المزيد من التقارير المعتمدة"}
                 primaryBtnContent={report?.title}
                 primaryButtonOnClick={handleDownload}
-                outLinButtonOnClick={() => (window.location.href = "/about-us")}
+                outLinButtonOnClick={() => router.visit("/about-us")}
                 secondaryBtnHref="/about-us"
             />
         </section>

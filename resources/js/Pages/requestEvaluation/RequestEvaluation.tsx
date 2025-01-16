@@ -9,7 +9,13 @@ import {
 import { useSubmitRateRequestMutation } from "../../query";
 import { SelectItem } from "../../types";
 import Layout from "../layout/Layout";
-import FormBox from "./FormBox";
+import PropertyAddress from "./requestEvaluationForm/propertyAddress/PropertyAddress";
+import PropertyDataForm from "./requestEvaluationForm/propertyDataForm/PropertyDataForm";
+import PropertyDocuments from "./requestEvaluationForm/propertyDocuments/PropertyDocuments";
+import RequestEvaluationFormButtonsBox from "./requestEvaluationForm/RequestEvaluationFormButtonsBox";
+import RequestSubmittedSuccessfully from "./requestEvaluationForm/requestSubmittedSuccessfully/RequestSubmittedSuccessfully";
+import UserInfoForm from "./requestEvaluationForm/userInfoForm/UserInfoForm";
+import RequestEvaluationSteps from "./requestEvaluationSteps/RequestEvaluationSteps";
 import TextBox from "./TextBox";
 
 const RequestEvaluation = ({
@@ -81,15 +87,30 @@ const RequestEvaluation = ({
                 <BgGlassFilterShape
                     position={"md:hidden flex -right-48 top-48 z-[-1]"}
                 />
-                <FormBox
-                    onHandleNextStep={handleNextStep}
-                    onHandlePrevStep={handlePrevStep}
-                    step={step}
-                    goals={goals}
-                    types={types}
-                    entities={entities}
-                    usage={usage}
-                />
+                <div className="xl:w-[1200px] lg:w-[1024px] w-[360px] md:h-[862px] h-auto flex md:flex-row flex-col md:items-start items-center md:gap-[35px] gap-8  glass-effect glass-effect-bg-primary-3 rounded-tl-[100px] rounded-br-[100px] md:p-[50px]  py-8 px-6">
+                    <RequestEvaluationSteps step={step} />
+
+                    <form className="md:w-[590px] w-full flex flex-col items-start gap-8">
+                        {step === 1 && <UserInfoForm goals={goals} />}
+                        {step === 2 && (
+                            <PropertyDataForm
+                                types={types}
+                                entities={entities}
+                                usage={usage}
+                            />
+                        )}
+                        {step === 3 && <PropertyAddress />}
+                        {step === 4 && <PropertyDocuments />}
+                        {step === 5 && <RequestSubmittedSuccessfully />}
+                        {step !== 5 && (
+                            <RequestEvaluationFormButtonsBox
+                                step={step}
+                                onHandleNextStep={handleNextStep}
+                                onHandlePrevStep={handlePrevStep}
+                            />
+                        )}
+                    </form>
+                </div>
                 <RequestEvaluationCircleShape
                     position={"md:flex hidden left-[-49px] top-1/2 z-[-1]"}
                 />

@@ -24,7 +24,27 @@ class JoinUsStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('small_top_title')
+                    ->label(__('static_content.join-us.small_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_top_title')
+                    ->label(__('static_content.join-us.main_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('form_title')
+                    ->label(__('static_content.join-us.form_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('form_description')
+                    ->label(__('static_content.join-us.form_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('form_btn_text')
+                    ->label(__('static_content.join-us.form_btn_text'))
+                    ->required(),
+                Forms\Components\TextInput::make('title')
+                    ->label(__('static_content.join-us.title'))
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->label(__('static_content.join-us.description'))
+                    ->required(),
             ]);
     }
 

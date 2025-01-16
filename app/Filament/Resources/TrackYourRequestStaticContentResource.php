@@ -24,7 +24,24 @@ class TrackYourRequestStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('small_top_title')
+                    ->label(__('static_content.track-your-request.small_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_top_title')
+                    ->label(__('static_content.track-your-request.main_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('title')
+                    ->label(__('static_content.track-your-request.title'))
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->label(__('static_content.track-your-request.description'))
+                    ->required(),
+                Forms\Components\TextInput::make('search_placeholder')
+                    ->label(__('static_content.track-your-request.search_placeholder'))
+                    ->required(),
+                Forms\Components\TextInput::make('btn_text')
+                    ->label(__('static_content.track-your-request.btn_text'))
+                    ->required(),
             ]);
     }
 

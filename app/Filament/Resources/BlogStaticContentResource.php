@@ -24,7 +24,24 @@ class BlogStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('small_top_title')
+                    ->label(__('static_content.blog.small_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_top_title')
+                    ->label(__('static_content.blog.main_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('title')
+                    ->label(__('static_content.blog.title'))
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->label(__('static_content.blog.description'))
+                    ->required(),
+                Forms\Components\TextInput::make('blog_small_title')
+                    ->label(__('static_content.blog.blog_small_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('blog_main_title')
+                    ->label(__('static_content.blog.blog_main_title'))
+                    ->required(),
             ]);
     }
 

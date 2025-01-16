@@ -105,7 +105,7 @@ return [
     "small_top_title" => '',
     "main_top_title" => '',
     "main_title" => '',
-    "description" => '',
+    "main_description" => '',
     "clients_title" => ''
   ],
   'events' => [

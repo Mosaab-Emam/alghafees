@@ -24,7 +24,36 @@ class ContactUsStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('small_top_title')
+                    ->label(__('static_content.contact-us.small_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_top_title')
+                    ->label(__('static_content.contact-us.main_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('form_title')
+                    ->label(__('static_content.contact-us.form_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('form_description')
+                    ->label(__('static_content.contact-us.form_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('title')
+                    ->label(__('static_content.contact-us.title'))
+                    ->required(),
+                Forms\Components\TextInput::make('box_title')
+                    ->label(__('static_content.contact-us.box_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('phone')
+                    ->label(__('static_content.contact-us.phone'))
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->label(__('static_content.contact-us.email'))
+                    ->required(),
+                Forms\Components\TextInput::make('cta_text')
+                    ->label(__('static_content.contact-us.cta_text'))
+                    ->required(),
+                Forms\Components\TextInput::make('cta_link')
+                    ->label(__('static_content.contact-us.cta_link'))
+                    ->required(),
             ]);
     }
 

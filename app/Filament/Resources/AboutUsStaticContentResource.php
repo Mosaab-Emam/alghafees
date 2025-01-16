@@ -24,7 +24,66 @@ class AboutUsStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('small_top_title')
+                    ->label(__('static_content.about-us.small_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_top_title')
+                    ->label(__('static_content.about-us.main_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('about_top_title')
+                    ->label(__('static_content.about-us.about_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('about_first_title')
+                    ->label(__('static_content.about-us.about_first_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('about_first_description')
+                    ->label(__('static_content.about-us.about_first_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('about_second_title')
+                    ->label(__('static_content.about-us.about_second_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('about_second_description')
+                    ->label(__('static_content.about-us.about_second_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('management_title')
+                    ->label(__('static_content.about-us.management_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('management_description')
+                    ->label(__('static_content.about-us.management_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('feat1_title')
+                    ->label(__('static_content.about-us.feat1_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('feat1_description')
+                    ->label(__('static_content.about-us.feat1_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('feat2_title')
+                    ->label(__('static_content.about-us.feat2_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('feat2_description')
+                    ->label(__('static_content.about-us.feat2_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('feat3_title')
+                    ->label(__('static_content.about-us.feat3_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('feat3_description')
+                    ->label(__('static_content.about-us.feat3_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('vision_title')
+                    ->label(__('static_content.about-us.vision_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('vision_description')
+                    ->label(__('static_content.about-us.vision_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('message_title')
+                    ->label(__('static_content.about-us.message_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('message_description')
+                    ->label(__('static_content.about-us.message_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('reports_title')
+                    ->label(__('static_content.about-us.reports_title'))
+                    ->required(),
             ]);
     }
 

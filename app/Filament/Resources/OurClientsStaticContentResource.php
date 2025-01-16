@@ -24,7 +24,21 @@ class OurClientsStaticContentResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('small_top_title')
+                    ->label(__('static_content.our-clients.small_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_top_title')
+                    ->label(__('static_content.our-clients.main_top_title'))
+                    ->required(),
+                Forms\Components\TextInput::make('main_title')
+                    ->label(__('static_content.our-clients.main_title'))
+                    ->required(),
+                Forms\Components\Textarea::make('main_description')
+                    ->label(__('static_content.our-clients.main_description'))
+                    ->required(),
+                Forms\Components\TextInput::make('clients_title')
+                    ->label(__('static_content.our-clients.clients_title'))
+                    ->required(),
             ]);
     }
 

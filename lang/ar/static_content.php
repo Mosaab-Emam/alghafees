@@ -68,5 +68,94 @@ return [
       'form_title' => 'عنوان الفورم',
       'form_description' => 'وصف الفورم',
     ],
+  ],
+  'about-us' => [
+    'small_top_title' => '',
+    'main_top_title' => '',
+    'about_top_title' => '',
+    'about_first_title' => '',
+    'about_first_description' => '',
+    'about_second_title' => '',
+    'about_second_description' => '',
+    'management_title' => '',
+    'management_description' => '',
+    // Placeholder for qualifications
+    'feat1_title' => '',
+    'feat1_description' => '',
+    'feat2_title' => '',
+    'feat2_description' => '',
+    'feat3_title' => '',
+    'feat3_description' => '',
+    'values_title' => '',
+    // Placeholder for values
+    'vision_title' => '',
+    'vision_description' => '',
+    'message_title' => '',
+    'message_description' => '',
+    'reports_title' => ''
+  ],
+  'our-services' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "main_title" => '',
+    "main_description" => '',
+    "services_title" => '',
+  ],
+  'our-clients' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "main_title" => '',
+    "description" => '',
+    "clients_title" => ''
+  ],
+  'events' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "video_url" => '',
+    "events_title" => '',
+    "events_empty_text" => ''
+  ],
+  'request-evaluation' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "evaluation_title" => '',
+    "evaluation_description" => ''
+  ],
+  'blog' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "title" => '',
+    "description" => '',
+    "blog_small_title" => '',
+    "blog_main_title" => ''
+  ],
+  'contact-us' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "form_title" => '',
+    "form_description" => '',
+    "title" => '',
+    "box_title" => '',
+    "phone" => '',
+    "email" => '',
+    "cta_text" => '',
+    "cta_link" => ''
+  ],
+  'track-your-request' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "title" => '',
+    "description" => '',
+    "search_placeholder" => '',
+    "btn_text" => ''
+  ],
+  'join-us' => [
+    "small_top_title" => '',
+    "main_top_title" => '',
+    "form_title" => '',
+    "form_description" => '',
+    "form_btn_text" => '',
+    "title" => '',
+    "description" => ''
   ]
 ];

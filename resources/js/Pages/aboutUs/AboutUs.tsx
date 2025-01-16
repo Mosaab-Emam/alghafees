@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { OurValues, PageTopSection, ReportsSection } from "../../components";
 import { BackendFile } from "../../types";
 import AboutBoxOne from "./AboutBoxOne";
@@ -12,22 +11,16 @@ type AboutUsProps = {
     evaluations: Array<BackendFile>;
 };
 
-const AboutUs = ({ reports, evaluations }: AboutUsProps) => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+const AboutUs = ({ reports, evaluations }: AboutUsProps) => (
+    <>
+        <PageTopSection title={"من نحن"} description={"خبرة موثوقة"} />
+        <AboutBoxOne />
+        <AboutBoxTwo />
 
-    return (
-        <>
-            <PageTopSection title={"من نحن"} description={"خبرة موثوقة"} />
-            <AboutBoxOne />
-            <AboutBoxTwo />
-
-            <OurValues />
-            <ReportsSection reports={reports} evaluations={evaluations} />
-        </>
-    );
-};
+        <OurValues />
+        <ReportsSection reports={reports} evaluations={evaluations} />
+    </>
+);
 
 AboutUs.layout = (page: React.ReactNode) => <Layout children={page} />;
 

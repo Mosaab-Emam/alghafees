@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import {
     BgGlassFilterShape,
@@ -68,10 +68,6 @@ const RequestEvaluation = ({
     const handlePrevStep = () => {
         setStep(step - 1);
     };
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
 
     return (
         <>

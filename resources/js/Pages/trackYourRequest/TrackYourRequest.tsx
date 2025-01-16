@@ -8,13 +8,13 @@ import Layout from "../layout/Layout";
 
 import TrackRequestForm from "./TrackRequestForm";
 
-export default function TrackYourRequest() {
+const TrackYourRequest = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     return (
-        <Layout>
+        <>
             <PageTopSection title={"تتبع الطلب"} description={"تتبع مباشر"} />
             <section className="container md:mt-[211px] mt-[6rem] md:mb-[131px] mb-[6rem] relative">
                 <div className="inline-flex md:flex-row flex-col-reverse md:items-center md:content-start content-center items-start xl:gap-[144px] lg:gap-[60px] gap-8">
@@ -28,6 +28,10 @@ export default function TrackYourRequest() {
                     }
                 />
             </section>
-        </Layout>
+        </>
     );
-}
+};
+
+TrackYourRequest.layout = (page: React.ReactNode) => <Layout children={page} />;
+
+export default TrackYourRequest;

@@ -4,7 +4,7 @@ import { PageTopSection } from "../../components";
 import Layout from "../layout/Layout";
 import BlogMainContent from "./BlogMainContent";
 
-export default function Blog({
+const Blog = ({
     posts,
     max_pages,
     tags,
@@ -12,7 +12,7 @@ export default function Blog({
     posts: Array<Post>;
     max_pages: number;
     tags: Array<Tag>;
-}) {
+}) => {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has("search") || urlParams.has("tag")) {
@@ -22,9 +22,13 @@ export default function Blog({
     }, []);
 
     return (
-        <Layout>
+        <>
             <PageTopSection title={"المدونة"} description={"نصائح عقارية"} />
             <BlogMainContent posts={posts} max_pages={max_pages} tags={tags} />
-        </Layout>
+        </>
     );
-}
+};
+
+Blog.layout = (page: React.ReactNode) => <Layout children={page} />;
+
+export default Blog;

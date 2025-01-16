@@ -9,8 +9,9 @@ const OurClients = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
+
     return (
-        <Layout>
+        <>
             <PageTopSection title={"عملاؤنا"} description={"ثقة عملائنا"} />
             <section className="container md:mt-[211px] mt-[6rem]">
                 <ClientsBoxOne />
@@ -18,8 +19,10 @@ const OurClients = () => {
                 <ClientsBoxTwo />
             </section>
             <OurPartners className="pt-8 pb-12" />
-        </Layout>
+        </>
     );
 };
+
+OurClients.layout = (page: React.ReactNode) => <Layout children={page} />;
 
 export default OurClients;

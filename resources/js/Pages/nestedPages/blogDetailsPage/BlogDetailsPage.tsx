@@ -6,7 +6,7 @@ import BlogDetailsTopBox from "./BlogDetailsTopBox";
 import ArticleBox from "./articleBox/ArticleBox";
 import RelatedTopics from "./relatedTopics/RelatedTopics";
 
-export default function BlogDetailsPage({
+const BlogDetailsPage = ({
     tags,
     post,
     latest_posts,
@@ -16,9 +16,9 @@ export default function BlogDetailsPage({
     post: Post;
     latest_posts: Array<Post>;
     related_posts: Array<Post>;
-}) {
+}) => {
     return (
-        <Layout>
+        <>
             <PageTopSection title={"المدونة"} description={"نصائح عقارية"} />
             <section className="container md:mt-[211px] top-[6rem] relative">
                 <BlogDetailsTopBox post={post} tags={tags} />
@@ -26,6 +26,10 @@ export default function BlogDetailsPage({
                 <ArticleBox post={post} latest_posts={latest_posts} />
                 <RelatedTopics related_posts={related_posts} />
             </section>
-        </Layout>
+        </>
     );
-}
+};
+
+BlogDetailsPage.layout = (page: React.ReactNode) => <Layout children={page} />;
+
+export default BlogDetailsPage;

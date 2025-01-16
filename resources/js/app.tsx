@@ -12,7 +12,7 @@ import { store } from "./app/store";
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => appName,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.tsx`,
@@ -24,9 +24,9 @@ createInertiaApp({
         root.render(
             <BrowserRouter>
                 <Provider store={store}>
-                    <HelmetProvider context={{}}>
-                        <App {...props} />
-                    </HelmetProvider>
+                    {/* <HelmetProvider context={{}}> */}
+                    <App {...props} />
+                    {/* </HelmetProvider> */}
                 </Provider>
             </BrowserRouter>
         );

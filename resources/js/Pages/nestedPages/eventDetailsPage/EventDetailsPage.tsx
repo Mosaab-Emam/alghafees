@@ -12,7 +12,7 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
     }, []);
 
     return (
-        <Layout>
+        <>
             <section className="container md:mt-[211px] mt-[6rem] mb-8 relative">
                 <div className="flex md:flex-row flex-col xl:gap-0 lg:gap-6 gap-8 items-center ">
                     <EventInfoCard event={event} />
@@ -22,8 +22,10 @@ const EventDetailsPage = ({ event }: { event: Event }) => {
 
                 <EventDescriptionBox event={event} />
             </section>
-        </Layout>
+        </>
     );
 };
+
+EventDetailsPage.layout = (page: React.ReactNode) => <Layout children={page} />;
 
 export default EventDetailsPage;

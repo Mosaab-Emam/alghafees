@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
 import { PageTopSection } from "../../components";
 import Layout from "../layout/Layout";
 import ServicesMainContent from "./ServicesMainContent";
@@ -10,11 +9,13 @@ const OurServices = () => {
     }, []);
 
     return (
-        <Layout>
+        <>
             <PageTopSection title={"خدماتنا"} description={"حلول عقارية"} />
             <ServicesMainContent />
-        </Layout>
+        </>
     );
 };
+
+OurServices.layout = (page: React.ReactNode) => <Layout children={page} />;
 
 export default OurServices;

@@ -10,13 +10,13 @@ import JoinUsBgImage from "./JoinUsBgImage";
 import JoinUsForm from "./JoinUsForm";
 import JoinUsTextBox from "./JoinUsTextBox";
 
-export default function JoinUs() {
+const JoinUs = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
 
     return (
-        <Layout>
+        <>
             <PageTopSection
                 title={"انضم الينا"}
                 description={"شاركنا النجاح"}
@@ -45,6 +45,10 @@ export default function JoinUs() {
                     }
                 />
             </section>
-        </Layout>
+        </>
     );
-}
+};
+
+JoinUs.layout = (page: React.ReactNode) => <Layout children={page} />;
+
+export default JoinUs;

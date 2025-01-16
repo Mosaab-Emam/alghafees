@@ -12,7 +12,7 @@ import Layout from "../layout/Layout";
 import FormBox from "./FormBox";
 import TextBox from "./TextBox";
 
-export default function RequestEvaluation({
+const RequestEvaluation = ({
     post_endpoint,
     goals,
     types,
@@ -24,7 +24,7 @@ export default function RequestEvaluation({
     types: Array<SelectItem>;
     entities: Array<SelectItem>;
     usage: Array<SelectItem>;
-}) {
+}) => {
     const [step, setStep] = useState(1);
 
     const formDataObject = useSelector((state) => state.rateRequestForm);
@@ -68,7 +68,7 @@ export default function RequestEvaluation({
     }, []);
 
     return (
-        <Layout>
+        <>
             <PageTopSection title={"طلب تقييم"} description={"تقييم شامل"} />
 
             <section className="container md:mt-[211px] mt-[6rem] md:mb-0 mb-[50px] relative">
@@ -94,6 +94,12 @@ export default function RequestEvaluation({
                     position={"md:flex hidden left-[-49px] top-1/2 z-[-1]"}
                 />
             </section>
-        </Layout>
+        </>
     );
-}
+};
+
+RequestEvaluation.layout = (page: React.ReactNode) => (
+    <Layout children={page} />
+);
+
+export default RequestEvaluation;

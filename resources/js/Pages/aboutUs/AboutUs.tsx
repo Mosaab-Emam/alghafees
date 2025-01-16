@@ -12,20 +12,23 @@ type AboutUsProps = {
     evaluations: Array<BackendFile>;
 };
 
-export default function AboutUs({ reports, evaluations }: AboutUsProps) {
+const AboutUs = ({ reports, evaluations }: AboutUsProps) => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-    return (
-        <Layout>
-            <PageTopSection title={"من نحن"} description={"خبرة موثوقة"} />
-            <>
-                <AboutBoxOne />
-                <AboutBoxTwo />
 
-                <OurValues />
-                <ReportsSection reports={reports} evaluations={evaluations} />
-            </>
-        </Layout>
+    return (
+        <>
+            <PageTopSection title={"من نحن"} description={"خبرة موثوقة"} />
+            <AboutBoxOne />
+            <AboutBoxTwo />
+
+            <OurValues />
+            <ReportsSection reports={reports} evaluations={evaluations} />
+        </>
     );
-}
+};
+
+AboutUs.layout = (page: React.ReactNode) => <Layout children={page} />;
+
+export default AboutUs;

@@ -8,7 +8,7 @@ import Layout from "../layout/Layout";
 
 const ContactUs = () => {
     return (
-        <Layout>
+        <>
             <PageTopSection
                 title={"تواصل معنا"}
                 description={"ابقَ على اتصال"}
@@ -46,8 +46,10 @@ const ContactUs = () => {
                     }
                 />
             </section>
-        </Layout>
+        </>
     );
 };
+
+ContactUs.layout = (page: React.ReactNode) => <Layout children={page} />;
 
 export default ContactUs;

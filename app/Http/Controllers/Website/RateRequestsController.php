@@ -34,7 +34,6 @@ class RateRequestsController extends Controller
         $result['usages'] = $this->categoryRepository->getPublishCategories('ApartmentUsage', 15, 'list');
 
         return view('website.pages.rate', compact('result'));
-
     }
 
     public function store(CreateRateRequestRequest $request)
@@ -58,8 +57,12 @@ class RateRequestsController extends Controller
         // $view = 'contact';
         // event(new RequestEmailEvent($title, $content, $view, $item));
 
-        flash('تم إرسال رسالتك رقم ' . $data['request_no'] . ' بنجاح')->success();
-        return redirect()->route('website.rate-request.show');
+        if (request()->headers->has("x-inertia")) {
+            return to_route('/request-evaluation');
+        } else {
+            flash('تم إرسال رسالتك رقم ' . $data['request_no'] . ' بنجاح')->success();
+            return redirect()->route('website.rate-request.show');
+        }
     }
 
     public function tracking()

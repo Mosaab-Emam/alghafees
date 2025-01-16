@@ -13,7 +13,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
-
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        Inertia::share('errors', function () {
+            return session()->get('errors') ? session()->get('errors')->getBag('default')->getMessages() : (object) [];
+        });
     }
 
     /**

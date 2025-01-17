@@ -20,22 +20,25 @@ class AboutUsStaticContentResource extends Resource
 
     protected static ?string $navigationGroup = 'الموقع (المحتوى الثابت)';
 
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('small_top_title')
-                    ->label(__('static_content.about-us.small_top_title'))
+                    ->label(__('static_content.common.small_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('main_top_title')
-                    ->label(__('static_content.about-us.main_top_title'))
+                    ->label(__('static_content.common.main_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('about_top_title')
                     ->label(__('static_content.about-us.about_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('about_first_title')
                     ->label(__('static_content.about-us.about_first_title'))
-                    ->required(),
+                    ->required()
+                    ->columnStart(1),
                 Forms\Components\Textarea::make('about_first_description')
                     ->label(__('static_content.about-us.about_first_description'))
                     ->required(),

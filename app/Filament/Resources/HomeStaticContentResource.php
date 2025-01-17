@@ -19,26 +19,7 @@ class HomeStaticContentResource extends Resource
 
     protected static ?string $navigationGroup = 'الموقع (المحتوى الثابت)';
 
-    public static function getNavigationUrl(): string
-    {
-        return route(static::getRouteBaseName() . '.edit', 1);
-    }
-
-    public static function getModelLabel(): string
-    {
-        return __('static_content.home.model_label');
-    }
-
-    public static function getPluralModelLabel(): string
-    {
-        return __('static_content.home.model_label');
-    }
-
-    public static function getNavigationLabel(): string
-    {
-
-        return __('static_content.home.navigation_label');
-    }
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -241,5 +222,26 @@ class HomeStaticContentResource extends Resource
             'index' => Pages\ListHomeStaticContents::route('/'),
             'edit' => Pages\EditHomeStaticContent::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationUrl(): string
+    {
+        return route(static::getRouteBaseName() . '.edit', 1);
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('static_content.home.model_label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('static_content.home.model_label');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+
+        return __('static_content.home.navigation_label');
     }
 }

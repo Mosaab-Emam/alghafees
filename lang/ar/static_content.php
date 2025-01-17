@@ -1,6 +1,10 @@
 <?php
 
 return [
+  'common' => [
+    'small_top_title' => 'العنوان الصغير العلوي',
+    'main_top_title' => 'العنوان العلوي',
+  ],
   'home' => [
     'model_label' => 'محتوى الصفحة الرئيسية',
     'navigation_label' => 'الصفحة الرئيسية',
@@ -70,29 +74,29 @@ return [
     ],
   ],
   'about-us' => [
-    'small_top_title' => '',
-    'main_top_title' => '',
-    'about_top_title' => '',
-    'about_first_title' => '',
-    'about_first_description' => '',
-    'about_second_title' => '',
-    'about_second_description' => '',
-    'management_title' => '',
-    'management_description' => '',
-    // Placeholder for qualifications
-    'feat1_title' => '',
-    'feat1_description' => '',
-    'feat2_title' => '',
-    'feat2_description' => '',
-    'feat3_title' => '',
-    'feat3_description' => '',
-    'values_title' => '',
-    // Placeholder for values
-    'vision_title' => '',
-    'vision_description' => '',
-    'message_title' => '',
-    'message_description' => '',
-    'reports_title' => ''
+    'model_label' => 'محتوى من نحن',
+    'navigation_label' => 'من نحن',
+    'about_top_title' => 'العنوان الأزرق',
+    'about_first_title' => 'عنوان القسم الأول',
+    'about_first_description' => 'وصف القسم الأول',
+    'about_second_title' => 'عنوان القسم الثاني',
+    'about_second_description' => 'وصف القسم الثاني',
+    'management_title' => 'عنوان قسم الإدارة',
+    'management_description' => 'وصف قسم الإدارة',
+    // TODO: Placeholder for qualifications
+    'feat1_title' => 'عنوان الميزة 1',
+    'feat1_description' => 'وصف الميزة 1',
+    'feat2_title' => 'عنوان الميزة 2',
+    'feat2_description' => 'وصف الميزة 2',
+    'feat3_title' => 'عنوان الميزة 3',
+    'feat3_description' => 'وصف الميزة 3',
+    'values_title' => 'عنوان قيمنا',
+    // TODO: Placeholder for values
+    'vision_title' => 'عنوان رؤيتنا',
+    'vision_description' => 'وصف رؤيتنا',
+    'message_title' => 'عنوان رسالتنا',
+    'message_description' => 'وصف رسالتنا',
+    'reports_title' => 'عنوان قسم التقارير والتقييمات'
   ],
   'our-services' => [
     "small_top_title" => '',

@@ -4,14 +4,13 @@ import "./bootstrap";
 import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { createRoot } from "react-dom/client";
-import { HelmetProvider } from "react-helmet-async";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
-    title: (title) => appName,
+    title: (title) => `${title ? `${title} - ` : ""}${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.tsx`,
@@ -24,8 +23,6 @@ createInertiaApp({
             <App {...props} />
             // // <BrowserRouter>
             //     {/* <Provider store={store}> */}
-            //         {/* <HelmetProvider context={{}}> */}
-            //         {/* </HelmetProvider> */}
             //     // </Provider>
             // // </BrowserRouter>
         );

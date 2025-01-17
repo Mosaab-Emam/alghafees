@@ -1,13 +1,11 @@
-import React from "react";
-import { Helmet } from "react-helmet-async";
+import { Head } from "@inertiajs/react";
 
 const PagesSeo = ({ title = "", description = "" }) => {
     return (
-        <></>
-        // <Helmet>
-        // 	<title>{title || ""} | شركة صالح الغفيض للتقييم العقاري</title>
-        // 	<meta name='description' content={description || ""} />
-        // </Helmet>
+        <Head>
+            <title>{title}</title>
+            <meta name="description" content={description || ""} />
+        </Head>
     );
 };
 

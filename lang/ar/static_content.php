@@ -4,6 +4,9 @@ return [
   'common' => [
     'small_top_title' => 'العنوان الصغير العلوي',
     'main_top_title' => 'العنوان العلوي',
+    'main_title' => 'العنوان',
+    'main_description' => 'الوصف',
+    'bottom_title' => 'عنوان القسم السفلي'
   ],
   'home' => [
     'model_label' => 'محتوى الصفحة الرئيسية',
@@ -99,18 +102,12 @@ return [
     'reports_title' => 'عنوان قسم التقارير والتقييمات'
   ],
   'our-services' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "main_title" => '',
-    "main_description" => '',
-    "services_title" => '',
+    'model_label' => 'محتوى خدماتنا',
+    'navigation_label' => 'خدماتنا',
   ],
   'our-clients' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "main_title" => '',
-    "main_description" => '',
-    "clients_title" => ''
+    'model_label' => 'محتوى عملاؤنا',
+    'navigation_label' => 'عملاؤنا',
   ],
   'events' => [
     "small_top_title" => '',

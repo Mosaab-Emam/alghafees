@@ -20,21 +20,23 @@ class RequestEvaluationStaticContentResource extends Resource
 
     protected static ?string $navigationGroup = 'الموقع (المحتوى الثابت)';
 
+    protected static ?int $navigationSort = 6;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('small_top_title')
-                    ->label(__('static_content.request-evaluation.small_top_title'))
+                    ->label(__('static_content.common.small_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('main_top_title')
-                    ->label(__('static_content.request-evaluation.main_top_title'))
+                    ->label(__('static_content.common.main_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('evaluation_title')
-                    ->label(__('static_content.request-evaluation.evaluation_title'))
+                    ->label(__('static_content.common.main_title'))
                     ->required(),
                 Forms\Components\Textarea::make('evaluation_description')
-                    ->label(__('static_content.request-evaluation.evaluation_description'))
+                    ->label(__('static_content.common.main_description'))
                     ->required(),
             ]);
     }

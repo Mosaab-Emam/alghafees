@@ -110,17 +110,14 @@ return [
     'navigation_label' => 'عملاؤنا',
   ],
   'events' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "video_url" => '',
-    "events_title" => '',
-    "events_empty_text" => ''
+    'model_label' => 'محتوى الفعاليات',
+    'navigation_label' => 'الفعاليات',
+    'video_url' => 'رابط الفيديو',
+    'events_empty_text' => 'النص عند عدم وججود فعاليات'
   ],
   'request-evaluation' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "evaluation_title" => '',
-    "evaluation_description" => ''
+    'model_label' => 'محتوى طلب تقييم',
+    'navigation_label' => 'طلب تقييم',
   ],
   'blog' => [
     "small_top_title" => '',

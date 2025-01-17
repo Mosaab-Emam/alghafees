@@ -9,7 +9,7 @@ use App\Interfaces\CategoryRepositoryInterface;
 use App\Interfaces\RateRequestRepositoryInterface;
 use App\Models\RateRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Session;
 
 class RateRequestsController extends Controller
 {
@@ -58,6 +58,7 @@ class RateRequestsController extends Controller
         // event(new RequestEmailEvent($title, $content, $view, $item));
 
         if (request()->headers->has("x-inertia")) {
+            Session::flash('request_no', $data['request_no']);
             return to_route('new-request-evaluation');
         } else {
             flash('تم إرسال رسالتك رقم ' . $data['request_no'] . ' بنجاح')->success();

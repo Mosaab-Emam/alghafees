@@ -29,7 +29,7 @@ const RequestEvaluation = ({
     usage: Array<SelectItem>;
 }) => {
     const [step, setStep] = useState(1);
-    const { errors } = usePage().props;
+    const { errors, request_no } = usePage().props;
 
     // Navigate to the first step that has errors
     useEffect(() => {
@@ -357,7 +357,11 @@ const RequestEvaluation = ({
                                 />
                             </section>
                         )}
-                        {step === 5 && <RequestSubmittedSuccessfully />}
+                        {step === 5 && (
+                            <RequestSubmittedSuccessfully
+                                request_no={request_no as string | null}
+                            />
+                        )}
                         {step !== 5 && (
                             <RequestEvaluationFormButtonsBox
                                 step={step}

@@ -5,15 +5,19 @@ export default function ReqEvluaFormSelectInput({
     label,
     name,
     value,
-    onChange,
+    error,
+    required = false,
     data,
+    onChange,
 }: {
     placeholder: string;
     label: string;
     name: string;
     value: string;
-    onChange: () => void;
+    error?: any;
+    required?: boolean;
     data: Array<SelectItem>;
+    onChange: (e: React.ChangeEvent<any>) => void;
 }) {
     return (
         <div className="w-full flex flex-col items-start gap-[16px] self-stretch group relative">
@@ -21,7 +25,7 @@ export default function ReqEvluaFormSelectInput({
                 htmlFor={name}
                 className="regular-b1 text-right text-Gray-scale-02 group-focus-within:text-primary-600 transition-colors duration-300"
             >
-                {label}
+                {label} {required && <span className="text-red-500">*</span>}
             </label>
 
             <div className="relative w-full">
@@ -43,6 +47,9 @@ export default function ReqEvluaFormSelectInput({
                         </option>
                     ))}
                 </select>
+                {error && (
+                    <small className="text-red-500 text-xs">{error}</small>
+                )}
 
                 <svg
                     className="absolute left-4 top-1/2 transform -translate-y-1/2 pointer-events-none "

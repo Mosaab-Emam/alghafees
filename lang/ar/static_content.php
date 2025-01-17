@@ -8,8 +8,11 @@ return [
     'main_description' => 'الوصف',
     'bottom_small_title' => 'العنوان الصفير للقسم السفلي',
     'bottom_title' => 'عنوان القسم السفلي',
-    "cta_text" => 'عنوان الزر',
-    "cta_link" => 'رابط الزر'
+    "cta_text" => 'نص الزر',
+    "cta_link" => 'رابط الزر',
+    "form_title" => 'عنوان النموذج',
+    "form_description" => 'وصف النموذج',
+    "form_btn_text" => 'نص زر النموذج',
   ],
   'home' => [
     'model_label' => 'محتوى الصفحة الرئيسية',
@@ -129,27 +132,17 @@ return [
   'contact-us' => [
     'model_label' => 'محتوى اتصل بنا',
     'navigation_label' => 'اتصل بنا',
-    "form_title" => 'عنوان النموذج',
-    "form_description" => 'وصف النموذج',
     "box_title" => 'عنوان الصندوق',
     "phone" => 'رقم الهاتف',
     "email" => 'البريد الإلكتروني',
   ],
   'track-your-request' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "title" => '',
-    "description" => '',
-    "search_placeholder" => '',
-    "btn_text" => ''
+    'model_label' => 'محتوى تتبع طلبك',
+    'navigation_label' => 'تتبع طلبك',
+    "search_placeholder" => 'نص مربع البحث الفارغ',
   ],
   'join-us' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "form_title" => '',
-    "form_description" => '',
-    "form_btn_text" => '',
-    "title" => '',
-    "description" => ''
+    'model_label' => 'محتوى انضم إلينا',
+    'navigation_label' => 'انضم إلينا',
   ]
 ];

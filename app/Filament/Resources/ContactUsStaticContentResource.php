@@ -33,10 +33,10 @@ class ContactUsStaticContentResource extends Resource
                     ->label(__('static_content.common.main_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('form_title')
-                    ->label(__('static_content.contact-us.form_title'))
+                    ->label(__('static_content.common.form_title'))
                     ->required(),
                 Forms\Components\Textarea::make('form_description')
-                    ->label(__('static_content.contact-us.form_description'))
+                    ->label(__('static_content.common.form_description'))
                     ->required(),
                 Forms\Components\TextInput::make('title')
                     ->label(__('static_content.common.main_title'))

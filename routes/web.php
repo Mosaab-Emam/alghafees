@@ -110,6 +110,22 @@ Route::get('/events/{event}', function (Event $event) {
     ]);
 });
 
+Route::get('/request-evaluation', function () {
+    $post_endpoints = config('app.url') . '/api/rate-requests';
+    $goals = Category::apartmentGoal()->get();
+    $types = Category::apartmentType()->get();
+    $entities = Category::apartmentEntity()->get();
+    $usage = Category::apartmentUsage()->get();
+
+    return Inertia::render('requestEvaluation/RequestEvaluation', [
+        'post_endpoint' => $post_endpoints,
+        'goals' => $goals,
+        'types' => $types,
+        'entities' => $entities,
+        'usage' => $usage,
+    ]);
+})->name("new-request-evaluation");
+
 Route::get('/blog', function () {
     $search_query = request('search');
     $tag_slug = request('tag'); // Accepting tag as an optional parameter
@@ -235,22 +251,6 @@ Route::get('/join-us', function () {
 
 Route::get('/privacy-policy', function () {
     return Inertia::render('privacyPolicy/PrivacyPolicy');
-});
-
-Route::get('/request-evaluation', function () {
-    $post_endpoints = config('app.url') . '/api/rate-requests';
-    $goals = Category::apartmentGoal()->get();
-    $types = Category::apartmentType()->get();
-    $entities = Category::apartmentEntity()->get();
-    $usage = Category::apartmentUsage()->get();
-
-    return Inertia::render('requestEvaluation/RequestEvaluation', [
-        'post_endpoint' => $post_endpoints,
-        'goals' => $goals,
-        'types' => $types,
-        'entities' => $entities,
-        'usage' => $usage,
-    ]);
 });
 
 Route::fallback(function () {

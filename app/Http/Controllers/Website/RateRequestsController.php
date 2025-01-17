@@ -58,7 +58,7 @@ class RateRequestsController extends Controller
         // event(new RequestEmailEvent($title, $content, $view, $item));
 
         if (request()->headers->has("x-inertia")) {
-            return to_route('/request-evaluation');
+            return to_route('new-request-evaluation');
         } else {
             flash('تم إرسال رسالتك رقم ' . $data['request_no'] . ' بنجاح')->success();
             return redirect()->route('website.rate-request.show');

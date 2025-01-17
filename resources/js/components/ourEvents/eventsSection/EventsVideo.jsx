@@ -5,9 +5,9 @@ import ShowMoreBtn from "../ShowMoreBtn";
 import { OurEventsVideoCover } from "../../../assets/images/our-events";
 
 // Import the ModalVideo component from the react-modal-video library
+import { Link } from "@inertiajs/react";
 import ModalVideo from "react-modal-video";
 import "react-modal-video/css/modal-video.css";
-import { Link } from "react-router-dom";
 
 const EventsVideo = ({
     radius = "rounded-tr-[50px] rounded-br-[50px]",

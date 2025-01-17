@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 import ShowMoreBtn from "../ShowMoreBtn";
 
 export default function EventsImages({ events }) {

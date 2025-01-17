@@ -1,5 +1,3 @@
-import React from "react";
-import { useParams } from "react-router-dom";
 import { BgImage } from "../../../assets/images/our-services";
 import ParagraphContent from "../../../components/ParagraphContent";
 import { ourServicesData } from "../../../data";

@@ -6,7 +6,10 @@ return [
     'main_top_title' => 'العنوان العلوي',
     'main_title' => 'العنوان',
     'main_description' => 'الوصف',
-    'bottom_title' => 'عنوان القسم السفلي'
+    'bottom_small_title' => 'العنوان الصفير للقسم السفلي',
+    'bottom_title' => 'عنوان القسم السفلي',
+    "cta_text" => 'عنوان الزر',
+    "cta_link" => 'رابط الزر'
   ],
   'home' => [
     'model_label' => 'محتوى الصفحة الرئيسية',
@@ -120,24 +123,17 @@ return [
     'navigation_label' => 'طلب تقييم',
   ],
   'blog' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "title" => '',
-    "description" => '',
-    "blog_small_title" => '',
-    "blog_main_title" => ''
+    'model_label' => 'محتوى المدونة',
+    'navigation_label' => 'المدونة',
   ],
   'contact-us' => [
-    "small_top_title" => '',
-    "main_top_title" => '',
-    "form_title" => '',
-    "form_description" => '',
-    "title" => '',
-    "box_title" => '',
-    "phone" => '',
-    "email" => '',
-    "cta_text" => '',
-    "cta_link" => ''
+    'model_label' => 'محتوى اتصل بنا',
+    'navigation_label' => 'اتصل بنا',
+    "form_title" => 'عنوان النموذج',
+    "form_description" => 'وصف النموذج',
+    "box_title" => 'عنوان الصندوق',
+    "phone" => 'رقم الهاتف',
+    "email" => 'البريد الإلكتروني',
   ],
   'track-your-request' => [
     "small_top_title" => '',

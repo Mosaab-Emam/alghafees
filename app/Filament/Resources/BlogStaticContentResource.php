@@ -20,27 +20,29 @@ class BlogStaticContentResource extends Resource
 
     protected static ?string $navigationGroup = 'الموقع (المحتوى الثابت)';
 
+    protected static ?int $navigationSort = 7;
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('small_top_title')
-                    ->label(__('static_content.blog.small_top_title'))
+                    ->label(__('static_content.common.small_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('main_top_title')
-                    ->label(__('static_content.blog.main_top_title'))
+                    ->label(__('static_content.common.main_top_title'))
                     ->required(),
                 Forms\Components\TextInput::make('title')
-                    ->label(__('static_content.blog.title'))
+                    ->label(__('static_content.common.main_title'))
                     ->required(),
                 Forms\Components\Textarea::make('description')
-                    ->label(__('static_content.blog.description'))
+                    ->label(__('static_content.common.main_description'))
                     ->required(),
                 Forms\Components\TextInput::make('blog_small_title')
-                    ->label(__('static_content.blog.blog_small_title'))
+                    ->label(__('static_content.common.bottom_small_title'))
                     ->required(),
                 Forms\Components\TextInput::make('blog_main_title')
-                    ->label(__('static_content.blog.blog_main_title'))
+                    ->label(__('static_content.common.bottom_title'))
                     ->required(),
             ]);
     }

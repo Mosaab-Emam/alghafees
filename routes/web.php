@@ -58,6 +58,7 @@ Route::get('/commands', function () {
 
 Route::get('/sign/{token}', [Controllers\Admin\ContractController::class, 'signaturePad']);
 Route::post('/sign/{token}', [Controllers\Admin\ContractController::class, 'sign']);
+Route::get('download-contract/{token}', [Controllers\Admin\ContractController::class, 'downloadContract'])->name('download-contract');
 
 Route::get('/', function () {
     $static_content = HomeStaticContent::first();

@@ -1,12 +1,13 @@
-import { withColoredText } from "@/utils";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 
 export default function SectionTitle({
-    static_content,
     isHeroSection = false,
-    title,
     type,
     textColor = "text-primary-600",
 }) {
+    const static_content = useContext(staticContext);
+
     return (
         <div className="flex items-center justify-start gap-2 ">
             {type === "tow-line_as_image" ? (
@@ -16,13 +17,16 @@ export default function SectionTitle({
                 <p
                     className="text-base font-normal text-Gray-scale-02"
                     dangerouslySetInnerHTML={{
-                        __html: withColoredText(
-                            static_content.hero_small_top_title
-                        ),
+                        __html: static_content["hero_small_top_title"],
                     }}
                 />
             ) : (
-                <p className={`text-base font-normal ${textColor}`}>{title}</p>
+                <p
+                    className={`text-base font-normal ${textColor}`}
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["hero_main_title"],
+                    }}
+                />
             )}
             <div className="line_as_image"></div>
         </div>

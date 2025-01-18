@@ -1,19 +1,25 @@
-import React from "react";
-
-import TextContent from "../../TextContent";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import DownloadAppIconsBox from "../../DownloadAppIconsBox";
+import TextContent from "../../TextContent";
 
 const DownloadApp = ({ className }) => {
-	return (
-		<div
-			className={`${className} download_app_section flex flex-col md:gap-[26px] gap-4 items-center justify-center`}>
-			<TextContent width='w-[272px]'>
-				حمّل تطبيق <span className='text-primary-600'>الغفيص</span> الآن واستفد
-				من خدماتنا العقارية أينما كنت
-			</TextContent>
-			<DownloadAppIconsBox iconWidth={"w-[120px] "} />
-		</div>
-	);
+    const static_content = useContext(staticContext);
+
+    return (
+        <div
+            className={`${className} download_app_section flex flex-col md:gap-[26px] gap-4 items-center justify-center`}
+        >
+            <TextContent width="w-[272px]">
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["hero_download_box_text"],
+                    }}
+                />
+            </TextContent>
+            <DownloadAppIconsBox iconWidth={"w-[120px] "} />
+        </div>
+    );
 };
 
 export default DownloadApp;

@@ -5,14 +5,14 @@ import "./Hero.css";
 import ContentBox from "./heroTextContext/ContentBox";
 import DownloadApp from "./heroTextContext/DownloadApp";
 
-export default function Hero({ static_content }) {
+export default function Hero() {
     return (
         <header className="hero_section overflow-hidden ">
             <div className="hero_image_section md:h-auto h-[873px]">
                 <section className="container">
                     <header className="md:mt-16 mt-2">
                         <div className="grid grid-cols-2 gap-8 items-center justify-center relative">
-                            <HeroTextBox static_content={static_content} />
+                            <HeroTextBox />
                             <FloatSocialIcons />
                         </div>
                     </header>

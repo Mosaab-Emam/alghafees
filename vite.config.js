@@ -16,7 +16,7 @@ export default defineConfig({
                 "resources/js/sign.js",
                 "resources/js/app.tsx",
             ],
-            ssr: "resources/js/ssr.tsx",
+            // ssr: "resources/js/ssr.tsx",
             refresh: [
                 ...refreshPaths,
                 "app/Filament/**",

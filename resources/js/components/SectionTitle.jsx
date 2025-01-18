@@ -24,7 +24,7 @@ export default function SectionTitle({
                 <p
                     className={`text-base font-normal ${textColor}`}
                     dangerouslySetInnerHTML={{
-                        __html: static_content["hero_main_title"],
+                        __html: static_content["hero_small_top_title"],
                     }}
                 />
             )}

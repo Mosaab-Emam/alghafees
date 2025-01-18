@@ -264,3 +264,8 @@ svg.w-5.h-5 {
 .fi-input-wrp {
     border: lightgrey 1px solid;
 }
+
+#post-content a {
+    display: block;
+    width: fit-content;
+}

@@ -202,16 +202,21 @@ Route::get('/blog/{id}', function ($id) {
         '<a target="_blank" href="https://api.whatsapp.com/send?phone=966539455519&text=%D8%B4%D8%A7%D9%87%D8%AF%D8%AA%20%D9%85%D9%88%D9%82%D8%B9%D9%83%D9%85%20%D8%A7%D9%84%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A%20%D9%88%20%D8%A3%D8%A8%D9%8A%20%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%B9%D9%82%D8%A7%D8%B1%D9%8A"><button type="button" class="btn btn-ltr-radius btn-primary xl:w-[364px] lg:w-[320px] w-full sm:h-[48px] lg:h-[46px] xl:h-[48px] py-[15px] px-[80px ">احصل على خصم 30%</button></a>',
         $post->parseContent($post->content)
     );
+
     $post->content = preg_replace(
         '/\$evaluation/',
         '<a target="_blank" href="https://api.whatsapp.com/send?phone=966539455519&text=%D8%B4%D8%A7%D9%87%D8%AF%D8%AA%20%D9%85%D9%88%D9%82%D8%B9%D9%83%D9%85%20%D8%A7%D9%84%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A%20%D9%88%20%D8%A3%D8%A8%D9%8A%20%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%B9%D9%82%D8%A7%D8%B1%D9%8A"><button type="button" class="btn btn-ltr-radius btn-primary xl:w-[364px] lg:w-[320px] w-full sm:h-[48px] lg:h-[46px] xl:h-[48px] py-[15px] px-[80px ">اطلب تقييمك من خبير</button></a>',
         $post->parseContent($post->content)
     );
+
     $post->content = preg_replace(
         '/\$price/',
         '<a target="_blank" href="https://api.whatsapp.com/send?phone=966539455519&text=%D8%B4%D8%A7%D9%87%D8%AF%D8%AA%20%D9%85%D9%88%D9%82%D8%B9%D9%83%D9%85%20%D8%A7%D9%84%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A%20%D9%88%20%D8%A3%D8%A8%D9%8A%20%20%D8%AA%D9%82%D9%8A%D9%8A%D9%85%20%D8%B9%D9%82%D8%A7%D8%B1%D9%8A"><button type="button" class="btn btn-ltr-radius btn-primary xl:w-[364px] lg:w-[320px] w-full sm:h-[48px] lg:h-[46px] xl:h-[48px] py-[15px] px-[80px ">اطلب عرض سعر تقييم</button></a>',
         $post->parseContent($post->content)
     );
+
+    // TODO: get to the bottom of this issue
+    $post_content = $post->content;
 
     $latest_posts = Post::orderBy('published_at', 'desc')
         ->where('id', '!=', $post->id)
@@ -230,10 +235,12 @@ Route::get('/blog/{id}', function ($id) {
         $post->featured_image = $post->image();
     }
 
+
     return Inertia::render('nestedPages/blogDetailsPage/BlogDetailsPage', [
         'tags' => $tags,
         'post' => $post,
         'main_tag' => $post->tags->first()->name,
+        'post_content' => $post_content,
         'latest_posts' => $latest_posts,
         'related_posts' => $related_posts
     ]);

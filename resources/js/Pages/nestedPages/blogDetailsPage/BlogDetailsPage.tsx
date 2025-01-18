@@ -10,15 +10,18 @@ const BlogDetailsPage = ({
     tags,
     post,
     main_tag,
+    post_content,
     latest_posts,
     related_posts,
 }: {
     tags: Array<Tag>;
     post: Post;
     main_tag: string;
+    post_content: string;
     latest_posts: Array<Post>;
     related_posts: Array<Post>;
 }) => {
+    post.content.ar = post_content;
     return (
         <>
             <PageTopSection title={"المدونة"} description={"نصائح عقارية"} />

@@ -227,12 +227,12 @@ Route::get('/blog/{id}', function ($id) {
         ->where('id', '!=', $post->id)
         ->get();
 
-    foreach ($latest_posts as $post) {
-        $post->featured_image = $post->image();
+    foreach ($latest_posts as $lp) {
+        $lp->featured_image = $post->image();
     }
 
-    foreach ($related_posts as $post) {
-        $post->featured_image = $post->image();
+    foreach ($related_posts as $rp) {
+        $rp->featured_image = $rp->image();
     }
 
 

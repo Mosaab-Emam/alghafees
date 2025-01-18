@@ -5,6 +5,7 @@ export default function SectionTitle({
     isHeroSection = false,
     type,
     textColor = "text-primary-600",
+    title = "",
 }) {
     const static_content = useContext(staticContext);
 
@@ -24,7 +25,7 @@ export default function SectionTitle({
                 <p
                     className={`text-base font-normal ${textColor}`}
                     dangerouslySetInnerHTML={{
-                        __html: static_content["about_small_top_title"],
+                        __html: title,
                     }}
                 />
             )}

@@ -1,18 +1,39 @@
-import React from "react";
-
-// components
+import {
+    AboutGroup01,
+    AboutGroup02,
+    AboutGroup03,
+} from "@/assets/images/about";
+import { staticContext } from "@/utils/contexts";
+import { router } from "@inertiajs/react";
+import { useContext } from "react";
+import { DownloadIcon } from "../../assets/icons";
 import ButtonsBox from "../ButtonsBox";
 import AboutGoals from "./AboutGoals";
 
-// icons
-import { DownloadIcon } from "../../assets/icons";
-
-// data
-import { router } from "@inertiajs/react";
-import { samplePdf } from "../../assets/pdf-docs";
-import { aboutData } from "../../data";
-
 export default function LeftContent({ report }) {
+    const static_content = useContext(staticContext);
+
+    const features = [
+        {
+            id: 1,
+            title: static_content["about_feat1_title"],
+            img: AboutGroup01,
+            desc: static_content["about_feat1_description"],
+        },
+        {
+            id: 2,
+            title: static_content["about_feat2_title"],
+            img: AboutGroup02,
+            desc: static_content["about_feat2_description"],
+        },
+        {
+            id: 3,
+            title: static_content["about_feat3_title"],
+            img: AboutGroup03,
+            desc: static_content["about_feat3_description"],
+        },
+    ];
+
     const handleDownload = () => {
         const link = document.createElement("a");
 
@@ -23,7 +44,7 @@ export default function LeftContent({ report }) {
 
     return (
         <section className="flex flex-col justify-start md:self-end self-start items-start w-full lg:w-[387px] overflow-hidden">
-            {aboutData.map((item, index) => (
+            {features.map((item, index) => (
                 <AboutGoals
                     index={index}
                     key={item.id}
@@ -39,11 +60,13 @@ export default function LeftContent({ report }) {
                 gap={"gap-[10px]"}
                 flexDirection={"flex-col-reverse"}
                 icon={<DownloadIcon />}
-                outlineBtnContent={"عرض المزيد من التقارير المعتمدة"}
+                outlineBtnContent={static_content["about_button_text"]}
                 primaryBtnContent={report?.title}
                 primaryButtonOnClick={handleDownload}
-                outLinButtonOnClick={() => router.visit("/about-us")}
-                secondaryBtnHref="/about-us"
+                outLinButtonOnClick={() =>
+                    router.visit(static_content["about_button_link"])
+                }
+                secondaryBtnHref={static_content["about_button_link"]}
             />
         </section>
     );

@@ -1,27 +1,25 @@
-import React from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import SectionContentBox from "../SectionContentBox";
 
 const TextContentBox = () => {
-	return (
-		<SectionContentBox
-			sectionTitle='عملاؤنا'
-			textContent={
-				<>
-					استمع إلى عملائنا كيف ساعدناهم في تحقيق{" "}
-					<span className='text-primary-600'>أهدافهم العقارية</span> بنجاح
-					واحترافية
-				</>
-			}
-			paragraphContent='نحن فخورون بعملائنا الراضين الذين يشاركوننا تجاربهم الإيجابية. نؤمن أن أفضل دليل على جودة خدماتنا هو رضا عملائنا وثقتهم بنا. اكتشف ما يقوله عملاؤنا عن الاستشارات العقارية التي نقدمها، وكيف ساعدناهم في تحقيق أهدافهم العقارية بطريقة سلسة وموثوقة. انضم إلى مجموعة عملائنا السعداء وكن جزءًا من رحلتنا المتميزة'
-			className='w-[492px] flex flex-col items-start gap-[32px]'
-			textContentWidth='w-full'
-			sectionTitleTextColor='text-primary-600'
-			textContentTextColor='text-Black-01'
-			paragraphContentTextColor='text-Gray-scale-02'
-			butWidth='w-[180px]'
-			navigateTo='/our-clients'
-		/>
-	);
+    const static_content = useContext(staticContext);
+
+    return (
+        <SectionContentBox
+            sectionTitle={static_content["clients_small_top_title"]}
+            textContent={static_content["clients_main_title"]}
+            paragraphContent={static_content["clients_description"]}
+            className="w-[492px] flex flex-col items-start gap-[32px]"
+            textContentWidth="w-full"
+            sectionTitleTextColor="text-primary-600"
+            textContentTextColor="text-Black-01"
+            paragraphContentTextColor="text-Gray-scale-02"
+            butWidth="w-[180px]"
+            navigateTo={static_content["clients_button_link"]}
+            btnText={static_content["clients_button_text"]}
+        />
+    );
 };
 
 export default TextContentBox;

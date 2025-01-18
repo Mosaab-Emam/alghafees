@@ -15,6 +15,7 @@ const SectionContentBox = ({
     textContentWidth,
     textContentTextColor = "text-primary-200",
     paragraphContentTextColor = "text-primary-200",
+    btnText = "عرض الكل",
 }) => {
     return (
         <div className={`${className}`}>
@@ -27,20 +28,22 @@ const SectionContentBox = ({
                     width={textContentWidth}
                     textColor={textContentTextColor}
                 >
-                    {textContent}
+                    <span dangerouslySetInnerHTML={{ __html: textContent }} />
                 </TextContent>
 
                 <ParagraphContent
                     width="md:w-[400px] w-[312px]"
                     textColor={paragraphContentTextColor}
                 >
-                    {paragraphContent}
+                    <span
+                        dangerouslySetInnerHTML={{ __html: paragraphContent }}
+                    />
                 </ParagraphContent>
             </div>
             <div className="">
                 <Link href={navigateTo}>
                     <Button className={`py-[15px] ${butWidth}`}>
-                        عرض الكل
+                        <span dangerouslySetInnerHTML={{ __html: btnText }} />
                     </Button>
                 </Link>
             </div>

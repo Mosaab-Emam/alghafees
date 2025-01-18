@@ -1,25 +1,32 @@
-import React from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
+import ParagraphContent from "../ParagraphContent";
 import SectionTitle from "../SectionTitle";
 import TextContent from "../TextContent";
-import ParagraphContent from "../ParagraphContent";
 
 const RightContent = () => {
-	return (
-		<section className='flex flex-col md:mt-[80px] -mt-[190px] items-start gap-4 w-full  lg:w-[290px] xl:w-[285px] '>
-			<SectionTitle title={"من نحن"} />
-			<TextContent>
-				تعرّف على <span className='text-primary-600'>فريقنا</span> الخبير ذو
-				الخبرة لتقديم أفضل الحلول العقارية
-			</TextContent>
+    const static_content = useContext(staticContext);
 
-			<ParagraphContent>
-				تأسست شركة صالح علي الغفيص للتقييم والتثمين العقاري سنة 2015م بمنطقة
-				القصيم بمدينة بريدة ويحمل سجل تجاري رقم )1131056566( ، ثم التوسع ليتم
-				افتتاح مكتب الرياض سنة 2021م بسجل تجاري رقم )1010721458( وتغطي أعمال
-				الشركة كافة مناطق المملكة .
-			</ParagraphContent>
-		</section>
-	);
+    return (
+        <section className="flex flex-col md:mt-[80px] -mt-[190px] items-start gap-4 w-full  lg:w-[290px] xl:w-[285px] ">
+            <SectionTitle title={static_content["about_small_top_title"]} />
+            <TextContent>
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["about_main_title"],
+                    }}
+                />
+            </TextContent>
+
+            <ParagraphContent>
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["about_description"],
+                    }}
+                />
+            </ParagraphContent>
+        </section>
+    );
 };
 
 export default RightContent;

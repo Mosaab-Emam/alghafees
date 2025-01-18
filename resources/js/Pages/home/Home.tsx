@@ -1,4 +1,4 @@
-import { BackendFile, HomeStaticContent } from "@/types";
+import { BackendFile } from "@/types";
 import { withColoredText } from "@/utils";
 import {
     AboutSection,

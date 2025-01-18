@@ -3,7 +3,13 @@ import { CalenderIcon } from "../../../assets/images/blog";
 import CategoryIcon from "../../blog/blogCategories/CategoryIcon";
 import BlogIcon from "../../blog/BlogIcon";
 
-export default function BlogDetailsTitleBox({ post }: { post: Post }) {
+export default function BlogDetailsTitleBox({
+    post,
+    main_tag,
+}: {
+    post: Post;
+    main_tag: string;
+}) {
     return (
         <div className="inline-flex md:flex-row flex-col md:items-center items-start 2xl:gap-[288px] xl:gap-[255px] lg:gap-36 gap-4 mb-[28px]">
             <div className="flex items-center gap-[28px]">
@@ -19,8 +25,7 @@ export default function BlogDetailsTitleBox({ post }: { post: Post }) {
                         <CategoryIcon width={"24"} height={"24"} />
 
                         <p className=" regular-b1 text-right text-primary-600">
-                            {/* {post.category} */}
-                            Category
+                            {main_tag}
                         </p>
                     </div>
                     <div className="flex items-center gap-[9px]">

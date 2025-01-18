@@ -20,29 +20,34 @@ export default function BlogCategories({ tags }: { tags: Array<Tag> }) {
                     </h3>
                 </div>
 
-                <div className="flex flex-col items-start self-stretch gap-6">
+                <div
+                    id="blog-categories"
+                    className="flex flex-col items-start self-stretch gap-6"
+                >
                     {tags.map((tag, index) => (
-                        <Link href={`/blog?tag=${tag.slug.ar}`}>
-                            <button
-                                key={tag.id}
-                                className={`${
-                                    index === tags.length - 1
-                                        ? ""
-                                        : "border-b border-primary-200"
-                                } flex  justify-between items-center self-stretch gap-6 pb-2`}
-                            >
-                                <div className="flex items-center gap-[9px]">
-                                    <CategoryIcon />
-                                    <h3 className="regular-b1 text-right text-primary-600">
-                                        {tag.name.ar}
-                                    </h3>
-                                </div>
+                        <div key={tag.id} className="w-full">
+                            <Link href={`/blog?tag=${tag.slug.ar}`}>
+                                <button
+                                    key={tag.id}
+                                    className={`${
+                                        index === tags.length - 1
+                                            ? ""
+                                            : "border-b border-primary-200"
+                                    } flex  justify-between items-center self-stretch gap-6 pb-2 w-full`}
+                                >
+                                    <div className="flex items-center gap-[9px]">
+                                        <CategoryIcon />
+                                        <h3 className="regular-b1 text-right text-primary-600">
+                                            {tag.name.ar}
+                                        </h3>
+                                    </div>
 
-                                <p className=" regular-b1 text-right text-Gray-scale-02">
-                                    {tag.posts_published_count} مقالات
-                                </p>
-                            </button>
-                        </Link>
+                                    <p className=" regular-b1 text-right text-Gray-scale-02">
+                                        {tag.posts_published_count} مقالات
+                                    </p>
+                                </button>
+                            </Link>
+                        </div>
                     ))}
                 </div>
             </div>

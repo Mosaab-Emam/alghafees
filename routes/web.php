@@ -233,6 +233,7 @@ Route::get('/blog/{id}', function ($id) {
     return Inertia::render('nestedPages/blogDetailsPage/BlogDetailsPage', [
         'tags' => $tags,
         'post' => $post,
+        'main_tag' => $post->tags->first()->name,
         'latest_posts' => $latest_posts,
         'related_posts' => $related_posts
     ]);

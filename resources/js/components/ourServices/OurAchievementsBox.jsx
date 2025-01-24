@@ -61,30 +61,26 @@ const OurAchievementsBox = () => {
     return (
         <section
             id="achievements-section"
-            className="lg:w-[810px] xl:w-[910px] w-[360px] flex md:flex-nowrap flex-wrap content-center md:justify-between justify-center items-center mx-auto md:mb-[81.5px]  mb-8"
+            className="lg:w-[810px] xl:w-[910px] w-full flex flex-wrap content-center md:justify-between justify-center items-center mx-auto md:mb-[81.5px] mb-8"
         >
             {data.map((item, index) => (
                 <div
-                    className="w-[178px]  flex flex-col items-center gap-6 flex-shrink-0"
+                    className="w-full md:w-[30%] lg:w-[178px] flex flex-col items-center lg:gap-6 lg:flex-shrink-0 border-b-2 border-white py-8"
                     key={item?.id}
                 >
                     <div
                         className={`${
                             index === 0
-                                ? " w-[126px]"
+                                ? "w-full text-center lg:w-[126px]"
                                 : index === 1
-                                ? "w-[65px] text-right"
-                                : " w-[121px] text-right"
+                                ? "w-full text-center lg:w-[65px] lg:text-right"
+                                : "w-full text-center lg:w-[121px] lg:text-right"
                         } flex flex-col items-center gap-4`}
                     >
                         <div className="mx-auto">{item.icon}</div>
-                        <div className="h-[49px] w-[102px] self-stretch ">
+                        <div className="h-[49px] w-full lg:w-[102px] self-stretch ">
                             <h5
-                                className={`flex items-center ${
-                                    index === 0
-                                        ? "justify-center"
-                                        : "justify-start"
-                                } text-white text-center text-[42px] font-medium leading-[58.8px] capitalize`}
+                                className={`flex items-center justify-center text-white text-center text-[42px] font-medium leading-[58.8px] capitalize`}
                             >
                                 <span>{item.letter}</span>
                                 <CountUp
@@ -105,7 +101,7 @@ const OurAchievementsBox = () => {
                         />
                     </div>
 
-                    <div className="mb-[18.5px]">
+                    {/* <div className="mb-[18.5px]">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="178"
@@ -115,7 +111,7 @@ const OurAchievementsBox = () => {
                         >
                             <path d="M0 1L178 1.00002" stroke="#FEFFFF" />
                         </svg>
-                    </div>
+                    </div> */}
                 </div>
             ))}
         </section>

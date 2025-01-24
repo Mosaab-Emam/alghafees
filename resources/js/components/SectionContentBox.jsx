@@ -10,7 +10,7 @@ const SectionContentBox = ({
     sectionTitle,
     textContent,
     paragraphContent,
-    className = "flex md:flex-row flex-col md:justify-between justify-start md:gap-0 gap-4 md:items-center items-start 2xl:mx-auto lg:mb-[50px] mb-8 w-[312px] lg:w-[1024px] xl:w-[1200px] ",
+    className = "flex md:flex-row flex-col md:justify-between justify-start md:gap-0 gap-4 md:items-center items-start 2xl:mx-auto lg:mb-[50px] mb-8 w-full xl:w-[1200px] ",
     sectionTitleTextColor = "text-primary-200",
     textContentWidth,
     textContentTextColor = "text-primary-200",

@@ -5,11 +5,11 @@ import ParagraphContent from "../ParagraphContent";
 
 const ServicesImages = () => {
     return (
-        <div className="flex md:flex-row flex-col justify-start 2xl:justify-center items-center md:mb-28 mb-8">
+        <div className="flex flex-wrap md:flex-row flex-col justify-start 2xl:justify-center items-center md:mb-28 mb-8">
             {ourServicesData?.map((item, index) => (
                 <div
                     key={item?.id}
-                    className="flip-card md:w-[300px] w-full h-[532px] perspective-1000"
+                    className="flip-card md:w-1/2 lg:w-[300px] w-full h-[532px] perspective-1000"
                 >
                     <div className="relative w-full h-full transition-transform duration-1000 transform-style-3d hover:rotate-y-180">
                         {/* Front Card */}

@@ -7,7 +7,7 @@ const TextContent = ({
 }) => {
     return (
         <p
-            className={`regular-b1 max-w-full ${headLineClass} ${align} ${width} ${textColor}`}
+            className={` max-w-full ${headLineClass} ${align} ${width} ${textColor}`}
         >
             {children}
         </p>

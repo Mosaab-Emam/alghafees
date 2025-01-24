@@ -43,7 +43,7 @@ export default function LeftContent({ report }) {
     };
 
     return (
-        <section className="flex flex-col justify-start md:self-end self-start items-start w-full lg:w-[387px] overflow-hidden">
+        <section className="flex flex-col md:flex-row lg:flex-col md:flex-wrap justify-start md:self-end self-start items-start w-full lg:w-[387px] overflow-hidden">
             {features.map((item, index) => (
                 <AboutGoals
                     index={index}

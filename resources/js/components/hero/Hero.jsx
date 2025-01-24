@@ -1,22 +1,22 @@
-import HeroTextBox from "./heroTextContext/HeroTextBox";
-
+import Container from "../Container";
 import FloatSocialIcons from "../floatSocialIcons/FloatSocialIcons";
 import "./Hero.css";
 import ContentBox from "./heroTextContext/ContentBox";
 import DownloadApp from "./heroTextContext/DownloadApp";
+import HeroTextBox from "./heroTextContext/HeroTextBox";
 
 export default function Hero() {
     return (
         <header className="hero_section overflow-hidden ">
             <div className="hero_image_section md:h-auto h-[873px]">
-                <section className="container px-4 md:px-8">
+                <Container>
                     <header className="md:mt-16">
                         <div className="flex lg:grid items-center lg:grid-cols-2 justify-between lg:justify-center lg:gap-8 relative">
                             <HeroTextBox />
                             <FloatSocialIcons />
                         </div>
                     </header>
-                </section>
+                </Container>
             </div>
 
             <div className="container md:mt-0 -mt-[225px] ">

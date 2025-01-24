@@ -4,7 +4,7 @@ import WebsiteLink from "./WebsiteLink";
 export default function WebsiteLinks({ links, hideDropdown = false }) {
     return (
         <div
-            className={`hidden md:flex justify-between items-center h-[50px] ${
+            className={`hidden grow md:flex justify-between items-center h-[50px] ${
                 hideDropdown ? "lg:min-w-full " : "lg:min-w-[575px]"
             } xl:min-w-[705px] bg-bg-01`}
         >

@@ -12,10 +12,11 @@ const ButtonsBox = ({
     primaryBtnContent,
     outlineBtnContent,
     secondaryBtnHref,
+    className,
 }) => {
     return (
         <div
-            className={`w-full flex items-start  md:justify-end justify-center ${flexDirection} ${gap}`}
+            className={`w-full flex items-start md:justify-end justify-center ${flexDirection} ${gap} ${className}`}
         >
             <Button
                 onClick={!secondaryBtnHref ? outLinButtonOnClick : null}

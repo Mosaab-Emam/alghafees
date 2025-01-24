@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import WebsiteLink from "./navbar/WebsiteLink";
 import MenuIcon from "./navbar/mobileMenu/MenuIcon";
@@ -26,9 +26,9 @@ const DropdownButton = () => {
             <MenuIcon />
 
             {(isHovered || isOpen) && (
-                <div className="absolute -bottom-[76px] -left-8 border border-primary-600 bg-white w-[105px]  z-20">
+                <div className="absolute -bottom-[76px] -left-4 lg:-left-8 border border-primary-600 bg-white w-[105px]  z-20">
                     {/* Add the arrow element */}
-                    <div className="absolute -top-2 left-[78%] transform -translate-x-1/2 w-4 h-4 bg-white border-t border-r border-primary-600 rotate-[-45deg]"></div>
+                    <div className="absolute -top-2 left-[55%] lg:left-[78%] transform -translate-x-1/2 w-4 h-4 bg-white border-t border-r border-primary-600 rotate-[-45deg]"></div>
 
                     {nestedLinks.map((link) => (
                         <WebsiteLink

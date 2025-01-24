@@ -17,6 +17,7 @@ export default function DesktopMenu() {
             <WebsiteLinks links={links} />
 
             <ButtonsBox
+                className="hidden lg:flex"
                 primaryBtnContent={"انضم إلينا"}
                 primaryButtonOnClick={() => router.visit("/join-us")}
                 outlineBtnContent={"تتبع طلبك "}

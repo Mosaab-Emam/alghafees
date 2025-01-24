@@ -4,25 +4,13 @@
 }
 
 .hero_image_section {
+	position: relative;
 	width: 100%;
-	height: 100%;
 	background-image: url("../../assets/images/hero/hero_img.png");
 	background-size: contain;
 	background-repeat: no-repeat;
-	background-position: left center;
+	background-position: left bottom;
 }
-/* .hero_image_section::after {
-	content: "";
-	position: absolute;
-	top: 165px;
-	left: 0;
-	width: 793px;
-	height: 873px;
-	background-image: url("../../assets/images/hero/Bg_hero_img.png");
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-} */
 
 /*  style line */
 .line_as_image {
@@ -97,7 +85,7 @@
 
 @media (max-width: 768px) {
 	.hero_image_section {
-		background-position: left 30%;
+		background-position: left 40%;
 		background-size: 100%;
 	}
 	/* .hero_image_section::after {

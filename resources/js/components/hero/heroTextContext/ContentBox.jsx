@@ -20,7 +20,7 @@ const ContentBox = ({ className }) => {
 
             <ButtonsBox
                 gap="gap-4"
-                flexDirection="xl:justify-start"
+                flexDirection="md:justify-center xl:justify-start"
                 btnWidth="md:w-[280px] "
                 primaryBtnContent={static_content["hero_main_button_text"]}
                 primaryButtonOnClick={() =>

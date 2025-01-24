@@ -6,7 +6,7 @@ const FloatSocialIcons = () => {
     const static_content = useContext(staticContext);
 
     return (
-        <section className=" absolute 2xl:left-0 md:-left-10 left-0 md:top-2 top-0 w-[36px] flex flex-col items-start gap-4 z-[1]">
+        <section className="absolute 2xl:left-0 left-0 md:top-2 top-0 w-[36px] flex flex-col items-start gap-4 z-[1] mt-[33%] md:mt-0">
             <div className="w-[36px] flex flex-col items-center gap-4 self-stretch">
                 <SocialItemBoxFrame />
             </div>

@@ -1,9 +1,8 @@
-import React from "react";
 import AddressTextBox from "./AddressTextBox";
 
 const Address = () => {
     return (
-        <div className="lg:w-[480px] xl:w-[650px] w-[312px] flex flex-col items-start gap-[20px]">
+        <div className="lg:w-[480px] xl:w-[650px] w-full md:w-[312px] flex flex-col items-start gap-[20px]">
             <h6 className=" head-line-h5 text-right text-Black-01">
                 فروعنا تغطي جميع انحاء المملكة....
             </h6>
@@ -47,7 +46,7 @@ const Address = () => {
                     </svg>
                 }
             />
-            <div className="lg:w-[480px] xl:w-[650px]  w-[312px] flex lg:justify-between md:gap-0 gap-4 lg:flex-nowrap flex-wrap justify-start items-start">
+            <div className="lg:w-[480px] xl:w-[650px] w-full md:w-[312px] flex lg:justify-between gap-[8px] lg:flex-nowrap flex-wrap justify-start items-start">
                 <AddressTextBox
                     text={
                         <>
@@ -171,7 +170,7 @@ const Address = () => {
                 />
             </div>
 
-            <div className="flex lg:flex-row flex-col items-center lg:gap-8 gap-4">
+            <div className="flex lg:flex-row flex-col items-center lg:gap-8 gap-[8px]">
                 <AddressTextBox
                     text={
                         "طريق الملك سلمان بن عبدالعزيز- الملقا-الرياض 13525- المملكة العربية السعودية"

@@ -31,7 +31,7 @@ const FooterShape = () => {
 
             {/* Medium */}
             <svg
-                className="lg:hidden block translate-x-[53.5%] translate-y-0"
+                className="lg:hidden md:block hidden translate-x-[53.5%] translate-y-0"
                 xmlns="http://www.w3.org/2000/svg"
                 width="768"
                 height="640"

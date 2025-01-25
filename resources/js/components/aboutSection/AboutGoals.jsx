@@ -1,4 +1,3 @@
-import React from "react";
 import ParagraphContent from "../ParagraphContent";
 
 const AboutGoals = ({ type, index, img, title, desc }) => {
@@ -8,15 +7,8 @@ const AboutGoals = ({ type, index, img, title, desc }) => {
     return (
         <div
             className={`
-    flex justify-start items-center gap-5 min-w-[285px] max-w-full md:w-1/2 lg:min-w-[285px] lg:max-w-full
-    ${
-        type === "about-page"
-            ? ""
-            : lastItem
-            ? "mb-[50px] lg:mr-[50px] xl:mr-[100px] mr-0"
-            : "mb-[80.3px]"
-    }
-    ${middleItem ? "lg:mr-[30px] xl:mr-[50px]" : ""}
+    flex justify-start items-center gap-5 min-w-[285px] max-w-full min-w-auto lg:min-w-[285px] lg:max-w-full flex-grow
+    ${type === "about-page" ? "" : lastItem ? "mb-[50px]" : "mb-[80.3px]"}
   `.trim()}
         >
             <div className="w-[82px] h-[91px] flex-shrink-0">

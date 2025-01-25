@@ -1,6 +1,6 @@
 const TextContent = ({
     children,
-    headLineClass = "md:head-line-h4 head-line-h3",
+    headLineClass = "lg:head-line-h4 head-line-h3",
     align = "text-right",
     textColor = "text-Black-01",
     width,

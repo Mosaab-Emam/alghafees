@@ -19,7 +19,7 @@ const ContactUsContent = ({
         </TextContent>
     ) : (
         <div
-            className={`${contactUsContentPosition} flex flex-col items-start  md:mb-[92px]  md:mt-[364px] gap-4 self-stretch`}
+            className={`${contactUsContentPosition} flex flex-col items-start lg:mb-[92px] lg:mt-[364px] gap-4 self-stretch`}
         >
             <SectionTitle
                 textColor={"text-primary-600"}

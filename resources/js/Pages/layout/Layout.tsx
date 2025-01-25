@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Navbar />
             <main className="flex-grow">{children}</main>
             <BackToTop />
-            <NewLetter className="flex md:hidden" />
+            <NewLetter className="flex lg:hidden" />
             <Footer />
         </div>
     );

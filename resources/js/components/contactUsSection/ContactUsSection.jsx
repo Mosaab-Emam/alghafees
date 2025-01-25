@@ -1,12 +1,13 @@
 import RequestPriceOffer from "../../Pages/contactUs/RequestPriceOffer";
 import ContactUsContent from "../contactUsSection/ContactUsContent";
 import ContactUsForm from "../contactUsSection/ContactUsForm";
+import Container from "../Container";
 import BgGlassFilterShape from "../shapes/BgGlassFilterShape";
 import ContactUsShape from "../shapes/ContactUsShape";
 import OurClientsShape from "../shapes/OurClientsShape";
 
 const ContactUsSection = ({
-    className,
+    className = "",
     position,
     contactUsShapePosition,
     contactUsShapeWidth,
@@ -16,8 +17,8 @@ const ContactUsSection = ({
     return (
         <div className={`relative lg:mb-8 mb-[56px] ${className}`}>
             <OurClientsShape position={position} />
-            <section className="container">
-                <div className="flex md:flex-row flex-col-reverse 2xl:justify-evenly items-center gap-[135px] relative">
+            <Container>
+                <div className="flex lg:flex-row flex-col-reverse 2xl:justify-evenly items-center gap-8 lg:gap-[135px] relative">
                     <ContactUsForm />
 
                     <BgGlassFilterShape
@@ -38,7 +39,7 @@ const ContactUsSection = ({
                         />
                     )}
                 </div>
-            </section>
+            </Container>
         </div>
     );
 };

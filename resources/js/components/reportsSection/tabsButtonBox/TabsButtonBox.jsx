@@ -4,21 +4,22 @@ import TabButton from "./TabButton";
 const tabsButtons = ["التقارير", "التقييمات"];
 
 const TabsButtonBox = ({ activeTab, setActiveTab }) => {
-	return (
-		<div className='flex items-start gap-[20px] self-stretch'>
-			<>
-				{tabsButtons.map((button, index) => (
-					<TabButton
-						key={index}
-						index={index}
-						activeTab={activeTab}
-						onActiveHandler={() => setActiveTab(index)}>
-						{button}
-					</TabButton>
-				))}
-			</>
-		</div>
-	);
+    return (
+        <div className="flex items-start gap-[20px] self-stretch justify-between">
+            <>
+                {tabsButtons.map((button, index) => (
+                    <TabButton
+                        key={index}
+                        index={index}
+                        activeTab={activeTab}
+                        onActiveHandler={() => setActiveTab(index)}
+                    >
+                        {button}
+                    </TabButton>
+                ))}
+            </>
+        </div>
+    );
 };
 
 export default TabsButtonBox;

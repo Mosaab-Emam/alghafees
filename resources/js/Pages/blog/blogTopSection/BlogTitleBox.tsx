@@ -4,7 +4,7 @@ export default function BlogTitleBox() {
     return (
         <div
             id="search-title"
-            className="md:w-[600px] w-full flex flex-col  items-start gap-2"
+            className="lg:w-[600px] w-full flex flex-col items-start gap-2"
         >
             <TextContent
                 width={"w-full"}

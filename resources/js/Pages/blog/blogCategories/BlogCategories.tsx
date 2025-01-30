@@ -3,15 +3,21 @@ import { Link } from "@inertiajs/react";
 import BlogIcon from "../BlogIcon";
 import CategoryIcon from "./CategoryIcon";
 
-export default function BlogCategories({ tags }: { tags: Array<Tag> }) {
+export default function BlogCategories({
+    tags,
+    className,
+}: {
+    tags: Array<Tag>;
+    className?: string;
+}) {
     return (
         <section
             dir="ltr"
-            className="inline-flex items-center p-8 gap-[10px] rounded-tl-[50px] rounded-br-[50px] bg-bg-01 border-[3px] border-primary-300 xl:mx-auto md:mr-auto overflow-y-scroll h-96"
+            className={`inline-flex items-center p-8 gap-[10px] rounded-tl-[50px] rounded-br-[50px] bg-bg-01 border-[3px] border-primary-300 xl:mx-auto md:mr-auto overflow-y-scroll h-96 ${className}`}
         >
             <div
                 dir="rtl"
-                className="md:w-[343px] w-[360px] flex flex-col items-start gap-8 h-full"
+                className="w-full flex flex-col items-start gap-8 h-full"
             >
                 <div className="flex items-center gap-4 ">
                     <BlogIcon color={"#0F819F"} />

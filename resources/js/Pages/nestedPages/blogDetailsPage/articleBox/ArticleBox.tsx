@@ -10,7 +10,7 @@ export default function ArticleBox({
     latest_posts: Array<Post>;
 }) {
     return (
-        <section className="flex md:flex-row flex-col 2xl:gap-12 xl:gap-10 md:gap-5 gap-8 xl:mb-[100px] lg:mb-8 mb-8">
+        <section className="flex lg:flex-row flex-col 2xl:gap-12 xl:gap-10 lg:gap-5 gap-8 xl:mb-[100px] lg:mb-8 mb-8">
             <ArticleBoxDetails post={post} />
             <ArticleAside latest_posts={latest_posts} />
         </section>

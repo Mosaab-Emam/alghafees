@@ -13,7 +13,7 @@ export default function LatestTopics({
             </h3>
             <LatestTopicImagBox
                 latest_posts={latest_posts}
-                className="md:flex flex-col gap-4  hidden"
+                className="md:flex flex-col md:flex-row lg:flex-col gap-4 md:gap-8 lg:gap-4 hidden"
             />
         </div>
     );

@@ -269,3 +269,15 @@ svg.w-5.h-5 {
     display: block;
     width: fit-content;
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .blog-card {
+        width: calc(50% - 1rem);
+    }
+}
+
+@media (min-width: 1024px) {
+    .blog-card {
+        width: calc(33.33% - 2rem);
+    }
+}

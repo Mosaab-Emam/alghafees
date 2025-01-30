@@ -41,7 +41,7 @@ export default function BlogPagination({ max_pages }: { max_pages: number }) {
     };
 
     return (
-        <section className="md:w-[483px] w-[250px] flex items-center md:gap-4 gap-2">
+        <section className="md:w-[483px] w-[250px] flex items-center md:gap-4 gap-2 mb-16">
             <Link href={`/blog?search=${search_query}`}>
                 <button
                     className={`md:w-[50px] w-[48px] sm:h-[48px] lg:h-[46px] xl:h-[48px] flex justify-center items-center p-2 gap-[10px] rounded-tl-[8px] rounded-br-[8px] border ${

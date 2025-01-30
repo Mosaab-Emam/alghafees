@@ -14,7 +14,7 @@ export default function BlogCard({
     return (
         <Link
             href={`/blog/${post.id}`}
-            className="2xl:w-[410px] xl:w-[387px] 2xl:max-h-[570px] lg:w-[340px] w-full max-h-[555px] flex items-center gap-[10px] rounded-tl-[100px] bg-bg-01 border border-bg-01 shadow-[12px_12px_35px_0px_rgba(29,42,45,0.07)]"
+            className="blog-card 2xl:w-[410px] 2xl:max-h-[570px] w-full max-h-[555px] flex items-center gap-[10px] rounded-tl-[100px] bg-bg-01 border border-bg-01 shadow-[12px_12px_35px_0px_rgba(29,42,45,0.07)]"
         >
             <div className="flex flex-col items-start flex-1 gap-6">
                 <div className="h-[226px] self-stretch rounded-tl-[100px]">

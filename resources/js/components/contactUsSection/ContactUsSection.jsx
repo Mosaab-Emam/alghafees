@@ -18,7 +18,7 @@ const ContactUsSection = ({
         <div className={`relative lg:mb-8 mb-[56px] ${className}`}>
             <OurClientsShape position={position} />
             <Container>
-                <div className="flex lg:flex-row flex-col-reverse 2xl:justify-evenly items-center gap-8 lg:gap-[135px] relative">
+                <div className="flex lg:flex-row flex-col 2xl:justify-evenly items-center gap-8 lg:gap-[135px] relative">
                     <ContactUsForm />
 
                     <BgGlassFilterShape
@@ -29,7 +29,7 @@ const ContactUsSection = ({
                         position={contactUsShapePosition}
                     />
                     {showPriceOffer ? (
-                        <div className="w-[493px] flex flex-col items-start gap-8">
+                        <div className="w-full lg:w-[493px] flex flex-col items-start md:items-center gap-8">
                             <ContactUsContent showPriceOffer={showPriceOffer} />
                             <RequestPriceOffer />
                         </div>

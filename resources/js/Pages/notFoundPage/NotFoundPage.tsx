@@ -1,3 +1,4 @@
+import Container from "@/components/Container";
 import { Link } from "@inertiajs/react";
 import { Button } from "../../components";
 
@@ -77,18 +78,22 @@ function NotFoundPage() {
                     ></path>{" "}
                 </g>
             </svg>
-            <h1 className=" head-line-h2 text-primary-600">
-                يبدو انك في مكان غير موجود!
-            </h1>
+            <Container>
+                <div className="flex flex-col gap-8 text-center items-center">
+                    <h1 className=" head-line-h2 text-primary-600">
+                        يبدو انك في مكان غير موجود!
+                    </h1>
 
-            <p className=" head-line-h4 text-Gray-scale-02">
-                الصفحة المطلوبة غير موجودة{" "}
-            </p>
-            <Link href="/">
-                <Button className={" px-[80px] py-4 mx-auto"}>
-                    العودة للصفحة الرئيسية{" "}
-                </Button>
-            </Link>
+                    <p className=" head-line-h4 text-Gray-scale-02">
+                        الصفحة المطلوبة غير موجودة{" "}
+                    </p>
+                    <Link href="/">
+                        <Button className={" px-[80px] py-4 mx-auto"}>
+                            العودة للصفحة الرئيسية{" "}
+                        </Button>
+                    </Link>
+                </div>
+            </Container>
         </div>
     );
 }

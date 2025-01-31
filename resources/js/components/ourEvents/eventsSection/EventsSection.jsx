@@ -14,7 +14,7 @@ export default function EventsSection({ events }) {
     }
 
     return (
-        <section className="flex lg:flex-row flex-col-reverse justify-center items-center gap-5 lg:mb-[65px] mb-[24px]">
+        <section className="flex lg:flex-row flex-col-reverse justify-center items-center gap-8 lg:mb-[65px] mb-[24px]">
             {events.length ? <EventsImages events={events} /> : null}
             <EventsVideo
                 videoId={extractVideoIdFromYoutubeUrl(

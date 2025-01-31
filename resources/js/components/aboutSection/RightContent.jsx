@@ -8,7 +8,7 @@ const RightContent = () => {
     const static_content = useContext(staticContext);
 
     return (
-        <section className="flex flex-col md:mt-[80px] -mt-[190px] items-start gap-4 w-full md:mb-8  lg:w-[290px] xl:w-[285px] ">
+        <section className="flex flex-col md:mt-0 -mt-[190px] items-start gap-4 w-full md:mb-8  lg:w-[290px] xl:w-[285px] ">
             <SectionTitle title={static_content["about_small_top_title"]} />
             <TextContent>
                 <span

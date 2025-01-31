@@ -33,7 +33,7 @@ export default function EventsSliderBox({
     const remainingImages = images.length - visibleCount;
 
     return (
-        <div className="relative flex justify-center items-center w-full">
+        <div className="relative flex justify-center items-center w-full h-full">
             {/* Main Slider */}
             <Swiper
                 onSwiper={(swiper) => {
@@ -43,12 +43,12 @@ export default function EventsSliderBox({
                 spaceBetween={10}
                 thumbs={{ swiper: thumbsSwiper }}
                 modules={[Thumbs]}
-                className="md:w-[747px] w-full md:h-[597px] h-[285.557px]"
+                className="lg:w-[747px] md:w-auto w-full lg:h-[597px] md:h-full h-[285.557px]"
             >
                 {images.map((image) => (
                     <SwiperSlide
                         key={image}
-                        className="md:w-[747px] w-full md:h-[597px] h-[285.557px flex justify-center items-end md:gap-[10px] gap-[4.783px] md:py-6 py-[11.48px] md:px-[55px] px-[26.308px] md:rounded-br-[100px] md:rounded-tl-[100px] rounded-br-[47.832px] rounded-tl-[47.832px] md:border-[8px] border-[3.827px] border-primary-600 section-box-shadow"
+                        className="lg:w-[747px] md:w-auto w-full md:h-[597px] h-[285.557px flex justify-center items-end md:gap-[10px] gap-[4.783px] md:py-6 py-[11.48px] md:px-[55px] px-[26.308px] md:rounded-br-[100px] md:rounded-tl-[100px] rounded-br-[47.832px] rounded-tl-[47.832px] md:border-[8px] border-[3.827px] border-primary-600 section-box-shadow"
                         style={{
                             background: `url(/${image}) lightgray 50% / cover no-repeat`,
                         }}

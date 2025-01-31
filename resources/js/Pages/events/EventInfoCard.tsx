@@ -2,7 +2,7 @@ import { Event } from "@/types";
 
 export default function EventInfoCard({ event }: { event: Event }) {
     return (
-        <div className="inline-flex flex-col items-start md:self-start self-center md:mt-20 mt-0 xl:mr-32 lg:mr-8 gap-[22px] p-8 border-[5px] border-primary-600 bg-bg-01">
+        <div className="inline-flex flex-col items-start md:self-start self-center lg:mt-20 mt-0 xl:mr-32 lg:mr-8 gap-[22px] p-8 border-[5px] border-primary-600 bg-bg-01">
             <h4 className="w-[154px] h-[49px] head-line-h5 text-right text-black">
                 {event.title}
             </h4>

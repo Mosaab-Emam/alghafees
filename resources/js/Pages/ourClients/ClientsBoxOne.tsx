@@ -1,3 +1,5 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import {
     BgGlassFilterShape,
     ParagraphContent,
@@ -5,24 +7,27 @@ import {
 } from "../../components";
 
 const ClientsBoxOne = () => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <div className="flex lg:flex-row flex-col lg:gap-[220px] gap-4 relative md:mb-12 mb-8">
             <TextContent
                 width={"lg:w-[492px] w-full md:w-4/5"}
                 align="text-right"
             >
-                استمع إلى عملائنا كيف ساعدناهم في تحقيق{" "}
-                <span className="text-primary-600">أهدافهم العقارية</span> بنجاح
-                واحترافية
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["main_title"],
+                    }}
+                />
             </TextContent>
             <div className="lg:w-[492px] w-full lg:mt-[190.5px] mt:mb-[70px] mt-8">
                 <ParagraphContent>
-                    نحن فخورون بعملائنا الراضين الذين يشاركوننا تجاربهم
-                    الإيجابية. نؤمن أن أفضل دليل على جودة خدماتنا هو رضا عملائنا
-                    وثقتهم بنا. اكتشف ما يقوله عملاؤنا عن الاستشارات العقارية
-                    التي نقدمها، وكيف ساعدناهم في تحقيق أهدافهم العقارية بطريقة
-                    سلسة وموثوقة. انضم إلى مجموعة عملائنا السعداء وكن جزءًا من
-                    رحلتنا المتميزة
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: static_content["main_description"],
+                        }}
+                    />
                 </ParagraphContent>
             </div>
             <BgGlassFilterShape position="-right-[22rem] -bottom-[5rem]" />

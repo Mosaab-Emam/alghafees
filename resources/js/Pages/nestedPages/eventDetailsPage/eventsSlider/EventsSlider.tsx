@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
-
 import { Event } from "@/types";
+import { useRef } from "react";
 import CustomPagination from "../../../../components/ourClients/sliderBox/CustomPagination";
 import EventsSlideBox from "./EventsSlideBox";
 
 const EventsSlider = ({ events }: { events: Array<Event> }) => {
     const swiperRef = useRef(null);
+
     return (
         <div className="relative">
             {/* Swiper Component */}

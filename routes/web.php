@@ -21,8 +21,10 @@ use App\Http\Controllers\Website\HomeController;
 use App\Models\AboutUsStaticContent;
 use App\Models\Category;
 use App\Models\Event;
+use App\Models\EventsStaticContent;
 use App\Models\File;
 use App\Models\HomeStaticContent;
+use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
@@ -102,12 +104,17 @@ Route::get('/our-services/{serviceId}', function () {
 });
 
 Route::get('/our-clients', function () {
-    return Inertia::render('ourClients/OurClients');
+    $static_content = OurClientsStaticContent::first();
+    return Inertia::render('ourClients/OurClients', [
+        'static_content' => $static_content
+    ]);
 });
 
 Route::get('/events', function () {
+    $static_content = EventsStaticContent::first();
     $events = Event::all();
     return Inertia::render('events/Events', [
+        'static_content' => $static_content,
         'events' => $events
     ]);
 });

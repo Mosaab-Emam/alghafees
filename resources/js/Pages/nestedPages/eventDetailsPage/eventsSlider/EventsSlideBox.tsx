@@ -1,4 +1,5 @@
-import React from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 // Import Swiper React components
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -18,12 +19,18 @@ const EventsSlideBox = ({
     events: Array<Event>;
     swiperRef: React.RefObject<SwiperType>;
 }) => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <section className="our-clients-swiper w-full  ">
             {!events.length ? (
                 <div className="flex justify-center items-center text-primary-600 text-xl">
                     <div className="line_as_image"></div>
-                    ما من فعاليات في الوقت الحالي
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: static_content["events_empty_text"],
+                        }}
+                    />
                     <div className="line_as_image"></div>
                 </div>
             ) : (

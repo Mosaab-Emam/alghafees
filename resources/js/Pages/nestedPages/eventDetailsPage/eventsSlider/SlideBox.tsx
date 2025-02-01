@@ -3,7 +3,6 @@ import { Link } from "@inertiajs/react";
 import ShowMoreBtn from "../../../../components/ourEvents/ShowMoreBtn";
 
 const SlideBox = ({ item }: { item: Event }) => {
-    console.log(item.images);
     return (
         <div className="w-full h-full flex items-start justify-end gap-[10px]">
             <div

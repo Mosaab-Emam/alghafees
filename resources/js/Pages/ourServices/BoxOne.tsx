@@ -1,21 +1,32 @@
-import React from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import { ParagraphContent, TextContent } from "../../components";
 
 const BoxOne = () => {
-	return (
-		<section className='md:w-[430px] w-[312px] md:mx-auto flex flex-col justify-center items-center gap-[14px] mb-[50px]'>
-			<TextContent
-				width={"md:w-[405px] w-[312px]"}
-				align='md:text-center text-start'>
-				استفد من <span className='text-primary-600'> خدماتنا العقارية </span>
-				المتميزة لدعم قراراتك الذكية
-			</TextContent>
+    const static_content = useContext(staticContext) as Record<string, string>;
 
-			<ParagraphContent>
-				نقدم في شركة صالح الغفيص أفضل الخدمات للمستفيدين في جميع مناطق المملكة.
-			</ParagraphContent>
-		</section>
-	);
+    return (
+        <section className="md:w-[430px] w-[312px] md:mx-auto flex flex-col justify-center items-center gap-[14px] mb-[50px]">
+            <TextContent
+                width={"md:w-[405px] w-[312px]"}
+                align="md:text-center text-start"
+            >
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["main_title"],
+                    }}
+                />
+            </TextContent>
+
+            <ParagraphContent>
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["main_description"],
+                    }}
+                />
+            </ParagraphContent>
+        </section>
+    );
 };
 
 export default BoxOne;

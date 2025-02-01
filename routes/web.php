@@ -23,6 +23,7 @@ use App\Models\Category;
 use App\Models\Event;
 use App\Models\File;
 use App\Models\HomeStaticContent;
+use App\Models\OurServicesStaticContent;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
 
@@ -86,7 +87,10 @@ Route::get('/about-us', function () {
 });
 
 Route::get('/our-services', function () {
-    return Inertia::render('ourServices/OurServices');
+    $static_content = OurServicesStaticContent::first();
+    return Inertia::render('ourServices/OurServices', [
+        'static_content' => $static_content
+    ]);
 });
 
 Route::get('/our-services/{serviceId}', function () {

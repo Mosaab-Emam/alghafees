@@ -295,8 +295,8 @@ export const OurRealStateServicesData = [
             { id: 1, sub_title: "سكنية", icon: <OurRealStateVector /> },
             { id: 2, sub_title: "تجارية", icon: <OurRealStateVector /> },
             { id: 3, sub_title: "زراعية", icon: <OurRealStateVector /> },
-            { id: 1, sub_title: "المرافق", icon: <OurRealStateVector /> },
-            { id: 1, sub_title: "الصناعية", icon: <OurRealStateVector /> },
+            { id: 4, sub_title: "المرافق", icon: <OurRealStateVector /> },
+            { id: 5, sub_title: "الصناعية", icon: <OurRealStateVector /> },
         ],
     },
     {
@@ -307,8 +307,8 @@ export const OurRealStateServicesData = [
             { id: 1, sub_title: "فلل", icon: <OurRealStateVector /> },
             { id: 2, sub_title: "قصور", icon: <OurRealStateVector /> },
             { id: 3, sub_title: "فنادق", icon: <OurRealStateVector /> },
-            { id: 1, sub_title: "عمائر سكنية", icon: <OurRealStateVector /> },
-            { id: 1, sub_title: "مجمعات سكنية", icon: <OurRealStateVector /> },
+            { id: 4, sub_title: "عمائر سكنية", icon: <OurRealStateVector /> },
+            { id: 5, sub_title: "مجمعات سكنية", icon: <OurRealStateVector /> },
         ],
     },
     {

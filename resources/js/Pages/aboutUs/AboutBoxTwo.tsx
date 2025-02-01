@@ -1,9 +1,13 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import { ManagerImg } from "../../assets/images/about";
 import { Bullet, ParagraphContent } from "../../components";
 import Container from "../../components/Container";
 import { managerHistory } from "../../data/aboutData";
 
 const AboutBoxTwo = () => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <section className="container md:mb-[104px] mb-[50px] relative">
             <Bullet
@@ -90,16 +94,24 @@ const AboutBoxTwo = () => {
                                             </defs>
                                         </svg>
                                     </span>
-                                    <h5 className="head-line-h3 text-right text-Black-01">
-                                        الادارة
-                                    </h5>
+                                    <h5
+                                        className="head-line-h3 text-right text-Black-01"
+                                        dangerouslySetInnerHTML={{
+                                            __html: static_content[
+                                                "management_title"
+                                            ],
+                                        }}
+                                    />
                                 </div>
                                 <section className="mb-[24px]">
                                     <ParagraphContent>
-                                        يدير الشركة رئيس مجلس اإلدارة / صالح علي
-                                        الغفيص ، والذي يعمل في مجال التقييم
-                                        العقاري منذ أكثر من 24 سنة ، وله العديد
-                                        من المناصب والمؤهالت كالتالي :
+                                        <span
+                                            dangerouslySetInnerHTML={{
+                                                __html: static_content[
+                                                    "management_description"
+                                                ],
+                                            }}
+                                        />
                                     </ParagraphContent>
                                 </section>
                                 {managerHistory.map((item) => (

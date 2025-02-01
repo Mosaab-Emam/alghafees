@@ -1,13 +1,19 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import TextContent from "../TextContent";
 
 const TextBox = () => {
+    const static_content = useContext(staticContext);
+
     return (
         <div className="flex justify-between items-center mb-8">
             <div className="md:w-[482px] w-full">
                 <TextContent>
-                    تقارير و تقييمات{" "}
-                    <span className="text-primary-600"> السوق العقاري </span>
-                    معلومات مفصلة لمساعدتك في اتخاذ قرارات ذكية
+                    <span
+                        dangerouslySetInnerHTML={{
+                            __html: static_content["reports_title"],
+                        }}
+                    />
                 </TextContent>
             </div>
             <div className="lg:w-[290px] xl:h-[290px] lg:h-[220px] w-[110px]">

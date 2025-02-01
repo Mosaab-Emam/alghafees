@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Artisan;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
+use App\Models\AboutUsStaticContent;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\File;
@@ -73,10 +74,12 @@ Route::get('/', function () {
 });
 
 Route::get('/about-us', function () {
+    $static_content = AboutUsStaticContent::first();
     $reports = File::reports()->get();
     $evaluations = File::evaluations()->get();
 
     return Inertia::render('aboutUs/AboutUs', [
+        'static_content' => $static_content,
         'reports' => $reports,
         'evaluations' => $evaluations
     ]);

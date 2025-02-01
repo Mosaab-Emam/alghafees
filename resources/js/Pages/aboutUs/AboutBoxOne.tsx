@@ -1,26 +1,33 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import { GhafisShape, ParagraphContent, TextContent } from "../../components";
 import ImageBox from "../../components/aboutSection/ImageBox";
 import Container from "../../components/Container";
 
 const AboutBoxOne = () => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <section className="w-full relative md:mt-[12rem] mt-[6rem] md:mb-20 lg:mb-24 mb-16">
             <Container>
                 <div className="flex lg:flex-row flex-col lg:justify-between lg:gap-0 gap-4 items-start">
                     <section className="xl:w-[590px] lg:w-[490px] w-full flex flex-col items-end gap-[48px] mb-[48px] self-center md:mb-8 lg:mb-0">
                         <TextContent headLineClass="head-line-h3">
-                            تعرّف على{" "}
-                            <span className="text-primary-600">فريقنا</span>{" "}
-                            الخبير ذو الخبرة لتقديم أفضل الحلول العقارية
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: static_content["about_first_title"],
+                                }}
+                            />
                         </TextContent>
 
                         <ParagraphContent>
-                            تفخر شركة صالح علي الغفيص للتقييم العقاري بفروعها
-                            المرخصة في مزاولة مهنة التقييم العقاري في كل من
-                            الرياض والقصيم ، حيث سعينا منذ وقت مبكر على التواصل
-                            مع الهيئة السعودية للمقيمين المعتمدين ايماناً منا
-                            بأهمية مهنة التقييم وتطويرها وتنظيمها ليكون العمل
-                            بالمهنة وفق األنظمة والمعايير الدولية للتقييم
+                            <span
+                                dangerouslySetInnerHTML={{
+                                    __html: static_content[
+                                        "about_first_description"
+                                    ],
+                                }}
+                            />
                         </ParagraphContent>
 
                         <section className=" flex flex-col items-start gap-4">
@@ -49,17 +56,23 @@ const AboutBoxOne = () => {
                                         />
                                     </svg>
                                 </span>
-                                <h3 className="head-line-h3 text-Black-01">
-                                    التأسيس
-                                </h3>
+                                <h3
+                                    className="head-line-h3 text-Black-01"
+                                    dangerouslySetInnerHTML={{
+                                        __html: static_content[
+                                            "about_second_title"
+                                        ],
+                                    }}
+                                />
                             </div>
                             <ParagraphContent>
-                                تأسست شركة صالح علي الغفيص للتقييم والتثمين
-                                العقاري سنة 2015م بمنطقة القصيم بمدينة بريدة
-                                ويحمل سجل تجاري رقم )1131056566( ، ثم التوسع
-                                ليتم افتتاح مكتب الرياض سنة 2021م بسجل تجاري رقم
-                                )1010721458( وتغطي أعمال الشركة كافة مناطق
-                                المملكة .
+                                <span
+                                    dangerouslySetInnerHTML={{
+                                        __html: static_content[
+                                            "about_second_description"
+                                        ],
+                                    }}
+                                />
                             </ParagraphContent>
                         </section>
                     </section>

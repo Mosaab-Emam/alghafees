@@ -1,4 +1,5 @@
-import React from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import BoxHeadline from "../BoxHeadline";
 
 const values = [
@@ -9,11 +10,12 @@ const values = [
     { id: 5, value: "الموضوعية" },
 ];
 const ValuesBox = () => {
+    const static_content = useContext(staticContext);
     return (
         <div className="absolute lg:right-44 left-0 md:-bottom-[26.8rem] -bottom-2">
             <div className="w-[181px] min-h-[327px] p-[32px] flex justify-end items-start gap-[10px] flex-shrink-0 glass-effect glass-effect-bg-primary-2 rounded-tr-[70px] rounded-bl-[70px]  ">
                 <div className=" flex flex-col  items-start gap-8 flex-shrink-0">
-                    <BoxHeadline headline="قيمنا" />
+                    <BoxHeadline headline={static_content["values_title"]} />
                     {values.map((item) => (
                         <div
                             key={item.id}

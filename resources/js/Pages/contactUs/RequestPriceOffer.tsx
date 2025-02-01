@@ -1,6 +1,9 @@
-import React from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 
 const RequestPriceOffer = () => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <section className="flex flex-col items-start md:items-center gap-[10px] p-6 rounded-tr-[50px] rounded-bl-[50px] border border-x-primary-200 bg-bg-01 shadow-[0px_12px_35px_2px_rgba(15,129,159,0.09)]">
             <div className="w-full lg:w-[256px] flex flex-col items-start gap-4">
@@ -69,9 +72,12 @@ const RequestPriceOffer = () => {
                             </defs>
                         </svg>
                     </span>
-                    <h5 className=" head-line-h4 text-right text-Black-01">
-                        طلب عرض سعر
-                    </h5>
+                    <h5
+                        className=" head-line-h4 text-right text-Black-01"
+                        dangerouslySetInnerHTML={{
+                            __html: static_content["box_title"],
+                        }}
+                    />
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -116,9 +122,12 @@ const RequestPriceOffer = () => {
                                 </defs>
                             </svg>
 
-                            <span className="regular-b1 text-right text-primary-600 group-hover:text-bg-01 transition-colors duration-200">
-                                0539455519
-                            </span>
+                            <span
+                                className="regular-b1 text-right text-primary-600 group-hover:text-bg-01 transition-colors duration-200"
+                                dangerouslySetInnerHTML={{
+                                    __html: static_content["phone"],
+                                }}
+                            />
                         </div>
                     </a>
                     <a
@@ -145,9 +154,12 @@ const RequestPriceOffer = () => {
                                 </svg>
                             </span>
 
-                            <span className="regular-b1 text-right text-primary-600 group-hover:text-bg-01 transition-colors duration-200">
-                                Info@alghafees.sa
-                            </span>
+                            <span
+                                className="regular-b1 text-right text-primary-600 group-hover:text-bg-01 transition-colors duration-200"
+                                dangerouslySetInnerHTML={{
+                                    __html: static_content["email"],
+                                }}
+                            />
                         </div>
                     </a>
                 </div>

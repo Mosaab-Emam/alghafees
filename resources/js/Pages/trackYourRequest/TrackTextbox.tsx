@@ -1,6 +1,10 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import { ParagraphContent, TextContent } from "../../components";
 
 const TrackTextbox = () => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <section className="lg:w-[528px] w-full flex flex-col items-start gap-4">
             <TextContent
@@ -8,14 +12,18 @@ const TrackTextbox = () => {
                 align="text-right"
                 width="w-full"
             >
-                <>
-                    تابع طلبك خطوة بخطوة{" "}
-                    <span className="text-primary-600"> بسهولة </span> وشفافية
-                </>
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["title"],
+                    }}
+                />
             </TextContent>
             <ParagraphContent>
-                ببساطة قم بإدخال كود الطلب الخاص بك لتتعرف على مرحلته الحالية
-                وتتبع جميع التفاصيل حتى إتمامه بنجاح
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["description"],
+                    }}
+                />
             </ParagraphContent>
         </section>
     );

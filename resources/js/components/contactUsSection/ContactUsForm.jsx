@@ -11,13 +11,17 @@ const ContactUsForm = () => {
                 <h5
                     className=" head-line-h5 text-right text-Gray-scale-02 mb-2"
                     dangerouslySetInnerHTML={{
-                        __html: static_content["contact_us_form_title"],
+                        __html:
+                            static_content["contact_us_form_title"] ||
+                            static_content["form_title"],
                     }}
                 />
                 <p
                     className="regular-b1 text-right text-Gray-scale-02 "
                     dangerouslySetInnerHTML={{
-                        __html: static_content["contact_us_form_description"],
+                        __html:
+                            static_content["contact_us_form_description"] ||
+                            static_content["form_description"],
                     }}
                 />
             </div>

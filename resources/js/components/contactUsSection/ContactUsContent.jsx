@@ -13,7 +13,9 @@ const ContactUsContent = ({
         <TextContent textColor={"text-Black-01"}>
             <span
                 dangerouslySetInnerHTML={{
-                    __html: static_content["contact_us_main_title"],
+                    __html:
+                        static_content["contact_us_main_title"] ||
+                        static_content["title"],
                 }}
             />
         </TextContent>

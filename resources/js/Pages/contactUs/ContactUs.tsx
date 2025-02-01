@@ -1,4 +1,6 @@
 import Container from "@/components/Container";
+import { withColoredText } from "@/utils";
+import { staticContext } from "@/utils/contexts";
 import { Link } from "@inertiajs/react";
 import {
     Button,
@@ -8,16 +10,27 @@ import {
 } from "../../components";
 import Layout from "../layout/Layout";
 
-const ContactUs = () => {
+const ContactUs = ({
+    static_content,
+}: {
+    static_content: Record<string, string>;
+}) => {
+    for (let [key, value] of Object.entries(static_content)) {
+        static_content[key] = withColoredText(value.toString());
+    }
+
     return (
-        <>
+        <staticContext.Provider value={static_content}>
             <PageTopSection
-                title={"تواصل معنا"}
-                description={"ابقَ على اتصال"}
+                title={static_content["small_top_title"]}
+                description={static_content["main_top_title"]}
             />
             <Container>
                 <section className="flex flex-col-reverse lg:flex-row-reverse md:mt-[220px] mt-[6rem] md:mb-[131px] mb-[6rem] relative">
-                    <Link href="/request-evaluation" className="lg:absolute">
+                    <Link
+                        href={static_content["cta_link"]}
+                        className="lg:absolute z-50"
+                    >
                         <Button
                             className={
                                 "md:flex hidden w-[290px] mx-auto lg:mr-auto lg:ml-0"
@@ -25,7 +38,7 @@ const ContactUs = () => {
                             variant="primary"
                             radius={"left"}
                         >
-                            طلب تقييم
+                            {static_content["cta_text"]}
                         </Button>
                     </Link>
 
@@ -51,7 +64,7 @@ const ContactUs = () => {
                     />
                 </section>
             </Container>
-        </>
+        </staticContext.Provider>
     );
 };
 

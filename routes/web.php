@@ -21,13 +21,16 @@ use App\Http\Controllers\Website\HomeController;
 use App\Models\AboutUsStaticContent;
 use App\Models\BlogStaticContent;
 use App\Models\Category;
+use App\Models\ContactUsStaticContent;
 use App\Models\Event;
 use App\Models\EventsStaticContent;
 use App\Models\File;
 use App\Models\HomeStaticContent;
+use App\Models\JoinUsStaticContent;
 use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
 use App\Models\RequestEvaluationStaticContent;
+use App\Models\TrackYourRequestStaticContent;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
 
@@ -267,15 +270,24 @@ Route::get('/blog/{id}', function ($id) {
 });
 
 Route::get('/contact-us', function () {
-    return Inertia::render('contactUs/ContactUs');
+    $static_content = ContactUsStaticContent::first();
+    return Inertia::render('contactUs/ContactUs', [
+        'static_content' => $static_content
+    ]);
 });
 
 Route::get('/track-your-request', function () {
-    return Inertia::render('trackYourRequest/TrackYourRequest');
+    $static_content = TrackYourRequestStaticContent::first();
+    return Inertia::render('trackYourRequest/TrackYourRequest', [
+        'static_content' => $static_content
+    ]);
 });
 
 Route::get('/join-us', function () {
-    return Inertia::render('joinUs/JoinUs');
+    $static_content = JoinUsStaticContent::first();
+    return Inertia::render('joinUs/JoinUs', [
+        'static_content' => $static_content
+    ]);
 });
 
 Route::get('/privacy-policy', function () {

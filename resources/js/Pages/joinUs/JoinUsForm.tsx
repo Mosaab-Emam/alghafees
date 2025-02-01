@@ -3,21 +3,31 @@ import SelectInput from "./SelectInput";
 import TextArea from "./TextArea";
 import UploadFIleInput from "./UploadFIleInput";
 
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import Button from "../../components/button/Button";
 
 const JoinUsForm = () => {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <section className="absolute w-full 2xl:left-[16.3rem] xl:left-[10rem] lg:left-[2rem] left-0 xl:top-[-8rem] lg:top-[-8rem] top-[38rem] z-10 flex justify-end">
             {" "}
             <form className="xl:w-[590px] lg:w-[540px] w-4/5 ml-[10%] lg:ml-0 md:min-h-[1121px] min-h-auto flex flex-col item-center  rounded-br-[50px] rounded-tl-[50px] p-8 border-[2px] border-primary-600 bg-bg-01 ">
                 <div className="xl:w-[526px] lg:w-[445px] w-full flex flex-col items-start gap-6 mb-[33px]">
                     <div className="flex flex-col flex-start gap-2">
-                        <h5 className=" head-line-h5 text-right  text-Gray-scale-02 mb-2">
-                            فرصتك للانضمام إلينا تبدأ هنا.....
-                        </h5>
-                        <p className="regular-b1 text-right  text-Gray-scale-02 ">
-                            املء بيانات التسجيل بالاسفل لتنضم الينا
-                        </p>
+                        <h5
+                            className=" head-line-h5 text-right  text-Gray-scale-02 mb-2"
+                            dangerouslySetInnerHTML={{
+                                __html: static_content["form_title"],
+                            }}
+                        />
+                        <p
+                            className="regular-b1 text-right  text-Gray-scale-02 "
+                            dangerouslySetInnerHTML={{
+                                __html: static_content["form_description"],
+                            }}
+                        />
                     </div>
                     <svg
                         className="md:w-[305px] w-full "
@@ -75,7 +85,7 @@ const JoinUsForm = () => {
                     <Button
                         className={"xl:w-[526px] lg:w-full w-full mt-[40px]"}
                     >
-                        تسجيل
+                        {static_content["form_btn_text"]}
                     </Button>
                 </section>
             </form>

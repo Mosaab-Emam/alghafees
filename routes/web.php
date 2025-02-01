@@ -19,6 +19,7 @@ use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
 use App\Models\AboutUsStaticContent;
+use App\Models\BlogStaticContent;
 use App\Models\Category;
 use App\Models\Event;
 use App\Models\EventsStaticContent;
@@ -26,6 +27,7 @@ use App\Models\File;
 use App\Models\HomeStaticContent;
 use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
+use App\Models\RequestEvaluationStaticContent;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
 
@@ -126,6 +128,7 @@ Route::get('/events/{event}', function (Event $event) {
 });
 
 Route::get('/request-evaluation', function () {
+    $static_content = RequestEvaluationStaticContent::first();
     $post_endpoints = config('app.url') . '/api/rate-requests';
     $goals = Category::apartmentGoal()->get();
     $types = Category::apartmentType()->get();
@@ -133,6 +136,7 @@ Route::get('/request-evaluation', function () {
     $usage = Category::apartmentUsage()->get();
 
     return Inertia::render('requestEvaluation/RequestEvaluation', [
+        'static_content' => $static_content,
         'post_endpoint' => $post_endpoints,
         'goals' => $goals,
         'types' => $types,
@@ -142,6 +146,7 @@ Route::get('/request-evaluation', function () {
 })->name("new-request-evaluation");
 
 Route::get('/blog', function () {
+    $static_content = BlogStaticContent::first();
     $search_query = request('search');
     $tag_slug = request('tag'); // Accepting tag as an optional parameter
     $page = request('page', 1);
@@ -170,6 +175,7 @@ Route::get('/blog', function () {
         ->get();
 
     return Inertia::render('blog/Blog', [
+        'static_content' => $static_content,
         'posts' => $posts->getCollection(),
         'max_pages' => $max_pages,
         'tags' => $tags

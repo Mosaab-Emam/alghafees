@@ -1,6 +1,10 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import { ParagraphContent, TextContent } from "../../../components";
 
 export default function BlogTitleBox() {
+    const static_content = useContext(staticContext) as Record<string, string>;
+
     return (
         <div
             id="search-title"
@@ -11,15 +15,19 @@ export default function BlogTitleBox() {
                 align="text-start"
                 headLineClass="md:head-line-h2 head-line-h3"
             >
-                دليلك للعقارات: اكتشف،{" "}
-                <span className="text-primary-600">استثمر </span>، وازدهر
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["title"],
+                    }}
+                />
             </TextContent>
 
             <ParagraphContent>
-                وجهتك الشاملة لكل ما يتعلق بالعقارات. هنا، نقدم نصائح
-                واستراتيجيات، ونستعرض أحدث اتجاهات السوق لمساعدتك في اتخاذ
-                قرارات استثمارية ناجحة. انضم إلينا لاستكشاف الفرص وتحقيق أهدافك
-                العقارية!
+                <span
+                    dangerouslySetInnerHTML={{
+                        __html: static_content["description"],
+                    }}
+                />
             </ParagraphContent>
         </div>
     );

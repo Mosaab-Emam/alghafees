@@ -1,4 +1,6 @@
 import Container from "@/components/Container";
+import { withColoredText } from "@/utils";
+import { staticContext } from "@/utils/contexts";
 import { useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,16 +21,22 @@ import RequestEvaluationSteps from "./requestEvaluationSteps/RequestEvaluationSt
 import TextBox from "./TextBox";
 
 const RequestEvaluation = ({
+    static_content,
     goals,
     types,
     entities,
     usage,
 }: {
+    static_content: Record<string, string>;
     goals: Array<SelectItem>;
     types: Array<SelectItem>;
     entities: Array<SelectItem>;
     usage: Array<SelectItem>;
 }) => {
+    for (let [key, value] of Object.entries(static_content)) {
+        static_content[key] = withColoredText(value.toString());
+    }
+
     const [step, setStep] = useState(1);
     const { errors, request_no } = usePage().props;
 
@@ -97,8 +105,11 @@ const RequestEvaluation = ({
     };
 
     return (
-        <>
-            <PageTopSection title={"طلب تقييم"} description={"تقييم شامل"} />
+        <staticContext.Provider value={static_content}>
+            <PageTopSection
+                title={static_content["small_top_title"]}
+                description={static_content["main_top_title"]}
+            />
             <section className="md:mt-[211px] mt-[6rem] md:mb-0 mb-12 relative">
                 <Container>
                     <div className="flex flex-col md:flex-row items-center justify-between mb-12">
@@ -389,7 +400,7 @@ const RequestEvaluation = ({
                     />
                 </Container>
             </section>
-        </>
+        </staticContext.Provider>
     );
 };
 

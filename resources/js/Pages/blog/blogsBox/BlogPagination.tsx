@@ -16,9 +16,8 @@ export default function BlogPagination({ max_pages }: { max_pages: number }) {
                 i === current_page
             ) {
                 pageNumbers.push(
-                    <Link href={`/blog?page=${i}`}>
+                    <Link href={`/blog?page=${i}`} key={`page-number-${i}`}>
                         <button
-                            key={i}
                             className={`sm:h-[48px] lg:h-[46px] xl:h-[48px] flex justify-center items-center ${
                                 i == current_page
                                     ? "text-primary-600"
@@ -31,7 +30,7 @@ export default function BlogPagination({ max_pages }: { max_pages: number }) {
                 );
             } else if (i === max_visible_pages + 1) {
                 pageNumbers.push(
-                    <span key="ellipsis" className="text-Gray-scale-02">
+                    <span key={`ellipsis-${i}`} className="text-Gray-scale-02">
                         ...
                     </span>
                 );

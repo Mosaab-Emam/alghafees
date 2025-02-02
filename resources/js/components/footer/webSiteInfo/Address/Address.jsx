@@ -123,7 +123,7 @@ const Address = () => {
                     text={
                         <>
                             <a
-                                href="https://wa.me/0539455519"
+                                href="https://wa.me/+966539455519"
                                 target="_blank"
                                 rel="noreferrer"
                             >

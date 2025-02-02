@@ -1,9 +1,7 @@
-import MainMessage from "./MainMessage";
-
 import SectionTitle from "../../SectionTitle";
-import DownloadApp from "./DownloadApp";
-
 import ContentBox from "./ContentBox";
+import DownloadApp from "./DownloadApp";
+import MainMessage from "./MainMessage";
 
 export default function HeroTextBox() {
     return (

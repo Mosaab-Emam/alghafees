@@ -1,8 +1,14 @@
 import Container from "@/components/Container";
+import {
+    stepFourSchema,
+    stepOneSchema,
+    stepThreeSchema,
+    stepTwoSchema,
+} from "@/schemas";
 import { withColoredText } from "@/utils";
 import { staticContext } from "@/utils/contexts";
-import { useForm, usePage } from "@inertiajs/react";
-import React, { useEffect, useState } from "react";
+import { useForm } from "@inertiajs/react";
+import React, { useState } from "react";
 import {
     BgGlassFilterShape,
     MarketAnalysisShape,
@@ -38,38 +44,9 @@ const RequestEvaluation = ({
     }
 
     const [step, setStep] = useState(1);
-    const { errors, request_no } = usePage().props;
-
-    // Navigate to the first step that has errors
-    useEffect(() => {
-        if (
-            errors.hasOwnProperty("name") ||
-            errors.hasOwnProperty("mobile") ||
-            errors.hasOwnProperty("email") ||
-            errors.hasOwnProperty("address") ||
-            errors.hasOwnProperty("goal_id") ||
-            errors.hasOwnProperty("notes")
-        ) {
-            setStep(1);
-        } else if (
-            errors.hasOwnProperty("type_id") ||
-            errors.hasOwnProperty("real_estate_details") ||
-            errors.hasOwnProperty("entity_id") ||
-            errors.hasOwnProperty("real_estate_age") ||
-            errors.hasOwnProperty("real_estate_area") ||
-            errors.hasOwnProperty("usage_id")
-        ) {
-            setStep(2);
-        } else if (errors.hasOwnProperty("location")) {
-            setStep(3);
-        } else if (
-            errors.hasOwnProperty("instrument_image") ||
-            errors.hasOwnProperty("construction_license") ||
-            errors.hasOwnProperty("other_contracts")
-        ) {
-            setStep(4);
-        }
-    }, [errors]);
+    const [validationErrors, setValidationErrors] = useState<
+        Record<string, string>
+    >({});
 
     const { data, setData, post } = useForm({
         name: "",
@@ -92,15 +69,54 @@ const RequestEvaluation = ({
 
     // handle steps
     const handlePrevStep = () => setStep(step - 1);
+
+    const validateStep = () => {
+        try {
+            switch (step) {
+                case 1:
+                    stepOneSchema.parse(data);
+                    break;
+                case 2:
+                    stepTwoSchema.parse(data);
+                    break;
+                case 3:
+                    stepThreeSchema.parse(data);
+                    break;
+                case 4:
+                    stepFourSchema.parse({
+                        instrument_image: data.instrument_image,
+                        construction_license: data.construction_license,
+                        other_contracts: data.other_contracts,
+                    });
+                    break;
+            }
+            setValidationErrors({});
+            return true;
+        } catch (error: any) {
+            if (error.errors) {
+                const errors: Record<string, string> = {};
+                error.errors.forEach((err: any) => {
+                    if (err.path && err.path.length > 0) {
+                        errors[err.path[0]] = err.message;
+                    }
+                });
+                setValidationErrors(errors);
+            }
+            return false;
+        }
+    };
+
     const handleNextStep = () => {
-        if (step === 4) {
-            post("/legacy/rate-request", {
-                forceFormData: true,
-                preserveScroll: true,
-                onSuccess: () => setStep(step + 1),
-            });
-        } else {
-            setStep(step + 1);
+        if (validateStep()) {
+            if (step === 4) {
+                post("/legacy/rate-request", {
+                    forceFormData: true,
+                    preserveScroll: true,
+                    onSuccess: () => setStep(step + 1),
+                });
+            } else {
+                setStep(step + 1);
+            }
         }
     };
 
@@ -129,8 +145,8 @@ const RequestEvaluation = ({
                                         type="text"
                                         label="الاسم بالكامل"
                                         name="name"
-                                        value={data?.name}
-                                        error={errors?.name}
+                                        value={data.name}
+                                        error={validationErrors?.name}
                                         placeholder="ادخل اسمك بالكامل هنا"
                                         required
                                         onChange={(
@@ -144,7 +160,7 @@ const RequestEvaluation = ({
                                             label="رقم الجوال"
                                             name="mobile"
                                             value={data.mobile}
-                                            error={errors?.mobile}
+                                            error={validationErrors?.mobile}
                                             required
                                             onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
@@ -162,7 +178,7 @@ const RequestEvaluation = ({
                                             label="البريد الالكتروني"
                                             name="email"
                                             value={data.email}
-                                            error={errors?.email}
+                                            error={validationErrors?.email}
                                             required
                                             onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
@@ -178,7 +194,7 @@ const RequestEvaluation = ({
                                         label="عنوان طالب التقييم"
                                         name="address"
                                         value={data.address}
-                                        error={errors?.address}
+                                        error={validationErrors?.address}
                                         required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLInputElement>
@@ -190,7 +206,7 @@ const RequestEvaluation = ({
                                         name="goal_id"
                                         label="الغرض من التقييم"
                                         value={data.goal_id}
-                                        error={errors?.goal_id}
+                                        error={validationErrors?.goal_id}
                                         required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLSelectElement>
@@ -203,7 +219,7 @@ const RequestEvaluation = ({
                                         name="notes"
                                         label="تفاصيل الغرض من التقييم"
                                         value={data.notes}
-                                        error={errors?.notes}
+                                        error={validationErrors?.notes}
                                         required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLTextAreaElement>
@@ -220,7 +236,7 @@ const RequestEvaluation = ({
                                         placeholder="اختر نوع العقار "
                                         data={types}
                                         value={data.type_id}
-                                        error={errors?.type_id}
+                                        error={validationErrors?.type_id}
                                         required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLSelectElement>
@@ -231,7 +247,9 @@ const RequestEvaluation = ({
                                         name="real_estate_details"
                                         label="تفاصيل العقار"
                                         value={data.real_estate_details}
-                                        error={errors?.real_estate_details}
+                                        error={
+                                            validationErrors?.real_estate_details
+                                        }
                                         onChange={(
                                             e: React.ChangeEvent<HTMLTextAreaElement>
                                         ) =>
@@ -249,7 +267,7 @@ const RequestEvaluation = ({
                                         placeholder="اختر الجهه"
                                         data={entities}
                                         value={data.entity_id}
-                                        error={errors?.entity_id}
+                                        error={validationErrors?.entity_id}
                                         onChange={(
                                             e: React.ChangeEvent<HTMLSelectElement>
                                         ) =>
@@ -264,7 +282,9 @@ const RequestEvaluation = ({
                                             name="real_estate_age"
                                             placeholder="ادخل العمر بعدد السنوات هنا"
                                             value={data.real_estate_age}
-                                            error={errors?.real_estate_age}
+                                            error={
+                                                validationErrors?.real_estate_age
+                                            }
                                             required
                                             onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
@@ -281,7 +301,9 @@ const RequestEvaluation = ({
                                             label="المساحة"
                                             placeholder="ادخل المساحة بوحدة م2"
                                             value={data.real_estate_area}
-                                            error={errors?.real_estate_area}
+                                            error={
+                                                validationErrors?.real_estate_area
+                                            }
                                             required
                                             onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
@@ -300,7 +322,8 @@ const RequestEvaluation = ({
                                         placeholder="اختر نوع الاستعمال"
                                         data={usage}
                                         value={data.usage_id}
-                                        error={errors?.usage_id}
+                                        error={validationErrors?.usage_id}
+                                        required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLSelectElement>
                                         ) =>
@@ -316,7 +339,7 @@ const RequestEvaluation = ({
                                         label="عنوان العقار"
                                         placeholder="ادخل عنوان العقار محل التقييم كالتالي ( منطقه - الحي - المدينه ) "
                                         value={data.location}
-                                        error={errors?.location}
+                                        error={validationErrors?.location}
                                         required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLTextAreaElement>
@@ -334,7 +357,9 @@ const RequestEvaluation = ({
                                         label="صورة الصك"
                                         placeholder="اختر من الملفات"
                                         value={data.instrument_image}
-                                        error={errors?.instrument_image}
+                                        error={
+                                            validationErrors?.instrument_image
+                                        }
                                         handleFileChange={(
                                             e: React.ChangeEvent<HTMLInputElement>
                                         ) =>
@@ -351,7 +376,9 @@ const RequestEvaluation = ({
                                         label="رخصة البناء"
                                         placeholder="اختر من الملفات"
                                         value={data.construction_license}
-                                        error={errors?.construction_license}
+                                        error={
+                                            validationErrors?.construction_license
+                                        }
                                         handleFileChange={(
                                             e: React.ChangeEvent<HTMLInputElement>
                                         ) =>
@@ -368,7 +395,9 @@ const RequestEvaluation = ({
                                         label=" مستندات اخرى"
                                         placeholder="اختر من الملفات"
                                         value={data.other_contracts}
-                                        error={errors?.other_contracts}
+                                        error={
+                                            validationErrors?.other_contracts
+                                        }
                                         handleFileChange={(
                                             e: React.ChangeEvent<HTMLInputElement>
                                         ) =>
@@ -383,7 +412,7 @@ const RequestEvaluation = ({
                             )}
                             {step === 5 && (
                                 <RequestSubmittedSuccessfully
-                                    request_no={request_no as string | null}
+                                    request_no={null}
                                 />
                             )}
                             {step !== 5 && (

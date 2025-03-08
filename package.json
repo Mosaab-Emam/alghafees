@@ -31,7 +31,8 @@
         "react-dom": "^18.3.1",
         "react-modal-video": "^2.0.2",
         "tom-select": "^2.2.2",
-        "vite-plugin-svgr": "^4.3.0"
+        "vite-plugin-svgr": "^4.3.0",
+        "zod": "^3.24.2"
     },
     "optionalDependencies": {
         "@esbuild/linux-x64": "^0.24.2",

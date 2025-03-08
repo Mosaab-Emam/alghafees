@@ -1,22 +1,23 @@
 import React from "react";
 
+interface Props {
+    name: string;
+    label: string;
+    placeholder: string;
+    radius?: string;
+    value?: File | null;
+    error?: string;
+    handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 const UploadFIleInput = ({
     name,
     label,
     placeholder,
-    radius,
-    value,
+    radius = "",
+    value = null,
     error,
     handleFileChange,
-}: {
-    name: string;
-    label: string;
-    placeholder: string;
-    radius: string;
-    value: File | null;
-    error?: string;
-    handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) => {
+}: Props) => {
     return (
         <section className="w-full flex flex-col items-start gap-[20px] self-stretch">
             <div className="flex flex-col items-start gap-[16px] self-stretch group">

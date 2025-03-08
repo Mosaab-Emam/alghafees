@@ -80,6 +80,7 @@ const JoinUsForm = () => {
                         label="السيرة الذاتيه"
                         name={"resume"}
                         placeholder=" ارفع سيرتك الذاتية "
+                        handleFileChange={() => {}}
                     />
 
                     <Button

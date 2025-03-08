@@ -1,17 +1,19 @@
-const InputGroup = ({ placeholder, type = "text" }) => {
+const InputGroup = ({ placeholder, type = "text", _ref }) => {
     return (
         <div className="w-full relative flex flex-col items-end gap-4 self-stretch ">
             {type === "text-area" ? (
                 <textarea
+                    ref={_ref ?? null}
                     placeholder={placeholder}
-                    className="w-full text-right pb-[48px] resize-none peer hover:text-primary-500 hover:placeholder:text-primary-500 focus:placeholder:text-primary-500 placeholder:text-Gray-scale-02 text-primary-500 text-lg font-normal leading-normal transition duration-700 ease-in-out "
+                    className="w-full text-right pb-[48px] resize-none peer hover:text-primary-500 hover:placeholder:text-primary-500 focus:placeholder:text-primary-500 placeholder:text-Gray-scale-02 text-primary-500 text-lg font-normal leading-normal transition duration-700 ease-in-out bg-transparent "
                 />
             ) : (
                 <input
                     placeholder={placeholder}
-                    className="w-full peer text-right pb-4 hover:text-primary-500 hover:placeholder:text-primary-500 focus:placeholder:text-primary-500 placeholder:text-Gray-scale-02 text-primary-500 text-lg font-normal leading-normal transition duration-700 ease-in-out "
+                    className="w-full peer text-right pb-4 hover:text-primary-500 hover:placeholder:text-primary-500 focus:placeholder:text-primary-500 placeholder:text-Gray-scale-02 text-primary-500 text-lg font-normal leading-normal transition duration-700 ease-in-out bg-transparent "
                     type={type}
                     id="name"
+                    ref={_ref ?? null}
                 />
             )}
 

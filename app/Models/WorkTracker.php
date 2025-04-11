@@ -14,7 +14,8 @@ class WorkTracker extends Model
         'employee_id',
         'type_id',
         'number',
-        'ended_at'
+        'ended_at',
+        'notes',
     ];
 
     protected $casts = [

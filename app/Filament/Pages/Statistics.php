@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\WorkTrackers;
 use Filament\Pages\Page;
 
 class Statistics extends Page
@@ -23,5 +24,12 @@ class Statistics extends Page
     public function getTitle(): string
     {
         return __('admin.statistics');
+    }
+
+    protected function getHeaderWidgets(): array
+    {
+        return [
+            WorkTrackers::class,
+        ];
     }
 }

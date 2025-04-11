@@ -47,5 +47,19 @@ class WorkTracker extends Model
         }
         return $this->ended_at->diffForHumans($this->created_at, ['syntax' => \Carbon\CarbonInterface::DIFF_ABSOLUTE]);
     }
+
+    public function getTotalEndedTodayAttribute()
+    {
+        return WorkTracker::where('employee_id', $this->employee_id)
+            ->where('ended_at', '>=', now()->startOfDay())
+            ->count();
+    }
+
+    public function getTotalEndedThisMonthAttribute()
+    {
+        return WorkTracker::where('employee_id', $this->employee_id)
+            ->where('ended_at', '>=', now()->startOfMonth())
+            ->count();
+    }
 }
 

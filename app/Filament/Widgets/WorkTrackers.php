@@ -43,6 +43,12 @@ class WorkTrackers extends BaseWidget
                     ->badge(fn($record) => $record->timeTaken == null)
                     ->color(fn($record) => $record->timeTaken == null ? 'warning' : 'success')
                     ->default('لم يحسب بعد'),
+                Tables\Columns\TextColumn::make('total_ended_today')
+                    ->label('المنتهية اليوم'),
+                Tables\Columns\TextColumn::make('total_ended_this_month')
+                    ->label('المنتهية هذا الشهر'),
+                Tables\Columns\TextColumn::make('notes')
+                    ->label('الملاحظات')
             ])
             ->emptyStateHeading('لا توجد بيانات')
             ->emptyStateDescription(null)

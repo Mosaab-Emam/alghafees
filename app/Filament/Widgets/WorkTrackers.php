@@ -32,23 +32,30 @@ class WorkTrackers extends BaseWidget
             ->query(WorkTracker::query())
             ->columns([
                 Tables\Columns\TextColumn::make('employee.title')
-                    ->label(__('admin.Employee')),
+                    ->label(__('admin.Employee'))
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('type.title')
                     ->label(__('admin.type_id'))
-                    ->badge(),
+                    ->badge()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('number')
-                    ->label(__('admin.transaction_number')),
+                    ->label(__('admin.transaction_number'))
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('time_taken')
                     ->label('الوقت المستغرق')
                     ->badge(fn($record) => $record->timeTaken == null)
                     ->color(fn($record) => $record->timeTaken == null ? 'warning' : 'success')
-                    ->default('لم يحسب بعد'),
+                    ->default('لم يحسب بعد')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('total_ended_today')
-                    ->label('المنتهية اليوم'),
+                    ->label('المنتهية اليوم')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('total_ended_this_month')
-                    ->label('المنتهية هذا الشهر'),
+                    ->label('المنتهية هذا الشهر')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('notes')
                     ->label('الملاحظات')
+                    ->toggleable(),
             ])
             ->emptyStateHeading('لا توجد بيانات')
             ->emptyStateDescription(null)

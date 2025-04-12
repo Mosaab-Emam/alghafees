@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->foreignId('type_id')->constrained('categories');
             $table->string('number');
             $table->string('notes')->nullable();
+            $table->string('wrongs')->nullable();
             $table->timestamp('ended_at')->nullable();
             $table->timestamps();
         });

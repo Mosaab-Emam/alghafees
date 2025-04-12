@@ -16,6 +16,7 @@ class WorkTracker extends Model
         'number',
         'ended_at',
         'notes',
+        'wrongs',
     ];
 
     protected $casts = [

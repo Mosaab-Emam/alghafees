@@ -8,6 +8,7 @@ use App\Models\WorkTracker;
 use Filament\Tables;
 use Filament\Forms;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\EditAction;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -56,6 +57,9 @@ class WorkTrackers extends BaseWidget
                 Tables\Columns\TextColumn::make('notes')
                     ->label('الملاحظات')
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('wrongs')
+                    ->label('المخالفات')
+                    ->toggleable(),
             ])
             ->emptyStateHeading('لا توجد بيانات')
             ->emptyStateDescription(null)
@@ -103,11 +107,21 @@ class WorkTrackers extends BaseWidget
                         Forms\Components\Textarea::make('notes')
                             ->label('الملاحظات')
                             ->rows(3),
+                        Forms\Components\Textarea::make('wrongs')
+                            ->label('المخالفات')
+                            ->rows(3),
                     ])
                     ->mutateFormDataUsing(function (array $data, WorkTracker $record) {
                         $data["ended_at"] = now();
                         return $data;
-                    })
+                    }),
+                DeleteAction::make()
+                    ->visible(fn(WorkTracker $record) => auth()->user()->can('delete_work_tracker'))
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->modalHeading('حذف تتبع العمل')
+                    ->modalSubmitActionLabel('حذف')
+
             ])
             ->bulkActions([
                 // ...

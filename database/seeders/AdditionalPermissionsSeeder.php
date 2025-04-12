@@ -17,6 +17,7 @@ class AdditionalPermissionsSeeder extends Seeder
             'view_any_work_tracker',
             'create_work_tracker',
             'update_work_tracker',
+            'delete_work_tracker',
         ];
 
         foreach ($permissions as $permission) {

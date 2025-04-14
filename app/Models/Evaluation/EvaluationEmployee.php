@@ -5,6 +5,7 @@ namespace App\Models\Evaluation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Model;
 use App\Models\Scopes\ActiveScope;
+use App\Models\WorkTracker;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,6 +19,7 @@ class EvaluationEmployee extends Model
         'price',
         'position',
         'active',
+        'has_visible_tracker',
     ];
 
     public function transactionpreviewer()
@@ -63,9 +65,12 @@ class EvaluationEmployee extends Model
         $reviews = 0;
 
         foreach ($items as $item) {
-            if ($item->previewer_id == $this->id) $previews += 1;
-            if ($item->income_id == $this->id) $entries += 0.5;
-            if ($item->review_id == $this->id) $reviews += 0.5;
+            if ($item->previewer_id == $this->id)
+                $previews += 1;
+            if ($item->income_id == $this->id)
+                $entries += 0.5;
+            if ($item->review_id == $this->id)
+                $reviews += 0.5;
         }
 
         $total = $previews + $entries + $reviews;
@@ -76,5 +81,27 @@ class EvaluationEmployee extends Model
             'entries' => $entries,
             'reviews' => $reviews
         ];
+    }
+
+    public function getClosestUnendedWorkTrackerAttribute(): WorkTracker|null
+    {
+        return WorkTracker::where('employee_id', $this->id)
+            ->whereNull('ended_at')
+            ->orderBy('created_at', 'asc')
+            ->first();
+    }
+
+    public function getTotalTrackersEndedTodayAttribute(): int
+    {
+        return WorkTracker::where('employee_id', $this->id)
+            ->where('ended_at', '>=', now()->startOfDay())
+            ->count();
+    }
+
+    public function getTotalTrackersEndedThisMonthAttribute(): int
+    {
+        return WorkTracker::where('employee_id', $this->id)
+            ->where('ended_at', '>=', now()->startOfMonth())
+            ->count();
     }
 }

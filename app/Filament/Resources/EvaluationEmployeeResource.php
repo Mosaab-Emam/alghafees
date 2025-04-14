@@ -3,12 +3,15 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationEmployeeResource\Pages;
+use App\Filament\Resources\EvaluationEmployeeResource\RelationManagers\WorkTrackersRelationManager;
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\Scopes\ActiveScope;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -49,6 +52,22 @@ class EvaluationEmployeeResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return static::getModel()::withoutGlobalScope(ActiveScope::class)->orderBy('position');
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('title')
+                    ->label(__('admin.Title')),
+                Infolists\Components\TextEntry::make('price')
+                    ->label(__('admin.Price'))
+                    ->default('لم يحدد'),
+                Infolists\Components\IconEntry::make('active')
+                    ->label(__('admin.Publish'))
+                    ->boolean(),
+            ])
+            ->columns(3);
     }
 
 
@@ -101,7 +120,7 @@ class EvaluationEmployeeResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
                     })->indicateUsing(function (array $data): ?string {
                         if (!$data['created_from'])
@@ -119,7 +138,7 @@ class EvaluationEmployeeResource extends Resource
                         return $query
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): ?string {
@@ -132,6 +151,7 @@ class EvaluationEmployeeResource extends Resource
                     ->label(__('admin.Publish')),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
 
@@ -145,7 +165,7 @@ class EvaluationEmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            WorkTrackersRelationManager::class,
         ];
     }
 
@@ -153,6 +173,7 @@ class EvaluationEmployeeResource extends Resource
     {
         return [
             'index' => Pages\ListEvaluationEmployees::route('/'),
+            'view' => Pages\ViewEvaluationEmployee::route('/{record}'),
             'create' => Pages\CreateEvaluationEmployee::route('/create'),
             'edit' => Pages\EditEvaluationEmployee::route('/{record}/edit'),
         ];

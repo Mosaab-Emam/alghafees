@@ -8,6 +8,7 @@ use App\Models\Scopes\ActiveScope;
 use App\Models\WorkTracker;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[ScopedBy([ActiveScope::class])]
 class EvaluationEmployee extends Model
@@ -30,6 +31,11 @@ class EvaluationEmployee extends Model
     public function transactionincome()
     {
         return $this->hasMany(EvaluationTransaction::class, 'income_id');
+    }
+
+    public function workTrackers(): HasMany
+    {
+        return $this->hasMany(WorkTracker::class, 'employee_id');
     }
 
     public function transactionreview()

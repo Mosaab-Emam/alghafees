@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationEmployeeResource\Pages;
-use App\Filament\Resources\EvaluationEmployeeResource\RelationManagers\WorkTrackersRelationManager;
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\Scopes\ActiveScope;
 use Carbon\Carbon;
@@ -165,7 +164,7 @@ class EvaluationEmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            WorkTrackersRelationManager::class,
+            //
         ];
     }
 

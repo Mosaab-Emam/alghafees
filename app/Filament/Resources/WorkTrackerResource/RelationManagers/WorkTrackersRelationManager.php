@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\EvaluationEmployeeResource\RelationManagers;
+namespace App\Filament\Resources\WorkTrackerResource\RelationManagers;
 
-use App\Filament\Resources\EvaluationEmployeeResource\Pages\ViewEvaluationEmployee;
-use Filament\Forms;
-use Filament\Forms\Form;
+use App\Models\WorkTracker;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -16,19 +14,6 @@ class WorkTrackersRelationManager extends RelationManager
     protected static string $relationship = 'workTrackers';
 
     protected static ?string $title = 'تتبع العمل';
-
-    public function isReadOnly(): bool
-    {
-        return true;
-    }
-
-    public static function canViewForRecord($ownerRecord, string $pageClass): bool
-    {
-        if ($ownerRecord->workTrackers->count() > 0) {
-            return $pageClass === ViewEvaluationEmployee::class;
-        }
-        return false;
-    }
 
     public function table(Table $table): Table
     {
@@ -50,15 +35,23 @@ class WorkTrackersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\Action::make('delete')
+                    ->visible(auth()->user()->can('delete_work::tracker'))
+                    ->color('danger')
+                    ->icon('heroicon-o-trash')
+                    ->label('حذف')
+                    ->requiresConfirmation()
+                    ->action(fn(WorkTracker $record) => $record->delete()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(
+                            auth()->user()->can('delete_any_work::tracker')
+                        ),
                 ]),
             ]);
     }

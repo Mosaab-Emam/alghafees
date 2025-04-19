@@ -4,16 +4,18 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\WorkTracker;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class WorkTrackerPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_any_work_tracker');
+        return $user->can('view_any_work::tracker');
     }
 
     /**
@@ -21,7 +23,7 @@ class WorkTrackerPolicy
      */
     public function view(User $user, WorkTracker $workTracker): bool
     {
-        return false;
+        return $user->can('view_work::tracker');
     }
 
     /**
@@ -29,7 +31,7 @@ class WorkTrackerPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->can('create_work::tracker');
     }
 
     /**
@@ -37,7 +39,7 @@ class WorkTrackerPolicy
      */
     public function update(User $user, WorkTracker $workTracker): bool
     {
-        return false;
+        return $user->can('update_work::tracker');
     }
 
     /**
@@ -45,22 +47,62 @@ class WorkTrackerPolicy
      */
     public function delete(User $user, WorkTracker $workTracker): bool
     {
-        return false;
+        return $user->can('delete_work::tracker');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can bulk delete.
      */
-    public function restore(User $user, WorkTracker $workTracker): bool
+    public function deleteAny(User $user): bool
     {
-        return false;
+        return $user->can('delete_any_work::tracker');
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete.
      */
     public function forceDelete(User $user, WorkTracker $workTracker): bool
     {
-        return false;
+        return $user->can('{{ ForceDelete }}');
+    }
+
+    /**
+     * Determine whether the user can permanently bulk delete.
+     */
+    public function forceDeleteAny(User $user): bool
+    {
+        return $user->can('{{ ForceDeleteAny }}');
+    }
+
+    /**
+     * Determine whether the user can restore.
+     */
+    public function restore(User $user, WorkTracker $workTracker): bool
+    {
+        return $user->can('{{ Restore }}');
+    }
+
+    /**
+     * Determine whether the user can bulk restore.
+     */
+    public function restoreAny(User $user): bool
+    {
+        return $user->can('{{ RestoreAny }}');
+    }
+
+    /**
+     * Determine whether the user can replicate.
+     */
+    public function replicate(User $user, WorkTracker $workTracker): bool
+    {
+        return $user->can('{{ Replicate }}');
+    }
+
+    /**
+     * Determine whether the user can reorder.
+     */
+    public function reorder(User $user): bool
+    {
+        return $user->can('reorder_work::tracker');
     }
 }

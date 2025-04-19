@@ -219,6 +219,10 @@ return [
 
     'price_offer' => 'عرض سعر',
     'statistics' => 'احصائيات',
+
+    'WorkTracker' => 'تتبع عمل',
+    'WorkTrackers' => 'تتبعات العمل',
+
     'contracts' => [
         'nav' => 'العقود',
         'index' => 'العقود',

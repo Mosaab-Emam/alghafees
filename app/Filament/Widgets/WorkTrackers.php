@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\WorkTrackerResource;
 use App\Models\Category;
 use App\Models\Evaluation\EvaluationEmployee;
 use App\Models\WorkTracker;
@@ -10,6 +11,7 @@ use Filament\Forms;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\EditAction;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -25,7 +27,7 @@ class WorkTrackers extends BaseWidget
 
     public static function canView(): bool
     {
-        return auth()->user()->can('view_any_work_tracker');
+        return auth()->user()->can('view_any_work::tracker');
     }
 
     public function table(Table $table): Table
@@ -57,6 +59,9 @@ class WorkTrackers extends BaseWidget
             ->heading("تتبع العمل")
             ->headerActions([
                 Action::make('select_visible_employees')
+                    ->visible(
+                        auth()->user()->can('update_work::tracker')
+                    )
                     ->label('تحديد الموظفين المتتبعين')
                     ->icon('heroicon-o-user-group')
                     ->color('gray')
@@ -95,12 +100,19 @@ class WorkTrackers extends BaseWidget
                 // ...
             ])
             ->actions([
+                ViewAction::make()
+                    ->url(fn($record) => WorkTrackerResource::getUrl('view', ['record' => $record]))
+                    ->visible(
+                        fn(EvaluationEmployee $record) =>
+                        auth()->user()->can('view_work::tracker') &&
+                        $record->workTrackers->count() > 0
+                    ),
                 CreateAction::make()
                     ->model(WorkTracker::class)
                     ->visible(
                         fn(EvaluationEmployee $record) =>
                         $record->closest_unended_work_tracker == null &&
-                        auth()->user()->can('create_work_tracker')
+                        auth()->user()->can('create_work::tracker')
                     )
                     ->label('تتبع')
                     ->icon('heroicon-o-plus')
@@ -130,7 +142,7 @@ class WorkTrackers extends BaseWidget
                     ->visible(
                         fn(EvaluationEmployee $record) =>
                         $record->closest_unended_work_tracker != null &&
-                        auth()->user()->can('update_work_tracker')
+                        auth()->user()->can('update_work::tracker')
                     )
                     ->icon('heroicon-o-check')
                     ->color('success')

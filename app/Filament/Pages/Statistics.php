@@ -13,7 +13,7 @@ class Statistics extends Page
 
     protected static string $view = 'filament.pages.statistics';
 
-    protected ?string $heading = '';
+    protected ?string $heading = 'الإحصائيات';
 
     protected static ?int $navigationSort = 4;
 

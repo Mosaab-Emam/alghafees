@@ -19,7 +19,7 @@ export default function Hero() {
                 </Container>
             </div>
 
-            <div className="container md:mt-0 -mt-[225px] ">
+            <div className="container md:mt-0 -mt-[225px] relative z-10">
                 <ContentBox className="md:hidden flex md:mb-0 mb-[32px] w-full " />
                 <DownloadApp className="md:hidden flex " />
             </div>

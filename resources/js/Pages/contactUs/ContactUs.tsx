@@ -49,7 +49,7 @@ const ContactUs = ({
                     />
 
                     <ContactUsSection
-                        showPriceOffer={false}
+                        showPriceOffer={true}
                         className="md:hidden flex"
                         contactUsShapeWidth="w-[330px]"
                         contactUsShapePosition="-top-[240px] -left-[2.6rem]"

@@ -28,7 +28,6 @@ class DatabaseSeeder extends Seeder
             ContactUsStaticContentSeeder::class,
             TrackYourRequestStaticContentSeeder::class,
             JoinUsStaticContentSeeder::class,
-            AdditionalPermissionsSeeder::class,
         ]);
     }
 }

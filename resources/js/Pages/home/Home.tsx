@@ -27,12 +27,6 @@ const Home = ({
 
     return (
         <staticContext.Provider value={static_content}>
-            <Head>
-                <meta
-                    name="google-site-verification"
-                    content="uW8BDRhLNOw4-pBQI4lZFH5fiS1Cd_AWv-EyYEHmrkg"
-                />
-            </Head>
             <Hero />
             <OurPartners />
             <AboutSection report={home_report} />

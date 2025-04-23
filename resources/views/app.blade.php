@@ -12,7 +12,8 @@
         gtag('config', 'G-FB7TPQBY5P');
     </script>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=2">
+    <meta name="google-site-verification" content="uW8BDRhLNOw4-pBQI4lZFH5fiS1Cd_AWv-EyYEHmrkg" />
 
     <title inertia>شركة صالح بن علي الغفيص للتقييم العقاري</title>
 

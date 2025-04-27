@@ -16,10 +16,18 @@ const Home = ({
     static_content,
     home_report,
     events,
+    reviews,
 }: {
     static_content: Record<string, string>;
     home_report: BackendFile;
     events: Array<Event>;
+    reviews: Array<{
+        name: string;
+        description: string;
+        image: string;
+        rating: number;
+        body: string;
+    }>;
 }) => {
     for (let [key, value] of Object.entries(static_content)) {
         static_content[key] = withColoredText(value.toString());
@@ -31,7 +39,7 @@ const Home = ({
             <OurPartners />
             <AboutSection report={home_report} />
             <OurServices events={events} />
-            <OurClients />
+            <OurClients reviews={reviews} />
             <ContactUsSection
                 position={
                     "lg:-top-[12.3rem] lg:right-0 xl:-top-[7.3rem] xl:-right-[2.5rem] 2xl:-top-[7.3rem] 2xl:right-0 top-[16.3rem] -right-[55px] "

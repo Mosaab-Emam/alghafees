@@ -4,7 +4,17 @@ import ArrowsButtons from "../../../components/ourClients/sliderBox/ArrowsButton
 import CustomPagination from "../../../components/ourClients/sliderBox/CustomPagination";
 import ClientSliderBox from "../ClientSliderBox";
 
-const OurClientsSlider = () => {
+type Props = {
+    reviews: Array<{
+        id: number;
+        name: string;
+        description: string;
+        image: string;
+        rating: number;
+        body: string;
+    }>;
+};
+const OurClientsSlider = ({ reviews }: Props) => {
     const swiperRef = useRef(null);
     const [isEnd, setIsEnd] = useState(false);
     const [isBeginning, setIsBeginning] = useState(true);
@@ -24,6 +34,7 @@ const OurClientsSlider = () => {
                 setIsEnd={setIsEnd}
                 setIsBeginning={setIsBeginning}
                 swiperRef={swiperRef}
+                reviews={reviews}
             />
 
             <CustomPagination position="md:!left-0 !left-1/2 !-translate-x-1/2 md:!bottom-[-75px] !bottom-[-200px]" />

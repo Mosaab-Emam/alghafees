@@ -15,7 +15,6 @@ use Inertia\Inertia;
 */
 
 use Illuminate\Support\Facades\Artisan;
-use setasign\Fpdi\Tcpdf\Fpdi;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
 use App\Models\AboutUsStaticContent;
@@ -30,16 +29,20 @@ use App\Models\JoinUsStaticContent;
 use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
 use App\Models\RequestEvaluationStaticContent;
+use App\Models\Review;
 use App\Models\TrackYourRequestStaticContent;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
 
-Route::get('/clear-cache', function () {
-    Artisan::call('cache:clear');
-    Artisan::call('route:clear');
+Route::get(
+    '/clear-cache',
+    function () {
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
 
-    return "Cache cleared successfully";
-});
+        return "Cache cleared successfully";
+    }
+);
 Route::get('/public/{extra}', function ($extra) {
     return redirect('/' . $extra);
 })
@@ -73,11 +76,18 @@ Route::get('/', function () {
     $static_content = HomeStaticContent::first();
     $report = File::reports()->first();
     $events = Event::orderBy('id', 'desc')->take(2)->get();
+    $reviews = Review::whereNotNull('name')
+        ->whereNotNull('description')
+        ->whereNotNull('image')
+        ->whereNotNull('rating')
+        ->whereNotNull('body')
+        ->get();
 
     return Inertia::render('home/Home', [
         'static_content' => $static_content,
         'report' => $report,
-        'events' => $events
+        'events' => $events,
+        'reviews' => $reviews
     ]);
 });
 
@@ -110,8 +120,16 @@ Route::get('/our-services/{serviceId}', function () {
 
 Route::get('/our-clients', function () {
     $static_content = OurClientsStaticContent::first();
+    $reviews = Review::whereNotNull('name')
+        ->whereNotNull('description')
+        ->whereNotNull('image')
+        ->whereNotNull('rating')
+        ->whereNotNull('body')
+        ->get();
+
     return Inertia::render('ourClients/OurClients', [
-        'static_content' => $static_content
+        'static_content' => $static_content,
+        'reviews' => $reviews
     ]);
 });
 
@@ -292,6 +310,33 @@ Route::get('/join-us', function () {
 
 Route::get('/privacy-policy', function () {
     return Inertia::render('privacyPolicy/PrivacyPolicy');
+});
+
+Route::get('/review/{token}', function (string $token) {
+    $review = Review::where('token', $token)->first();
+    if (!$review || $review->name != null)
+        return Inertia::render('notFoundPage/NotFoundPage');
+
+    return Inertia::render('Review', [
+        'review_token' => $review->token
+    ]);
+});
+
+Route::post('/review', function () {
+    $review = Review::where('token', request()->review_token)->first();
+
+    if (!$review || $review->name != null)
+        abort(404);
+
+    $review->update([
+        'name' => request()->name,
+        'description' => request()->description,
+        'image' => request()->file('image')->store('reviews', 'public'),
+        'rating' => request()->rating,
+        'body' => request()->body,
+    ]);
+
+    return Inertia::render('ThanksForYourReview');
 });
 
 Route::fallback(function () {

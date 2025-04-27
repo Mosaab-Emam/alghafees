@@ -9,8 +9,17 @@ import OurClientsSlider from "./ourClientsSlider/OurClientsSlider";
 
 const OurClients = ({
     static_content,
+    reviews,
 }: {
     static_content: Record<string, string>;
+    reviews: Array<{
+        id: number;
+        name: string;
+        description: string;
+        image: string;
+        rating: number;
+        body: string;
+    }>;
 }) => {
     for (let [key, value] of Object.entries(static_content)) {
         static_content[key] = withColoredText(value.toString());
@@ -25,7 +34,11 @@ const OurClients = ({
             <section className="md:mt-[211px] mt-[6rem]">
                 <Container>
                     <ClientsBoxOne />
-                    <OurClientsSlider />
+                    {reviews.length > 0 ? (
+                        <OurClientsSlider reviews={reviews} />
+                    ) : (
+                        <div />
+                    )}
                     <ClientsBoxTwo />
                 </Container>
             </section>

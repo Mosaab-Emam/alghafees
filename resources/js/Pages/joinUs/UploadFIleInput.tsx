@@ -5,6 +5,7 @@ interface Props {
     label: string;
     placeholder: string;
     radius?: string;
+    required?: boolean;
     value?: File | null;
     error?: string;
     handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -13,6 +14,7 @@ interface Props {
 const UploadFileInput = forwardRef<HTMLInputElement, Props>(
     (
         {
+            required = false,
             name,
             label,
             placeholder,
@@ -31,6 +33,7 @@ const UploadFileInput = forwardRef<HTMLInputElement, Props>(
                         className="regular-b1 !text-base text-right text-Gray-scale-02 group-focus-within:text-primary-600 transition-colors duration-300"
                     >
                         {label}
+                        {required && <span className="text-red-500">*</span>}
                     </label>
                     <div className="relative w-full">
                         <input

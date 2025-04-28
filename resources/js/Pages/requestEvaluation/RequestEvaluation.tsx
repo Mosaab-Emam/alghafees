@@ -8,7 +8,7 @@ import {
 import { withColoredText } from "@/utils";
 import { staticContext } from "@/utils/contexts";
 import { useForm } from "@inertiajs/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     BgGlassFilterShape,
     MarketAnalysisShape,
@@ -27,21 +27,17 @@ import RequestEvaluationSteps from "./requestEvaluationSteps/RequestEvaluationSt
 import TextBox from "./TextBox";
 
 const RequestEvaluation = ({
-    static_content,
     goals,
     types,
     entities,
     usage,
 }: {
-    static_content: Record<string, string>;
     goals: Array<SelectItem>;
     types: Array<SelectItem>;
     entities: Array<SelectItem>;
     usage: Array<SelectItem>;
 }) => {
-    for (let [key, value] of Object.entries(static_content)) {
-        static_content[key] = withColoredText(value.toString());
-    }
+    const static_content = useContext<Record<string, string>>(staticContext);
 
     const [step, setStep] = useState(1);
     const [validationErrors, setValidationErrors] = useState<
@@ -121,7 +117,7 @@ const RequestEvaluation = ({
     };
 
     return (
-        <staticContext.Provider value={static_content}>
+        <>
             <PageTopSection
                 title={static_content["small_top_title"]}
                 description={static_content["main_top_title"]}
@@ -429,7 +425,7 @@ const RequestEvaluation = ({
                     />
                 </Container>
             </section>
-        </staticContext.Provider>
+        </>
     );
 };
 

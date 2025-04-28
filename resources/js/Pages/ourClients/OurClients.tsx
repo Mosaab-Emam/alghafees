@@ -1,17 +1,13 @@
 import Container from "@/components/Container";
-import { withColoredText } from "@/utils";
 import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import { OurPartners, PageTopSection } from "../../components";
 import Layout from "../layout/Layout";
 import ClientsBoxOne from "./ClientsBoxOne";
 import ClientsBoxTwo from "./ourClientsSlider/ClientsBoxTwo";
 import OurClientsSlider from "./ourClientsSlider/OurClientsSlider";
 
-const OurClients = ({
-    static_content,
-    reviews,
-}: {
-    static_content: Record<string, string>;
+type Props = {
     reviews: Array<{
         id: number;
         name: string;
@@ -20,13 +16,13 @@ const OurClients = ({
         rating: number;
         body: string;
     }>;
-}) => {
-    for (let [key, value] of Object.entries(static_content)) {
-        static_content[key] = withColoredText(value.toString());
-    }
+};
+
+const OurClients = ({ reviews }: Props) => {
+    const static_content = useContext<Record<string, string>>(staticContext);
 
     return (
-        <staticContext.Provider value={static_content}>
+        <>
             <PageTopSection
                 title={static_content["small_top_title"]}
                 description={static_content["main_top_title"]}
@@ -43,7 +39,7 @@ const OurClients = ({
                 </Container>
             </section>
             <OurPartners className="pt-8 pb-12" />
-        </staticContext.Provider>
+        </>
     );
 };
 

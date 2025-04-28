@@ -1,8 +1,6 @@
-import React from "react";
-import FooterLogo from "./FooterLogo";
-
 import Address from "./Address/Address";
 import FooterDownloadApp from "./FooterDownloadApp";
+import FooterLogo from "./FooterLogo";
 import LineBetweenItems from "./LineBetweenItems";
 
 const WebSiteInfo = () => {

@@ -2,6 +2,7 @@ import Container from "@/components/Container";
 import { withColoredText } from "@/utils";
 import { staticContext } from "@/utils/contexts";
 import { Link } from "@inertiajs/react";
+import { useContext } from "react";
 import {
     Button,
     ContactUsSection,
@@ -10,17 +11,11 @@ import {
 } from "../../components";
 import Layout from "../layout/Layout";
 
-const ContactUs = ({
-    static_content,
-}: {
-    static_content: Record<string, string>;
-}) => {
-    for (let [key, value] of Object.entries(static_content)) {
-        static_content[key] = withColoredText(value.toString());
-    }
+const ContactUs = () => {
+    const static_content = useContext<Record<string, string>>(staticContext);
 
     return (
-        <staticContext.Provider value={static_content}>
+        <>
             <PageTopSection
                 title={static_content["small_top_title"]}
                 description={static_content["main_top_title"]}
@@ -64,7 +59,7 @@ const ContactUs = ({
                     />
                 </section>
             </Container>
-        </staticContext.Provider>
+        </>
     );
 };
 

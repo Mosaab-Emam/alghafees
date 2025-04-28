@@ -1,6 +1,4 @@
 import { BackendFile } from "@/types";
-import { withColoredText } from "@/utils";
-import { Head } from "@inertiajs/react";
 import {
     AboutSection,
     ContactUsSection,
@@ -9,16 +7,9 @@ import {
     OurPartners,
     OurServices,
 } from "../../components";
-import { staticContext } from "../../utils/contexts";
 import Layout from "../layout/Layout";
 
-const Home = ({
-    static_content,
-    home_report,
-    events,
-    reviews,
-}: {
-    static_content: Record<string, string>;
+type Props = {
     home_report: BackendFile;
     events: Array<Event>;
     reviews: Array<{
@@ -28,13 +19,11 @@ const Home = ({
         rating: number;
         body: string;
     }>;
-}) => {
-    for (let [key, value] of Object.entries(static_content)) {
-        static_content[key] = withColoredText(value.toString());
-    }
+};
 
+const Home = ({ home_report, events, reviews }: Props) => {
     return (
-        <staticContext.Provider value={static_content}>
+        <>
             <Hero />
             <OurPartners />
             <AboutSection report={home_report} />
@@ -45,7 +34,7 @@ const Home = ({
                     "lg:-top-[12.3rem] lg:right-0 xl:-top-[7.3rem] xl:-right-[2.5rem] 2xl:-top-[7.3rem] 2xl:right-0 top-[16.3rem] -right-[55px] "
                 }
             />
-        </staticContext.Provider>
+        </>
     );
 };
 

@@ -1,6 +1,10 @@
+import { staticContext } from "@/utils/contexts";
+import { useContext } from "react";
 import AddressTextBox from "./AddressTextBox";
 
 const Address = () => {
+    const static_content = useContext(staticContext);
+
     return (
         <div className="lg:w-[480px] xl:w-[650px] w-full md:w-[312px] flex flex-col items-start gap-[20px]">
             <h6 className=" head-line-h5 text-right text-Black-01">
@@ -81,11 +85,11 @@ const Address = () => {
                     text={
                         <>
                             <a
-                                href="tel:+0539455519"
+                                href={`tel:${static_content["phone"]}`}
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                0539455519
+                                {static_content["phone"]}
                             </a>
                         </>
                     }
@@ -123,11 +127,11 @@ const Address = () => {
                     text={
                         <>
                             <a
-                                href="https://wa.me/+966539455519"
+                                href={`https://wa.me/${static_content["phone"]}`}
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                0539455519
+                                {static_content["phone"]}
                             </a>
                         </>
                     }

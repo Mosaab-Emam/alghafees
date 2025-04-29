@@ -338,7 +338,7 @@ Route::get('/review/{token}', function (string $token) {
     $review = Review::where('token', $token)->first();
     $static_content = [];
     $static_content["phone"] = ContactUsStaticContent::first()->phone;
-    if (!$review || $review->name != null)
+    if (!$review || $review->is_filled)
         return Inertia::render('notFoundPage/NotFoundPage');
 
     return Inertia::render('Review', [

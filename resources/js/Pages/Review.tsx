@@ -1,5 +1,9 @@
 import Container from "@/components/Container";
-import { PageTopSection, SalehNameEnglishShape } from "../components";
+import {
+    ContactUsShape,
+    PageTopSection,
+    SalehNameEnglishShape,
+} from "../components";
 import ReviewForm from "../components/ReviewForm";
 import BgGlassFilterShape from "../components/shapes/BgGlassFilterShape";
 import OurClientsShape from "../components/shapes/OurClientsShape";
@@ -23,6 +27,8 @@ const Review = ({ review_token }: { review_token: string }) => {
                             </div>
                         </Container>
                     </div>
+
+                    <ContactUsShape />
 
                     <SalehNameEnglishShape
                         position={

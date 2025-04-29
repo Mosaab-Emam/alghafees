@@ -172,8 +172,8 @@ class EvaluationEmployeeResource extends Resource
     {
         return [
             'index' => Pages\ListEvaluationEmployees::route('/'),
-            'view' => Pages\ViewEvaluationEmployee::route('/{record}'),
             'create' => Pages\CreateEvaluationEmployee::route('/create'),
+            'view' => Pages\ViewEvaluationEmployee::route('/{record}'),
             'edit' => Pages\EditEvaluationEmployee::route('/{record}/edit'),
         ];
     }

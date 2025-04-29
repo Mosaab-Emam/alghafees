@@ -75,7 +75,7 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->brandLogo(asset('images/settings/1691238434rKMpDrJ2EhNquOPc8E04TfgLLnkyWRJpEXWNKeGP.png'))
             ->brandLogoHeight('3rem')
-            ->favicon(asset('images/logo.png'))
+            ->favicon(asset('/favicon.png'))
             ->sidebarCollapsibleOnDesktop();
     }
 }

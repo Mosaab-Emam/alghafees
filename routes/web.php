@@ -21,6 +21,7 @@ use App\Models\AboutUsStaticContent;
 use App\Models\BlogStaticContent;
 use App\Models\Category;
 use App\Models\ContactUsStaticContent;
+use App\Models\Content;
 use App\Models\Event;
 use App\Models\EventsStaticContent;
 use App\Models\File;
@@ -88,6 +89,8 @@ Route::get('/', function () {
         ->get();
 
     return Inertia::render('home/Home', [
+        'title' => 'الرئيسية | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'شركة صالح علي الغفيص، مقيم عقاري معتمد بخبرة تفوق 20 عامًا في تقييم العقارات بالرياض والقصيم. نقدم خدمات تقييم دقيقة تتوافق مع المعايير الدولية. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'report' => $report,
         'events' => $events,
@@ -104,6 +107,8 @@ Route::get('/about-us', function () {
     $evaluations = File::evaluations()->get();
 
     return Inertia::render('aboutUs/AboutUs', [
+        'title' => 'من نحن | مقيم عقاري معتمد- شركة صالح علي الغفيص',
+        'description' => 'شركة صالح علي الغفيص، مقيم عقاري معتمد بخبرة تفوق 20 عامًا في تقييم العقارات بالرياض والقصيم. نقدم خدمات تقييم دقيقة تتوافق مع المعايير الدولية. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'reports' => $reports,
         'evaluations' => $evaluations
@@ -116,16 +121,22 @@ Route::get('/our-services', function () {
         InfoStaticContent::first()->toArray()
     );
     return Inertia::render('ourServices/OurServices', [
+        'title' => 'خدماتنا | خدمات الغفيص للتقييم العقاري - مقيم عقاري معتمد',
+        'description' => 'نقدم خدمات مقيم عقاري معتمد تشمل التقييم العقاري، دراسات الجدوى، دراسات السوق، وأفضل استخدام للعقارات في المملكة. معتمدون من الهيئة السعودية للمقيمين. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
 
 Route::get('/our-services/{serviceId}', function () {
     $static_content = InfoStaticContent::first()->toArray();
+    $service = Content::find(request()->serviceId);
+
     return Inertia::render('ourServices/Service', [
         'params' => [
-            'serviceId' => request()->serviceId
+            'serviceId' => $service->id
         ],
+        'title' => 'خدماتنا | خدمات الغفيص للتقييم العقاري - مقيم عقاري معتمد',
+        'description' => 'نقدم خدمات مقيم عقاري معتمد تشمل التقييم العقاري، دراسات الجدوى، دراسات السوق، وأفضل استخدام للعقارات في المملكة. معتمدون من الهيئة السعودية للمقيمين. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
@@ -143,6 +154,8 @@ Route::get('/our-clients', function () {
         ->get();
 
     return Inertia::render('ourClients/OurClients', [
+        'title' => 'عملاؤنا | مقيم عقاري موثوق لشركات التطوير والاستثمار - الغفيص للتقييم العقاري',
+        'description' => 'نخدم أبرز الشركات العقارية والمستثمرين كـمقيم عقاري موثوق في السعودية، ونقدم تقييمات دقيقة لدعم قرارات الشراء والاستثمار. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'reviews' => $reviews
     ]);
@@ -155,6 +168,8 @@ Route::get('/events', function () {
     );
     $events = Event::all();
     return Inertia::render('events/Events', [
+        'title' => 'الفعاليات | مشاركاتنا كـ مقيم عقاري في المؤتمرات والبرامج التدريبية',
+        'description' => 'تابع أنشطة شركة صالح علي الغفيص كمقيم عقاري معتمد في السعودية، ومشاركتها في الفعاليات والدورات المهنية لتعزيز قطاع التقييم العقاري. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'events' => $events
     ]);
@@ -163,6 +178,8 @@ Route::get('/events', function () {
 Route::get('/events/{event}', function (Event $event) {
     $static_content = InfoStaticContent::first()->toArray();
     return Inertia::render('nestedPages/eventDetailsPage/EventDetailsPage', [
+        'title' => $event->title . ' | مشاركاتنا كـ مقيم عقاري في المؤتمرات والبرامج التدريبية',
+        'description' => 'تابع أنشطة شركة صالح علي الغفيص كمقيم عقاري معتمد في السعودية، ومشاركتها في الفعاليات والدورات المهنية لتعزيز قطاع التقييم العقاري. الخط الساخن: 0539455519',
         'event' => $event,
         'static_content' => $static_content
     ]);
@@ -180,6 +197,8 @@ Route::get('/request-evaluation', function () {
     $usage = Category::apartmentUsage()->get();
 
     return Inertia::render('requestEvaluation/RequestEvaluation', [
+        'title' => 'طلب تقييم عقاري | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'قدّم طلبك الآن للحصول على تقييم عقاري رسمي من مقيم عقاري معتمد لجميع أنواع الأصول العقارية في المملكة. خدمة موثوقة وسريعة. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'post_endpoint' => $post_endpoints,
         'goals' => $goals,
@@ -222,6 +241,8 @@ Route::get('/blog', function () {
         ->get();
 
     return Inertia::render('blog/Blog', [
+        'title' => 'مدونة مقيم عقاري | تحليلات عقارية ونصائح من خبراء التقييم',
+        'description' => 'اقرأ مقالات محدثة من مقيم عقاري محترف عن تقييم العقارات، السوق العقاري، دراسات الجدوى، والفرص الاستثمارية في السعودية. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'posts' => $posts->getCollection(),
         'max_pages' => $max_pages,
@@ -304,6 +325,8 @@ Route::get('/blog/{id}', function ($id) {
 
 
     return Inertia::render('nestedPages/blogDetailsPage/BlogDetailsPage', [
+        'title' => $post->title . ' | تحليلات عقارية ونصائح من خبراء التقييم',
+        'description' => 'اقرأ مقالات محدثة من مقيم عقاري محترف عن تقييم العقارات، السوق العقاري، دراسات الجدوى، والفرص الاستثمارية في السعودية. الخط الساخن: 0539455519',
         'tags' => $tags,
         'post' => $post,
         'main_tag' => $post->tags->first()->name,
@@ -320,6 +343,8 @@ Route::get('/contact-us', function () {
         InfoStaticContent::first()->toArray()
     );
     return Inertia::render('contactUs/ContactUs', [
+        'title' => 'تواصل معنا | احجز موعد مع مقيم عقاري معتمد - الغفيص للتقييم',
+        'description' => 'تواصل مع مقيم عقاري معتمد من شركة صالح علي الغفيص عبر الهاتف أو البريد لطلب خدمات التقييم العقاري في جميع أنحاء السعودية. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
@@ -330,6 +355,8 @@ Route::get('/track-your-request', function () {
         InfoStaticContent::first()->toArray()
     );
     return Inertia::render('trackYourRequest/TrackYourRequest', [
+        'title' => 'تتبع طلب تقييم عقاري | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'تتبع طلب تقييم عقاري من شركة صالح علي الغفيص للحصول على آخر التحديثات والتقارير العقارية. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
@@ -340,6 +367,8 @@ Route::get('/join-us', function () {
         InfoStaticContent::first()->toArray()
     );
     return Inertia::render('joinUs/JoinUs', [
+        'title' => 'انضم إلى الغفيص للتقييم | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'انضم إلى شركة صالح علي الغفيص كمقيم عقاري معتمد للحصول على أفضل الخدمات العقارية في المملكة. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
@@ -347,6 +376,8 @@ Route::get('/join-us', function () {
 Route::get('/privacy-policy', function () {
     $static_content = InfoStaticContent::first()->toArray();
     return Inertia::render('privacyPolicy/PrivacyPolicy', [
+        'title' => 'سياسة الخصوصية | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'تعرف على سياسة الخصوصية لشركة صالح علي الغفيص للتقييم العقاري في المملكة. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
@@ -358,6 +389,8 @@ Route::get('/review/{token}', function (string $token) {
         return Inertia::render('notFoundPage/NotFoundPage');
 
     return Inertia::render('Review', [
+        'title' => 'تقييمك للخدمة | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'قدّم تقييمك لشركة صالح علي الغفيص للتقييم العقاري في المملكة. الخط الساخن: 0539455519',
         'review_token' => $review->token,
         'static_content' => $static_content
     ]);
@@ -379,10 +412,15 @@ Route::post('/review', function () {
     $static_content = InfoStaticContent::first()->toArray();
 
     return Inertia::render('ThanksForYourReview', [
+        'title' => 'شكرا لك | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'شكرا لك على تقييمك لشركة صالح علي الغفيص للتقييم العقاري في المملكة. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });
 
 Route::fallback(function () {
-    return Inertia::render('notFoundPage/NotFoundPage');
+    return Inertia::render('notFoundPage/NotFoundPage', [
+        'title' => 'الصفحة غير موجودة | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'الصفحة غير موجودة. الخط الساخن: 0539455519',
+    ]);
 });

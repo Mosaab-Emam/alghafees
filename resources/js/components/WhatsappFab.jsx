@@ -6,7 +6,7 @@ const WhatsappFab = () => {
 
     return (
         <div
-            className={`transition duration-700 z-50 flex translate-x-0 fixed bottom-4 right-4`}
+            className={`transition duration-700 z-50 flex translate-x-0 fixed bottom-4 right-4 animate-bounce`}
         >
             <button
                 onClick={() =>
@@ -15,13 +15,13 @@ const WhatsappFab = () => {
                         "_blank"
                     )
                 }
-                className="w-10 h-10 p-2 flex items-center justify-center bg-primary-500 text-white rounded-full shadow-lg hover:bg-primary-600 transition duration-500  "
+                className="w-14 h-14 p-2 flex items-center justify-center bg-primary-500 text-white rounded-full shadow-lg hover:bg-primary-600 transition duration-500"
                 aria-label="اتصل بنا على الواتساب"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="64"
-                    height="64"
+                    width="56"
+                    height="56"
                     viewBox="0 0 14 15"
                     fill="none"
                 >

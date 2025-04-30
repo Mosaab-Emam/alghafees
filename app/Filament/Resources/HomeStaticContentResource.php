@@ -58,15 +58,6 @@ class HomeStaticContentResource extends Resource
                         Forms\Components\TextInput::make('hero_vertical_text')
                             ->label(__('static_content.home.hero.vertical_text'))
                             ->required(),
-                        Forms\Components\TextInput::make('hero_x_link')
-                            ->label(__('static_content.home.hero.x_link'))
-                            ->required(),
-                        Forms\Components\TextInput::make('hero_linkedin_link')
-                            ->label(__('static_content.home.hero.linkedin_link'))
-                            ->required(),
-                        Forms\Components\TextInput::make('hero_youtube_link')
-                            ->label(__('static_content.home.hero.youtube_link'))
-                            ->required(),
                     ]),
 
                 Forms\Components\Section::make(__('static_content.home.about.section_title'))

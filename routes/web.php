@@ -25,6 +25,7 @@ use App\Models\Event;
 use App\Models\EventsStaticContent;
 use App\Models\File;
 use App\Models\HomeStaticContent;
+use App\Models\InfoStaticContent;
 use App\Models\JoinUsStaticContent;
 use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
@@ -73,8 +74,10 @@ Route::post('/sign/{token}', [Controllers\Admin\ContractController::class, 'sign
 Route::get('download-contract/{token}', [Controllers\Admin\ContractController::class, 'downloadContract'])->name('download-contract');
 
 Route::get('/', function () {
-    $static_content = HomeStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        HomeStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     $report = File::reports()->first();
     $events = Event::orderBy('id', 'desc')->take(2)->get();
     $reviews = Review::whereNotNull('name')
@@ -93,8 +96,10 @@ Route::get('/', function () {
 });
 
 Route::get('/about-us', function () {
-    $static_content = AboutUsStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        AboutUsStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     $reports = File::reports()->get();
     $evaluations = File::evaluations()->get();
 
@@ -106,16 +111,17 @@ Route::get('/about-us', function () {
 });
 
 Route::get('/our-services', function () {
-    $static_content = OurServicesStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        OurServicesStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     return Inertia::render('ourServices/OurServices', [
         'static_content' => $static_content
     ]);
 });
 
 Route::get('/our-services/{serviceId}', function () {
-    $static_content = [];
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = InfoStaticContent::first()->toArray();
     return Inertia::render('ourServices/Service', [
         'params' => [
             'serviceId' => request()->serviceId
@@ -125,8 +131,10 @@ Route::get('/our-services/{serviceId}', function () {
 });
 
 Route::get('/our-clients', function () {
-    $static_content = OurClientsStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        OurClientsStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     $reviews = Review::whereNotNull('name')
         ->whereNotNull('description')
         ->whereNotNull('image')
@@ -141,8 +149,10 @@ Route::get('/our-clients', function () {
 });
 
 Route::get('/events', function () {
-    $static_content = EventsStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        EventsStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     $events = Event::all();
     return Inertia::render('events/Events', [
         'static_content' => $static_content,
@@ -151,8 +161,7 @@ Route::get('/events', function () {
 });
 
 Route::get('/events/{event}', function (Event $event) {
-    $static_content = [];
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = InfoStaticContent::first()->toArray();
     return Inertia::render('nestedPages/eventDetailsPage/EventDetailsPage', [
         'event' => $event,
         'static_content' => $static_content
@@ -160,8 +169,10 @@ Route::get('/events/{event}', function (Event $event) {
 });
 
 Route::get('/request-evaluation', function () {
-    $static_content = RequestEvaluationStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        RequestEvaluationStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     $post_endpoints = config('app.url') . '/api/rate-requests';
     $goals = Category::apartmentGoal()->get();
     $types = Category::apartmentType()->get();
@@ -179,8 +190,10 @@ Route::get('/request-evaluation', function () {
 })->name("new-request-evaluation");
 
 Route::get('/blog', function () {
-    $static_content = BlogStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        BlogStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     $search_query = request('search');
     $tag_slug = request('tag'); // Accepting tag as an optional parameter
     $page = request('page', 1);
@@ -219,8 +232,7 @@ Route::get('/blog', function () {
 Route::get('/blog/{id}', function ($id) {
     $tags = Tag::withCount('postsPublished')->get();
     $post = Post::find($id);
-    $static_content = [];
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = InfoStaticContent::first()->toArray();
     $post->featured_image = $post->image();
 
     // Remove default styles
@@ -303,32 +315,37 @@ Route::get('/blog/{id}', function ($id) {
 });
 
 Route::get('/contact-us', function () {
-    $static_content = ContactUsStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        ContactUsStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     return Inertia::render('contactUs/ContactUs', [
         'static_content' => $static_content
     ]);
 });
 
 Route::get('/track-your-request', function () {
-    $static_content = TrackYourRequestStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        TrackYourRequestStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     return Inertia::render('trackYourRequest/TrackYourRequest', [
         'static_content' => $static_content
     ]);
 });
 
 Route::get('/join-us', function () {
-    $static_content = JoinUsStaticContent::first();
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = array_merge(
+        JoinUsStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     return Inertia::render('joinUs/JoinUs', [
         'static_content' => $static_content
     ]);
 });
 
 Route::get('/privacy-policy', function () {
-    $static_content = [];
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = InfoStaticContent::first()->toArray();
     return Inertia::render('privacyPolicy/PrivacyPolicy', [
         'static_content' => $static_content
     ]);
@@ -336,8 +353,7 @@ Route::get('/privacy-policy', function () {
 
 Route::get('/review/{token}', function (string $token) {
     $review = Review::where('token', $token)->first();
-    $static_content = [];
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = InfoStaticContent::first()->toArray();
     if (!$review || $review->is_filled)
         return Inertia::render('notFoundPage/NotFoundPage');
 
@@ -360,8 +376,7 @@ Route::post('/review', function () {
         'body' => request()->body,
     ]);
 
-    $static_content = [];
-    $static_content["phone"] = ContactUsStaticContent::first()->phone;
+    $static_content = InfoStaticContent::first()->toArray();
 
     return Inertia::render('ThanksForYourReview', [
         'static_content' => $static_content

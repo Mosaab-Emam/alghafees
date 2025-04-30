@@ -19,9 +19,6 @@ class HomeStaticContent extends Model
         'hero_secondary_button_text',
         'hero_secondary_button_link',
         'hero_download_box_text',
-        'hero_x_link',
-        'hero_linkedin_link',
-        'hero_youtube_link',
         'hero_vertical_text',
 
         // About Section

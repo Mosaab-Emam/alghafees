@@ -11,7 +11,7 @@ const WhatsappFab = () => {
             <button
                 onClick={() =>
                     window.open(
-                        `https://wa.me/${static_content["phone"]}`,
+                        `https://wa.me/${static_content["whatsapp_number"]}`,
                         "_blank"
                     )
                 }

@@ -8,7 +8,7 @@ const SocialItemBoxFrame = () => {
     return (
         <>
             {/* X */}
-            <SocialItemBox url={static_content["hero_x_link"]}>
+            <SocialItemBox url={static_content["x_link"]}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -34,7 +34,7 @@ const SocialItemBoxFrame = () => {
             </SocialItemBox>
 
             {/* LinkedIn */}
-            <SocialItemBox url={static_content["hero_linkedin_link"]}>
+            <SocialItemBox url={static_content["linkedin_link"]}>
                 {" "}
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +75,7 @@ const SocialItemBoxFrame = () => {
             </SocialItemBox>
 
             {/* YouTube */}
-            <SocialItemBox url={static_content["hero_youtube_link"]}>
+            <SocialItemBox url={static_content["youtube_link"]}>
                 {" "}
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

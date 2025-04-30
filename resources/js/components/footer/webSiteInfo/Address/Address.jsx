@@ -8,11 +8,11 @@ const Address = () => {
     return (
         <div className="lg:w-[480px] xl:w-[650px] w-full md:w-[312px] flex flex-col items-start gap-[20px]">
             <h6 className=" head-line-h5 text-right text-Black-01">
-                فروعنا تغطي جميع انحاء المملكة....
+                {static_content["info_section_title"]}
             </h6>
 
             <AddressTextBox
-                text={"من السبت : للخميس -- 8 صباحًا : 8 مساءًا"}
+                text={static_content["work_hours"]}
                 icon={
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -55,11 +55,11 @@ const Address = () => {
                     text={
                         <>
                             <a
-                                href="mailto:info@alghafees.sa"
+                                href={`mailto:${static_content["email"]}`}
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                Info@alghafees.sa
+                                {static_content["email"]}
                             </a>
                         </>
                     }
@@ -85,11 +85,11 @@ const Address = () => {
                     text={
                         <>
                             <a
-                                href={`tel:${static_content["phone"]}`}
+                                href={`tel:${static_content["phone_number"]}`}
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                {static_content["phone"]}
+                                {static_content["phone_number"]}
                             </a>
                         </>
                     }
@@ -127,11 +127,11 @@ const Address = () => {
                     text={
                         <>
                             <a
-                                href={`https://wa.me/${static_content["phone"]}`}
+                                href={`https://wa.me/${static_content["whatsapp_number"]}`}
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                {static_content["phone"]}
+                                {static_content["whatsapp_number"]}
                             </a>
                         </>
                     }
@@ -176,9 +176,7 @@ const Address = () => {
 
             <div className="flex lg:flex-row flex-col items-center lg:gap-8 gap-[8px]">
                 <AddressTextBox
-                    text={
-                        "طريق الملك سلمان بن عبدالعزيز- الملقا-الرياض 13525- المملكة العربية السعودية"
-                    }
+                    text={static_content["address_1"]}
                     icon={
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -217,9 +215,7 @@ const Address = () => {
                     }
                 />
                 <AddressTextBox
-                    text={
-                        "طريق الملك سلمان - حي النهضة - بريدة 52389  - القصيم - المملكة العربية السعودية"
-                    }
+                    text={static_content["address_2"]}
                     icon={
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

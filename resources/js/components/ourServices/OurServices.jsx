@@ -10,10 +10,19 @@ import ServicesImages from "./ServicesImages";
 export default function OurServices({ events }) {
     const static_content = useContext(staticContext);
 
+    const isLargeScreen = window.innerWidth > 1580;
+
     return (
-        <section className="our-services-container md:mb-[110px] -mb-40 h-[5120px] md:h-[3600px] lg:h-[2800px]">
+        <section
+            className={`our-services-container my-24 ${
+                isLargeScreen ? "pb-[8rem]" : "pb-[36rem]"
+            }`}
+        >
             <Container>
-                <div className="xl:h-[535px] lg:h-[404px] h-[750px]"></div>
+                <div
+                    id="background-offset"
+                    className={`h-[${isLargeScreen ? "8rem" : "40rem"}]`}
+                />
                 <SectionContentBox
                     sectionTitle={static_content["services_small_top_title"]}
                     textContent={static_content["services_main_title"]}

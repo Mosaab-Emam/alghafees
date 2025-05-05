@@ -8,7 +8,7 @@ import "./AboutSection.css";
 
 const AboutSection = ({ report }) => {
     return (
-        <section className="relative md:mb-[110px] -mb-20 ">
+        <section className="relative">
             <Container>
                 <div className="flex lg:flex-row flex-col xl:justify-evenly justify-start items-start gap-[30px] lg:gap-[20px]">
                     <RightContent />

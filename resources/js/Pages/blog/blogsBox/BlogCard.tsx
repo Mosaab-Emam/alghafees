@@ -13,7 +13,7 @@ export default function BlogCard({
 }) {
     return (
         <Link
-            href={`/blog/${post.id}`}
+            href={`/blog/${post.slug}`}
             className="blog-card 2xl:w-[410px] 2xl:max-h-[570px] w-full max-h-[555px] flex items-center gap-[10px] rounded-tl-[100px] bg-bg-01 border border-bg-01 shadow-[12px_12px_35px_0px_rgba(29,42,45,0.07)]"
         >
             <div className="flex flex-col items-start flex-1 gap-6">
@@ -76,7 +76,7 @@ export default function BlogCard({
 
                     {/* {!isLatestTopic && ( */}
                     <div className="flex justify-between items-center self-stretch">
-                        <Link href={`/blog/${post.id}`}>
+                        <Link href={`/blog/${post.slug}`}>
                             <Button
                                 variant="primary"
                                 className={

@@ -257,9 +257,9 @@ Route::get('/blog', function () {
     ]);
 });
 
-Route::get('/blog/{id}', function ($id) {
+Route::get('/blog/{slug}', function ($slug) {
     $tags = Tag::withCount('postsPublished')->get();
-    $post = Post::find($id);
+    $post = Post::where('slug', $slug)->first();
     $static_content = InfoStaticContent::first()->toArray();
     $post->featured_image = $post->image();
 

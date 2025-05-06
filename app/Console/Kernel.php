@@ -8,7 +8,9 @@ use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Spatie\Sitemap\SitemapGenerator;
+use LaraZeus\Sky\Models\Post;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 class Kernel extends ConsoleKernel
 {
@@ -38,8 +40,27 @@ class Kernel extends ConsoleKernel
 
         // Generate sitemap.xml
         $schedule->call(function () {
-            SitemapGenerator::create('https://alghafestaqeem.com')
-                ->writeToFile(public_path('sitemap.xml'));
+            $sm = Sitemap::create()
+                ->add(Url::create('/'))
+                ->add(Url::create('/about-us'))
+                ->add(Url::create('/our-services'))
+                ->add(Url::create('/our-clients'))
+                ->add(Url::create('/events'))
+                ->add(Url::create('/privacy-policy'))
+                ->add(Url::create('/request-evaluation'))
+                ->add(Url::create('/blog'))
+                ->add(Url::create('/contact-us'))
+                ->add(Url::create('/track-your-request'))
+                ->add(Url::create('/join-us'));
+
+
+            // Add published blog posts
+            $posts = Post::where('published_at', '!=', null)->get();
+            foreach ($posts as $post) {
+                $sm->add(Url::create('/blog/' . $post->slug)->setLastModificationDate($post->updated_at));
+            }
+
+            $sm->writeToFile(public_path('sitemap.xml'));
         })->everyMinute();
 
 

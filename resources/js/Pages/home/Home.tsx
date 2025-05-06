@@ -19,13 +19,14 @@ type Props = {
         rating: number;
         body: string;
     }>;
+    partners: Array<string>;
 };
 
-const Home = ({ home_report, events, reviews }: Props) => {
+const Home = ({ home_report, events, reviews, partners }: Props) => {
     return (
         <>
             <Hero />
-            <OurPartners />
+            <OurPartners data={partners} />
             <AboutSection report={home_report} />
             <OurServices events={events} />
             <OurClients reviews={reviews} />

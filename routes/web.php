@@ -88,13 +88,16 @@ Route::get('/', function () {
         ->whereNotNull('body')
         ->get();
 
+    $partners = Content::client()->pluck('image');
+
     return Inertia::render('home/Home', [
         'title' => 'الرئيسية | مقيم عقاري معتمد - شركة صالح علي الغفيص',
         'description' => 'شركة صالح علي الغفيص، مقيم عقاري معتمد بخبرة تفوق 20 عامًا في تقييم العقارات بالرياض والقصيم. نقدم خدمات تقييم دقيقة تتوافق مع المعايير الدولية. الخط الساخن: 0539455519',
         'static_content' => $static_content,
         'report' => $report,
         'events' => $events,
-        'reviews' => $reviews
+        'reviews' => $reviews,
+        'partners' => $partners
     ]);
 });
 
@@ -146,6 +149,9 @@ Route::get('/our-clients', function () {
         OurClientsStaticContent::first()->toArray(),
         InfoStaticContent::first()->toArray()
     );
+
+    $clients = Content::client()->pluck('image');
+
     $reviews = Review::whereNotNull('name')
         ->whereNotNull('description')
         ->whereNotNull('image')
@@ -157,6 +163,7 @@ Route::get('/our-clients', function () {
         'title' => 'عملاؤنا | مقيم عقاري موثوق لشركات التطوير والاستثمار - الغفيص للتقييم العقاري',
         'description' => 'نخدم أبرز الشركات العقارية والمستثمرين كـمقيم عقاري موثوق في السعودية، ونقدم تقييمات دقيقة لدعم قرارات الشراء والاستثمار. الخط الساخن: 0539455519',
         'static_content' => $static_content,
+        'clients' => $clients,
         'reviews' => $reviews
     ]);
 });

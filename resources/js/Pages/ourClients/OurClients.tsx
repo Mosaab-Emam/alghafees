@@ -8,6 +8,7 @@ import ClientsBoxTwo from "./ourClientsSlider/ClientsBoxTwo";
 import OurClientsSlider from "./ourClientsSlider/OurClientsSlider";
 
 type Props = {
+    clients: Array<string>;
     reviews: Array<{
         id: number;
         name: string;
@@ -18,7 +19,7 @@ type Props = {
     }>;
 };
 
-const OurClients = ({ reviews }: Props) => {
+const OurClients = ({ clients, reviews }: Props) => {
     const static_content = useContext<Record<string, string>>(staticContext);
 
     return (
@@ -27,6 +28,7 @@ const OurClients = ({ reviews }: Props) => {
                 title={static_content["small_top_title"]}
                 description={static_content["main_top_title"]}
             />
+
             <section className="md:mt-[211px] mt-[6rem]">
                 <Container>
                     <ClientsBoxOne />
@@ -38,7 +40,8 @@ const OurClients = ({ reviews }: Props) => {
                     <ClientsBoxTwo />
                 </Container>
             </section>
-            <OurPartners className="pt-8 pb-12" />
+
+            <OurPartners data={clients} />
         </>
     );
 };

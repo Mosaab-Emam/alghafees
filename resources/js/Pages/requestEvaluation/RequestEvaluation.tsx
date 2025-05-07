@@ -5,7 +5,6 @@ import {
     stepThreeSchema,
     stepTwoSchema,
 } from "@/schemas";
-import { withColoredText } from "@/utils";
 import { staticContext } from "@/utils/contexts";
 import { useForm } from "@inertiajs/react";
 import React, { useContext, useState } from "react";
@@ -31,11 +30,13 @@ const RequestEvaluation = ({
     types,
     entities,
     usage,
+    request_no,
 }: {
     goals: Array<SelectItem>;
     types: Array<SelectItem>;
     entities: Array<SelectItem>;
     usage: Array<SelectItem>;
+    request_no: number | null;
 }) => {
     const static_content = useContext<Record<string, string>>(staticContext);
 
@@ -408,7 +409,7 @@ const RequestEvaluation = ({
                             )}
                             {step === 5 && (
                                 <RequestSubmittedSuccessfully
-                                    request_no={null}
+                                    request_no={request_no?.toString() || ""}
                                 />
                             )}
                             {step !== 5 && (

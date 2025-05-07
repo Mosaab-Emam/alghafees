@@ -31,6 +31,7 @@ const ReqEvluaFormTextArea = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
+                autoFocus={name === "location"}
                 className="resize-none w-full h-[150px] text-right max-w-full flex justify-end items-center py-[13px] px-[16px] gap-[10px] rounded-tl-[20px] rounded-br-[20px] bg-bg-02  border-[1px] border-transparent hover:border-primary-400 focus:border-primary-600 hover:bg-bg-01 focus:bg-bg-01 outline-none transition-all duration-300"
             />
             {error && <small className="text-red-500 text-xs">{error}</small>}

@@ -41,6 +41,7 @@ const UploadFileInput = forwardRef<HTMLInputElement, Props>(
                             type="file"
                             name={name}
                             onChange={handleFileChange}
+                            autoFocus={name === "instrument_image"}
                             className="absolute inset-0 opacity-0 cursor-pointer z-10"
                         />
                         <div

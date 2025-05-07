@@ -4,7 +4,7 @@ import { RequestSubmittedSuccessfullySvg } from "../../../../assets/icons";
 const RequestSubmittedSuccessfully = ({
     request_no,
 }: {
-    request_no: string | null;
+    request_no: string;
 }) => {
     const [copied, setCopied] = useState(false);
 

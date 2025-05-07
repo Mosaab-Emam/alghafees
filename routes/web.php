@@ -263,6 +263,39 @@ Route::get('/blog/{slug}', function ($slug) {
     $static_content = InfoStaticContent::first()->toArray();
     $post->featured_image = $post->image();
 
+    // Inject banner
+    $post->content = preg_replace(
+        '/__Banner__/',
+        '<div class="banner">
+    <h1 class="banner-title">دع تقييم عقارك يكون على يد الخبراء</h1>
+    <p class="banner-text">
+        مع شركة صالح علي الغفيص للتقييم العقاري، تضمن الحصول على تقرير دقيق، معتمد، وموثوق يساعدك في اتخاذ القرار
+        الصحيح
+        سواء للبيع، الشراء، التقييم أو التمويل العقاري.
+    </p>
+    <div class="buttons-container">
+        <a href="/request-evaluation" class="btn btn-secondary">
+            <span>📝</span>
+            اطلب تقييم عقارك
+        </a>
+        <a href="/contact-us" class="btn btn-primary">
+            <span>📞</span>
+            اتصل الآن
+        </a>
+        <a href="/our-services" class="btn btn-secondary">
+            <span>🔍</span>
+            عرض خدماتنا
+        </a>
+    </div>
+    <p class="location-text">نخدمكم من خلال فروعنا في الرياض والقصيم، بخبرة تزيد عن 20 عاماً في السوق السعودي.</p>
+    <a href="#" class="location-link">
+        <span>📍</span>
+        اضغط هنا للوصول إلى موقعنا الجغرافي
+    </a>
+</div>',
+        $post->parseContent($post->content)
+    );
+
     // Remove default styles
     $post->content = preg_replace(
         '/style=".*?"/',

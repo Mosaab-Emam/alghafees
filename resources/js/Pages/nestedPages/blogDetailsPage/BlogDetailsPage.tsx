@@ -7,6 +7,8 @@ import BlogDetailsTopBox from "./BlogDetailsTopBox";
 import ArticleBox from "./articleBox/ArticleBox";
 import RelatedTopics from "./relatedTopics/RelatedTopics";
 
+import "../../blog/banner.css";
+
 const BlogDetailsPage = ({
     tags,
     post,

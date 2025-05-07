@@ -19,7 +19,7 @@ export default function RelatedSlidBox({
     swiperRef: any;
 }) {
     return (
-        <section className={`${className} 2xl:w-[1289px] xl:w-[1220px] w-full`}>
+        <section className={`${className} w-full`}>
             <Swiper
                 onBeforeInit={(swiper) => {
                     swiperRef.current = swiper;

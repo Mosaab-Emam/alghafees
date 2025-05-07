@@ -33,9 +33,9 @@ const BlogDetailsPage = ({
                     <BlogDetailsTopBox post={post} tags={tags} />
                     <BlogDetailsTitleBox post={post} main_tag={main_tag} />
                     <ArticleBox post={post} latest_posts={latest_posts} />
-                    <RelatedTopics related_posts={related_posts} />
                 </section>
             </Container>
+            <RelatedTopics related_posts={related_posts} />
         </>
     );
 };

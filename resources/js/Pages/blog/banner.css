@@ -87,4 +87,12 @@
     .banner-text {
         font-size: 1rem;
     }
+
+    .buttons-container {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100% !important;
+    }
 }

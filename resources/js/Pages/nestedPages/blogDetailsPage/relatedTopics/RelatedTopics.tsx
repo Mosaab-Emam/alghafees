@@ -7,7 +7,7 @@ export default function RelatedTopics({
     related_posts: Array<Post>;
 }) {
     return (
-        <section className="xl:mb-[100px] lg:mb-[50px] mb-[180px]">
+        <section className="xl:mb-[100px] lg:mb-[50px] mb-[180px] pt-8">
             <h3 className="head-line-h3 text-right text-Black-01 lg:mb-4 mb-[48px]">
                 مواضيع ذات صلة
             </h3>

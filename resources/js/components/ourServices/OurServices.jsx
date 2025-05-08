@@ -21,7 +21,7 @@ export default function OurServices({ events }) {
             <Container>
                 <div
                     id="background-offset"
-                    className={`h-[${isLargeScreen ? "8rem" : "40rem"}]`}
+                    style={{ height: isLargeScreen ? "8rem" : "40rem" }}
                 />
                 <SectionContentBox
                     sectionTitle={static_content["services_small_top_title"]}

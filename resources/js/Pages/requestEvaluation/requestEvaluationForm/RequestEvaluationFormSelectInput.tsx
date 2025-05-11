@@ -1,4 +1,5 @@
 import { SelectItem } from "@/types";
+import { useEffect } from "react";
 
 export default function ReqEvluaFormSelectInput({
     placeholder,
@@ -19,6 +20,19 @@ export default function ReqEvluaFormSelectInput({
     data: Array<SelectItem>;
     onChange: (e: React.ChangeEvent<any>) => void;
 }) {
+    useEffect(() => {
+        if (name === "type_id") {
+            const timeoutId = setTimeout(() => {
+                const element = document.getElementById(name);
+                element?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            }, 100);
+
+            return () => clearTimeout(timeoutId);
+        }
+    }, [name]);
     return (
         <div className="w-full flex flex-col items-start gap-[16px] self-stretch group relative">
             <label

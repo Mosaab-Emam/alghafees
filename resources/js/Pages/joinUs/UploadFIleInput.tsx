@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 
 interface Props {
     name: string;
@@ -25,6 +25,20 @@ const UploadFileInput = forwardRef<HTMLInputElement, Props>(
         },
         ref
     ) => {
+        useEffect(() => {
+            if (name === "instrument_image") {
+                const timeoutId = setTimeout(() => {
+                    const element = document.getElementById(name);
+                    element?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center",
+                    });
+                }, 100);
+
+                return () => clearTimeout(timeoutId);
+            }
+        }, [name]);
+
         return (
             <section className="w-full flex flex-col items-start gap-[20px] self-stretch">
                 <div className="flex flex-col items-start gap-[16px] self-stretch group">

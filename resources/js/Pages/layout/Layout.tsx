@@ -1,6 +1,7 @@
 import { withColoredText } from "@/utils";
 import { staticContext } from "@/utils/contexts";
 import { usePage } from "@inertiajs/react";
+import { useEffect } from "react";
 import { Footer, Navbar, ScrollProgress } from "../../components";
 import WhatsappFab from "../../components/WhatsappFab.jsx";
 import NewLetter from "../../components/footer/newsLetter/NewsLetter.jsx";
@@ -8,6 +9,29 @@ import NewLetter from "../../components/footer/newsLetter/NewsLetter.jsx";
 export default function Layout({ children }: { children: React.ReactNode }) {
     const page = usePage();
     document.title = page.props.title as string;
+
+    const custom_gtag = page.props.custom_gtag;
+
+    if (custom_gtag) {
+        useEffect(() => {
+            const script_src = `https://www.googletagmanager.com/gtag/js?id=${custom_gtag}`;
+            if (!document.querySelector(`script[src="${script_src}"]`)) {
+                const script_tag_1 = document.createElement("script");
+                script_tag_1.async = true;
+                script_tag_1.src = `https://www.googletagmanager.com/gtag/js?id=${custom_gtag}`;
+                document.head.appendChild(script_tag_1);
+
+                const script_tag_2 = document.createElement("script");
+                script_tag_2.innerHTML = `
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '${custom_gtag}');
+    `;
+                document.head.appendChild(script_tag_2);
+            }
+        }, []);
+    }
 
     let static_content: Record<string, string> = {};
     if (children && typeof children === "object" && "props" in children)

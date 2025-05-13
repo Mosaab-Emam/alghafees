@@ -206,6 +206,7 @@ Route::get('/request-evaluation', function () {
     return Inertia::render('requestEvaluation/RequestEvaluation', [
         'title' => 'طلب تقييم عقاري | مقيم عقاري معتمد - شركة صالح علي الغفيص',
         'description' => 'قدّم طلبك الآن للحصول على تقييم عقاري رسمي من مقيم عقاري معتمد لجميع أنواع الأصول العقارية في المملكة. خدمة موثوقة وسريعة. الخط الساخن: 0539455519',
+        'custom_gtag' => 'AW-11048763710',
         'static_content' => $static_content,
         'post_endpoint' => $post_endpoints,
         'goals' => $goals,

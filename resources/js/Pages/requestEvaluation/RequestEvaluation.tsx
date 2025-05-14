@@ -109,7 +109,22 @@ const RequestEvaluation = ({
                 post("/legacy/rate-request", {
                     forceFormData: true,
                     preserveScroll: true,
-                    onSuccess: () => setStep(step + 1),
+                    onSuccess: () => {
+                        setStep(step + 1);
+
+                        // @ts-ignore
+                        window.dataLayer = window.dataLayer || [];
+
+                        function gtag() {
+                            // @ts-ignore
+                            window.dataLayer.push(arguments);
+                        }
+
+                        // @ts-ignore
+                        gtag("event", "conversion", {
+                            send_to: "AW-11048763710/sjDfCP2LldMZEL6Cu5Qp",
+                        });
+                    },
                 });
             } else {
                 setStep(step + 1);

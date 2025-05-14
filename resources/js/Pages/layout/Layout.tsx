@@ -10,10 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const page = usePage();
     document.title = page.props.title as string;
 
-    const custom_gtag = page.props.custom_gtag;
-
-    if (custom_gtag) {
+    if (page.props.path === "/" || page.props.path === "request-evaluation") {
         useEffect(() => {
+            const custom_gtag = page.props.custom_gtag;
             const script_src = `https://www.googletagmanager.com/gtag/js?id=${custom_gtag}`;
             if (!document.querySelector(`script[src="${script_src}"]`)) {
                 const script_tag_1 = document.createElement("script");

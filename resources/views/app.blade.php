@@ -12,7 +12,7 @@
         gtag('config', 'G-E5E2FZ4TMQ');
     </script>
 
-    @if (request()->path() === 'request-evaluation')
+    @if (request()->path() === '/' || request()->path() === 'request-evaluation')
         <!-- Custom GTAG -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11048763710"></script>
         <script>

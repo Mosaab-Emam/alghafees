@@ -4,8 +4,9 @@ import WebsiteLink from "./navbar/WebsiteLink";
 import MenuIcon from "./navbar/mobileMenu/MenuIcon";
 
 const nestedLinks = [
-    { id: 1, name: "المدونة", to: "/blog" },
-    { id: 2, name: "تواصل معنا", to: "/contact-us" },
+    { id: 1, name: "الفعاليات", to: "/events" },
+    { id: 2, name: "المدونة", to: "/blog" },
+    { id: 3, name: "تواصل معنا", to: "/contact-us" },
 ];
 
 const DropdownButton = () => {
@@ -26,7 +27,7 @@ const DropdownButton = () => {
             <MenuIcon />
 
             {(isHovered || isOpen) && (
-                <div className="absolute -bottom-[76px] -left-4 lg:-left-8 border border-primary-600 bg-white w-[105px]  z-20">
+                <div className="absolute -bottom-[128px] -left-4 lg:-left-8 border border-primary-600 bg-white w-[105px] z-20">
                     {/* Add the arrow element */}
                     <div className="absolute -top-2 left-[55%] lg:left-[78%] transform -translate-x-1/2 w-4 h-4 bg-white border-t border-r border-primary-600 rotate-[-45deg]"></div>
 

@@ -168,6 +168,15 @@ Route::get('/our-clients', function () {
     ]);
 });
 
+Route::get('/pricing', function () {
+    $static_content = InfoStaticContent::first();
+    return Inertia::render('Pricing/Pricing', [
+        'title' => 'التقييم العقاري | أسعار التقييم العقاري',
+        'description' => 'تقييم عقاري معتمد من شركة صالح علي الغفيص للتقييم العقاري. أسعار تقييم عقاري معتمدة وموثوقة. الخط الساخن: 0539455519',
+        'static_content' => $static_content
+    ]);
+});
+
 Route::get('/events', function () {
     $static_content = array_merge(
         EventsStaticContent::first()->toArray(),

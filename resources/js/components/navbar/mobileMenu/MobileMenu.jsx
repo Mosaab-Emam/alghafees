@@ -9,10 +9,11 @@ const links = [
     { id: 2, name: "من نحن", to: "/about-us" },
     { id: 3, name: "خدماتنا", to: "/our-services" },
     { id: 4, name: "عملاؤنا", to: "/our-clients" },
-    { id: 5, name: "الفعاليات", to: "/events" },
-    { id: 6, name: "طلب تقييم ", to: "/request-evaluation" },
-    { id: 7, name: "المدونة", to: "/blog" },
-    { id: 8, name: "تواصل معنا", to: "/contact-us" },
+    { id: 5, name: "الأسعار", to: "/pricing" },
+    { id: 6, name: "الفعاليات", to: "/events" },
+    { id: 7, name: "طلب تقييم ", to: "/request-evaluation" },
+    { id: 8, name: "المدونة", to: "/blog" },
+    { id: 9, name: "تواصل معنا", to: "/contact-us" },
 ];
 
 const MobileMenu = ({ onClickMenu, toggleMobileMenu }) => {

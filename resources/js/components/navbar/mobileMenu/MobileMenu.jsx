@@ -14,6 +14,7 @@ const links = [
     { id: 7, name: "طلب تقييم ", to: "/request-evaluation" },
     { id: 8, name: "المدونة", to: "/blog" },
     { id: 9, name: "تواصل معنا", to: "/contact-us" },
+    { id: 10, name: "الأسئلة الشائعة", to: "/faq" },
 ];
 
 const MobileMenu = ({ onClickMenu, toggleMobileMenu }) => {

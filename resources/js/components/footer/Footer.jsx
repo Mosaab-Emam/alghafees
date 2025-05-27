@@ -20,6 +20,7 @@ const links = [
     { id: 10, name: "طلب تقييم ", to: "/request-evaluation" },
     { id: 11, name: "تتبع طلبك", to: "/track-your-request" },
     { id: 12, name: "سياسة الخصوصية", to: "/privacy-policy" },
+    { id: 13, name: "الأسئلة الشائعة", to: "/faq" },
 ];
 
 const Footer = () => {

@@ -71,7 +71,14 @@ class RateRequestResource extends Resource
                             ->badge()
                             ->columnSpanFull(),
                         TextEntry::make('name')
-                            ->label(__('admin.rate-requests.name')),
+                            ->label(__('admin.rate-requests.name'))
+                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_name),
+                        TextEntry::make('first_name')
+                            ->label(__('admin.rate-requests.first_name'))
+                            ->visible(fn(RateRequest $record): bool => !$record->is_using_legacy_name),
+                        TextEntry::make('last_name')
+                            ->label(__('admin.rate-requests.last_name'))
+                            ->visible(fn(RateRequest $record): bool => !$record->is_using_legacy_name),
                         TextEntry::make('email')
                             ->label(__('admin.rate-requests.email')),
                         TextEntry::make('mobile')
@@ -99,20 +106,20 @@ class RateRequestResource extends Resource
                             ->label(__('admin.rate-requests.real_estate_area')),
                         TextEntry::make('estate_city')
                             ->label(__('admin.rate-requests.estate_city'))
-                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location),
+                            ->visible(fn(RateRequest $record): bool => !$record->is_using_legacy_location),
                         TextEntry::make('estate_region')
                             ->label(__('admin.rate-requests.estate_region'))
-                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location),
+                            ->visible(fn(RateRequest $record): bool => !$record->is_using_legacy_location),
                         TextEntry::make('estate_line_1')
                             ->label(__('admin.rate-requests.estate_line_1'))
-                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location),
+                            ->visible(fn(RateRequest $record): bool => !$record->is_using_legacy_location),
                         TextEntry::make('estate_line_2')
                             ->label(__('admin.rate-requests.estate_line_2'))
-                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location && $record->estate_line_2 !== null),
+                            ->visible(fn(RateRequest $record): bool => !$record->is_using_legacy_location && $record->estate_line_2 !== null),
                         // Legacy
                         TextEntry::make('location')
                             ->label(__('admin.rate-requests.location'))
-                            ->visible(fn(RateRequest $record): bool => $record->location !== null)
+                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location)
                             ->columnSpanFull(),
                         TextEntry::make('real_estate_details')
                             ->label(__('admin.rate-requests.real_estate_details'))
@@ -148,7 +155,7 @@ class RateRequestResource extends Resource
                         __('admin.notes') . (': ' . $record->notes ?? '')
                     )
                     ->icon('heroicon-o-eye'),
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('full_name')
                     ->label(__('admin.rate-requests.name'))
                     ->searchable()
                     ->toggleable(),

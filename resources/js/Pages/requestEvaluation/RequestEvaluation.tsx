@@ -47,7 +47,9 @@ const RequestEvaluation = ({
     >({});
 
     const { data, setData, post } = useForm({
-        name: "",
+        name: null, // Legacy
+        first_name: "",
+        last_name: "",
         mobile: "",
         email: "",
         address: "",
@@ -173,18 +175,42 @@ const RequestEvaluation = ({
                             />
                             {step === 1 && (
                                 <section className="w-full h-full flex flex-col items-start gap-8">
-                                    <RequestEvaluationFormInput
-                                        type="text"
-                                        label="الاسم بالكامل"
-                                        name="name"
-                                        value={data.name}
-                                        error={validationErrors?.name}
-                                        placeholder="ادخل اسمك بالكامل هنا"
-                                        required
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLInputElement>
-                                        ) => setData("name", e.target.value)}
-                                    />
+                                    <div className="w-full md:flex-row flex-col flex items-center self-stretch gap-[20px]">
+                                        <RequestEvaluationFormInput
+                                            type="text"
+                                            label="الاسم الاول"
+                                            name="first_name"
+                                            value={data.first_name}
+                                            error={validationErrors?.first_name}
+                                            placeholder="ادخل اسمك بالكامل هنا"
+                                            required
+                                            onChange={(
+                                                e: React.ChangeEvent<HTMLInputElement>
+                                            ) =>
+                                                setData(
+                                                    "first_name",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                        <RequestEvaluationFormInput
+                                            type="text"
+                                            label="الاسم الاخير"
+                                            name="last_name"
+                                            value={data.last_name}
+                                            error={validationErrors?.last_name}
+                                            placeholder="ادخل اسمك بالكامل هنا"
+                                            required
+                                            onChange={(
+                                                e: React.ChangeEvent<HTMLInputElement>
+                                            ) =>
+                                                setData(
+                                                    "last_name",
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
+                                    </div>
 
                                     <div className="w-full md:flex-row flex-col flex items-center self-stretch gap-[20px]">
                                         <RequestEvaluationFormInput

@@ -24,7 +24,9 @@ class CreateRateRequestRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'prohibited', // Legacy
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'mobile' => ['required', 'string', 'regex:/^05[0-9]{8}$/'],
             'email' => 'required|email:rfc|max:255',
             'address' => 'required|string|max:255',
@@ -38,7 +40,7 @@ class CreateRateRequestRequest extends Request
             'usage_id' => 'exists:categories,id',
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-            'location' => 'prohibited',
+            'location' => 'prohibited', // Legacy
             'estate_city' => 'required|string|max:255',
             'estate_region' => 'required|string|max:255',
             'estate_line_1' => 'required|string|max:255',
@@ -49,8 +51,10 @@ class CreateRateRequestRequest extends Request
     public function messages()
     {
         return [
-            'name.required' => 'مطلوب',
-            'name.max' => '255 حرف كحد أقصى',
+            'first_name.required' => 'مطلوب',
+            'first_name.max' => '255 حرف كحد أقصى',
+            'last_name.required' => 'مطلوب',
+            'last_name.max' => '255 حرف كحد أقصى',
             'mobile.required' => 'مطلوب',
             'mobile.regex' => 'رقم الهاتف غير صحيح',
             'email.required' => 'مطلوب',

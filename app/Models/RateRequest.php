@@ -13,7 +13,9 @@ class RateRequest extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
-        'name',
+        'name', // Legacy
+        'first_name',
+        'last_name',
         'email',
         'mobile',
         'address',
@@ -29,13 +31,12 @@ class RateRequest extends Model implements HasMedia
         'request_no',
         'longitude',
         'latitude',
-        'location',
+        'location', // Legacy
         'estate_city',
         'estate_region',
         'estate_line_1',
         'estate_line_2',
     ];
-
 
     public function usage()
     {
@@ -63,6 +64,25 @@ class RateRequest extends Model implements HasMedia
     {
         return $query->orderBy('id', 'desc');
     }
+
+    public function getFullNameAttribute()
+    {
+        if ($this->is_using_legacy_name) {
+            return $this->name;
+        }
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getIsUsingLegacyNameAttribute()
+    {
+        return $this->name !== null;
+    }
+
+    public function getIsUsingLegacyLocationAttribute()
+    {
+        return $this->location !== null;
+    }
+
 
     public function getStatusTitleAttribute()
     {
@@ -153,11 +173,6 @@ class RateRequest extends Model implements HasMedia
             "<p>" .
             "<strong class='text-dark'>" . __('admin.ApartmentUsed') . ":</strong> " . ($this->usage ? $this->usage->title : '') .
             "</p>";
-    }
-
-    public function getIsUsingLegacyLocationAttribute()
-    {
-        return $this->location !== null;
     }
 
     public function getStatusApi()

@@ -266,6 +266,8 @@ return [
     'rate-requests' => [
         'request_no' => 'رقم الطلب',
         'name' => 'اسم العميل',
+        'first_name' => 'الاسم الاول',
+        'last_name' => 'الاسم الاخير',
         'email' => 'البريد الإلكتروني',
         'mobile' => 'رقم الهاتف',
         'address' => 'العنوان',

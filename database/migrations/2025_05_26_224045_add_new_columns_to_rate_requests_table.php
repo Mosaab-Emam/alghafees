@@ -11,6 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('rate_requests', function (Blueprint $table) {
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('estate_city')->nullable();
             $table->string('estate_region')->nullable();
             $table->string('estate_line_1')->nullable();
@@ -24,6 +26,8 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('rate_requests', function (Blueprint $table) {
+            $table->dropColumn('first_name');
+            $table->dropColumn('last_name');
             $table->dropColumn('estate_city');
             $table->dropColumn('estate_line_1');
             $table->dropColumn('estate_line_2');

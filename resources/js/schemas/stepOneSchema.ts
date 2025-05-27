@@ -1,7 +1,11 @@
 import { z } from "zod";
 
 export const stepOneSchema = z.object({
-    name: z
+    first_name: z
+        .string()
+        .min(1, { message: "مطلوب" })
+        .max(255, { message: "255 حرف كحد أقصى" }),
+    last_name: z
         .string()
         .min(1, { message: "مطلوب" })
         .max(255, { message: "255 حرف كحد أقصى" }),

@@ -28,7 +28,10 @@ class FaqStaticContentsResource extends Resource
                 Forms\Components\TextInput::make('main_top_title')
                     ->label(__('static_content.common.main_top_title'))
                     ->required(),
-                Forms\Components\Textarea::make('content')
+                Forms\Components\RichEditor::make('content')
+                    ->label(__('static_content.faq.content'))
+                    ->columnSpanFull()
+                    ->required(),
             ]);
     }
 

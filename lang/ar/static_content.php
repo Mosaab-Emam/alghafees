@@ -152,5 +152,6 @@ return [
     'faq' => [
         'model_label' => 'الأسئلة الشائعة',
         'navigation_label' => 'الأسئلة الشائعة',
+        'content' => 'المحتوى',
     ],
 ];

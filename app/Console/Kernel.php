@@ -51,7 +51,8 @@ class Kernel extends ConsoleKernel
                 ->add(Url::create('/blog'))
                 ->add(Url::create('/contact-us'))
                 ->add(Url::create('/track-your-request'))
-                ->add(Url::create('/join-us'));
+                ->add(Url::create('/join-us'))
+                ->add(Url::create('/faq'));
 
 
             // Add published blog posts

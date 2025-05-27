@@ -9,7 +9,6 @@ const links = [
     { id: 4, name: "عملاؤنا", to: "/our-clients" },
     { id: 5, name: "الأسعار", to: "/pricing" },
     { id: 6, name: "طلب تقييم ", to: "/request-evaluation" },
-    { id: 7, name: "الأسئلة الشائعة", to: "/faq" },
 ];
 
 export default function DesktopMenu() {

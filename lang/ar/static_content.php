@@ -148,5 +148,9 @@ return [
     'join-us' => [
         'model_label' => 'محتوى انضم إلينا',
         'navigation_label' => 'انضم إلينا',
-    ]
+    ],
+    'faq' => [
+        'model_label' => 'الأسئلة الشائعة',
+        'navigation_label' => 'الأسئلة الشائعة',
+    ],
 ];

@@ -9,6 +9,7 @@ use Database\Seeders\BlogStaticContentSeeder;
 use Database\Seeders\ContactUsStaticContentSeeder;
 use Database\Seeders\TrackYourRequestStaticContentSeeder;
 use Database\Seeders\JoinUsStaticContentSeeder;
+use Database\Seeders\FaqStaticContentsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             TrackYourRequestStaticContentSeeder::class,
             JoinUsStaticContentSeeder::class,
             InfoStaticContentSeeder::class,
+            FaqStaticContentsSeeder::class,
         ]);
     }
 }

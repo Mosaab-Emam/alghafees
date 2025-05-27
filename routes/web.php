@@ -24,6 +24,7 @@ use App\Models\ContactUsStaticContent;
 use App\Models\Content;
 use App\Models\Event;
 use App\Models\EventsStaticContent;
+use App\Models\FaqStaticContents;
 use App\Models\File;
 use App\Models\HomeStaticContent;
 use App\Models\InfoStaticContent;
@@ -433,7 +434,10 @@ Route::get('/privacy-policy', function () {
 });
 
 Route::get('/faq', function () {
-    $static_content = InfoStaticContent::first()->toArray();
+    $static_content = array_merge(
+        FaqStaticContents::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
     return Inertia::render('Faq/Faq', [
         'title' => 'الأسئلة الشائعة | مقيم عقاري معتمد - شركة صالح علي الغفيص',
         'description' => 'تعرف على الأسئلة الشائعة لشركة صالح علي الغفيص للتقييم العقاري في المملكة. الخط الساخن: 0539455519',

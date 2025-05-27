@@ -17,6 +17,7 @@ import {
 import { SelectItem } from "../../types";
 import UploadFIleInput from "../joinUs/UploadFIleInput";
 import Layout from "../layout/Layout";
+import Input from "./Input";
 import RequestEvaluationFormButtonsBox from "./requestEvaluationForm/RequestEvaluationFormButtonsBox";
 import RequestEvaluationFormInput from "./requestEvaluationForm/RequestEvaluationFormInput";
 import RequestEvaluationFormSelectInput from "./requestEvaluationForm/RequestEvaluationFormSelectInput";
@@ -58,10 +59,21 @@ const RequestEvaluation = ({
         real_estate_age: "",
         real_estate_area: "",
         usage_id: "",
-        location: "",
+        location: null, // Legacy
+        estate_city: "",
+        estate_region: "",
+        estate_line_1: "",
+        estate_line_2: "",
         instrument_image: null,
         construction_license: null,
         other_contracts: null,
+    });
+
+    const { data: stepThreeData, setData: setStepThreeData } = useForm({
+        estate_city: "",
+        estate_region: "",
+        estate_line_1: "",
+        estate_line_2: "",
     });
 
     // handle steps
@@ -77,7 +89,10 @@ const RequestEvaluation = ({
                     stepTwoSchema.parse(data);
                     break;
                 case 3:
-                    stepThreeSchema.parse(data);
+                    stepThreeSchema.parse(stepThreeData);
+                    Object.entries(stepThreeData).forEach(([key, value]) => {
+                        setData(key as keyof typeof stepThreeData, value);
+                    });
                     break;
                 case 4:
                     stepFourSchema.parse({
@@ -149,8 +164,13 @@ const RequestEvaluation = ({
                     />
                     <div className="xl:w-[1200px] lg:w-[1024px] flex lg:flex-row flex-col md:items-start items-center lg:gap-[35px] gap-8 glass-effect glass-effect-bg-primary-3 rounded-tl-[100px] rounded-br-[100px] lg:p-[50px]  py-8 px-6">
                         <RequestEvaluationSteps step={step} />
-
                         <form className="w-full flex flex-col items-start gap-8">
+                            <StepThree
+                                step={step}
+                                data={stepThreeData}
+                                setData={setStepThreeData}
+                                validationErrors={validationErrors}
+                            />
                             {step === 1 && (
                                 <section className="w-full h-full flex flex-col items-start gap-8">
                                     <RequestEvaluationFormInput
@@ -344,23 +364,6 @@ const RequestEvaluation = ({
                                     />
                                 </section>
                             )}
-                            {step === 3 && (
-                                <section className="w-full h-[661px] flex flex-col items-start gap-8">
-                                    <RequestEvaluationFormTextArea
-                                        name="location"
-                                        label="عنوان العقار"
-                                        placeholder="ادخل عنوان العقار محل التقييم كالتالي ( منطقه - الحي - المدينه ) "
-                                        value={data.location}
-                                        error={validationErrors?.location}
-                                        required
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLTextAreaElement>
-                                        ) =>
-                                            setData("location", e.target.value)
-                                        }
-                                    />
-                                </section>
-                            )}
                             {step === 4 && (
                                 <section className="w-full h-[661px] flex flex-col items-start gap-8">
                                     <UploadFIleInput
@@ -448,5 +451,86 @@ const RequestEvaluation = ({
 RequestEvaluation.layout = (page: React.ReactNode) => (
     <Layout children={page} />
 );
+
+type StepThreeProps = {
+    step: number;
+    data: ReturnType<
+        typeof useForm<{
+            estate_city: string;
+            estate_region: string;
+            estate_line_1: string;
+            estate_line_2: string;
+        }>
+    >["data"];
+    setData: ReturnType<
+        typeof useForm<{
+            estate_city: string;
+            estate_region: string;
+            estate_line_1: string;
+            estate_line_2: string;
+        }>
+    >["setData"];
+    validationErrors: Record<string, string>;
+};
+const StepThree = ({
+    step,
+    data,
+    setData,
+    validationErrors,
+}: StepThreeProps) => {
+    if (step !== 3) return <></>;
+
+    return (
+        <section className="w-full h-[661px] flex flex-col gap-8">
+            <div className="flex gap-8">
+                <Input.Text
+                    required
+                    name="estate_city"
+                    label="المدينة"
+                    placeholder="مثال: الرياض"
+                    value={data.estate_city}
+                    error={validationErrors?.estate_city || ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("estate_city", e.target.value)
+                    }
+                />
+                <Input.Text
+                    required
+                    name="estate_region"
+                    label="المنطقة"
+                    placeholder="مثال: السليمانية"
+                    value={data.estate_region}
+                    error={validationErrors?.estate_region || ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("estate_region", e.target.value)
+                    }
+                />
+            </div>
+            <div className="flex gap-8">
+                <Input.Text
+                    required
+                    name="estate_line_1"
+                    label="العنوان 1"
+                    placeholder="مثال: حي الروضة، شارع الملك فهد"
+                    value={data.estate_line_1}
+                    error={validationErrors?.estate_line_1 || ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("estate_line_1", e.target.value)
+                    }
+                />
+                <Input.Text
+                    name="estate_line_2"
+                    label="العنوان 2"
+                    placeholder="شقة رقم 17"
+                    value={data.estate_line_2}
+                    error={validationErrors?.estate_line_2 || ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("estate_line_2", e.target.value)
+                    }
+                />
+            </div>
+        </section>
+    );
+};
 
 export default RequestEvaluation;

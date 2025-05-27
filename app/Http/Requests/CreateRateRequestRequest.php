@@ -38,7 +38,11 @@ class CreateRateRequestRequest extends Request
             'usage_id' => 'exists:categories,id',
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
-            'location' => 'required|string|max:255',
+            'location' => 'prohibited',
+            'estate_city' => 'required|string|max:255',
+            'estate_region' => 'required|string|max:255',
+            'estate_line_1' => 'required|string|max:255',
+            'estate_line_2' => 'nullable|string|max:255',
         ];
     }
 
@@ -69,7 +73,14 @@ class CreateRateRequestRequest extends Request
             'latitude.regex' => 'صيغة غير صحيحة',
             'longitude.regex' => 'صيغة غير صحيحة',
             'location.required' => 'مطلوب',
-            'location.max' => '255 حرف كحد أقصى'
+            'location.max' => '255 حرف كحد أقصى',
+            'estate_city.required' => 'مطلوب',
+            'estate_city.max' => '255 حرف كحد أقصى',
+            'estate_region.required' => 'مطلوب',
+            'estate_region.max' => '255 حرف كحد أقصى',
+            'estate_line_1.required' => 'مطلوب',
+            'estate_line_1.max' => '255 حرف كحد أقصى',
+            'estate_line_2.max' => '255 حرف كحد أقصى',
         ];
     }
 }

@@ -29,7 +29,11 @@ class RateRequest extends Model implements HasMedia
         'request_no',
         'longitude',
         'latitude',
-        'location'
+        'location',
+        'estate_city',
+        'estate_region',
+        'estate_line_1',
+        'estate_line_2',
     ];
 
 
@@ -151,6 +155,10 @@ class RateRequest extends Model implements HasMedia
             "</p>";
     }
 
+    public function getIsUsingLegacyLocationAttribute()
+    {
+        return $this->location !== null;
+    }
 
     public function getStatusApi()
     {

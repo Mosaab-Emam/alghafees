@@ -8,7 +8,8 @@ const ServicesImages = () => {
         <div className="flex flex-wrap md:flex-row flex-col justify-start 2xl:justify-center items-center md:mb-28 mb-8">
             {ourServicesData?.map((item, index) => (
                 <div
-                    key={`service-${item?.id}`}
+                    // key={`service-${item?.id}`}
+                    key={`service-1`} // TODO: Link with actual backend data
                     className="flip-card md:w-1/2 lg:w-[300px] w-full h-[532px] perspective-1000"
                 >
                     <div className="relative w-full h-full transition-transform duration-1000 transform-style-3d hover:rotate-y-180">
@@ -51,7 +52,7 @@ const ServicesImages = () => {
                         <div className="absolute w-full h-full backface-hidden rotate-y-180">
                             <div
                                 style={{
-                                    background: `linear-gradient(0deg, rgba(38, 41, 42, 0.95) 0%, rgba(38, 41, 42, 0.95) 100%),  
+                                    background: `linear-gradient(0deg, rgba(38, 41, 42, 0.95) 0%, rgba(38, 41, 42, 0.95) 100%),
                     			url(${item?.back_image}) lightgray 50% / cover no-repeat`,
                                 }}
                                 className="w-full h-full rounded-sm flex justify-center items-center gap-[10px] py-[24px] px-[29px]"

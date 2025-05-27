@@ -97,8 +97,22 @@ class RateRequestResource extends Resource
                             ->label(__('admin.rate-requests.real_estate_age')),
                         TextEntry::make('real_estate_area')
                             ->label(__('admin.rate-requests.real_estate_area')),
+                        TextEntry::make('estate_city')
+                            ->label(__('admin.rate-requests.estate_city'))
+                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location),
+                        TextEntry::make('estate_region')
+                            ->label(__('admin.rate-requests.estate_region'))
+                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location),
+                        TextEntry::make('estate_line_1')
+                            ->label(__('admin.rate-requests.estate_line_1'))
+                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location),
+                        TextEntry::make('estate_line_2')
+                            ->label(__('admin.rate-requests.estate_line_2'))
+                            ->visible(fn(RateRequest $record): bool => $record->is_using_legacy_location && $record->estate_line_2 !== null),
+                        // Legacy
                         TextEntry::make('location')
                             ->label(__('admin.rate-requests.location'))
+                            ->visible(fn(RateRequest $record): bool => $record->location !== null)
                             ->columnSpanFull(),
                         TextEntry::make('real_estate_details')
                             ->label(__('admin.rate-requests.real_estate_details'))

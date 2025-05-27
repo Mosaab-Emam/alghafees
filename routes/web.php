@@ -35,6 +35,7 @@ use App\Models\PricingStaticContent;
 use App\Models\RequestEvaluationStaticContent;
 use App\Models\Review;
 use App\Models\TrackYourRequestStaticContent;
+use Illuminate\Support\Facades\Log;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
 
@@ -70,6 +71,30 @@ Route::get('/commands', function () {
     // \Artisan::call('storage:link');
     return Artisan::call('db:seed --class=MainPermissionsTableDataSeeder --force');
     // return Artisan::call('migrate', ["--force" => true ]);
+});
+
+Route::post('/tamara-webhook-test', function () {
+    $data = request()->all();
+    Log::info($data);
+    return response()->json(['message' => 'Webhook received']);
+});
+
+Route::post('/tamara-notification-url-test', function () {
+    $tamaraToken = request()->header('tamaraToken');
+
+    if (!$tamaraToken) {
+        return response()->json(['error' => 'Missing tamaraToken header'], 400);
+    }
+
+    $data = request()->validate([
+        'order_id' => 'required|string',
+        'order_reference_id' => 'required|string',
+        'order_number' => 'required|string',
+        'event_type' => 'required|string',
+        'data' => 'required|array'
+    ]);
+    Log::info($data);
+    return response()->json(['message' => 'Webhook received']);
 });
 
 Route::get('/sign/{token}', [Controllers\Admin\ContractController::class, 'signaturePad']);

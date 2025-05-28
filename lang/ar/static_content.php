@@ -155,8 +155,8 @@ return [
         'content' => 'المحتوى',
     ],
     'pricing' => [
-        'model_label' => 'الأسعار',
-        'navigation_label' => 'الأسعار',
+        'model_label' => 'صفحة الأسعار',
+        'navigation_label' => 'صفحة الأسعار',
         'hero_title' => 'عنوان القسم العلوي',
         'hero_image' => 'صورة القسم العلوي',
         'hero_description' => 'وصف القسم العلوي',

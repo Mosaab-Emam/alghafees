@@ -20,7 +20,7 @@ class JoinUsStaticContentResource extends Resource
 
     protected static ?string $navigationGroup = 'الموقع (المحتوى الثابت)';
 
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 11;
 
     public static function form(Form $form): Form
     {

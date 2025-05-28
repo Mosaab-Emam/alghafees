@@ -1,10 +1,12 @@
 import { Button, ParagraphContent } from "@/components";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
-import { useEffect, useRef, useState } from "react";
+import { staticContext } from "@/utils/contexts";
+import { useContext, useEffect, useRef, useState } from "react";
 import CTAApartmentIcon from "../assets/cta-apartment-icon.svg";
 
 const CTASection = () => {
+    const static_content = useContext<Record<string, string>>(staticContext);
     const ref = useRef<HTMLDivElement>(null);
     const [brRadius, setBrRadius] = useState<number>(0);
     const [tlRadius, setTlRadius] = useState<number>(0);
@@ -26,26 +28,28 @@ const CTASection = () => {
             >
                 <div className="flex flex-col">
                     <Heading
-                        title="هل لديك مجموعة عقارات؟"
+                        title={static_content["banner_title"]}
                         size={3}
                         className="text-bg-01 mb-2"
                     />
                     <h3 className="text-bg-01 head-line-h4 font-bold mb-2">
-                        اطلب عرض سعر مخصص
+                        {static_content["banner_subtitle"]}
                     </h3>
                     <ParagraphContent
                         textColor="text-bg-01"
                         className="mb-4 max-w-[420px]"
                     >
-                        إذا كنت تملك أكثر من عقار وتحتاج إلى تقييم جماعي أو عرض
-                        خاص لخدمة معينة، نحن نوفر لك عرض سعر مخصص بناء على
-                        حالتك.
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: static_content["banner_description"],
+                            }}
+                        />
                     </ParagraphContent>
                     <Button
                         variant=""
-                        className="bg-bg-01 text-primary-600 font-bold px-8 py-3 rounded-tl-lg rounded-br-lg border-2 border-bg-01 transition-all"
+                        className="bg-bg-01 text-primary-600 font-bold px-8 py-3 border-2 border-bg-01 transition-all"
                     >
-                        اطلب عرض السعر الآن
+                        {static_content["banner_button_text"]}
                     </Button>
                 </div>
 

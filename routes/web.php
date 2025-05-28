@@ -31,6 +31,7 @@ use App\Models\InfoStaticContent;
 use App\Models\JoinUsStaticContent;
 use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
+use App\Models\PricingStaticContent;
 use App\Models\RequestEvaluationStaticContent;
 use App\Models\Review;
 use App\Models\TrackYourRequestStaticContent;
@@ -170,7 +171,11 @@ Route::get('/our-clients', function () {
 });
 
 Route::get('/pricing', function () {
-    $static_content = InfoStaticContent::first();
+    $static_content = array_merge(
+        PricingStaticContent::first()->toArray(),
+        InfoStaticContent::first()->toArray()
+    );
+    $static_content["hero_goals"] = json_encode($static_content["hero_goals"]);
     return Inertia::render('Pricing/Pricing', [
         'title' => 'التقييم العقاري | أسعار التقييم العقاري',
         'description' => 'تقييم عقاري معتمد من شركة صالح علي الغفيص للتقييم العقاري. أسعار تقييم عقاري معتمدة وموثوقة. الخط الساخن: 0539455519',

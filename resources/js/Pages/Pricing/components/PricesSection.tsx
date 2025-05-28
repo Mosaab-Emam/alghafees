@@ -1,8 +1,9 @@
 import { Button, ParagraphContent } from "@/components";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
+import { staticContext } from "@/utils/contexts";
 import { Link } from "@inertiajs/react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import ApartmentIcon from "../assets/apartment-icon.svg";
 import CTAApartmentIcon from "../assets/cta-apartment-icon.svg";
 import HouseIcon from "../assets/house-icon.svg";
@@ -20,6 +21,7 @@ type Price = {
 };
 
 const PricesSection = () => {
+    const static_content = useContext<Record<string, string>>(staticContext);
     const prices: Price[] = [
         {
             title: "التسعير 1",
@@ -59,14 +61,17 @@ const PricesSection = () => {
                         />
                         <div className="flex flex-col">
                             <Heading
-                                title="أسعار خدمات التقييم العقاري"
+                                title={static_content["packages_title"]}
                                 size={3}
                             />
                             <ParagraphContent className="max-w-[480px]">
-                                نقدم لكم اسعار التقييم العقاري للاغراض التالية (
-                                التقييم لغرض البيع و الشراء - التقييم لغرض الرهن
-                                و التمويل - التقييم لاغراض المحاسبية - التقييم
-                                للاغراض التجارية )
+                                <div
+                                    dangerouslySetInnerHTML={{
+                                        __html: static_content[
+                                            "packages_description"
+                                        ],
+                                    }}
+                                />
                             </ParagraphContent>
                         </div>
                     </div>

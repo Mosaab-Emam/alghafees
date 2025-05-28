@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             JoinUsStaticContentSeeder::class,
             InfoStaticContentSeeder::class,
             FaqStaticContentsSeeder::class,
+            PricingStaticContentSeeder::class,
         ]);
     }
 }

@@ -2,11 +2,14 @@ import { Logo } from "@/assets/icons";
 import { Button, ParagraphContent } from "@/components";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
+import { withColoredText } from "@/utils";
+import { staticContext } from "@/utils/contexts";
 import { Link } from "@inertiajs/react";
 import { Phone } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 const SectionTwo = () => {
+    const static_content = useContext<Record<string, string>>(staticContext);
     const ref1 = useRef<HTMLDivElement>(null);
     const ref2 = useRef<HTMLDivElement>(null);
     const [radius1, setRadius1] = useState<number>(0);
@@ -37,17 +40,18 @@ const SectionTwo = () => {
                         <div className="px-8 md:pl-8 md:pr-16 text-center md:text-right">
                             <Heading
                                 size={3}
-                                title="خدماتنا صارت أسهل...ادفع على دفعات"
+                                title={static_content["payment_title"]}
                                 className="mb-2"
                             />
                             <div className="mb-8">
                                 <ParagraphContent>
-                                    فعّلنا لك الدفع عبر{" "}
-                                    <span className="text-primary-600">
-                                        تمارا
-                                    </span>{" "}
-                                    — اختَر خدمتك وادفع على راحتك بأقساط شهرية
-                                    سهلة، بدون فوائد أو تعقيد.
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: static_content[
+                                                "payment_description"
+                                            ],
+                                        }}
+                                    />
                                 </ParagraphContent>
                             </div>
                             <Link href="/request-evaluation" className="w-full">
@@ -67,8 +71,13 @@ const SectionTwo = () => {
                             <Phone color="white" fill="#0F819F" size={48} />
                         </div>
                         <ParagraphContent textDirection="text-center mb-8">
-                            اذا كنت ترغب في تقييم عقار لاغراض اخرى تواصل معنا من
-                            جميع انحاء المملكة على الرقم : 0539455519
+                            <div
+                                dangerouslySetInnerHTML={{
+                                    __html: static_content[
+                                        "contact_description"
+                                    ],
+                                }}
+                            />
                         </ParagraphContent>
                         <Link href="/contact-us" className="w-full">
                             <Button className="w-full">تواصل معنا</Button>

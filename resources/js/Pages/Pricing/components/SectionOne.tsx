@@ -1,16 +1,20 @@
 import { BgImage } from "@/assets/images/our-services";
 import { ParagraphContent } from "@/components";
 import Container from "@/components/Container";
+import { staticContext } from "@/utils/contexts";
 import { Tag } from "lucide-react";
-import SectionOneImage from "../assets/section-one-bg.png";
+import { useContext } from "react";
 
 const SectionOne = () => {
-    const items = [
-        "التقييم لغرض البيع أو الشراء",
-        "التقييم لغرض الرهن والتمويل",
-        "التقييم للأغراض المحاسبية",
-        "التقييم للأغراض التجارية",
-    ];
+    const static_content = useContext<Record<string, string>>(staticContext);
+
+    let items: { title: string }[];
+
+    try {
+        items = JSON.parse(static_content["hero_goals"]);
+    } catch (error) {
+        items = [];
+    }
 
     return (
         <section className="md:mt-[211px] mt-[6rem] mb-[85px] relative">
@@ -18,12 +22,10 @@ const SectionOne = () => {
                 <div className="flex md:flex-row flex-col flex-wrap md:items-start items-center md:justify-between gap-8">
                     <div className="md:w-[305px] w-[360px] flex flex-col items-start md:gap-4 gap-0 self-center">
                         <h2 className="head-line-h2 text-right text-Black-01">
-                            أسعار خدمة التقييم العقاري
+                            {static_content["hero_title"]}
                         </h2>
                         <ParagraphContent>
-                            نُقدّم تقييمًا دقيقًا ومعتمدًا لجميع أنواع العقارات
-                            في مختلف مدن المملكة، سواء بغرض البيع أو الشراء أو
-                            أي إجراء رسمي آخر.
+                            {static_content["hero_description"]}
                         </ParagraphContent>
                     </div>
 
@@ -31,7 +33,7 @@ const SectionOne = () => {
                         <div
                             className="lg:w-[478px] w-full md:h-[478px] h-[292.127px] rounded-tl-[100px] rounded-br-[100px]"
                             style={{
-                                background: `linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%), url(${SectionOneImage})  50% / cover no-repeat`,
+                                background: `linear-gradient(0deg, rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%), url(${static_content["hero_image"]})  50% / cover no-repeat`,
                             }}
                         />
 
@@ -51,11 +53,11 @@ const SectionOne = () => {
                                 className="ml-2 rotate-90"
                                 size={40}
                             />
-                            أغراض التقييم العقاري
+                            {static_content["hero_goals_title"]}
                         </h3>
                         {items.map((item) => (
                             <div
-                                key={item}
+                                key={item.title}
                                 className="border-2 border-primary-600 rounded-br-full rounded-tl-full flex mb-4"
                             >
                                 <div className="bg-primary-600 py-2 px-7 rounded-br-full rounded-tl-full">
@@ -67,7 +69,7 @@ const SectionOne = () => {
                                     />
                                 </div>
                                 <h5 className="head-line-h5 text-Black-01 flex items-center pl-4 pr-2">
-                                    {item}
+                                    {item.title}
                                 </h5>
                             </div>
                         ))}

@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             InfoStaticContentSeeder::class,
             FaqStaticContentsSeeder::class,
             PricingStaticContentSeeder::class,
+            PricePackagesSeeder::class,
         ]);
     }
 }

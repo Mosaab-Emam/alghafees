@@ -2,52 +2,22 @@ import { Button, ParagraphContent } from "@/components";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import { staticContext } from "@/utils/contexts";
-import { Link } from "@inertiajs/react";
-import { useContext, useEffect, useRef, useState } from "react";
-import ApartmentIcon from "../assets/apartment-icon.svg";
-import CTAApartmentIcon from "../assets/cta-apartment-icon.svg";
-import HouseIcon from "../assets/house-icon.svg";
-import IndustrialIcon from "../assets/industrial-icon.svg";
+import { Link, usePage } from "@inertiajs/react";
+import { useContext } from "react";
 import MoneyIcon from "../assets/money-icon.svg";
-import PlantHouseIcon from "../assets/plant-house-icon.svg";
 import RiyalIcon from "../assets/riyal.svg";
-import CTASection from "./CTASection";
-
-type Price = {
-    title: string;
-    description: string;
-    price: number;
-    icon: string;
-};
 
 const PricesSection = () => {
+    const price_packages = usePage().props.price_packages as Array<{
+        id: number;
+        title: string;
+        description: string;
+        price: number;
+        icon: string;
+        perks: Array<{ title: string }>;
+    }>;
+
     const static_content = useContext<Record<string, string>>(staticContext);
-    const prices: Price[] = [
-        {
-            title: "التسعير 1",
-            description: "تقييم عقار سكن مساحة اقل عن 1000متر مربع",
-            price: 1450,
-            icon: HouseIcon,
-        },
-        {
-            title: "التسعير 2",
-            description: "تقييم عقاري تجاري",
-            price: 2800,
-            icon: ApartmentIcon,
-        },
-        {
-            title: "التسعير 3",
-            description: "تقييم عقارات زراعية اقل من 50,0000 متر مربع",
-            price: 6000,
-            icon: PlantHouseIcon,
-        },
-        {
-            title: "التسعير 4",
-            description: "تقييم عقارات زراعية اكبر من 50,0000 متر مربع",
-            price: 7000,
-            icon: IndustrialIcon,
-        },
-    ];
 
     return (
         <section className="relative mb-16">
@@ -76,38 +46,65 @@ const PricesSection = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col md:flex-row flex-wrap gap-16 md:gap-x-8 md:gap-y-12 lg:gap-6 justify-center">
-                    {prices.map((price) => (
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-x-6 gap-y-16">
+                    {price_packages.map((price_package) => (
                         <div
-                            key={price.title}
-                            className="flex flex-col flex-grow items-center border-[3px] h-full border-primary-600 pt-10 px-4 relative rounded-br-lg rounded-tl-lg"
+                            key={price_package.id}
+                            className={`flex flex-col border-[3px] border-primary-600 pt-10 px-4 pb-6 relative rounded-br-lg rounded-tl-lg bg-primary-50`}
                         >
                             <div className="flex items-center justify-center bg-white p-2 rounded-full absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 overflow-hidden w-24 h-24">
                                 <img
-                                    src={price.icon}
-                                    alt={price.title}
+                                    src={price_package.icon}
+                                    alt={price_package.title}
                                     className="w-20 h-20 absolute bg-white -translate-y-1 rounded-full"
                                 />
-                                <div className="w-full h-full bg-primary-600 rounded-full" />
+                                <div className="w-full h-full rounded-full bg-primary-600" />
                             </div>
-                            <div className="flex flex-col items-center">
+
+                            <div className="flex flex-col items-center text-center">
+                                <h4 className={`head-line-h4 mt-4 mb-2`}>
+                                    {price_package.title}
+                                </h4>
+
+                                <p className="text-sm mb-4 text-gray-600">
+                                    {price_package.description}
+                                </p>
+
                                 <div className="flex items-center gap-2">
                                     <img src={RiyalIcon} alt="Riyal Icon" />
-                                    <h2 className="text-primary-600 head-line-h2 font-bold">
-                                        {price.price}
-                                    </h2>
+                                    <h3 className="head-line-h3 text-primary-600">
+                                        {price_package.price}
+                                    </h3>
                                 </div>
-                                <ParagraphContent
-                                    textDirection="text-center"
-                                    className="max-w-[480px] mb-4"
-                                >
-                                    {price.description}
-                                </ParagraphContent>
-                                <Link href="/request-evaluation">
-                                    <Button className="mb-4">
-                                        اطلب الخدمة الآن
-                                    </Button>
-                                </Link>
+
+                                <div className="w-full flex flex-col gap-4">
+                                    <ul className="text-base divide-y divide-gray-200">
+                                        {price_package.perks.map(
+                                            (perk, perkIndex) => (
+                                                <li
+                                                    key={perkIndex}
+                                                    className="flex items-center gap-3 w-full py-3 font-medium"
+                                                >
+                                                    <span className="text-lg text-primary-600">
+                                                        ✓
+                                                    </span>
+                                                    <span className="text-base">
+                                                        {perk.title}
+                                                    </span>
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                    <Link
+                                        href={route("new-request-evaluation", {
+                                            price_package_id: price_package.id,
+                                        })}
+                                    >
+                                        <Button className="w-full">
+                                            اطلب التقييم
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
                     ))}

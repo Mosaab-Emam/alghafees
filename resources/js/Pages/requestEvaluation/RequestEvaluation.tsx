@@ -7,7 +7,7 @@ import {
 } from "@/schemas";
 import { staticContext } from "@/utils/contexts";
 import { useForm } from "@inertiajs/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     BgGlassFilterShape,
     MarketAnalysisShape,
@@ -18,6 +18,7 @@ import { SelectItem } from "../../types";
 import UploadFIleInput from "../joinUs/UploadFIleInput";
 import Layout from "../layout/Layout";
 import Input from "./Input";
+import PricePackageSelector from "./PricePackageSelector";
 import RequestEvaluationFormButtonsBox from "./requestEvaluationForm/RequestEvaluationFormButtonsBox";
 import RequestEvaluationFormInput from "./requestEvaluationForm/RequestEvaluationFormInput";
 import RequestEvaluationFormSelectInput from "./requestEvaluationForm/RequestEvaluationFormSelectInput";
@@ -40,7 +41,6 @@ const RequestEvaluation = ({
     request_no: number | null;
 }) => {
     const static_content = useContext<Record<string, string>>(staticContext);
-
     const [step, setStep] = useState(1);
     const [validationErrors, setValidationErrors] = useState<
         Record<string, string>
@@ -69,6 +69,7 @@ const RequestEvaluation = ({
         instrument_image: null,
         construction_license: null,
         other_contracts: null,
+        price_package_id: "",
     });
 
     const { data: stepThreeData, setData: setStepThreeData } = useForm({
@@ -77,6 +78,10 @@ const RequestEvaluation = ({
         estate_line_1: "",
         estate_line_2: "",
     });
+
+    const emitSelectedPricePackage = (price_package: number) => {
+        setData("price_package_id", price_package.toString());
+    };
 
     // handle steps
     const handlePrevStep = () => setStep(step - 1);
@@ -164,6 +169,13 @@ const RequestEvaluation = ({
                     <BgGlassFilterShape
                         position={"md:hidden flex -right-48 top-48 z-[-1]"}
                     />
+
+                    <div className="mb-12">
+                        <PricePackageSelector
+                            emitSelectedPricePackage={emitSelectedPricePackage}
+                        />
+                    </div>
+
                     <div className="xl:w-[1200px] lg:w-[1024px] flex lg:flex-row flex-col md:items-start items-center lg:gap-[35px] gap-8 glass-effect glass-effect-bg-primary-3 rounded-tl-[100px] rounded-br-[100px] lg:p-[50px]  py-8 px-6">
                         <RequestEvaluationSteps step={step} />
                         <form className="w-full flex flex-col items-start gap-8">

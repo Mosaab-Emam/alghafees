@@ -32,6 +32,7 @@ use App\Models\JoinUsStaticContent;
 use App\Models\OurClientsStaticContent;
 use App\Models\OurServicesStaticContent;
 use App\Models\PricingStaticContent;
+use App\Models\PricePackage;
 use App\Models\RequestEvaluationStaticContent;
 use App\Models\Review;
 use App\Models\TrackYourRequestStaticContent;
@@ -201,10 +202,12 @@ Route::get('/pricing', function () {
         InfoStaticContent::first()->toArray()
     );
     $static_content["hero_goals"] = json_encode($static_content["hero_goals"]);
+    $price_packages = PricePackage::select('id', 'title', 'description', 'price', 'icon', 'perks')->get();
     return Inertia::render('Pricing/Pricing', [
         'title' => 'التقييم العقاري | أسعار التقييم العقاري',
         'description' => 'تقييم عقاري معتمد من شركة صالح علي الغفيص للتقييم العقاري. أسعار تقييم عقاري معتمدة وموثوقة. الخط الساخن: 0539455519',
-        'static_content' => $static_content
+        'static_content' => $static_content,
+        'price_packages' => $price_packages
     ]);
 });
 
@@ -242,6 +245,7 @@ Route::get('/request-evaluation', function () {
     $types = Category::apartmentType()->get();
     $entities = Category::apartmentEntity()->get();
     $usage = Category::apartmentUsage()->get();
+    $price_packages = PricePackage::select('id', 'title', 'description', 'price', 'icon', 'perks')->get();
 
     return Inertia::render('requestEvaluation/RequestEvaluation', [
         'title' => 'طلب تقييم عقاري | مقيم عقاري معتمد - شركة صالح علي الغفيص',
@@ -253,6 +257,7 @@ Route::get('/request-evaluation', function () {
         'types' => $types,
         'entities' => $entities,
         'usage' => $usage,
+        'price_packages' => $price_packages
     ]);
 })->name("new-request-evaluation");
 

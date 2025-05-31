@@ -45,6 +45,7 @@ class CreateRateRequestRequest extends Request
             'estate_region' => 'required|string|max:255',
             'estate_line_1' => 'required|string|max:255',
             'estate_line_2' => 'nullable|string|max:255',
+            'price_package_id' => 'required|exists:price_packages,id',
         ];
     }
 

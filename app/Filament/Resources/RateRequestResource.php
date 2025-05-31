@@ -8,6 +8,7 @@ use App\Models\RateRequest;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -18,7 +19,6 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Infolists\Components\Section;
 use Filament\Tables\Filters\Filter;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-use Illuminate\Contracts\Support\Htmlable;
 
 class RateRequestResource extends Resource
 {
@@ -126,6 +126,26 @@ class RateRequestResource extends Resource
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
+                Section::make(__('admin.rate-requests.price_package.section_title'))
+                    ->visible(fn(RateRequest $record): bool => $record->price_package_id !== null)
+                    ->columns(2)
+                    ->schema([
+                        TextEntry::make('price_package.title')
+                            ->label(__('admin.rate-requests.price_package.title')),
+                        TextEntry::make('price_package.price')
+                            ->label(__('admin.rate-requests.price_package.price')),
+                        TextEntry::make('price_package.description')
+                            ->label(__('admin.rate-requests.price_package.description'))
+                            ->columnSpanFull(),
+                        RepeatableEntry::make('price_package.perks')
+                            ->label(__('admin.rate-requests.price_package.perks.section_title'))
+                            ->columnSpanFull()
+                            ->schema([
+                                TextEntry::make('title')
+                                    ->label(__('admin.rate-requests.price_package.perks.title')),
+                            ])
+                            ->grid(2),
+                    ]),
                 Section::make(__('admin.rate-requests.other_info'))
                     ->schema([
                         TextEntry::make('statusTitle')

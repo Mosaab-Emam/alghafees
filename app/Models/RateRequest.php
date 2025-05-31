@@ -36,7 +36,13 @@ class RateRequest extends Model implements HasMedia
         'estate_region',
         'estate_line_1',
         'estate_line_2',
+        'price_package_id',
     ];
+
+    public function price_package()
+    {
+        return $this->belongsTo(PricePackage::class, 'price_package_id');
+    }
 
     public function usage()
     {

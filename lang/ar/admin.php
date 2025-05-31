@@ -291,7 +291,17 @@ return [
         'client_info' => 'بيانات العميل',
         'asset_info' => 'بيانات العقار',
         'media_info' => 'المرفقات',
-        'other_info' => 'بيانات أخرى'
+        'other_info' => 'بيانات أخرى',
+        'price_package' => [
+            'section_title' => 'حزمة السعر',
+            'title' => 'عنوان الحزمة',
+            'price' => 'السعر',
+            'description' => 'الوصف',
+            'perks' => [
+                'section_title' => 'الميزات',
+                'title' => 'عنوان الميزة',
+            ]
+        ]
     ],
     'contents' => [
         'active_filter' => 'منشور'

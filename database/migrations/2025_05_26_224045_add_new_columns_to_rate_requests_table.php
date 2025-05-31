@@ -11,6 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('rate_requests', function (Blueprint $table) {
+            $table->foreignId('price_package_id')->nullable()->constrained('price_packages');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('estate_city')->nullable();
@@ -26,9 +27,11 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::table('rate_requests', function (Blueprint $table) {
+            $table->dropColumn('price_package_id');
             $table->dropColumn('first_name');
             $table->dropColumn('last_name');
             $table->dropColumn('estate_city');
+            $table->dropColumn('estate_region');
             $table->dropColumn('estate_line_1');
             $table->dropColumn('estate_line_2');
         });

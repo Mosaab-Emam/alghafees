@@ -23,7 +23,7 @@ class FileResource extends Resource
 
     protected static ?string $navigationGroup = 'الموقع (المحتوى المتغير)';
 
-    protected static ?int $navigationSort = 8;
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {

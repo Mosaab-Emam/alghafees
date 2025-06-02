@@ -30,6 +30,7 @@ class TamaraCheckoutSessionResource extends Resource
                     ->label(__('admin.tamara.checkout_session.request_id'))
                     // ->options(dd(RateRequest::all()->pluck('id', 'id')))
                     ->options(function () {
+                        $options = [];
                         $requests = RateRequest::tamaraSupported()->get();
                         foreach ($requests as $request) {
                             $options[$request->id] = $request->request_no . ' - ' . $request->full_name;

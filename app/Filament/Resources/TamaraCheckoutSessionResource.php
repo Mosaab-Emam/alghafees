@@ -28,7 +28,6 @@ class TamaraCheckoutSessionResource extends Resource
             ->schema([
                 Forms\Components\Select::make('request_id')
                     ->label(__('admin.tamara.checkout_session.request_id'))
-                    // ->options(dd(RateRequest::all()->pluck('id', 'id')))
                     ->options(function () {
                         $options = [];
                         $requests = RateRequest::tamaraSupported()->get();
@@ -43,6 +42,7 @@ class TamaraCheckoutSessionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->poll(10000)
             ->columns([
                 Tables\Columns\TextColumn::make('rateRequest.request_no')
                     ->label(__('admin.tamara.checkout_session.rate_request_no'))

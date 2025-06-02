@@ -28,6 +28,13 @@ class TamaraCheckoutSession extends Model
             'new' => 'info',
             'expired' => 'gray',
             'approved' => 'success',
+            'authorised' => 'success',
+            'canceled' => 'danger',
+            'fully_refunded' => 'danger',
+            'partially_refunded' => 'warning',
+            'fully_captured' => 'success',
+            'partially_captured' => 'warning',
+            'updated' => 'info',
         };
     }
 
@@ -37,6 +44,13 @@ class TamaraCheckoutSession extends Model
             'new' => 'جديد',
             'expired' => 'منتهى الصلاحية',
             'approved' => 'مقبول',
+            'authorised' => 'مؤكد',
+            'canceled' => 'ملغي',
+            'fully_refunded' => 'مسترجع بالكامل',
+            'partially_refunded' => 'مسترجع جزئيا',
+            'fully_captured' => 'تم تحصيله بالكامل',
+            'partially_captured' => 'تم تحصيله جزئياً',
+            'updated' => 'محدث',
         };
     }
 }

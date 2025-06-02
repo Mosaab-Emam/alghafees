@@ -67,7 +67,7 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         $schedule->call(function () {
-            $tamara_checkout_sessions = TamaraCheckoutSession::where('status', 'new')->get();
+            $tamara_checkout_sessions = TamaraCheckoutSession::all();
             foreach ($tamara_checkout_sessions as $tamara_checkout_session) {
                 $response = Http::withHeaders([
                     'Authorization' => 'Bearer ' . env('TAMARA_API_SANDBOX_TOKEN')

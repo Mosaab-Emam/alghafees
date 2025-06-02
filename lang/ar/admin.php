@@ -312,6 +312,20 @@ return [
     'users' => [
         'block_filter' => 'مفعل',
     ],
+    'tamara' => [
+        'checkout_session' => [
+            'singular' => 'عملية دفع',
+            'plural' => 'عمليات الدفع',
+            'request_id' => 'طلب التقييم',
+            'rate_request_no' => 'رقم طلب التقييم',
+            'full_name' => 'اسم العميل',
+            'order_id' => 'معرف الطلب',
+            'checkout_id' => 'معرف الدفع',
+            'status' => 'الحالة',
+            'copy_url' => 'نسخ رابط الدفع',
+            'copy_url_success' => 'تم نسخ الرابط',
+        ]
+    ],
 
     'electronic_signature' => 'تم التوقيع إلكترونياً',
     'paper_signature' => 'تم التوقيع على الورق',

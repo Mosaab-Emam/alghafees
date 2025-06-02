@@ -3,11 +3,13 @@
 namespace App\Console;
 
 use App\Models\Evaluation\EvaluationTransaction;
+use App\Models\TamaraCheckoutSession;
 use App\Models\User;
 use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Http;
 use LaraZeus\Sky\Models\Post;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -62,6 +64,18 @@ class Kernel extends ConsoleKernel
             }
 
             $sm->writeToFile(public_path('sitemap.xml'));
+        })->everyMinute();
+
+        $schedule->call(function () {
+            $tamara_checkout_sessions = TamaraCheckoutSession::where('status', 'new')->get();
+            foreach ($tamara_checkout_sessions as $tamara_checkout_session) {
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . env('TAMARA_API_SANDBOX_TOKEN')
+                ])->get('https://api-sandbox.tamara.co/orders/' . $tamara_checkout_session->order_id);
+
+                $tamara_checkout_session->status = $response->json()['status'];
+                $tamara_checkout_session->save();
+            }
         })->everyMinute();
 
 

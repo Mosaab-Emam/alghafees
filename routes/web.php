@@ -98,6 +98,31 @@ Route::post('/tamara-notification-url-test', function () {
     return response()->json(['message' => 'Webhook received']);
 });
 
+Route::get('/tamara/success', function () {
+    // http://localhost:8000/tamara/success?paymentStatus=approved&orderId=df540991-3a41-4d2b-97ec-075c95ec6824
+
+    $static_content = InfoStaticContent::first()->toArray();
+
+    return Inertia::render('SuccessfulPayment', [
+        'title' => 'تم الدفع بنجاح | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'تم الدفع بنجاح',
+        'static_content' => $static_content
+    ]);
+})->name('tamara.success');
+
+Route::get('/tamara/failure', function () {
+    return response()->json(['message' => 'Failure']);
+})->name('tamara.failure');
+
+Route::get('/tamara/cancel', function () {
+    return response()->json(['message' => 'Cancel']);
+})->name('tamara.cancel');
+
+Route::get('/tamara/notification', function () {
+    dd(request()->all());
+    return response()->json(['message' => 'Notification']);
+})->name('tamara.notification');
+
 Route::get('/sign/{token}', [Controllers\Admin\ContractController::class, 'signaturePad']);
 Route::post('/sign/{token}', [Controllers\Admin\ContractController::class, 'sign']);
 Route::get('download-contract/{token}', [Controllers\Admin\ContractController::class, 'downloadContract'])->name('download-contract');

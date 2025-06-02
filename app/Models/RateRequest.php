@@ -71,6 +71,11 @@ class RateRequest extends Model implements HasMedia
         return $query->orderBy('id', 'desc');
     }
 
+    public function scopeTamaraSupported($query)
+    {
+        return $query->where('price_package_id', '!=', null);
+    }
+
     public function getFullNameAttribute()
     {
         if ($this->is_using_legacy_name) {

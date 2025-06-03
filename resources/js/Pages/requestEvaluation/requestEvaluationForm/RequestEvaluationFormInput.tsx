@@ -20,7 +20,7 @@ const ReqEvluaFormInput = ({
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
     useEffect(() => {
-        if (name === "name") {
+        if (name === "first_name") {
             const timeoutId = setTimeout(() => {
                 const element = document.getElementById(name);
                 element?.scrollIntoView({
@@ -48,7 +48,7 @@ const ReqEvluaFormInput = ({
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                autoFocus={name === "name"}
+                autoFocus={name === "first_name"}
                 className="w-full text-right max-w-full  sm:h-[48px] lg:h-[46px] xl:h-[48px] flex justify-end items-center rounded-tl-[20px] rounded-br-[20px] py-[13px] px-[16px] gap-[10px] bg-bg-02 border-[1px] border-transparent hover:border-primary-400 focus:border-primary-600 hover:bg-bg-01 focus:bg-bg-01 outline-none transition-all duration-300"
             />
             {error && <small className="text-red-500 text-xs">{error}</small>}

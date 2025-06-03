@@ -1,5 +1,5 @@
 import { router } from "@inertiajs/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ButtonsBox from "../../ButtonsBox";
 import WebsiteLink from "../WebsiteLink";
 import MenuButton from "./MenuButton";

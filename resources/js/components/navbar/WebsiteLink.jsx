@@ -8,9 +8,7 @@ export default function WebsiteLink({ to = "/", children, onClick }) {
     return (
         <Link
             onClick={(e) => {
-                if (window.matchMedia("(hover: hover)").matches) {
-                    onClick?.(e);
-                }
+                onClick?.(e);
             }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

@@ -13,7 +13,7 @@ export default function Hero() {
                     <header className="md:mt-16">
                         <div className="flex lg:grid items-center lg:grid-cols-2 justify-between lg:justify-center lg:gap-8 relative">
                             <HeroTextBox />
-                            <FloatSocialIcons />
+                            {/* <FloatSocialIcons /> */}
                         </div>
                     </header>
                 </Container>

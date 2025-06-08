@@ -12,7 +12,7 @@ const WebSiteInfo = () => {
                     <LineBetweenItems />
                     <Address />
                     <LineBetweenItems />
-                    {/* <FooterDownloadApp /> */}
+                    <FooterDownloadApp />
                 </div>
             </div>
         </>

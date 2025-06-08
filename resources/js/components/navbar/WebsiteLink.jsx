@@ -13,6 +13,11 @@ export default function WebsiteLink({ to = "/", children, onClick }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className={`w-full h-full flex md:justify-center justify-start md:items-center items-center xl:gap-[6px] lg:gap-1 gap-[10px] text-sm font-normal md:border border-b pb-6 md:py-2 transition-all duration-400 ease-in-out
+                ${
+                    to.endsWith("pricing") || to.endsWith("request-evaluation")
+                        ? "text-red-500"
+                        : "text-Gray-scale-02"
+                }
   ${
       router.page?.url === to
           ? "text-primary-500 font-medium md:border-[#ECECEC] border-primary-600"

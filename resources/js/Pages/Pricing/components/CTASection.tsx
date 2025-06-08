@@ -2,6 +2,7 @@ import { Button, ParagraphContent } from "@/components";
 import Container from "@/components/Container";
 import Heading from "@/components/Heading";
 import { staticContext } from "@/utils/contexts";
+import { Link } from "@inertiajs/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import CTAApartmentIcon from "../assets/cta-apartment-icon.svg";
 
@@ -45,12 +46,14 @@ const CTASection = () => {
                             }}
                         />
                     </ParagraphContent>
-                    <Button
-                        variant=""
-                        className="bg-bg-01 text-primary-600 font-bold px-8 py-3 border-2 border-bg-01 transition-all"
-                    >
-                        {static_content["banner_button_text"]}
-                    </Button>
+                    <Link href="/request-evaluation">
+                        <Button
+                            variant=""
+                            className="bg-bg-01 text-primary-600 font-bold px-8 py-3 border-2 border-bg-01 transition-all"
+                        >
+                            {static_content["banner_button_text"]}
+                        </Button>
+                    </Link>
                 </div>
 
                 {/* Decorative moon shape */}

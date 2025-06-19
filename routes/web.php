@@ -74,29 +74,29 @@ Route::get('/commands', function () {
     // return Artisan::call('migrate', ["--force" => true ]);
 });
 
-Route::post('/tamara-webhook-test', function () {
+Route::post('/tamara/webhook', function () {
     $data = request()->all();
     Log::info($data);
     return response()->json(['message' => 'Webhook received']);
 });
 
-Route::post('/tamara-notification-url-test', function () {
-    $tamaraToken = request()->header('tamaraToken');
+// Route::post('/tamara-notification-url-test', function () {
+//     $tamaraToken = request()->header('tamaraToken');
 
-    if (!$tamaraToken) {
-        return response()->json(['error' => 'Missing tamaraToken header'], 400);
-    }
+//     if (!$tamaraToken) {
+//         return response()->json(['error' => 'Missing tamaraToken header'], 400);
+//     }
 
-    $data = request()->validate([
-        'order_id' => 'required|string',
-        'order_reference_id' => 'required|string',
-        'order_number' => 'required|string',
-        'event_type' => 'required|string',
-        'data' => 'required|array'
-    ]);
-    Log::info($data);
-    return response()->json(['message' => 'Webhook received']);
-});
+//     $data = request()->validate([
+//         'order_id' => 'required|string',
+//         'order_reference_id' => 'required|string',
+//         'order_number' => 'required|string',
+//         'event_type' => 'required|string',
+//         'data' => 'required|array'
+//     ]);
+//     Log::info($data);
+//     return response()->json(['message' => 'Webhook received']);
+// });
 
 Route::get('/tamara/success', function () {
     // http://localhost:8000/tamara/success?paymentStatus=approved&orderId=df540991-3a41-4d2b-97ec-075c95ec6824

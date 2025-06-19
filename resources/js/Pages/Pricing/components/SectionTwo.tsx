@@ -44,7 +44,7 @@ const SectionTwo = () => {
                                 className="mb-2"
                             />
                             <div className="mb-8">
-                                <ParagraphContent>
+                                {/* <ParagraphContent>
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: static_content[
@@ -52,7 +52,14 @@ const SectionTwo = () => {
                                             ],
                                         }}
                                     />
-                                </ParagraphContent>
+                                </ParagraphContent> */}
+                                {/* @ts-ignore */}
+                                <tamara-widget
+                                    type="tamara-summary"
+                                    amount="1"
+                                    inline-type="3"
+                                    config='{"badgePosition":"right","showExtraContent":"full","hidePayInX":false}'
+                                />
                             </div>
                             <Link href="/request-evaluation" className="w-full">
                                 <Button className="w-full">ابدأ الآن</Button>

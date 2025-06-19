@@ -38,6 +38,20 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <script>
+        var tamaraWidgetConfig = {
+            lang: "ar",
+            country: "SA",
+            publicKey: "26846036-40f9-4f3f-853a-e5381f016b4f",
+            css: "",
+            style: { // Optional to define CSS variable
+                fontSize: '16px',
+                badgeRatio: 1, // The radio of logo, we can make it big or small by changing the radio.
+            }
+        }
+    </script>
+    <script defer src="https://cdn.tamara.co/widget-v2/tamara-widget.js"></script>
+
     <!-- Scripts -->
     @routes
     @viteReactRefresh
@@ -47,6 +61,7 @@
 
 <body class="font-sans antialiased">
     @inertia
+
 </body>
 
 </html>

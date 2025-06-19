@@ -19,6 +19,17 @@ const FooterDownloadApp = () => {
                     <DownloadAppIconsBox iconWidth="w-[90.539px] h-[26.826px]" />
                 </>
             )}
+            <div className="flex gap-4">
+                <tamara-widget
+                    type="tamara-summary"
+                    inline-variant="text"
+                ></tamara-widget>
+                <tamara-widget
+                    type="tamara-summary"
+                    inline-type="1"
+                    inline-variant="text"
+                ></tamara-widget>
+            </div>
             <FollowUsBox />
         </div>
     );

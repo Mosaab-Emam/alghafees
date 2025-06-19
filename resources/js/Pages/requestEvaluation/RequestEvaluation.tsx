@@ -6,7 +6,7 @@ import {
     stepTwoSchema,
 } from "@/schemas";
 import { staticContext } from "@/utils/contexts";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import React, { useContext, useEffect, useState } from "react";
 import {
     BgGlassFilterShape,
@@ -45,6 +45,27 @@ const RequestEvaluation = ({
     const [validationErrors, setValidationErrors] = useState<
         Record<string, string>
     >({});
+
+    function getSelectedPricePackagePrice() {
+        // @ts-ignore
+        window.TamaraWidgetV2.refresh();
+
+        const price_packages = usePage().props.price_packages as Array<{
+            id: number;
+            title: string;
+            description: string;
+            price: number;
+            icon: string;
+            perks: Array<{ title: string }>;
+        }>;
+
+        return (
+            price_packages.find(
+                (pricePackage) =>
+                    pricePackage.id == Number(data.price_package_id)
+            )?.price || 0
+        );
+    }
 
     const { data, setData, post } = useForm({
         name: null, // Legacy
@@ -173,6 +194,17 @@ const RequestEvaluation = ({
                     <div className="mb-12">
                         <PricePackageSelector
                             emitSelectedPricePackage={emitSelectedPricePackage}
+                        />
+                    </div>
+
+                    <div className="mb-12">
+                        {/* @ts-ignore */}
+                        <tamara-widget
+                            type="tamara-summary"
+                            amount={getSelectedPricePackagePrice()}
+                            inline-type="2"
+                            inline-variant="outlined"
+                            config='{"badgePosition":"right","showExtraContent":"","hidePayInX":false}'
                         />
                     </div>
 

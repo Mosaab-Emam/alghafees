@@ -1,0 +1,28 @@
+- [ ] Stupid footer shape
+- [ ] Stupid related topicsa
+- [ ] api
+- [ ] api docs
+
+# Deploy notes
+- [ ] Run migrations
+
+# Tamara
+- [ ] Checkout flow
+- [ ] Add widgets
+- [ ] Routes
+  - [ ] cancel route
+  - [ ] success route
+  - [ ] failure route
+  - [ ] notification route
+
+# Pricing
+- [ ] Fix safari
+- [ ] Should come from backend
+- [ ] Should be added as info in request
+- [ ] What to do in old happy path?
+  - [ ] Is is just a guide? can be ommitted?
+  - [ ] Influences fields?
+  - [ ]
+- [ ] Try components instead of files (for svgs)?
+- [ ] Boxes should be same width
+

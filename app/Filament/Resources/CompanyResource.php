@@ -25,7 +25,7 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
 
-    protected static ?int $navigationSort = 7;
+    protected static ?int $navigationSort = 9;
 
     public static function getEloquentQuery(): Builder
     {
@@ -142,7 +142,7 @@ class CompanyResource extends Resource
             ->filters([
                 Filter::make('active')
                     ->label(__('admin.contents.active_filter'))
-                    ->query(fn (Builder $query): Builder => $query->where('active', true)),
+                    ->query(fn(Builder $query): Builder => $query->where('active', true)),
                 Filter::make('created_at')
                     ->form([
                         DatePicker::make('created_from')
@@ -153,7 +153,7 @@ class CompanyResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): ?string {
@@ -172,7 +172,7 @@ class CompanyResource extends Resource
                         return $query
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): ?string {

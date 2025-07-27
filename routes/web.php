@@ -36,6 +36,8 @@ use App\Models\PricePackage;
 use App\Models\RequestEvaluationStaticContent;
 use App\Models\Review;
 use App\Models\TrackYourRequestStaticContent;
+use App\Models\TrainingApplication;
+use App\Models\TrainingType;
 use Illuminate\Support\Facades\Log;
 use LaraZeus\Sky\Models\Post;
 use LaraZeus\Sky\Models\Tag;
@@ -480,6 +482,39 @@ Route::get('/join-us', function () {
     return Inertia::render('joinUs/JoinUs', [
         'title' => 'انضم إلى الغفيص للتقييم | مقيم عقاري معتمد - شركة صالح علي الغفيص',
         'description' => 'انضم إلى شركة صالح علي الغفيص كمقيم عقاري معتمد للحصول على أفضل الخدمات العقارية في المملكة. الخط الساخن: 0539455519',
+        'static_content' => $static_content,
+        'training_types' => TrainingType::all()->toArray()
+    ]);
+});
+
+Route::post('/join-us/trainee-application', function () {
+    $validated = request()->validate([
+        'trainingType' => 'required|exists:training_types,id',
+        'cv_file' => 'required|file|mimes:pdf,doc,docx|max:2048',
+        'university_name' => 'required|string|max:255',
+        'training_period' => 'required|string|max:255',
+        'starting_date' => 'required',
+        'phone_number' => ['required', 'string'],
+    ]);
+
+    // Store the uploaded CV file in the 'public/uploads/cvs' directory and get the path
+    $cvPath = request()->file('cv_file')->store('upload/cvs', 'public');
+
+    // Save the trainee application data to the database (assuming a TraineeApplication model exists)
+    TrainingApplication::create([
+        'training_type_id' => $validated['trainingType'],
+        'cv_file' => $cvPath,
+        'university_name' => $validated['university_name'],
+        'training_period' => $validated['training_period'],
+        'starting_date' => $validated['starting_date'],
+        'phone_number' => $validated['phone_number'],
+    ]);
+
+    $static_content = InfoStaticContent::first()->toArray();
+
+    return Inertia::render('ThanksForYourTraineeApplication', [
+        'title' => 'شكرا لك | مقيم عقاري معتمد - شركة صالح علي الغفيص',
+        'description' => 'شكرا لك على تقييمك لشركة صالح علي الغفيص للتقييم العقاري في المملكة. الخط الساخن: 0539455519',
         'static_content' => $static_content
     ]);
 });

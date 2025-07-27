@@ -5,7 +5,7 @@ const tabsButtons = ["التقارير", "التقييمات"];
 
 const TabsButtonBox = ({ activeTab, setActiveTab }) => {
     return (
-        <div className="flex items-start gap-[20px] self-stretch justify-between">
+        <div className="flex items-start gap-[20px] self-stretch">
             <>
                 {tabsButtons.map((button, index) => (
                     <TabButton

@@ -24,6 +24,14 @@ export const stepOneSchema = z.object({
         .string()
         .min(1, { message: "مطلوب" })
         .max(255, { message: "255 حرف كحد أقصى" }),
+    address_city: z
+        .string()
+        .min(1, { message: "مطلوب" })
+        .max(255, { message: "255 حرف كحد أقصى" }),
+    address_neighbourhood: z
+        .string()
+        .min(1, { message: "مطلوب" })
+        .max(255, { message: "255 حرف كحد أقصى" }),
     goal_id: z.string().min(1, { message: "مطلوب" }),
     notes: z.string().min(1, { message: "مطلوب" }),
 });

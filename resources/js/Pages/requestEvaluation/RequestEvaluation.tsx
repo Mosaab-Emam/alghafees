@@ -7,7 +7,7 @@ import {
 } from "@/schemas";
 import { staticContext } from "@/utils/contexts";
 import { useForm, usePage } from "@inertiajs/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     BgGlassFilterShape,
     MarketAnalysisShape,
@@ -74,6 +74,8 @@ const RequestEvaluation = ({
         mobile: "",
         email: "",
         address: "",
+        address_city: "",
+        address_neighbourhood: "",
         goal_id: "",
         notes: "",
         type_id: "",
@@ -226,7 +228,7 @@ const RequestEvaluation = ({
                                             name="first_name"
                                             value={data.first_name}
                                             error={validationErrors?.first_name}
-                                            placeholder="ادخل اسمك بالكامل هنا"
+                                            placeholder="ادخل اسمك الأول هنا"
                                             required
                                             onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
@@ -243,7 +245,7 @@ const RequestEvaluation = ({
                                             name="last_name"
                                             value={data.last_name}
                                             error={validationErrors?.last_name}
-                                            placeholder="ادخل اسمك بالكامل هنا"
+                                            placeholder="ادخل اسمك الأخير هنا"
                                             required
                                             onChange={(
                                                 e: React.ChangeEvent<HTMLInputElement>
@@ -272,7 +274,7 @@ const RequestEvaluation = ({
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder="ادخل رقم جوالك يبدأ ب 05 هنا"
+                                            placeholder="05XXXXXXXX"
                                         />
 
                                         <RequestEvaluationFormInput
@@ -291,18 +293,63 @@ const RequestEvaluation = ({
                                         />
                                     </div>
 
-                                    <RequestEvaluationFormInput
-                                        type="text"
-                                        label="عنوان طالب التقييم"
-                                        name="address"
-                                        value={data.address}
-                                        error={validationErrors?.address}
-                                        required
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLInputElement>
-                                        ) => setData("address", e.target.value)}
-                                        placeholder="ادخل عنوانك الحالي هنا"
-                                    />
+                                    <h3 className="text-lg text-Gray-scale-02">
+                                        عنوان طالب التقييم
+                                    </h3>
+                                    <div className="w-full md:flex-row flex-col flex items-center self-stretch gap-[20px] -mt-4">
+                                        <RequestEvaluationFormInput
+                                            type="text"
+                                            label="المدينة"
+                                            name="address_city"
+                                            value={data.address_city}
+                                            error={
+                                                validationErrors?.address_city
+                                            }
+                                            required
+                                            onChange={(
+                                                e: React.ChangeEvent<HTMLInputElement>
+                                            ) => {
+                                                setData(
+                                                    "address_city",
+                                                    e.target.value
+                                                );
+                                                setData(
+                                                    "address",
+                                                    `${e.target.value}, ${data.address_neighbourhood}`.replace(
+                                                        /^,\s*|,\s*$/g,
+                                                        ""
+                                                    )
+                                                );
+                                            }}
+                                            placeholder="ادخل اسم المدينة"
+                                        />
+                                        <RequestEvaluationFormInput
+                                            type="text"
+                                            label="الحي"
+                                            name="address_neighbourhood"
+                                            value={data.address_neighbourhood}
+                                            error={
+                                                validationErrors?.address_neighbourhood
+                                            }
+                                            required
+                                            onChange={(
+                                                e: React.ChangeEvent<HTMLInputElement>
+                                            ) => {
+                                                setData(
+                                                    "address_neighbourhood",
+                                                    e.target.value
+                                                );
+                                                setData(
+                                                    "address",
+                                                    `${data.address_city}, ${e.target.value}`.replace(
+                                                        /^,\s*|,\s*$/g,
+                                                        ""
+                                                    )
+                                                );
+                                            }}
+                                            placeholder="ادخل اسم الحي"
+                                        />
+                                    </div>
 
                                     <RequestEvaluationFormSelectInput
                                         name="goal_id"
@@ -322,7 +369,6 @@ const RequestEvaluation = ({
                                         label="تفاصيل الغرض من التقييم"
                                         value={data.notes}
                                         error={validationErrors?.notes}
-                                        required
                                         onChange={(
                                             e: React.ChangeEvent<HTMLTextAreaElement>
                                         ) => setData("notes", e.target.value)}
@@ -380,7 +426,7 @@ const RequestEvaluation = ({
                                     <div className="w-full flex md:flex-row flex-col  items-center self-stretch gap-[20px] ">
                                         <RequestEvaluationFormInput
                                             type="number"
-                                            label="العمر"
+                                            label="عمر العقار"
                                             name="real_estate_age"
                                             placeholder="ادخل العمر بعدد السنوات هنا"
                                             value={data.real_estate_age}
@@ -400,7 +446,7 @@ const RequestEvaluation = ({
                                         <RequestEvaluationFormInput
                                             type="number"
                                             name="real_estate_area"
-                                            label="المساحة"
+                                            label="مساحة العقار"
                                             placeholder="ادخل المساحة بوحدة م2"
                                             value={data.real_estate_area}
                                             error={
@@ -555,24 +601,24 @@ const StepThree = ({
             <div className="flex gap-8">
                 <Input.Text
                     required
-                    name="estate_city"
-                    label="المدينة"
-                    placeholder="مثال: الرياض"
-                    value={data.estate_city}
-                    error={validationErrors?.estate_city || ""}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setData("estate_city", e.target.value)
-                    }
-                />
-                <Input.Text
-                    required
                     name="estate_region"
                     label="المنطقة"
-                    placeholder="مثال: السليمانية"
+                    placeholder="ادخل اسم المنطقة"
                     value={data.estate_region}
                     error={validationErrors?.estate_region || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         setData("estate_region", e.target.value)
+                    }
+                />
+                <Input.Text
+                    required
+                    name="estate_city"
+                    label="المدينة"
+                    placeholder="ادخل اسم المدينة"
+                    value={data.estate_city}
+                    error={validationErrors?.estate_city || ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setData("estate_city", e.target.value)
                     }
                 />
             </div>
@@ -581,7 +627,7 @@ const StepThree = ({
                     required
                     name="estate_line_1"
                     label="العنوان 1"
-                    placeholder="مثال: حي الروضة، شارع الملك فهد"
+                    placeholder="أدخل اسم الحي"
                     value={data.estate_line_1}
                     error={validationErrors?.estate_line_1 || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -591,7 +637,7 @@ const StepThree = ({
                 <Input.Text
                     name="estate_line_2"
                     label="العنوان 2"
-                    placeholder="شقة رقم 17"
+                    placeholder="ادخل رقم العقار"
                     value={data.estate_line_2}
                     error={validationErrors?.estate_line_2 || ""}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

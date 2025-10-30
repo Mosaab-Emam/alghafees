@@ -34,7 +34,24 @@ return [
             ],
 
             // Exclude these routes even if they matched the rules above.
+            // Exclude all legacy API routes (non-v1 routes)
             'exclude' => [
+                'api/rate-requests*',
+                'api/categories/*',
+                'api/about',
+                'api/clients',
+                'api/services',
+                'api/Prviacy-ploice',
+                'api/show',
+                'api/setting',
+                'api/company-services*',
+                'api/counters',
+                'api/objectives',
+                'api/about-company',
+                'api/apartment-goal',
+                'api/apartment-type',
+                'api/apartment-entity',
+                'api/apartment-usage',
             ],
         ],
     ],

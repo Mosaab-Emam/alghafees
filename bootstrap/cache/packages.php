@@ -6,13 +6,6 @@
       'EloquentSerialize' => 'AnourValar\\EloquentSerialize\\Facades\\EloquentSerializeFacade',
     ),
   ),
-  'archtechx/laravel-seo' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'ArchTech\\SEO\\SEOServiceProvider',
-    ),
-  ),
   'awcodes/filament-tiptap-editor' => 
   array (
     'providers' => 
@@ -43,13 +36,6 @@
     'providers' => 
     array (
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
-    ),
-  ),
-  'codeat3/blade-iconpark' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Codeat3\\BladeIconpark\\BladeIconparkServiceProvider',
     ),
   ),
   'filament/actions' => 
@@ -178,6 +164,13 @@
     'providers' => 
     array (
       0 => 'LaraZeus\\Core\\CoreServiceProvider',
+    ),
+  ),
+  'lara-zeus/laravel-seo' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'LaraZeus\\SEO\\SEOServiceProvider',
     ),
   ),
   'lara-zeus/sky' => 

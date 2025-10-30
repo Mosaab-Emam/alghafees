@@ -157,6 +157,12 @@ class ContractResource extends Resource
                     }),
                 Forms\Components\TextInput::make('total_cost_in_words')
                     ->label(__('forms/contracts.total_cost_in_words')),
+                Forms\Components\TextInput::make('time_in_days')
+                    ->label(__('forms/contracts.time_in_days'))
+                    ->numeric()
+                    ->minValue(1)
+                    ->default(7)
+                    ->required(),
                 Forms\Components\FileUpload::make('signature')
                     ->label('رفع ملف عقد موقع')
                     ->directory('signed-contracts')

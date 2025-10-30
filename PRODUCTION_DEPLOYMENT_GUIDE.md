@@ -196,14 +196,91 @@ All old API routes (`/api/rate-requests`, `/api/categories/*`, etc.) **still wor
 -   Postman: `/docs.postman`
 -   OpenAPI: `/docs.openapi`
 
+## Troubleshooting in Production
+
+### If CSS Still Not Loading After Following Guide
+
+**Step 1: Run the diagnostic script:**
+
+```bash
+php diagnose-docs.php
+```
+
+This automated script will check:
+
+-   ✅ APP_URL configuration
+-   ✅ Asset file existence
+-   ✅ File permissions
+-   ✅ View file correctness
+-   ✅ Cache status
+-   ✅ HTTP accessibility
+
+**Follow the recommendations** it provides at the end.
+
+### Step 2: Check Most Common Issues
+
+**Issue #1: Wrong APP_URL**
+
+```bash
+# Check current APP_URL
+php artisan tinker --execute="echo config('app.url');"
+
+# If it shows http://localhost, fix it:
+# Edit .env and set: APP_URL=https://your-production-domain.com
+# Then run:
+php artisan config:cache
+```
+
+**Issue #2: Assets Not Published**
+
+```bash
+# Check if assets exist
+ls -la public/vendor/scribe/css/
+
+# If not found, regenerate:
+php artisan scribe:generate --force
+```
+
+**Issue #3: View Cache**
+
+```bash
+# Clear view cache
+php artisan view:clear
+
+# Then hard refresh browser (Cmd+Shift+R or Ctrl+Shift+R)
+```
+
+### Step 3: Detailed Troubleshooting
+
+See **`PRODUCTION_TROUBLESHOOTING.md`** for comprehensive solutions to:
+
+-   Assets don't exist in public/vendor/scribe
+-   Wrong APP_URL configuration
+-   View cache not cleared
+-   Web server blocking /vendor directory
+-   File permission problems (403 errors)
+-   Browser caching old HTML
+-   CDN/Cloudflare caching issues
+-   Complete reset procedure
+
 ## Support
 
-If documentation still shows old routes after following all steps:
+If documentation still shows old routes or broken CSS after all steps:
 
-1. Check web server configuration (Nginx/Apache)
-2. Ensure `.scribe` directory is writable
-3. Check `storage/app/scribe/` permissions
-4. Verify Scribe is version 5.3.0 or higher
+1. **Run diagnostic:** `php diagnose-docs.php` and share output
+2. Check Laravel logs: `storage/logs/laravel.log`
+3. Check web server error logs (Nginx/Apache)
+4. Verify PHP version: `php -v` (should be 8.1+)
+5. Check disk space: `df -h`
+
+Provide this information when seeking help:
+
+-   Full output of `php diagnose-docs.php`
+-   Laravel version: `php artisan --version`
+-   PHP version: `php -v`
+-   Web server: Nginx/Apache + version
+-   Operating system
+-   Browser console errors (F12 → Console tab)
 
 ---
 

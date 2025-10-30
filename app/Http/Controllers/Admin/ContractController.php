@@ -10,6 +10,11 @@ use \App\Models\Category;
 
 class ContractController extends Controller
 {
+    // Primary color #0F819F - RGB values for TCPDF
+    private const PRIMARY_COLOR_R = 15;
+    private const PRIMARY_COLOR_G = 129;
+    private const PRIMARY_COLOR_B = 159;
+
     public function index()
     {
         return view('admin.contracts.index');
@@ -44,6 +49,7 @@ class ContractController extends Controller
         if ($contract == null)
             abort(404);
 
+
         if ($contract->signature != null && !str_starts_with($contract->signature, 'data'))
             return response()
                 ->download(public_path($contract->signature))
@@ -51,184 +57,283 @@ class ContractController extends Controller
 
         $pdf = new \App\Helpers\MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-        $pageCount = $pdf->setSourceFile(storage_path('pdf-templates/contract-template.pdf'));
+        $pageCount = $pdf->setSourceFile(storage_path('pdf-templates/12.pdf'));
         $lg = array();
         $lg['a_meta_charset'] = 'UTF-8';
         $lg['a_meta_dir'] = 'rtl';
         $lg['a_meta_language'] = 'fa';
         $lg['w_page'] = 'page';
         $pdf->setLanguageArray($lg);
-        $pdf->SetFont('aealarabiya', '', 12, false);
+
+        // Register Hacen Tunisia font (TCPDF_FONTS::addTTFfont converts TTF to TCPDF format)
+        $hacenTunisiaFont = \TCPDF_FONTS::addTTFfont(public_path('fonts/hacen-tunisia-regular.ttf'), 'TrueTypeUnicode', '', 96);
+
+        // $pdf->SetFont('aealarabiya', '', 12, false);
+        $pdf->SetFont($hacenTunisiaFont, '', 12, false);
         for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
             $templateId = $pdf->importPage($pageNo);
             $pdf->AddPage();
             $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
 
             if ($pageNo == 1) {
-                $pdf->setY(25);
-                $pdf->setFontSize(14);
-                $pdf->Cell(0, 0, 'عقد رقم: ' . $contract->token, 0, 1, 'C', 0, '', 1);
+                // Old contract template
+                // $pdf->setY(25);
+                // $pdf->setFontSize(14);
+                // $pdf->Cell(0, 0, 'عقد رقم: ' . $contract->token, 0, 1, 'C', 0, '', 1);
 
-                $pdf->setY(45);
-                $pdf->setX(20);
-                $pdf->setFontSize(13);
-                $date_line = 'حرر هذا العقد بالرياض في '
-                    . ArabicDate::dayName($contract->contract_date)
-                    . ': '
-                    . $contract->contract_date
-                    . 'م'
-                    . ' الموافق: '
-                    . \GeniusTS\HijriDate\Hijri::convertToHijri($contract->contract_date)->format('Y-m-d')
-                    . 'هـ'
-                    . ' بين كل من:';
-                $pdf->Cell(0, 0, $date_line, 0, 1, 'R', 0, '', 1);
+                // Contract Token
+                $pdf->setY(25.5);
+                $pdf->setX(22);
+                $pdf->setFont('', 'B', 9); // Set bold font with Hacen Tunisia font family (regular)
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->Cell(0, 0, $contract->token, 0, 1, 'C', 0, '', 1);
+                $pdf->SetFont('', '', 12); // Reset font to normal for subsequent output
+                $pdf->SetTextColor(0, 0, 0); // Reset text color to black for subsequent output
 
+                // Old contract template
+                // $pdf->setY(45);
+                // $pdf->setX(20);
+                // $pdf->setFontSize(13);
+                // $date_line = 'حرر هذا العقد بالرياض في '
+                //     . ArabicDate::dayName($contract->contract_date)
+                //     . ': '
+                //     . $contract->contract_date
+                //     . 'م'
+                //     . ' الموافق: '
+                //     . \GeniusTS\HijriDate\Hijri::convertToHijri($contract->contract_date)->format('Y-m-d')
+                //     . 'هـ'
+                //     . ' بين كل من:';
+                // $pdf->Cell(0, 0, $date_line, 0, 1, 'R', 0, '', 1);
+
+                // Contract Arabic Day Name
+                $pdf->setY(33);
+                $pdf->setX(17);
+                $pdf->setFontSize(10);
+                $pdf->Cell(0, 0, ArabicDate::dayName($contract->contract_date), 0, 1, 'C', 0, '', 1);
+
+                // Contract Gregorian Date
+                $pdf->setY(33);
+                $pdf->setX(64);
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->Cell(0, 0, \Carbon\Carbon::parse($contract->contract_date)->format('d/m/Y'), 0, 1, 'C', 0, '', 1);
+
+                // Contract Hijri Date
+                $pdf->setY(33);
+                $pdf->setX(120);
+                $pdf->Cell(0, 0, \GeniusTS\HijriDate\Hijri::convertToHijri($contract->contract_date)->format('d/m/Y') . 'هـ', 0, 1, 'C', 0, '', 1);
+                $pdf->SetTextColor(0, 0, 0); // Reset text color to black for subsequent output
+
+                // Client Name
                 $pdf->setFontSize(12);
-                $pdf->setY(154);
-                $pdf->setX(67);
+                $pdf->setY(127);
+                $pdf->setX(65);
                 $pdf->Cell(0, 0, $contract->client_name, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(162);
-                $pdf->setX(67);
+                // Client ID Number
+                $pdf->setY(135);
+                $pdf->setX(65);
                 $pdf->Cell(0, 0, $contract->id_number, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(170);
-                $pdf->setX(67);
+                // Client Address
+                $pdf->setY(143);
+                $pdf->setX(65);
                 $pdf->Cell(0, 0, $contract->client_address, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(178);
-                $pdf->setX(67);
+                // Client Phone Numbers
+                $pdf->setY(152);
+                $pdf->setX(65);
                 $pdf->Cell(0, 0, $contract->phone_numbers, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(186);
-                $pdf->setX(67);
+                // Client Email
+                $pdf->setY(160);
+                $pdf->setX(65);
                 $pdf->Cell(0, 0, $contract->email, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(194);
-                $pdf->setX(67);
+                // Client Representative Name
+                $pdf->setY(167.5);
+                $pdf->setX(65);
                 $pdf->Cell(0, 0, $contract->representative_name, 0, 1, 'R', 0, '', 1);
 
-                $purpose_line_1 = "لما كان الطرف الأول حاصلاً على ترخيص مزاولة مهنة التقييم وفقاً لأحكام نظام المقيمين المعتمدين الصادر";
-                $pdf->setY(220);
-                $pdf->setX(18);
-                $pdf->setFontSize(14);
-                $pdf->Cell(0, 0, $purpose_line_1, 0, 1, 'R', 0, '', 1);
+                // Old contract template
+                // $purpose_line_1 = "لما كان الطرف الأول حاصلاً على ترخيص مزاولة مهنة التقييم وفقاً لأحكام نظام المقيمين المعتمدين الصادر";
+                // $pdf->setY(220);
+                // $pdf->setX(18);
+                // $pdf->setFontSize(14);
+                // $pdf->Cell(0, 0, $purpose_line_1, 0, 1, 'R', 0, '', 1);
 
-                $purpose_line_2 = "بالمرسوم الملكي رقم (م/ 43) وتاريخ: 09/07/1433هـ وتعديلاته، ولحاجة الطرف الثاني، لتقييم أصوله من قبل";
-                $pdf->setY(225);
-                $pdf->setX(18);
-                $pdf->setFontSize(14);
-                $pdf->Cell(0, 0, $purpose_line_2, 0, 1, 'R', 0, '', 1);
+                // $purpose_line_2 = "بالمرسوم الملكي رقم (م/ 43) وتاريخ: 09/07/1433هـ وتعديلاته، ولحاجة الطرف الثاني، لتقييم أصوله من قبل";
+                // $pdf->setY(225);
+                // $pdf->setX(18);
+                // $pdf->setFontSize(14);
+                // $pdf->Cell(0, 0, $purpose_line_2, 0, 1, 'R', 0, '', 1);
 
-                $purpose_line_3 = "مقيم معتمد لغرض (" . $contract->purpose . ") عليه فقد التقت إرادتا الطرفين وكل منهما بالحالة المعتبرة شرعاً";
-                $pdf->setY(230);
-                $pdf->setX(18);
-                $pdf->setFontSize(14);
-                $pdf->Cell(0, 0, $purpose_line_3, 0, 1, 'R', 0, '', 1);
+                // $purpose_line_3 = "مقيم معتمد لغرض (" . $contract->purpose . ") عليه فقد التقت إرادتا الطرفين وكل منهما بالحالة المعتبرة شرعاً";
+                // $pdf->setY(230);
+                // $pdf->setX(18);
+                // $pdf->setFontSize(14);
+                // $pdf->Cell(0, 0, $purpose_line_3, 0, 1, 'R', 0, '', 1);
 
-                $purpose_line_4 = "والأهلية الصالحة للإبرام والتصرف والصفة المعتد بها نظاماً على إبرام هذا العقد وذلك بالشروط الآتية:";
-                $pdf->setY(235);
-                $pdf->setX(18);
-                $pdf->setFontSize(14);
-                $pdf->Cell(0, 0, $purpose_line_4, 0, 1, 'R', 0, '', 1);
+                // $purpose_line_4 = "والأهلية الصالحة للإبرام والتصرف والصفة المعتد بها نظاماً على إبرام هذا العقد وذلك بالشروط الآتية:";
+                // $pdf->setY(235);
+                // $pdf->setX(18);
+                // $pdf->setFontSize(14);
+                // $pdf->Cell(0, 0, $purpose_line_4, 0, 1, 'R', 0, '', 1);
+
+                // Purpose 1
+                $pdf->setY(200.5);
+                $pdf->setX(62);
+                $pdf->setFontSize(10);
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->Cell(0, 0, $contract->purpose, 0, 1, 'C', 0, '', 1);
+                $pdf->SetTextColor(0, 0, 0); // Reset text color to black for subsequent output
             }
             if ($pageNo == 2) {
-                $pdf->setY(186);
-                $pdf->setX(20);
-                $pdf->setFontSize(14);
-                $pdf->Cell(
-                    0,
-                    0,
-                    'بناءً على طلب الطرف الثاني فان الغرض من معرفة القيمة السوقية للعقار محل التقييم هو (' . $contract->purpose . ').',
-                    0,
-                    1,
-                    'R',
-                    0,
-                    '',
-                    1
-                );
+                // Old contract template
+                // $pdf->setY(186);
+                // $pdf->setX(20);
+                // $pdf->setFontSize(14);
+                // $pdf->Cell(
+                //     0,
+                //     0,
+                //     'بناءً على طلب الطرف الثاني فان الغرض من معرفة القيمة السوقية للعقار محل التقييم هو (' . $contract->purpose . ').',
+                //     0,
+                //     1,
+                //     'R',
+                //     0,
+                //     '',
+                //     1
+                // );
 
-                $pdf->setY(212);
-                $pdf->setX(67);
-                $pdf->setFontSize(12);
+                // Purpose 2
+                $pdf->setY(182);
+                $pdf->setX(57);
+                $pdf->setFontSize(10);
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->Cell(0, 0, $contract->purpose . '.', 0, 1, 'C', 0, '', 1);
+                $pdf->SetTextColor(0, 0, 0); // Reset text color to black for subsequent output
+
+                // Old contract template
+                // $pdf->setY(212);
+                // $pdf->setX(67);
+                // $pdf->setFontSize(12);
+                // $category = Category::where('slug', $contract->type)->orWhere('id', $contract->type)->first();
+                // $pdf->Cell(
+                //     0,
+                //     0,
+                //     'العقار عبارة عن ' . $category->title . ' بمساحة: (' . $contract->area . 'متر مربع)',
+                //     0,
+                //     1,
+                //     'R',
+                //     0,
+                //     '',
+                //     1
+                // );
+
+                // Property Type and Area
+                $pdf->setY(198);
+                $pdf->setX(33);
+                $pdf->setFontSize(10);
                 $category = Category::where('slug', $contract->type)->orWhere('id', $contract->type)->first();
-                $pdf->Cell(
-                    0,
-                    0,
-                    'العقار عبارة عن ' . $category->title . ' بمساحة: (' . $contract->area . 'متر مربع)',
-                    0,
-                    1,
-                    'R',
-                    0,
-                    '',
-                    1
-                );
+                $pdf->Cell(0, 0, $category->title . ' بمساحة: (' . $contract->area . 'متر مربع)', 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(220);
-                $pdf->setX(67);
-                $pdf->Cell(
-                    0,
-                    0,
-                    'يقع العقار بـ: ' . $contract->property_address,
-                    0,
-                    1,
-                    'R',
-                    0,
-                    '',
-                    1
-                );
+                // Time in Days
+                $pdf->setY(213.5);
+                $pdf->setX(120);
+                $pdf->setFontSize(12);
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->Cell(0, 0, $contract->time_in_days, 0, 1, 'C', 0, '', 1);
 
-                $pdf->setY(228);
-                $pdf->setX(67);
-                $pdf->Cell(
-                    0,
-                    0,
-                    'رقم (' . $contract->deed_number . ') بتاريخ: ' . $contract->deed_issue_date,
-                    0,
-                    1,
-                    'R',
-                    0,
-                    '',
-                    1
-                );
-            }
-            if ($pageNo == 3) {
-                $pdf->setY(35);
-                $pdf->setX(100);
-                $pdf->Cell(0, 0, $contract->number_of_assets, 0, 1, 'R', 0, '', 1);
+                // Total Cost
+                $pdf->setY(234.5);
+                $pdf->setX(43);
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->setFontSize(11);
+                $pdf->Cell(0, 0, $contract->total_cost . ' ريال', 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(35);
-                $pdf->setX(125);
-                $pdf->Cell(0, 0, $contract->cost_per_asset, 0, 1, 'R', 0, '', 1);
-
-                $pdf->setY(35);
-                $pdf->setX(165);
-                $pdf->Cell(0, 0, round($contract->number_of_assets * $contract->cost_per_asset), 0, 1, 'R', 0, '', 1);
-
-                $pdf->setY(43);
-                $pdf->setX(165);
-                $pdf->Cell(0, 0, $contract->tax, 0, 1, 'R', 0, '', 1);
-
-                $pdf->setY(51);
-                $pdf->setX(165);
-                $pdf->Cell(0, 0, $contract->total_cost, 0, 1, 'R', 0, '', 1);
-
-                $pdf->setY(59);
-                $pdf->setX(125);
+                // Total Cost in Words
+                $pdf->setY(241.5);
+                $pdf->setX(44);
                 $pdf->Cell(0, 0, $contract->total_cost_in_words, 0, 1, 'R', 0, '', 1);
+                $pdf->SetTextColor(0, 0, 0); // Reset text color to black for subsequent output
+
+                // Old contract template
+                // $pdf->setY(220);
+                // $pdf->setX(67);
+                // $pdf->Cell(
+                //     0,
+                //     0,
+                //     'يقع العقار بـ: ' . $contract->property_address,
+                //     0,
+                //     1,
+                //     'R',
+                //     0,
+                //     '',
+                //     1
+                // );
+
+                // $pdf->setY(228);
+                // $pdf->setX(67);
+                // $pdf->Cell(
+                //     0,
+                //     0,
+                //     'رقم (' . $contract->deed_number . ') بتاريخ: ' . $contract->deed_issue_date,
+                //     0,
+                //     1,
+                //     'R',
+                //     0,
+                //     '',
+                //     1
+                // );
             }
+            // Old contract template
+            // if ($pageNo == 3) {
+            //     $pdf->setY(35);
+            //     $pdf->setX(100);
+            //     $pdf->Cell(0, 0, $contract->number_of_assets, 0, 1, 'R', 0, '', 1);
+
+            //     $pdf->setY(35);
+            //     $pdf->setX(125);
+            //     $pdf->Cell(0, 0, $contract->cost_per_asset, 0, 1, 'R', 0, '', 1);
+
+            //     $pdf->setY(35);
+            //     $pdf->setX(165);
+            //     $pdf->Cell(0, 0, round($contract->number_of_assets * $contract->cost_per_asset), 0, 1, 'R', 0, '', 1);
+
+            //     $pdf->setY(43);
+            //     $pdf->setX(165);
+            //     $pdf->Cell(0, 0, $contract->tax, 0, 1, 'R', 0, '', 1);
+
+            //     $pdf->setY(51);
+            //     $pdf->setX(165);
+            //     $pdf->Cell(0, 0, $contract->total_cost, 0, 1, 'R', 0, '', 1);
+
+            //     $pdf->setY(59);
+            //     $pdf->setX(125);
+            //     $pdf->Cell(0, 0, $contract->total_cost_in_words, 0, 1, 'R', 0, '', 1);
+            // }
             if ($pageNo == 4) {
-                $pdf->setY(241);
-                $pdf->setX(124);
+                // Old contract template
+                // $pdf->setY(241);
+                // $pdf->setX(124);
+                // $pdf->Cell(0, 0, $contract->client_name, 0, 1, 'R', 0, '', 1);
+
+                // $pdf->setY(250);
+                // $pdf->setX(124);
+                // $pdf->Cell(0, 0, explode(" ", $contract->contract_date)[0], 0, 1, 'R', 0, '', 1);
+
+                $pdf->SetTextColor(self::PRIMARY_COLOR_R, self::PRIMARY_COLOR_G, self::PRIMARY_COLOR_B);
+                $pdf->setY(214.5);
+                $pdf->setX(109);
                 $pdf->Cell(0, 0, $contract->client_name, 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(250);
-                $pdf->setX(124);
-                $pdf->Cell(0, 0, explode(" ", $contract->contract_date)[0], 0, 1, 'R', 0, '', 1);
+                $pdf->setY(263.5);
+                $pdf->setX(109);
+                $pdf->Cell(0, 0, \Carbon\Carbon::parse($contract->contract_date)->format('d/m/Y'), 0, 1, 'R', 0, '', 1);
 
-                $pdf->setY(250);
-                $pdf->setX(45);
-                $pdf->Cell(0, 0, explode(" ", $contract->contract_date)[0], 0, 1, 'R', 0, '', 1);
+                $pdf->setY(263.5);
+                $pdf->setX(42);
+                $pdf->Cell(0, 0, \Carbon\Carbon::parse($contract->contract_date)->format('d/m/Y'), 0, 1, 'R', 0, '', 1);
+                $pdf->SetTextColor(0, 0, 0); // Reset text color to black for subsequent output
 
                 if ($contract->signature != null) {
                     $dataPieces = explode(',', $contract->signature);
@@ -238,7 +343,7 @@ class ContractController extends Controller
                     if ($decodedImg !== false) {
                         $name = 'signature-' . now()->toDateString() . '.png';
                         if (file_put_contents($name, $decodedImg) !== false) {
-                            $pdf->Image($name, 80, 256, 16, 16, 'png');
+                            $pdf->Image($name, 100, 225, 32, 32, 'png');
                             unlink($name);
                         }
                     }

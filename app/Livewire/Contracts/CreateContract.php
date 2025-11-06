@@ -58,12 +58,10 @@ class CreateContract extends Component implements HasForms
                     ->label(__('forms/contracts.purpose'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('type')
+                Forms\Components\TextInput::make('type')
                     ->label(__('forms/contracts.type'))
-                    ->options(Category::ApartmentType()->pluck('title', 'id'))
-                    ->searchable()
-                    ->preload()
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('area')
                     ->label(__('forms/contracts.area'))
                     ->suffix(__('forms/contracts.area_suffix'))
@@ -115,7 +113,7 @@ class CreateContract extends Component implements HasForms
                 Forms\Components\TextInput::make('total_cost')
                     ->label(__('forms/contracts.total_cost'))
                     ->required()
-                    ->helperText(fn (callable $get) => 'شامل الضريبة 15% (' . $get('tax') . ')')
+                    ->helperText(fn(callable $get) => 'شامل الضريبة 15% (' . $get('tax') . ')')
                     ->maxLength(255)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {

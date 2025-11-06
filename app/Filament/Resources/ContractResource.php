@@ -91,12 +91,10 @@ class ContractResource extends Resource
                     ->label(__('forms/contracts.purpose'))
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('type')
+                Forms\Components\TextInput::make('type')
                     ->label(__('forms/contracts.type'))
-                    ->options(Category::ApartmentType()->pluck('title', 'id'))
-                    ->searchable()
-                    ->preload()
-                    ->required(),
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('area')
                     ->label(__('forms/contracts.area'))
                     ->suffix(__('forms/contracts.area_suffix'))
@@ -217,7 +215,6 @@ class ContractResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
                     ->label(__('tables/contracts.type'))
-                    ->formatStateUsing(fn($state) => __('categories.' . $state))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area')
                     ->label(__('tables/contracts.area'))

@@ -229,12 +229,13 @@ class ContractController extends Controller
                 //     1
                 // );
 
-                // Property Type and Area
+                // Property Type
                 $pdf->setY(245);
                 $pdf->setX(33.5);
                 $pdf->setFontSize(10);
-                $category = Category::where('slug', $contract->type)->orWhere('id', $contract->type)->first();
-                $pdf->Cell(0, 0, $category->title . ' بمساحة: (' . $contract->area . 'متر مربع)', 0, 1, 'R', 0, '', 1);
+                // The type accessor in Contract model handles backward compatibility
+                // It returns the category title for old IDs or the text value for new records
+                $pdf->Cell(0, 0, $contract->type, 0, 1, 'R', 0, '', 1);
 
 
                 // Old contract template

@@ -100,34 +100,38 @@ class ContractResource extends Resource
                     ->suffix(__('forms/contracts.area_suffix'))
                     ->numeric()
                     ->minValue(1)
-                    ->default(1)
-                    ->required()
-                    ->maxLength(255),
+                    ->default(null)
+                    ->maxLength(255)
+                    ->hidden(fn($record) => $record === null || $record->area === null),
                 Forms\Components\TextInput::make('property_address')
                     ->label(__('forms/contracts.property_address'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('deed_number')
                     ->label(__('forms/contracts.deed_number'))
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->hidden(fn($record) => $record === null || $record->deed_number === null),
                 Forms\Components\DatePicker::make('deed_issue_date')
                     ->label(__('forms/contracts.deed_issue_date'))
                     ->native(false)
-                    ->required(),
+                    ->hidden(fn($record) => $record === null || $record->deed_issue_date === null),
                 Forms\Components\TextInput::make('number_of_assets')
                     ->label(__('forms/contracts.number_of_assets'))
                     ->numeric()
                     ->minValue(1)
-                    ->default(1)
+                    ->default(null)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {
-                        $og_total = (int) $get('number_of_assets') * (int) $get('cost_per_asset');
-                        $set('total_cost', round($og_total * 1.15)); // Apply 15% tax
-                        $set('tax', $og_total * 0.15);
+                        $numberOfAssets = (int) $get('number_of_assets');
+                        $costPerAsset = (int) $get('cost_per_asset');
+                        if ($numberOfAssets > 0 && $costPerAsset > 0) {
+                            $og_total = $numberOfAssets * $costPerAsset;
+                            $set('total_cost', round($og_total * 1.15)); // Apply 15% tax
+                            $set('tax', $og_total * 0.15);
+                        }
                     })
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->hidden(fn($record) => $record === null || $record->number_of_assets === null),
                 Forms\Components\TextInput::make('cost_per_asset')
                     ->label(__('forms/contracts.cost_per_asset'))
                     ->numeric()
@@ -135,9 +139,13 @@ class ContractResource extends Resource
                     ->default(1)
                     ->reactive()
                     ->afterStateUpdated(function (callable $get, callable $set) {
-                        $og_total = (int) $get('number_of_assets') * (int) $get('cost_per_asset');
-                        $set('total_cost', round($og_total * 1.15)); // Apply 15% tax
-                        $set('tax', $og_total * 0.15);
+                        $numberOfAssets = (int) $get('number_of_assets');
+                        $costPerAsset = (int) $get('cost_per_asset');
+                        if ($numberOfAssets > 0 && $costPerAsset > 0) {
+                            $og_total = $numberOfAssets * $costPerAsset;
+                            $set('total_cost', round($og_total * 1.15)); // Apply 15% tax
+                            $set('tax', $og_total * 0.15);
+                        }
                     })
                     ->required()
                     ->maxLength(255),
@@ -221,19 +229,23 @@ class ContractResource extends Resource
                     ->numeric()
                     ->formatStateUsing(fn($state) => $state)
                     ->description(__('tables/contracts.area_suffix'))
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deed_number')
                     ->label(__('tables/contracts.deed_number'))
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('deed_issue_date')
                     ->label(__('tables/contracts.deed_issue_date'))
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('number_of_assets')
                     ->label(__('tables/contracts.number_of_assets'))
                     ->numeric()
                     ->formatStateUsing(fn($state) => $state)
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('cost_per_asset')
                     ->label(__('tables/contracts.cost_per_asset'))
                     ->money('SAR')

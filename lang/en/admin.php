@@ -245,5 +245,50 @@ return [
         'clear_btn' => 'Clear',
         'submit_btn' => 'Confirm and Download Contract',
         'contract_signed' => 'Contract Has Been Signed',
-    ]
+    ],
+
+    'auctions' => [
+        'singular' => 'Auction',
+        'plural' => 'Auctions',
+        'navigation_group' => 'Comparisons',
+        'sections' => [
+            'location_information' => 'Location Information',
+            'auction_details' => 'Auction Details',
+            'additional_information' => 'Additional Information',
+        ],
+        'fields' => [
+            'longitude' => 'Longitude',
+            'latitude' => 'Latitude',
+            'instrument_number' => 'Instrument Number',
+            'area' => 'Area',
+            'type' => 'Type',
+            'opening_price' => 'Opening Price',
+            'date' => 'Date',
+            'highest_bid' => 'Highest Bid',
+            'notes' => 'Notes',
+            'auction_url' => 'Auction URL',
+            'attachments' => 'Attachments',
+            'created_at' => 'Creation Date',
+        ],
+    ],
+
+    'rentals' => [
+        'singular' => 'Rental',
+        'plural' => 'Rentals',
+        'navigation_group' => 'Comparisons',
+        'sections' => [
+            'location_information' => 'Location Information',
+            'rental_details' => 'Rental Details',
+        ],
+        'fields' => [
+            'longitude' => 'Longitude',
+            'latitude' => 'Latitude',
+            'contract_date' => 'Contract Date',
+            'area' => 'Area',
+            'annual_rent' => 'Annual Rent',
+            'contract_number' => 'Contract Number',
+            'attachments' => 'Attachments',
+            'created_at' => 'Creation Date',
+        ],
+    ],
 ];

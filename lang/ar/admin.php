@@ -332,5 +332,51 @@ return [
     'null_signature' => 'لم يتم التوقيع',
     'ViewRecord' => 'عرض العنصر',
     'ViewSettings' => 'عرض الإعدادات',
-    'Sign' => 'الإشارة'
+    'Sign' => 'الإشارة',
+
+    'auctions' => [
+        'singular' => 'مزاد',
+        'plural' => 'المزادات',
+        'navigation_group' => 'المقارنات',
+        'sections' => [
+            'location_information' => 'معلومات الموقع',
+            'auction_details' => 'تفاصيل المزاد',
+            'additional_information' => 'معلومات إضافية',
+        ],
+        'fields' => [
+            'longitude' => 'خط الطول',
+            'latitude' => 'خط العرض',
+            'instrument_number' => 'رقم الصك',
+            'area' => 'المساحة',
+            'type' => 'نوع العقار',
+            'opening_price' => 'سعر الإفتتاح',
+            'date' => 'التاريخ',
+            'highest_bid' => 'أعلى مزايدة',
+            'notes' => 'ملاحظات',
+            'auction_url' => 'رابط المزاد',
+            'attachments' => 'المرفقات',
+            'created_at' => 'تاريخ الإنشاء',
+        ],
+    ],
+
+    'rentals' => [
+        'singular' => 'إيجار',
+        'plural' => 'الإيجارات',
+        'navigation_group' => 'المقارنات',
+        'sections' => [
+            'location_information' => 'معلومات الموقع',
+            'rental_details' => 'تفاصيل التأجير',
+        ],
+        'fields' => [
+            'longitude' => 'خط الطول',
+            'latitude' => 'خط العرض',
+            'contract_date' => 'تاريخ العقد',
+            'area' => 'المساحة',
+            'annual_rent' => 'الإيجار السنوي',
+            'contract_number' => 'رقم العقد',
+            'attachments' => 'المرفقات',
+            'created_at' => 'تاريخ الإنشاء',
+        ],
+    ],
+
 ];

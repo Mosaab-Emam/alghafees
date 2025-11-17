@@ -257,6 +257,7 @@ return [
             'additional_information' => 'Additional Information',
         ],
         'fields' => [
+            'location' => 'Location',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
             'instrument_number' => 'Instrument Number',
@@ -281,6 +282,7 @@ return [
             'rental_details' => 'Rental Details',
         ],
         'fields' => [
+            'location' => 'Location',
             'longitude' => 'Longitude',
             'latitude' => 'Latitude',
             'contract_date' => 'Contract Date',

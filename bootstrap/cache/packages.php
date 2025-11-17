@@ -38,6 +38,13 @@
       0 => 'BladeUI\\Icons\\BladeIconsServiceProvider',
     ),
   ),
+  'cheesegrits/filament-google-maps' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Cheesegrits\\FilamentGoogleMaps\\FilamentGoogleMapsServiceProvider',
+    ),
+  ),
   'filament/actions' => 
   array (
     'providers' => 
@@ -232,6 +239,17 @@
     'providers' => 
     array (
       0 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    ),
+  ),
+  'mastani/laravel-google-static-map' => 
+  array (
+    'aliases' => 
+    array (
+      'GoogleStaticMap' => 'Mastani\\GoogleStaticMap\\GoogleStaticMapFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Mastani\\GoogleStaticMap\\GoogleStaticMapServiceProvider',
     ),
   ),
   'mohamedsabil83/filament-forms-tinyeditor' => 

@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 
 class RentalResource extends Resource
 {
@@ -45,17 +46,13 @@ class RentalResource extends Resource
             ->schema([
                 Forms\Components\Section::make(__('admin.rentals.sections.location_information'))
                     ->schema([
-                        Forms\Components\TextInput::make('longitude')
-                            ->label(__('admin.rentals.fields.longitude'))
-                            ->numeric()
-                            ->step(0.0000001)
-                            ->nullable(),
-                        Forms\Components\TextInput::make('latitude')
-                            ->label(__('admin.rentals.fields.latitude'))
-                            ->numeric()
-                            ->step(0.0000001)
-                            ->nullable(),
-                    ])->columns(2),
+                        Map::make('location')
+                            ->label(__('admin.rentals.fields.location'))
+                            ->defaultLocation([24.7136, 46.6753]) // Riyadh, Saudi Arabia
+                            ->clickable()
+                            ->reactive()
+                            ->columnSpanFull(),
+                    ]),
 
                 Forms\Components\Section::make(__('admin.rentals.sections.rental_details'))
                     ->schema([

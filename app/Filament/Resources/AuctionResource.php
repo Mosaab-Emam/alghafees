@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Cheesegrits\FilamentGoogleMaps\Fields\Map;
 
 class AuctionResource extends Resource
 {
@@ -45,17 +46,13 @@ class AuctionResource extends Resource
             ->schema([
                 Forms\Components\Section::make(__('admin.auctions.sections.location_information'))
                     ->schema([
-                        Forms\Components\TextInput::make('longitude')
-                            ->label(__('admin.auctions.fields.longitude'))
-                            ->numeric()
-                            ->step(0.0000001)
-                            ->nullable(),
-                        Forms\Components\TextInput::make('latitude')
-                            ->label(__('admin.auctions.fields.latitude'))
-                            ->numeric()
-                            ->step(0.0000001)
-                            ->nullable(),
-                    ])->columns(2),
+                        Map::make('location')
+                            ->label(__('admin.auctions.fields.location'))
+                            ->defaultLocation([24.7136, 46.6753]) // Riyadh, Saudi Arabia
+                            ->clickable()
+                            ->reactive()
+                            ->columnSpanFull(),
+                    ]),
 
                 Forms\Components\Section::make(__('admin.auctions.sections.auction_details'))
                     ->schema([

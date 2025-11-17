@@ -344,6 +344,7 @@ return [
             'additional_information' => 'معلومات إضافية',
         ],
         'fields' => [
+            'location' => 'الموقع',
             'longitude' => 'خط الطول',
             'latitude' => 'خط العرض',
             'instrument_number' => 'رقم الصك',
@@ -368,6 +369,7 @@ return [
             'rental_details' => 'تفاصيل التأجير',
         ],
         'fields' => [
+            'location' => 'الموقع',
             'longitude' => 'خط الطول',
             'latitude' => 'خط العرض',
             'contract_date' => 'تاريخ العقد',

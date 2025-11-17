@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /admin/
-Disallow: /dashboard/
-
-Sitemap: https://alghafestaqeem.com/sitemap.xml

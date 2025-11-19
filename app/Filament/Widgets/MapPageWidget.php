@@ -89,6 +89,10 @@ class MapPageWidget extends MapWidget
                 $viewUrl = AuctionResource::getUrl('view', ['record' => $auction]);
                 $label .= '<div style="margin-top: 8px;"><a href="' . e($viewUrl) . '" style="color: #1976d2; text-decoration: underline; font-weight: 500;">عرض التفاصيل</a></div>';
 
+                if ($auction->auction_url) {
+                    $label .= '<div style="margin-top: 4px;"><a href="' . e($auction->auction_url) . '" target="_blank" style="color: #1976d2; text-decoration: underline;">' . __('admin.auctions.fields.auction_url') . ' →</a></div>';
+                }
+
                 $label .= '</div></div>';
 
                 $data[] = [

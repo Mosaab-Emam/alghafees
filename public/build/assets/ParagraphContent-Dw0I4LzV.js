@@ -1,0 +1,1 @@
+import{j as s}from"./app-CUkqiE4q.js";const x=({children:t,textColor:r="text-Gray-scale-02",textDirection:a="text-right",className:e=""})=>s.jsx("p",{className:`regular-b1  ${r} ${a} ${e}`,children:t});export{x as P};

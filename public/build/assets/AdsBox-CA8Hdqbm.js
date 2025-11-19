@@ -1,0 +1,1 @@
+import{j as s}from"./app-CUkqiE4q.js";/* empty css            */const t="/build/assets/ads-image-IKHCLlSI.png",d=({className:a})=>s.jsx("div",{className:`${a} lg:h-[310px] h-auto md:self-stretch`,children:s.jsx("img",{className:"w-full",src:t,alt:"ads ",loading:"lazy"})});export{d as default};

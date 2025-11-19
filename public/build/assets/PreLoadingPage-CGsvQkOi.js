@@ -1,0 +1,1 @@
+import{j as e}from"./app-CUkqiE4q.js";import{S as o}from"./logo-Dgvva-m1.js";/* empty css            */const s=()=>e.jsx("div",{className:"fixed loading inset-0 bg-bg-01 z-50 !overflow-hidden h-full w-full flex items-center justify-center min-h-[60vh] flex-col gap-4",children:e.jsx(o,{})});export{s as default};

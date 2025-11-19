@@ -1,0 +1,4 @@
+import{j as s}from"./app-CUkqiE4q.js";import{P as n}from"./ParagraphContent-Dw0I4LzV.js";const c=({type:a,index:l,img:t,title:e,desc:x})=>{const r=l===2;return s.jsxs("div",{className:`
+    flex justify-start items-center gap-5 min-w-[285px] max-w-full min-w-auto lg:min-w-[285px] lg:max-w-full flex-grow
+    ${a==="about-page"?"":r?"mb-[50px]":"mb-[80.3px]"}
+  `.trim(),children:[s.jsx("div",{className:"w-[82px] h-[91px] flex-shrink-0",children:s.jsx("img",{className:"w-full h-ful object-scale-down",src:t,alt:e,loading:"lazy"})}),s.jsxs("div",{className:"flex flex-col justify-center items-start gap-2 flex-shrink-0 w-[193px]",children:[s.jsx("h3",{className:"text-[22px] font-normal leading-[30.8px] text-Black-01 text-center min-w-[116px] h-[25px]",children:e}),s.jsx(n,{children:x})]})]})};export{c as A};

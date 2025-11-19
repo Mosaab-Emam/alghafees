@@ -1,0 +1,1 @@
+.loading svg{animation:loading 2s infinite alternate}@keyframes loading{0%{opacity:.2;transform:scale(1)}to{opacity:1;transform:scale(1.2)}}

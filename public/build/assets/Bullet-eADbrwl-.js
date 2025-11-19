@@ -1,0 +1,1 @@
+import{j as s}from"./app-CUkqiE4q.js";const a=({blue:e,position:r})=>s.jsx("div",{className:`absolute z-[-1] ${r}  w-[30px] h-[30px] rounded-full flex justify-center items-center ${e?"bg-primary-600":" bg-Gray-scale-03"}`});export{a as B};

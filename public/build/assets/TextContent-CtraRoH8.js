@@ -1,0 +1,1 @@
+import{j as l}from"./app-CUkqiE4q.js";const r=({children:t,headLineClass:e="lg:head-line-h4 head-line-h3",align:a="text-right",textColor:s="text-Black-01",width:x})=>l.jsx("p",{className:` max-w-full ${e} ${a} ${x} ${s}`,children:t});export{r as T};

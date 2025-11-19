@@ -1,0 +1,3 @@
+import{j as n}from"./app-CUkqiE4q.js";/* empty css               */const s=({variant:r="primary",radius:t="",className:e="",onClick:p=()=>{},disabled:i=!1,children:x,type:o="button"})=>n.jsx("button",{type:o,onClick:p,disabled:i,className:`flex min-w-[150px] h-[50px] py-[15px] px-[44px] justify-center items-center gap-[10px] border-[2px] border-primary-600 text-primary-600 transition-all duration-200 ease-in-out
+                ${r==="primary"?"bg-primary-600 text-white":"bg-white text-primary-600"}
+                ${t==="right"?"rounded-tr-[50px] rounded-bl-[50px]":"rounded-tl-[50px] rounded-br-[50px]"}  ${e}`,children:x});export{s as B};

@@ -381,4 +381,9 @@ return [
         ],
     ],
 
+    'map' => [
+        'title' => 'الخريطة',
+        'navigation_group' => 'المقارنات',
+    ],
+
 ];

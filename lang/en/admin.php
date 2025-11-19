@@ -293,4 +293,9 @@ return [
             'created_at' => 'Creation Date',
         ],
     ],
+
+    'map' => [
+        'title' => 'Map',
+        'navigation_group' => 'Comparisons',
+    ],
 ];

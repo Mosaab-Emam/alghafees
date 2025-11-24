@@ -49,17 +49,44 @@ class RentalResource extends Resource
                         Map::make('location')
                             ->label(__('admin.rentals.fields.location'))
                             ->defaultLocation([24.7136, 46.6753]) // Riyadh, Saudi Arabia
-                            ->clickable()
+                            ->clickable(false)
+                            ->draggable(false)
                             ->reactive()
+                            ->disabled(fn(string $context): bool => $context === 'view')
+                            ->visible(fn(string $context): bool => $context === 'view')
                             ->columnSpanFull(),
-                    ]),
+                        Forms\Components\TextInput::make('latitude')
+                            ->label(__('admin.rentals.fields.latitude'))
+                            ->numeric()
+                            ->default(24.7136) // Riyadh, Saudi Arabia default
+                            ->required()
+                            ->disabled(fn(string $context): bool => $context === 'view'),
+                        Forms\Components\TextInput::make('longitude')
+                            ->label(__('admin.rentals.fields.longitude'))
+                            ->numeric()
+                            ->default(46.6753) // Riyadh, Saudi Arabia default
+                            ->required()
+                            ->disabled(fn(string $context): bool => $context === 'view'),
+                    ])->columns(2),
 
                 Forms\Components\Section::make(__('admin.rentals.sections.rental_details'))
                     ->schema([
+                        Forms\Components\TextInput::make('type')
+                            ->label(__('admin.rentals.fields.type'))
+                            ->required()
+                            ->maxLength(255),
                         Forms\Components\DatePicker::make('contract_date')
                             ->label(__('admin.rentals.fields.contract_date'))
                             ->native(false)
                             ->required(),
+                        Forms\Components\DatePicker::make('contract_start_date')
+                            ->label(__('admin.rentals.fields.contract_start_date'))
+                            ->native(false)
+                            ->required(),
+                        Forms\Components\TextInput::make('contract_period')
+                            ->label(__('admin.rentals.fields.contract_period'))
+                            ->required()
+                            ->maxLength(255),
                         Forms\Components\TextInput::make('area')
                             ->label(__('admin.rentals.fields.area'))
                             ->numeric()
@@ -78,6 +105,7 @@ class RentalResource extends Resource
                             ->multiple()
                             ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png', 'image/gif'])
                             ->maxSize(10240)
+                            ->required()
                             ->columnSpanFull(),
                     ])->columns(2),
             ]);
@@ -91,6 +119,9 @@ class RentalResource extends Resource
                     ->label(__('admin.rentals.fields.contract_number'))
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('type')
+                    ->label(__('admin.rentals.fields.type'))
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('area')
                     ->label(__('admin.rentals.fields.area'))
                     ->numeric()

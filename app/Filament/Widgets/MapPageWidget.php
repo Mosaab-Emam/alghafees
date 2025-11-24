@@ -19,7 +19,7 @@ class MapPageWidget extends MapWidget
     protected static ?string $maxHeight = null;
 
     public array $controls = [
-        'mapTypeControl' => false,
+        'mapTypeControl' => true,
         'scaleControl' => false,
         'streetViewControl' => false,
         'rotateControl' => false,

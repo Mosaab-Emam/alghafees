@@ -19,9 +19,10 @@ return new class extends Migration {
             $table->string('type');
             $table->unsignedInteger('opening_price');
             $table->date('date');
+            $table->date('start_date');
             $table->unsignedInteger('highest_bid');
             $table->text('notes')->nullable();
-            $table->string('auction_url')->nullable();
+            $table->string('auction_url');
             $table->timestamps();
         });
     }

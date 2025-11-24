@@ -49,10 +49,25 @@ class AuctionResource extends Resource
                         Map::make('location')
                             ->label(__('admin.auctions.fields.location'))
                             ->defaultLocation([24.7136, 46.6753]) // Riyadh, Saudi Arabia
-                            ->clickable()
+                            ->clickable(false)
+                            ->draggable(false)
                             ->reactive()
+                            ->disabled(fn(string $context): bool => $context === 'view')
+                            ->visible(fn(string $context): bool => $context === 'view')
                             ->columnSpanFull(),
-                    ]),
+                        Forms\Components\TextInput::make('latitude')
+                            ->label(__('admin.auctions.fields.latitude'))
+                            ->numeric()
+                            ->default(24.7136) // Riyadh, Saudi Arabia default
+                            ->required()
+                            ->disabled(fn(string $context): bool => $context === 'view'),
+                        Forms\Components\TextInput::make('longitude')
+                            ->label(__('admin.auctions.fields.longitude'))
+                            ->numeric()
+                            ->default(46.6753) // Riyadh, Saudi Arabia default
+                            ->required()
+                            ->disabled(fn(string $context): bool => $context === 'view'),
+                    ])->columns(2),
 
                 Forms\Components\Section::make(__('admin.auctions.sections.auction_details'))
                     ->schema([
@@ -78,6 +93,10 @@ class AuctionResource extends Resource
                             ->label(__('admin.auctions.fields.date'))
                             ->native(false)
                             ->required(),
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label(__('admin.auctions.fields.start_date'))
+                            ->native(false)
+                            ->required(),
                         Forms\Components\TextInput::make('highest_bid')
                             ->label(__('admin.auctions.fields.highest_bid'))
                             ->numeric()
@@ -96,7 +115,7 @@ class AuctionResource extends Resource
                         Forms\Components\TextInput::make('auction_url')
                             ->label(__('admin.auctions.fields.auction_url'))
                             ->url()
-                            ->nullable()
+                            ->required()
                             ->maxLength(255),
                         \Filament\Forms\Components\SpatieMediaLibraryFileUpload::make('attachments')
                             ->label(__('admin.auctions.fields.attachments'))
@@ -132,6 +151,10 @@ class AuctionResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label(__('admin.auctions.fields.date'))
+                    ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('start_date')
+                    ->label(__('admin.auctions.fields.start_date'))
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

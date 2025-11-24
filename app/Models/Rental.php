@@ -15,6 +15,9 @@ class Rental extends Model implements HasMedia
         'longitude',
         'latitude',
         'contract_date',
+        'contract_start_date',
+        'contract_period',
+        'type',
         'area',
         'annual_rent',
         'contract_number',
@@ -30,6 +33,7 @@ class Rental extends Model implements HasMedia
         'latitude' => 'decimal:7',
         'area' => 'decimal:2',
         'contract_date' => 'date',
+        'contract_start_date' => 'date',
     ];
 
     public function scopeRecent($query)

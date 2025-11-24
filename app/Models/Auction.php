@@ -19,6 +19,7 @@ class Auction extends Model implements HasMedia
         'type',
         'opening_price',
         'date',
+        'start_date',
         'highest_bid',
         'notes',
         'auction_url',
@@ -36,6 +37,7 @@ class Auction extends Model implements HasMedia
         'opening_price' => 'integer',
         'highest_bid' => 'integer',
         'date' => 'date',
+        'start_date' => 'date',
     ];
 
     public function scopeRecent($query)

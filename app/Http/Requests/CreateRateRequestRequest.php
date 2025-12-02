@@ -23,6 +23,7 @@ namespace App\Http\Requests;
  * @bodyParam estate_line_1 string required Property address line 1. Example: شارع النصر
  * @bodyParam estate_line_2 string Property address line 2. Example: مبنى 123
  * @bodyParam price_package_id integer required The selected price package ID. Example: 1
+ * @bodyParam source string The source of the request. Must be either 'website' or 'app'. Defaults to 'website'. Example: website
  */
 class CreateRateRequestRequest extends Request
 {
@@ -51,6 +52,7 @@ class CreateRateRequestRequest extends Request
             'estate_line_1' => 'required|string|max:255',
             'estate_line_2' => 'nullable|string|max:255',
             'price_package_id' => 'required|exists:price_packages,id',
+            'source' => 'nullable|string|in:website,app',
         ];
     }
 
@@ -91,6 +93,7 @@ class CreateRateRequestRequest extends Request
             'estate_line_1.required' => 'مطلوب',
             'estate_line_1.max' => '255 حرف كحد أقصى',
             'estate_line_2.max' => '255 حرف كحد أقصى',
+            'source.in' => 'يجب أن يكون إما website أو app',
         ];
     }
 }

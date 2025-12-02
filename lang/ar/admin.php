@@ -288,6 +288,7 @@ return [
         'construction_images' => 'رخصة البناء',
         'other_images' => 'عقود أخرى',
         'status' => 'الحالة',
+        'source' => 'مصدر الطلب',
         'client_info' => 'بيانات العميل',
         'asset_info' => 'بيانات العقار',
         'media_info' => 'المرفقات',

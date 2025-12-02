@@ -37,6 +37,7 @@ class RateRequest extends Model implements HasMedia
         'estate_line_1',
         'estate_line_2',
         'price_package_id',
+        'source',
     ];
 
     public function price_package()

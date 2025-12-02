@@ -158,6 +158,14 @@ class RateRequestResource extends Resource
                                 __('admin.CheckedRequest') => 'success',
                                 __('admin.SuspendedRequest') => 'danger',
                             }),
+                        TextEntry::make('source')
+                            ->label(__('admin.rate-requests.source'))
+                            ->badge()
+                            ->color(fn(string $state): string => match ($state) {
+                                'website' => 'gray',
+                                'app' => 'primary',
+                                default => 'gray',
+                            }),
                     ])
                     ->columns(2),
             ]);

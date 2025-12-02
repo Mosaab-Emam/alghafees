@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\InfoStaticContentResource;
 use App\Http\Resources\PricePackageResource;
@@ -12,6 +13,7 @@ use App\Models\PricePackage;
 use App\Models\RateRequest;
 use App\Models\RequestEvaluationStaticContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @group Rate Requests
@@ -65,23 +67,11 @@ class RateRequestController extends Controller
      *
      * Submit a new rate/evaluation request.
      *
-     * @bodyParam goal_id integer required The goal category ID. Example: 1
-     * @bodyParam type_id integer required The type category ID. Example: 2
-     * @bodyParam entity_id integer required The entity category ID. Example: 1
-     * @bodyParam usage_id integer required The usage category ID. Example: 3
-     * @bodyParam price_package_id integer The selected price package ID. Example: 1
-     * @bodyParam name string required Customer name. Example: Ahmed Ali
-     * @bodyParam email string required Customer email. Example: ahmed@example.com
-     * @bodyParam phone string required Customer phone. Example: 0501234567
-     * @bodyParam property_location string required Property location. Example: Riyadh, Al Olaya
-     * @bodyParam property_description string Property description. Example: 3 bedroom villa
-     * @bodyParam notes string Additional notes.
-     *
-     * @response 200 {
+     * @response 201 {
      *   "message": "Rate request submitted successfully",
      *   "data": {
      *     "id": 123,
-     *     "request_number": "REQ-2025-00123"
+     *     "request_no": "12300"
      *   }
      * }
      * @response 422 {
@@ -89,21 +79,27 @@ class RateRequestController extends Controller
      *   "errors": {}
      * }
      */
-    public function store(Request $request)
+    public function store(CreateRateRequestRequest $request)
     {
-        $validated = $request->validate([
-            'goal_id' => 'required|exists:categories,id',
-            'type_id' => 'required|exists:categories,id',
-            'entity_id' => 'required|exists:categories,id',
-            'usage_id' => 'required|exists:categories,id',
-            'price_package_id' => 'nullable|exists:price_packages,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
-            'property_location' => 'required|string',
-            'property_description' => 'nullable|string',
-            'notes' => 'nullable|string',
-        ]);
+        // Log the request time and the incoming payload (before validation)
+        $requestTime = now()->toDateTimeString();
+        $requestPayload = $request->all();
+
+        $logMsg = '[RateRequestController@store] [' . $requestTime . '] Arrived payload: ' . json_encode($requestPayload);
+
+        // Log to log file
+        Log::info($logMsg);
+
+        // Log to console (if running in console environment, also error_log for devs)
+        if (app()->runningInConsole()) {
+            echo $logMsg . PHP_EOL;
+        }
+        error_log($logMsg);
+
+        $validated = $request->validated();
+
+        // Generate request_no the same way as Website controller
+        $validated['request_no'] = !empty(RateRequest::latest()->first()->id) ? RateRequest::latest()->first()->id * 100 : '1000';
 
         $rateRequest = RateRequest::create($validated);
 
@@ -111,7 +107,7 @@ class RateRequestController extends Controller
             'message' => 'Rate request submitted successfully',
             'data' => [
                 'id' => $rateRequest->id,
-                'request_number' => $rateRequest->request_number ?? 'REQ-' . str_pad($rateRequest->id, 6, '0', STR_PAD_LEFT),
+                'request_no' => $rateRequest->request_no,
             ]
         ], 201);
     }
@@ -121,13 +117,13 @@ class RateRequestController extends Controller
      *
      * Track the status of a rate request by request number or email.
      *
-     * @queryParam request_number string The request number. Example: REQ-2025-00123
+     * @queryParam request_no string The request number. Example: 12300
      * @queryParam email string Customer email. Example: ahmed@example.com
      *
      * @response 200 {
      *   "data": {
      *     "id": 123,
-     *     "request_number": "REQ-2025-00123",
+     *     "request_no": "12300",
      *     "status": "pending",
      *     "created_at": "2025-01-15"
      *   }
@@ -139,14 +135,14 @@ class RateRequestController extends Controller
     public function track(Request $request)
     {
         $request->validate([
-            'request_number' => 'required_without:email|string',
-            'email' => 'required_without:request_number|email',
+            'request_no' => 'required_without:email|string',
+            'email' => 'required_without:request_no|email',
         ]);
 
         $query = RateRequest::query();
 
-        if ($request->has('request_number')) {
-            $query->where('request_number', $request->request_number);
+        if ($request->has('request_no')) {
+            $query->where('request_no', $request->request_no);
         }
 
         if ($request->has('email')) {
@@ -164,7 +160,7 @@ class RateRequestController extends Controller
         return response()->json([
             'data' => [
                 'id' => $rateRequest->id,
-                'request_number' => $rateRequest->request_number ?? 'REQ-' . str_pad($rateRequest->id, 6, '0', STR_PAD_LEFT),
+                'request_no' => $rateRequest->request_no,
                 'status' => $rateRequest->status,
                 'created_at' => $rateRequest->created_at->format('Y-m-d'),
             ]

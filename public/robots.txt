@@ -1,5 +1,91 @@
+# ==================================================
+#   Robots.txt — Alghafees Real Estate Valuation
+#   GEO + AI Open Crawling
+#   Domain: https://alghafestaqeem.com
+#   Updated: 2025
+# ==================================================
+
+# السماح الكامل لجميع البوتات (Search + AI)
+User-agent: *
+Allow: /
+
+# =========================
+# AI Crawlers
+# =========================
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-UserBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# =========================
+# Standard Search Bots
+# =========================
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# =========================
+# Laravel Admin & Dashboard
+# =========================
 User-agent: *
 Disallow: /admin/
 Disallow: /dashboard/
 
+# مسارات غير مفيدة للفهرسة
+Disallow: /upload/
+Disallow: /media/
+Disallow: /storage/
+
+# =========================
+# منع باراميترات التتبع
+# =========================
+Disallow: /*?*utm_*
+Disallow: /*?*gclid*
+Disallow: /*?*fbclid*
+Disallow: /*?*msclkid*
+Disallow: /*?*mkt_tok*
+Disallow: /*?*yclid*
+Disallow: /*?*ref=*
+
+# =========================
+# Sitemap — مهم جدًا
+# =========================
 Sitemap: https://alghafestaqeem.com/sitemap.xml
+
+# =========================
+# Optional for AI Training (Cloudflare)
+# =========================
+Content-signal: search=yes, ai-train=yes

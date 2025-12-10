@@ -24,6 +24,9 @@ namespace App\Http\Requests;
  * @bodyParam estate_line_2 string Property address line 2. Example: مبنى 123
  * @bodyParam price_package_id integer required The selected price package ID. Example: 1
  * @bodyParam source string The source of the request. Must be either 'website' or 'app'. Defaults to 'website'. Example: website
+ * @bodyParam instrument_image file optional Property instrument image. Must be an image (jpeg, jpg, png) or PDF. Max size: 10MB.
+ * @bodyParam construction_license file optional Construction license document. Must be an image (jpeg, jpg, png) or PDF. Max size: 10MB.
+ * @bodyParam other_contracts file optional Other contracts document. Must be an image (jpeg, jpg, png) or PDF. Max size: 10MB.
  */
 class CreateRateRequestRequest extends Request
 {
@@ -53,6 +56,9 @@ class CreateRateRequestRequest extends Request
             'estate_line_2' => 'nullable|string|max:255',
             'price_package_id' => 'required|exists:price_packages,id',
             'source' => 'nullable|string|in:website,app',
+            'instrument_image' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
+            'construction_license' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
+            'other_contracts' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
         ];
     }
 
@@ -94,6 +100,15 @@ class CreateRateRequestRequest extends Request
             'estate_line_1.max' => '255 حرف كحد أقصى',
             'estate_line_2.max' => '255 حرف كحد أقصى',
             'source.in' => 'يجب أن يكون إما website أو app',
+            'instrument_image.file' => 'يجب أن يكون ملف',
+            'instrument_image.mimes' => 'يجب أن يكون الملف من نوع: jpeg, jpg, png, pdf',
+            'instrument_image.max' => 'يجب ألا يتجاوز حجم الملف 10 ميجابايت',
+            'construction_license.file' => 'يجب أن يكون ملف',
+            'construction_license.mimes' => 'يجب أن يكون الملف من نوع: jpeg, jpg, png, pdf',
+            'construction_license.max' => 'يجب ألا يتجاوز حجم الملف 10 ميجابايت',
+            'other_contracts.file' => 'يجب أن يكون ملف',
+            'other_contracts.mimes' => 'يجب أن يكون الملف من نوع: jpeg, jpg, png, pdf',
+            'other_contracts.max' => 'يجب ألا يتجاوز حجم الملف 10 ميجابايت',
         ];
     }
 }

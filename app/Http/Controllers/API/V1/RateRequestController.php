@@ -7,6 +7,7 @@ use App\Http\Requests\CreateRateRequestRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\InfoStaticContentResource;
 use App\Http\Resources\PricePackageResource;
+use App\Interfaces\RateRequestRepositoryInterface;
 use App\Models\Category;
 use App\Models\InfoStaticContent;
 use App\Models\PricePackage;
@@ -22,6 +23,13 @@ use Illuminate\Support\Facades\Log;
  */
 class RateRequestController extends Controller
 {
+    private RateRequestRepositoryInterface $rateRepository;
+
+    public function __construct(RateRequestRepositoryInterface $rateRepository)
+    {
+        $this->rateRepository = $rateRepository;
+    }
+
     /**
      * Get Request Evaluation Page Data
      *
@@ -85,7 +93,16 @@ class RateRequestController extends Controller
         $requestTime = now()->toDateTimeString();
         $requestPayload = $request->all();
 
-        $logMsg = '[RateRequestController@store] [' . $requestTime . '] Arrived payload: ' . json_encode($requestPayload);
+        // Remove file objects from payload for logging (files can't be json_encoded)
+        $logPayload = $requestPayload;
+        $fileFields = ['instrument_image', 'construction_license', 'other_contracts'];
+        foreach ($fileFields as $field) {
+            if (isset($logPayload[$field])) {
+                $logPayload[$field] = $request->hasFile($field) ? '[File: ' . $request->file($field)->getClientOriginalName() . ']' : null;
+            }
+        }
+
+        $logMsg = '[RateRequestController@store] [' . $requestTime . '] Arrived payload: ' . json_encode($logPayload);
 
         // Log to log file
         Log::info($logMsg);
@@ -96,12 +113,24 @@ class RateRequestController extends Controller
         }
         error_log($logMsg);
 
-        $validated = $request->validated();
+        $data = $request->all();
 
         // Generate request_no the same way as Website controller
-        $validated['request_no'] = !empty(RateRequest::latest()->first()->id) ? RateRequest::latest()->first()->id * 100 : '1000';
+        $data['request_no'] = !empty(RateRequest::latest()->first()->id) ? RateRequest::latest()->first()->id * 100 : '1000';
 
-        $rateRequest = RateRequest::create($validated);
+        // Create the rate request (excluding file fields from database)
+        $rateRequest = $this->rateRepository->createRateRequest($data);
+
+        // Handle file uploads using Spatie Media Library
+        $images = $this->rateRepository->getImagesSettings();
+        foreach ($images as $item) {
+            if (!empty($data[$item])) {
+                $rateRequest->addMultipleMediaFromRequest([$item])
+                    ->each(function ($fileAdder) use ($item) {
+                        $fileAdder->toMediaCollection($item);
+                    });
+            }
+        }
 
         return response()->json([
             'message' => 'Rate request submitted successfully',

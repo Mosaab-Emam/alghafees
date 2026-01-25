@@ -34,6 +34,7 @@ return [
     'wasender' => [
         'api_key' => env('WASENDER_API_KEY'),
         'webhook_secret' => env('WASENDER_API_WEBHOOK_SECRET'),
+        'chatbot_active_minutes' => (int) (env('WASENDER_CHATBOT_ACTIVE_MINUTES', 60) ?: 60),
     ],
 
 ];

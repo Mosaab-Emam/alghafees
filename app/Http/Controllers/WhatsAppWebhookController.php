@@ -49,10 +49,13 @@ class WhatsAppWebhookController extends Controller
         $phoneNumber = $messageData['phone_number'];
         $messageText = $messageData['message_text'];
 
-        // Process if message contains trigger phrase OR user has an active conversation (collecting fields)
+        // Process if message contains trigger phrase OR user has a *recent* active conversation (collecting fields)
+        // Recency avoids treating unrelated "regular" messages as continuation (e.g. "hi" days later).
         $hasTrigger = $this->hasTriggerPhrase($messageText);
+        $activeWithinMinutes = config('services.wasender.chatbot_active_minutes', 60);
         $hasActiveConversation = WhatsAppConversation::where('phone_number', $phoneNumber)
             ->where('state', 'collecting_field')
+            ->where('updated_at', '>=', now()->subMinutes($activeWithinMinutes))
             ->exists();
 
         if (!$hasTrigger && !$hasActiveConversation) {

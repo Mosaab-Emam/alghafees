@@ -139,7 +139,8 @@ class RateRequestChatbotService
     {
         $conversation = WhatsAppConversation::findOrCreateForPhone($phoneNumber);
         $conversation->markCancelled();
-        $conversation->reset();
+        // Do not reset — keep state=cancelled so unrelated messages won't be treated as
+        // "active conversation"; only "طلب تقييم" starts fresh (we reset then in handleMessage).
 
         $this->sendMessage($phoneNumber, "تم إلغاء الطلب. شكراً لك!", false);
     }
@@ -336,18 +337,16 @@ class RateRequestChatbotService
             // Create rate request
             $rateRequest = $this->rateRepository->createRateRequest($data);
 
-            // Mark conversation as completed
+            // Mark conversation as completed (do not reset — keeps state=completed so
+            // unrelated messages won't be treated as "active conversation"; only "طلب تقييم" starts fresh)
             $conversation->markCompleted();
 
-            // Send success message
+            // Send success message (no cancel footer — flow is complete)
             $successMessage = "تم إنشاء طلب التقييم بنجاح!\n\n";
             $successMessage .= "رقم الطلب: {$data['request_no']}\n\n";
             $successMessage .= "شكراً لك على استخدام خدمتنا. سنتواصل معك قريباً.";
 
-            $this->sendMessage($phoneNumber, $successMessage);
-
-            // Reset conversation after a delay (optional, or reset immediately)
-            $conversation->reset();
+            $this->sendMessage($phoneNumber, $successMessage, false);
         } catch (\Exception $e) {
             Log::error('Error creating rate request from WhatsApp', [
                 'phone' => $phoneNumber,

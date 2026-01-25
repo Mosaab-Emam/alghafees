@@ -59,11 +59,11 @@ class RateRequestChatbotService
         $conversation = WhatsAppConversation::findOrCreateForPhone($phoneNumber);
         $isNewConversation = $conversation->wasRecentlyCreated || empty($conversation->getCollectedData());
 
-        // Check if message IS EXACTLY the trigger phrase (after trimming) - if so, reset conversation to start fresh
+        // If message IS EXACTLY the trigger phrase (by itself, after trimming), always reset to start fresh
         $trimmedMessage = trim($messageText);
         $isExactTriggerPhrase = mb_strtolower($trimmedMessage) === mb_strtolower('طلب تقييم');
 
-        if ($isExactTriggerPhrase && !$isNewConversation) {
+        if ($isExactTriggerPhrase) {
             $conversation->reset();
             $isNewConversation = true;
         }
@@ -77,16 +77,19 @@ class RateRequestChatbotService
         // Get current field being collected
         $currentField = $conversation->getCurrentField();
 
-        // If no current field, start with welcome message and first field
+        // If no current field, start with welcome message and first field prompt in one message
         if (!$currentField) {
+            $currentField = $this->fieldOrder[0];
+            $conversation->setCurrentField($currentField);
+
             if ($isNewConversation) {
                 $welcomeMessage = "مرحباً! سأساعدك في إنشاء طلب تقييم عقاري.\n\n";
                 $welcomeMessage .= "سنحتاج إلى بعض المعلومات منك. دعنا نبدأ:\n\n";
+                $welcomeMessage .= $this->getFieldPrompt($currentField, $conversation);
                 $this->sendMessage($phoneNumber, $welcomeMessage);
+            } else {
+                $this->sendFieldPrompt($phoneNumber, $currentField, $conversation);
             }
-            $currentField = $this->fieldOrder[0];
-            $conversation->setCurrentField($currentField);
-            $this->sendFieldPrompt($phoneNumber, $currentField, $conversation);
             return;
         }
 
@@ -138,7 +141,7 @@ class RateRequestChatbotService
         $conversation->markCancelled();
         $conversation->reset();
 
-        $this->sendMessage($phoneNumber, "تم إلغاء الطلب. شكراً لك!");
+        $this->sendMessage($phoneNumber, "تم إلغاء الطلب. شكراً لك!", false);
     }
 
     /**
@@ -357,12 +360,11 @@ class RateRequestChatbotService
     }
 
     /**
-     * Send WhatsApp message with cancel footer
+     * Send WhatsApp message, optionally appending the cancel footer.
      */
-    private function sendMessage(string $phoneNumber, string $message): void
+    private function sendMessage(string $phoneNumber, string $message, bool $includeCancelFooter = true): void
     {
-        // Ensure cancel footer is appended
-        if (!str_contains($message, $this->getCancelFooter())) {
+        if ($includeCancelFooter && !str_contains($message, $this->getCancelFooter())) {
             $message .= "\n\n" . $this->getCancelFooter();
         }
 

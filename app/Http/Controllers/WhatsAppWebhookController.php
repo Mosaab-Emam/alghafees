@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\WhatsAppConversation;
 use App\Services\RateRequestChatbotService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -48,13 +49,17 @@ class WhatsAppWebhookController extends Controller
         $phoneNumber = $messageData['phone_number'];
         $messageText = $messageData['message_text'];
 
-        // Check for trigger phrase
-        if (!$this->hasTriggerPhrase($messageText)) {
-            Log::info('Message does not contain trigger phrase', [
+        // Process if message contains trigger phrase OR user has an active conversation (collecting fields)
+        $hasTrigger = $this->hasTriggerPhrase($messageText);
+        $hasActiveConversation = WhatsAppConversation::where('phone_number', $phoneNumber)
+            ->where('state', 'collecting_field')
+            ->exists();
+
+        if (!$hasTrigger && !$hasActiveConversation) {
+            Log::info('Message does not contain trigger phrase and no active conversation', [
                 'phone' => $phoneNumber,
                 'message' => $messageText,
             ]);
-            // Return 200 OK but don't process
             return response()->json(['message' => 'Trigger phrase not found'], 200);
         }
 

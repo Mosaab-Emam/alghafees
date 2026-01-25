@@ -30,31 +30,7 @@ class WhatsAppService
         $formattedPhone = $this->formatPhoneNumber($phoneNumber);
 
         try {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-            ])->post($this->apiUrl, [
-                'to' => $formattedPhone,
-                'text' => $message,
-            ]);
-
-            if ($response->successful()) {
-                $data = $response->json();
-                Log::info('WhatsApp message sent successfully', [
-                    'phone' => $formattedPhone,
-                    'response' => $data,
-                ]);
-                return $data;
-            }
-
-            // Log error response
-            Log::error('WhatsApp API error', [
-                'phone' => $formattedPhone,
-                'status' => $response->status(),
-                'response' => $response->body(),
-            ]);
-
-            throw new \Exception('Failed to send WhatsApp message: ' . $response->body());
+            return $this->doSend($formattedPhone, $message, true);
         } catch (\Exception $e) {
             Log::error('WhatsApp service exception', [
                 'phone' => $formattedPhone,
@@ -62,6 +38,46 @@ class WhatsAppService
             ]);
             throw $e;
         }
+    }
+
+    /**
+     * Perform send with optional retry on rate-limit (1 message per 5 seconds).
+     */
+    private function doSend(string $formattedPhone, string $message, bool $allowRetry): array
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $this->apiKey,
+            'Content-Type' => 'application/json',
+        ])->post($this->apiUrl, [
+            'to' => $formattedPhone,
+            'text' => $message,
+        ]);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            Log::info('WhatsApp message sent successfully', [
+                'phone' => $formattedPhone,
+                'response' => $data,
+            ]);
+            return $data;
+        }
+
+        $body = $response->body();
+        $isRateLimit = str_contains($body, '1 message every 5 seconds') || str_contains($body, 'account protection');
+
+        if ($isRateLimit && $allowRetry) {
+            Log::info('WhatsApp rate limit hit, retrying after 5 seconds', ['phone' => $formattedPhone]);
+            sleep(5);
+            return $this->doSend($formattedPhone, $message, false);
+        }
+
+        Log::error('WhatsApp API error', [
+            'phone' => $formattedPhone,
+            'status' => $response->status(),
+            'response' => $body,
+        ]);
+
+        throw new \Exception('Failed to send WhatsApp message: ' . $body);
     }
 
     /**

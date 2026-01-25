@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'wasender' => [
+        'api_key' => env('WASENDER_API_KEY'),
+        'webhook_secret' => env('WASENDER_API_WEBHOOK_SECRET'),
+    ],
+
 ];

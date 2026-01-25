@@ -82,6 +82,8 @@ Route::post('/tamara/webhook', function () {
     return response()->json(['message' => 'Webhook received']);
 });
 
+Route::post('/webhook/whatsapp', [App\Http\Controllers\WhatsAppWebhookController::class, 'handleWebhook']);
+
 // Route::post('/tamara-notification-url-test', function () {
 //     $tamaraToken = request()->header('tamaraToken');
 

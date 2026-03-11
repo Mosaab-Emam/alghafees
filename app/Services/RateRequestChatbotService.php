@@ -15,6 +15,7 @@ class RateRequestChatbotService
 {
     private WhatsAppService $whatsAppService;
     private RateRequestRepositoryInterface $rateRepository;
+    private WhatsAppChatbotStringsService $strings;
 
     // Field collection order (only required/non-nullable fields)
     private array $fieldOrder = [
@@ -33,15 +34,14 @@ class RateRequestChatbotService
         'notes',
     ];
 
-    // Cancel keywords
-    private array $cancelKeywords = ['إلغاء', 'الغاء', 'cancel', 'إلغ'];
-
     public function __construct(
         WhatsAppService $whatsAppService,
-        RateRequestRepositoryInterface $rateRepository
+        RateRequestRepositoryInterface $rateRepository,
+        WhatsAppChatbotStringsService $strings
     ) {
         $this->whatsAppService = $whatsAppService;
         $this->rateRepository = $rateRepository;
+        $this->strings = $strings;
     }
 
     /**
@@ -49,42 +49,35 @@ class RateRequestChatbotService
      */
     public function handleMessage(string $phoneNumber, string $messageText): void
     {
-        // Check for cancel
         if ($this->isCancelMessage($messageText)) {
             $this->handleCancel($phoneNumber);
             return;
         }
 
-        // Get or create conversation
         $conversation = WhatsAppConversation::findOrCreateForPhone($phoneNumber);
         $isNewConversation = $conversation->wasRecentlyCreated || empty($conversation->getCollectedData());
 
-        // If message IS EXACTLY the trigger phrase (by itself, after trimming), always reset to start fresh
         $trimmedMessage = trim($messageText);
-        $isExactTriggerPhrase = mb_strtolower($trimmedMessage) === mb_strtolower('طلب تقييم');
+        $isExactTriggerPhrase = mb_strtolower($trimmedMessage) === mb_strtolower($this->strings->triggerPhrase());
 
         if ($isExactTriggerPhrase) {
             $conversation->reset();
             $isNewConversation = true;
         }
 
-        // If conversation is completed or cancelled, start fresh
         if (in_array($conversation->state, ['completed', 'cancelled'])) {
             $conversation->reset();
             $isNewConversation = true;
         }
 
-        // Get current field being collected
         $currentField = $conversation->getCurrentField();
 
-        // If no current field, start with welcome message and first field prompt in one message
         if (!$currentField) {
             $currentField = $this->fieldOrder[0];
             $conversation->setCurrentField($currentField);
 
             if ($isNewConversation) {
-                $welcomeMessage = "مرحباً! سأساعدك في إنشاء طلب تقييم عقاري.\n\n";
-                $welcomeMessage .= "سنحتاج إلى بعض المعلومات منك. دعنا نبدأ:\n\n";
+                $welcomeMessage = $this->strings->welcomeMessage();
                 $welcomeMessage .= $this->getFieldPrompt($currentField, $conversation);
                 $this->sendMessage($phoneNumber, $welcomeMessage);
             } else {
@@ -98,7 +91,7 @@ class RateRequestChatbotService
 
         if (!$validationResult['valid']) {
             // Send error message and re-prompt
-            $this->sendMessage($phoneNumber, $validationResult['error'] . "\n\n" . $this->getCancelFooter());
+            $this->sendMessage($phoneNumber, $validationResult['error'] . "\n\n" . $this->strings->cancelFooter());
             $this->sendFieldPrompt($phoneNumber, $currentField, $conversation);
             return;
         }
@@ -124,7 +117,7 @@ class RateRequestChatbotService
     private function isCancelMessage(string $message): bool
     {
         $message = mb_strtolower(trim($message));
-        foreach ($this->cancelKeywords as $keyword) {
+        foreach ($this->strings->cancelKeywords() as $keyword) {
             if (mb_strpos($message, mb_strtolower($keyword)) !== false) {
                 return true;
             }
@@ -142,7 +135,7 @@ class RateRequestChatbotService
         // Do not reset — keep state=cancelled so unrelated messages won't be treated as
         // "active conversation"; only "طلب تقييم" starts fresh (we reset then in handleMessage).
 
-        $this->sendMessage($phoneNumber, "تم إلغاء الطلب. شكراً لك!", false);
+        $this->sendMessage($phoneNumber, $this->strings->cancelConfirmation(), false);
     }
 
     /**
@@ -240,24 +233,13 @@ class RateRequestChatbotService
      */
     private function getFieldPrompt(string $field, WhatsAppConversation $conversation): string
     {
-        $prompts = [
-            'first_name' => 'الرجاء إدخال الاسم الأول:',
-            'last_name' => 'الرجاء إدخال اسم العائلة:',
-            'mobile' => 'الرجاء إدخال رقم الجوال (يجب أن يبدأ بـ 05 ويحتوي على 10 أرقام):',
-            'email' => 'الرجاء إدخال البريد الإلكتروني:',
-            'address' => 'الرجاء إدخال العنوان:',
-            'goal_id' => $this->getCategoryPrompt('goal_id', 'الهدف', $conversation),
-            'type_id' => $this->getCategoryPrompt('type_id', 'نوع العقار', $conversation),
-            'real_estate_age' => 'الرجاء إدخال عمر العقار (بالسنوات):',
-            'real_estate_area' => 'الرجاء إدخال مساحة العقار (بالمتر المربع):',
-            'estate_city' => 'الرجاء إدخال مدينة العقار:',
-            'estate_region' => 'الرجاء إدخال حي العقار:',
-            'estate_line_1' => 'الرجاء إدخال العنوان التفصيلي للعقار:',
-            'notes' => 'الرجاء إدخال أي ملاحظات إضافية:',
-        ];
+        if (in_array($field, ['goal_id', 'type_id'])) {
+            $prompt = $this->getCategoryPrompt($field, $this->strings->categoryLabel($field), $conversation);
+        } else {
+            $prompt = $this->strings->fieldPrompt($field);
+        }
 
-        $prompt = $prompts[$field] ?? 'الرجاء إدخال ' . $field;
-        return $prompt . "\n\n" . $this->getCancelFooter();
+        return $prompt . "\n\n" . $this->strings->cancelFooter();
     }
 
     /**
@@ -274,18 +256,19 @@ class RateRequestChatbotService
         };
 
         if (!$categoryType) {
-            return "اختر {$label}:";
+            $template = $this->strings->categoryChooseTemplate();
+            return str_replace('{label}', $label, $template);
         }
 
         $categories = Category::$categoryType()->publish()->ordered()->get();
-
-        $prompt = "اختر {$label}:\n";
+        $template = $this->strings->categoryChooseTemplate();
+        $prompt = str_replace('{label}', $label, $template) . "\n";
         $index = 1;
         foreach ($categories as $category) {
             $prompt .= "{$index}. {$category->title}\n";
             $index++;
         }
-        $prompt .= "\nالرجاء إدخال الرقم";
+        $prompt .= "\n" . $this->strings->categoryEnterNumber();
 
         return $prompt;
     }
@@ -313,7 +296,7 @@ class RateRequestChatbotService
             // Add auto-filled fields
             $firstPackage = PricePackage::first();
             if (!$firstPackage) {
-                $this->sendMessage($phoneNumber, "عذراً، لا توجد حزم أسعار متاحة حالياً. يرجى المحاولة لاحقاً.\n\n" . $this->getCancelFooter());
+                $this->sendMessage($phoneNumber, $this->strings->errorNoPricePackages() . "\n\n" . $this->strings->cancelFooter());
                 return;
             }
 
@@ -329,8 +312,8 @@ class RateRequestChatbotService
 
             if ($validator->fails()) {
                 $errors = $validator->errors()->all();
-                $errorMessage = "حدث خطأ في البيانات:\n" . implode("\n", $errors);
-                $this->sendMessage($phoneNumber, $errorMessage . "\n\n" . $this->getCancelFooter());
+                $errorMessage = $this->strings->errorValidationPrefix() . "\n" . implode("\n", $errors);
+                $this->sendMessage($phoneNumber, $errorMessage . "\n\n" . $this->strings->cancelFooter());
                 return;
             }
 
@@ -342,11 +325,7 @@ class RateRequestChatbotService
             $conversation->markCompleted();
 
             // Send success message (no cancel footer — flow is complete)
-            $successMessage = "تم إنشاء طلب التقييم بنجاح!\n\n";
-            $successMessage .= "رقم الطلب: {$data['request_no']}\n\n";
-            $successMessage .= "شكراً لك على استخدام خدمتنا. سنتواصل معك قريباً.";
-
-            $this->sendMessage($phoneNumber, $successMessage, false);
+            $this->sendMessage($phoneNumber, $this->strings->successMessage((string) $data['request_no']), false);
         } catch (\Exception $e) {
             Log::error('Error creating rate request from WhatsApp', [
                 'phone' => $phoneNumber,
@@ -354,7 +333,7 @@ class RateRequestChatbotService
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            $this->sendMessage($phoneNumber, "عذراً، حدث خطأ أثناء إنشاء الطلب. يرجى المحاولة مرة أخرى لاحقاً.\n\n" . $this->getCancelFooter());
+            $this->sendMessage($phoneNumber, $this->strings->errorCreateFailed() . "\n\n" . $this->strings->cancelFooter());
         }
     }
 
@@ -363,8 +342,9 @@ class RateRequestChatbotService
      */
     private function sendMessage(string $phoneNumber, string $message, bool $includeCancelFooter = true): void
     {
-        if ($includeCancelFooter && !str_contains($message, $this->getCancelFooter())) {
-            $message .= "\n\n" . $this->getCancelFooter();
+        $footer = $this->strings->cancelFooter();
+        if ($includeCancelFooter && !str_contains($message, $footer)) {
+            $message .= "\n\n" . $footer;
         }
 
         try {
@@ -377,11 +357,4 @@ class RateRequestChatbotService
         }
     }
 
-    /**
-     * Get cancel footer text
-     */
-    private function getCancelFooter(): string
-    {
-        return "اكتب 'إلغاء' لإلغاء الطلب";
-    }
 }

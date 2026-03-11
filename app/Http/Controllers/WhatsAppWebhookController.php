@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\WhatsAppConversation;
 use App\Services\RateRequestChatbotService;
+use App\Services\WhatsAppChatbotStringsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class WhatsAppWebhookController extends Controller
 {
     private RateRequestChatbotService $chatbotService;
-    private const TRIGGER_PHRASE = 'طلب تقييم';
+    private WhatsAppChatbotStringsService $strings;
 
-    public function __construct(RateRequestChatbotService $chatbotService)
+    public function __construct(RateRequestChatbotService $chatbotService, WhatsAppChatbotStringsService $strings)
     {
         $this->chatbotService = $chatbotService;
+        $this->strings = $strings;
     }
 
     /**
@@ -36,6 +38,12 @@ class WhatsAppWebhookController extends Controller
             return response()->json(['error' => 'Invalid signature'], 401);
         }
 
+        // Only act on incoming messages. messages.upsert fires for both incoming and outgoing, so we'd process the same message twice (and our own replies).
+        $event = $request->input('event') ?? $request->input('data.event');
+        if ($event !== null && $event !== 'messages.received') {
+            return response()->json(['message' => 'Ignored: event not messages.received'], 200);
+        }
+
         // Extract message data from webhook payload
         $messageData = $this->extractMessageData($request);
 
@@ -48,6 +56,11 @@ class WhatsAppWebhookController extends Controller
 
         $phoneNumber = $messageData['phone_number'];
         $messageText = $messageData['message_text'];
+
+        // Ignore webhooks for our own outbound messages (API echoes them back; they contain e.g. cancel footer and would trigger cancel)
+        if (isset($messageData['from_me']) && $messageData['from_me'] === true) {
+            return response()->json(['message' => 'Ignored: fromMe'], 200);
+        }
 
         // Process if message contains trigger phrase OR user has a *recent* active conversation (collecting fields)
         // Recency avoids treating unrelated "regular" messages as continuation (e.g. "hi" days later).
@@ -155,9 +168,14 @@ class WhatsAppWebhookController extends Controller
             return null;
         }
 
+        $fromMe = isset($payload['data']['messages']['key']['fromMe'])
+            ? (bool) $payload['data']['messages']['key']['fromMe']
+            : (isset($payload['messages']['key']['fromMe']) ? (bool) $payload['messages']['key']['fromMe'] : null);
+
         return [
             'phone_number' => $phoneNumber,
             'message_text' => $messageText,
+            'from_me' => $fromMe,
         ];
     }
 
@@ -166,6 +184,7 @@ class WhatsAppWebhookController extends Controller
      */
     private function hasTriggerPhrase(string $message): bool
     {
-        return mb_stripos($message, self::TRIGGER_PHRASE) !== false;
+        $trigger = $this->strings->triggerPhrase();
+        return $trigger !== '' && mb_stripos($message, $trigger) !== false;
     }
 }

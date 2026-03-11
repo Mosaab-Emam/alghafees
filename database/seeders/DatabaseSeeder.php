@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             FaqStaticContentsSeeder::class,
             PricingStaticContentSeeder::class,
             PricePackagesSeeder::class,
+            WhatsAppChatbotStringsSeeder::class,
         ]);
     }
 }

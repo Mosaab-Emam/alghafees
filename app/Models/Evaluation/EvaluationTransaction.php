@@ -234,8 +234,18 @@ class EvaluationTransaction extends Model
             return $this->region;
         else {
             $value = '<div><strong>المدينة:</strong> ' . $this->newCity->name_ar . '</div>';
-            $value = $value . '<div><strong>رقم المخطط:</strong> ' .  Str::limit($this->plan_no, 12) . '</div>';
-            $value = $value . '<div><strong>رقم القطعة:</strong> ' .  Str::limit($this->plot_no, 12) . '</div>';
+            $value = $value . '<div><strong>رقم المخطط:</strong> ' . Str::limit($this->plan_no, 12) . '</div>';
+            $value = $value . '<div><strong>رقم القطعة:</strong> ' . Str::limit($this->plot_no, 12) . '</div>';
+            return $value;
+        }
+    }
+
+    public function getRegionTableValueAttribute(): string
+    {
+        if ($this->region)
+            return $this->region;
+        else {
+            $value = $this->newCity->name_ar . ' - مخطط رقم: ' . $this->plan_no;
             return $value;
         }
     }
@@ -244,7 +254,7 @@ class EvaluationTransaction extends Model
         $output = '<strong>' . __('admin.type_id') . ':</strong> ' . \Illuminate\Support\Str::limit($this->type->title ?? '', 25) . '<br/>';
         $output .= '<strong>' . __('admin.owner_name') . ':</strong> ' . Str::limit($this->owner_name, 21) . '<br/>';
         $output .= '<strong>' . __('admin.city_id') . ':</strong> ' . Str::limit($this->city->title ?? '', 50) . '<br/>';
-        $output .= '<strong>' . __('admin.previewer') . ':</strong> ' . Str::limit($this->previewer->title ?? '', 25)  .  '<br/>';
+        $output .= '<strong>' . __('admin.previewer') . ':</strong> ' . Str::limit($this->previewer->title ?? '', 25) . '<br/>';
         $output .= '<strong>' . __('admin.review') . ':</strong> ' . Str::limit($this->review->title ?? '', 25) . '<br/>';
         $output .= '<strong>' . __('admin.income') . ':</strong> ' . Str::limit($this->income->title ?? '', 25);
         return $output;

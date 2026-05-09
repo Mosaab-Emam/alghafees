@@ -221,6 +221,7 @@ return [
     'PendingRequest' => 'Pending Request',
     'InReviewRequest' => 'InReview Request',
     'EvaluationTransactions' => 'Evaluation Transactions',
+    'approver' => 'Approver',
     'ContactedRequest' => 'Contacted Request',
     'RefusedRequest' => 'Refused Request',
     'CourseName' => "Course name",

@@ -30,6 +30,7 @@ class EvaluationTransaction extends Model
         'region',
         'previewer_id',
         'review_id',
+        'approver_id',
         'income_id',
         'city_id',
         'notes',
@@ -95,7 +96,7 @@ class EvaluationTransaction extends Model
     {
         $builder->when($filters['employee_id'] ?? false, function (Builder $builder, $employee_id) {
             $builder->where(function (Builder $builder) use ($employee_id) {
-                $builder->where('review_id', $employee_id)->orWhere('previewer_id', $employee_id)->orWhere('income_id', $employee_id);
+                $builder->where('review_id', $employee_id)->orWhere('previewer_id', $employee_id)->orWhere('income_id', $employee_id)->orWhere('approver_id', $employee_id);
             });
         })->when($filters['company_id'] ?? false, function (Builder $builder, $comp_id) {
             $builder->whereIn('evaluation_company_id', $comp_id);
@@ -160,6 +161,21 @@ class EvaluationTransaction extends Model
     public function income()
     {
         return $this->belongsTo(EvaluationEmployee::class, 'income_id');
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo(EvaluationEmployee::class, 'approver_id');
+    }
+
+    /**
+     * Evaluation employee IDs allowed as المعتمد (replace with production IDs).
+     *
+     * @return list<int>
+     */
+    public static function approverEmployeeIds(): array
+    {
+        return [179, 64];
     }
 
     public function getStatusSpanAttribute()

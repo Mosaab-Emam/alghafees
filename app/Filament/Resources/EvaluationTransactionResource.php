@@ -24,6 +24,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class EvaluationTransactionResource extends Resource
@@ -314,7 +315,8 @@ class EvaluationTransactionResource extends Resource
                             ->where(function ($q) use ($data) {
                                 $q->where('previewer_id', $data['value'])
                                     ->orWhere('income_id', $data['value'])
-                                    ->orWhere('review_id', $data['value']);
+                                    ->orWhere('review_id', $data['value'])
+                                    ->orWhere('approver_id', $data['value']);
                             });
                     }),
                 Tables\Filters\SelectFilter::make('city_id')
@@ -521,6 +523,22 @@ class EvaluationTransactionResource extends Resource
                         ->label(__('admin.evaluation-transactions.forms.review_datetime'))
                         ->native(false)
                         ->disabled(),
+                ])->columns(2),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Select::make('approver_id')
+                        ->label(__('admin.approver'))
+                        ->options(
+                            EvaluationEmployee::withoutGlobalScopes()
+                                ->whereIn('id', EvaluationTransaction::approverEmployeeIds())
+                                ->pluck('title', 'id')
+                        )
+                        ->searchable()
+                        ->preload()
+                        ->nullable()
+                        ->rules([
+                            'nullable',
+                            Rule::in(EvaluationTransaction::approverEmployeeIds()),
+                        ]),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Textarea::make('notes')

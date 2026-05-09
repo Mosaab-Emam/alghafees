@@ -43,6 +43,11 @@ class EvaluationEmployee extends Model
         return $this->hasMany(EvaluationTransaction::class, 'review_id');
     }
 
+    public function transactionApprover()
+    {
+        return $this->hasMany(EvaluationTransaction::class, 'approver_id');
+    }
+
     public function getTotalAttribute()
     {
         return $this->transactionincome_count * .5 + $this->transactionpreviewer_count + $this->transactionreview_count * .5;

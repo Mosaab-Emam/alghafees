@@ -159,6 +159,24 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn($record) => !$record->type_id)
                     ->color(fn($record) => !$record->type_id ? 'danger' : ''),
+                Tables\Columns\TextColumn::make('status_words')
+                    ->label(__('resources/evaluation-transaction.status'))
+                    ->toggleable()
+                    ->sortable(query: fn(Builder $query, string $direction): Builder => $query->orderBy('status', $direction))
+                    ->default(__('resources/evaluation-transaction.unset'))
+                    ->badge()
+                    ->color(function (EvaluationTransaction $record): string {
+                        return match ($record->status) {
+                            0 => 'warning',
+                            1 => 'info',
+                            2 => 'primary',
+                            3 => 'danger',
+                            4 => 'success',
+                            5 => 'warning',
+                            6 => 'gray',
+                            default => 'danger',
+                        };
+                    }),
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))
                     ->searchable()
@@ -238,13 +256,6 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn($record) => !$record->review)
                     ->color(fn($record) => !$record->review ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('status_words')
-                    ->label(__('resources/evaluation-transaction.status'))
-                    ->toggleable()
-                    ->sortable()
-                    ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn($record) => !$record->status)
-                    ->color(fn($record) => !$record->status ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('notes')
                     ->label(__('resources/evaluation-transaction.notes'))
                     ->toggleable()

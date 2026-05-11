@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Enums\MaxWidth;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -78,6 +79,10 @@ class DashboardPanelProvider extends PanelProvider
             ->brandLogo(asset('images/settings/1691238434rKMpDrJ2EhNquOPc8E04TfgLLnkyWRJpEXWNKeGP.png'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('/favicon.png'))
-            ->sidebarCollapsibleOnDesktop();
+            ->sidebarCollapsibleOnDesktop()
+            ->renderHook(
+                PanelsRenderHook::SCRIPTS_AFTER,
+                fn (): string => view('filament.scripts.sidebar-hover-expand')->render(),
+            );
     }
 }

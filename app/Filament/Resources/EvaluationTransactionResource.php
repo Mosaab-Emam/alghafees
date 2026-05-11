@@ -18,6 +18,7 @@ use Filament\Forms\Set;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ViewEntry;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -378,6 +379,28 @@ class EvaluationTransactionResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('setCancelled')
+                    ->label(__('admin.evaluation-transactions.actions.set_cancelled'))
+                    ->icon('heroicon-o-x-circle')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading(__('admin.evaluation-transactions.actions.set_cancelled_heading'))
+                    ->modalDescription(__('admin.evaluation-transactions.actions.set_cancelled_description'))
+                    ->visible(function (EvaluationTransaction $record): bool {
+                        if ((int) $record->status === EvaluationTransaction::STATUS_CANCELLED) {
+                            return false;
+                        }
+                        $user = auth()->user();
+
+                        return $user !== null && $user->can('update', $record);
+                    })
+                    ->action(function (EvaluationTransaction $record): void {
+                        $record->update(['status' => EvaluationTransaction::STATUS_CANCELLED]);
+                        Notification::make()
+                            ->title(__('admin.evaluation-transactions.actions.set_cancelled_success'))
+                            ->success()
+                            ->send();
+                    }),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

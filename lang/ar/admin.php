@@ -271,6 +271,12 @@ return [
             '9' => 'قيد المراجعة',
         ],
         'filter_statuses_any' => 'حالات (أي مما يلي)',
+        'actions' => [
+            'set_cancelled' => 'تعيين كملغاة',
+            'set_cancelled_heading' => 'تعيين المعاملة كملغاة؟',
+            'set_cancelled_description' => 'سيتم تغيير حالة هذه المعاملة إلى «ملغي».',
+            'set_cancelled_success' => 'تم تعيين الحالة إلى ملغي.',
+        ],
         'role_assignment_locked' => 'هذا الحقل عيّنه مستخدم آخر، ولا يمكن تعديله أو إفراغه إلا من قبله.',
         'role_assignment_locked_hint' => 'عيّن هذا الحقل مستخدم آخر ولا يمكن تعديله إلا من قبله.',
         'role_assignment_locked_no_auth' => 'يجب تسجيل الدخول لتغيير هذا الإسناد.',

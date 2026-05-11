@@ -15,7 +15,7 @@ return [
     'type' => 'نوع العقار',
     'company' => 'الشركة',
     'branch' => 'الفرع',
-    'employee' => 'موظف التجهيز والرفع',
+    'employee' => 'الإدخال',
     'reviewer_compensation' => 'أتعاب المعاين',
     'company_compensation' => 'أتعاب الشركة',
     'previewer' => 'المعاين',

@@ -466,6 +466,8 @@ class EvaluationTransactionResource extends Resource
                         ->options(EvaluationEmployee::all()->pluck('title', 'id'))
                         ->searchable()
                         ->preload()
+                        ->disabled(fn (): bool => EvaluationTransaction::isRoleAssignmentLockedByOther($form->getRecord(), 'previewer_locked_by'))
+                        ->helperText(fn (): ?string => EvaluationTransaction::roleAssignmentLockHint($form->getRecord(), 'previewer_locked_by'))
                         ->hintAction(
                             Action::make('apply_employee')
                                 ->label(__('actions.apply_employee'))
@@ -483,32 +485,13 @@ class EvaluationTransactionResource extends Resource
 
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Select::make('income_id')
-                        ->label(__('admin.income'))
-                        ->options(EvaluationEmployee::all()->pluck('title', 'id'))
-                        ->searchable()
-                        ->preload()
-                        ->hintAction(
-                            Action::make('apply_employee')
-                                ->label(__('actions.apply_employee'))
-                                ->icon('heroicon-o-check')
-                                ->action(function (Set $set, $state) {
-                                    $set('previewer_id', $state);
-                                    $set('income_id', $state);
-                                    $set('review_id', $state);
-                                })
-                        ),
-                    Forms\Components\DateTimePicker::make('income_date_time')
-                        ->label(__('admin.evaluation-transactions.forms.income_datetime'))
-                        ->native(false)
-                        ->disabled(),
-                ])->columns(2),
-                Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('review_id')
                         ->label(__('admin.review'))
                         ->options(EvaluationEmployee::all()->pluck('title', 'id'))
                         ->searchable()
                         ->preload()
+                        ->disabled(fn (): bool => EvaluationTransaction::isRoleAssignmentLockedByOther($form->getRecord(), 'review_locked_by'))
+                        ->helperText(fn (): ?string => EvaluationTransaction::roleAssignmentLockHint($form->getRecord(), 'review_locked_by'))
                         ->hintAction(
                             Action::make('apply_employee')
                                 ->label(__('actions.apply_employee'))
@@ -525,6 +508,29 @@ class EvaluationTransactionResource extends Resource
                         ->disabled(),
                 ])->columns(2),
                 Forms\Components\Section::make()->schema([
+                    Forms\Components\Select::make('income_id')
+                        ->label(__('admin.income'))
+                        ->options(EvaluationEmployee::all()->pluck('title', 'id'))
+                        ->searchable()
+                        ->preload()
+                        ->disabled(fn (): bool => EvaluationTransaction::isRoleAssignmentLockedByOther($form->getRecord(), 'income_locked_by'))
+                        ->helperText(fn (): ?string => EvaluationTransaction::roleAssignmentLockHint($form->getRecord(), 'income_locked_by'))
+                        ->hintAction(
+                            Action::make('apply_employee')
+                                ->label(__('actions.apply_employee'))
+                                ->icon('heroicon-o-check')
+                                ->action(function (Set $set, $state) {
+                                    $set('previewer_id', $state);
+                                    $set('income_id', $state);
+                                    $set('review_id', $state);
+                                })
+                        ),
+                    Forms\Components\DateTimePicker::make('income_date_time')
+                        ->label(__('admin.evaluation-transactions.forms.income_datetime'))
+                        ->native(false)
+                        ->disabled(),
+                ])->columns(2),
+                Forms\Components\Section::make()->schema([
                     Forms\Components\Select::make('approver_id')
                         ->label(__('admin.approver'))
                         ->options(
@@ -535,6 +541,8 @@ class EvaluationTransactionResource extends Resource
                         ->searchable()
                         ->preload()
                         ->nullable()
+                        ->disabled(fn (): bool => EvaluationTransaction::isRoleAssignmentLockedByOther($form->getRecord(), 'approver_locked_by'))
+                        ->helperText(fn (): ?string => EvaluationTransaction::roleAssignmentLockHint($form->getRecord(), 'approver_locked_by'))
                         ->rules([
                             'nullable',
                             Rule::in(EvaluationTransaction::approverEmployeeIds()),

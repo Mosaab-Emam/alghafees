@@ -345,4 +345,10 @@ return [
             ],
         ],
     ],
+
+    'evaluation-transactions' => [
+        'role_assignment_locked' => 'This assignment was set by another user. Only they can change or clear it.',
+        'role_assignment_locked_hint' => 'Another user assigned this field. Only they can edit it.',
+        'role_assignment_locked_no_auth' => 'You must be signed in to change this assignment.',
+    ],
 ];

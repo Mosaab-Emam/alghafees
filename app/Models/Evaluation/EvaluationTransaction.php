@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Transaction_files;
+use Illuminate\Validation\ValidationException;
 use Str;
 
 
@@ -48,6 +49,40 @@ class EvaluationTransaction extends Model
 
 
     public $timestamps = true;
+
+    /**
+     * @return array<string, string> role foreign key => users.id lock column
+     */
+    public static function roleAssignmentLockMap(): array
+    {
+        return [
+            'previewer_id' => 'previewer_locked_by',
+            'income_id' => 'income_locked_by',
+            'review_id' => 'review_locked_by',
+            'approver_id' => 'approver_locked_by',
+        ];
+    }
+
+    public static function isRoleAssignmentLockedByOther(?self $record, string $lockColumn): bool
+    {
+        if (!$record || !$record->exists) {
+            return false;
+        }
+        $by = $record->getAttribute($lockColumn);
+        if ($by === null) {
+            return false;
+        }
+
+        return (int) $by !== (int) auth()->id();
+    }
+
+    public static function roleAssignmentLockHint(?self $record, string $lockColumn): ?string
+    {
+        return static::isRoleAssignmentLockedByOther($record, $lockColumn)
+            ? __('admin.evaluation-transactions.role_assignment_locked_hint')
+            : null;
+    }
+
     protected static function booted(): void
     {
         static::creating(function (EvaluationTransaction $evaluationTransaction) {
@@ -55,6 +90,20 @@ class EvaluationTransaction extends Model
                 \DB::update('update evaluation_transactions set is_iterated=1 where instrument_number=?', [$evaluationTransaction->instrument_number]);
                 $evaluationTransaction->is_iterated = true;
             }
+        });
+        static::creating(function (EvaluationTransaction $evaluationTransaction) {
+            $uid = auth()->id();
+            if ($uid === null) {
+                return;
+            }
+            foreach (self::roleAssignmentLockMap() as $role => $lock) {
+                if ($evaluationTransaction->getAttribute($role) !== null) {
+                    $evaluationTransaction->setAttribute($lock, $uid);
+                }
+            }
+        });
+        static::updating(function (EvaluationTransaction $evaluationTransaction) {
+            $evaluationTransaction->assertAndApplyRoleAssignmentLocksForUpdate();
         });
         static::updating(function (EvaluationTransaction $evaluationTransaction) {
             if ($evaluationTransaction->isDirty('instrument_number')) {
@@ -90,6 +139,38 @@ class EvaluationTransaction extends Model
                 }
             }
         });
+    }
+
+    /**
+     * Enforce per-field assignment locks and sync lock columns when the current user may edit.
+     *
+     * @throws ValidationException
+     */
+    public function assertAndApplyRoleAssignmentLocksForUpdate(): void
+    {
+        $uid = auth()->id();
+        foreach (self::roleAssignmentLockMap() as $role => $lock) {
+            if (!$this->isDirty($role)) {
+                continue;
+            }
+            if ($uid === null) {
+                throw ValidationException::withMessages([
+                    $role => [__('admin.evaluation-transactions.role_assignment_locked_no_auth')],
+                ]);
+            }
+            $lockHolder = $this->getOriginal($lock);
+            if ($lockHolder !== null && (int) $lockHolder !== (int) $uid) {
+                throw ValidationException::withMessages([
+                    $role => [__('admin.evaluation-transactions.role_assignment_locked')],
+                ]);
+            }
+            $newValue = $this->getAttribute($role);
+            if ($newValue === null) {
+                $this->setAttribute($lock, null);
+            } else {
+                $this->setAttribute($lock, $uid);
+            }
+        }
     }
 
     public function scopeFilters(Builder $builder, array $filters): void

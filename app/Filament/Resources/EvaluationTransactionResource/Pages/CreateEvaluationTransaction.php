@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\EvaluationTransactionResource\Pages;
 
 use App\Filament\Resources\EvaluationTransactionResource;
+use App\Models\Evaluation\EvaluationTransaction;
 use App\Models\Transaction_files;
 use App\Models\User;
 use Filament\Actions;
@@ -17,26 +18,22 @@ class CreateEvaluationTransaction extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        if (
-            $data['previewer_id'] != null &&
-            $data['income_id'] != null &&
-            $data['review_id'] != null
-        ) {
-            $status = 4;
+        $data['status'] = EvaluationTransaction::resolveStatusFromRoleAssignments($data);
 
+        $allFourRolesFilled = EvaluationTransaction::filledRoleId($data, 'previewer_id')
+            && EvaluationTransaction::filledRoleId($data, 'review_id')
+            && EvaluationTransaction::filledRoleId($data, 'income_id')
+            && EvaluationTransaction::filledRoleId($data, 'approver_id');
+
+        if ($data['status'] === EvaluationTransaction::STATUS_FINISHED && $allFourRolesFilled) {
             $admin = User::find(1);
-            Notification::make()
-                ->title('الرجاء إكمال معلومات المعاملة')
-                ->body('المعاملة بالرقم: ' . $data['transaction_number'] . ' تم إكمالها')
-                ->sendToDatabase($admin);
-        } else if (
-            ($data['previewer_id'] != null && $data['income_id'] != null) || $data['previewer_id'] != null
-        ) {
-            $status = 3;
-        } else {
-            $status = 0;
+            if ($admin) {
+                Notification::make()
+                    ->title('الرجاء إكمال معلومات المعاملة')
+                    ->body('المعاملة بالرقم: ' . $data['transaction_number'] . ' تم إكمالها')
+                    ->sendToDatabase($admin);
+            }
         }
-        $data['status'] = $status;
         $this->files = $data['files'];
         return $data;
     }

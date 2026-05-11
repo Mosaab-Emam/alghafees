@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             $start_dt = Carbon::now()->subDays(3)->format('Y-m-d H:m:s');
             $end_dt = Carbon::now()->addDays(3)->format('Y-m-d H:m:s');
             foreach (['preview', 'income', 'review'] as $type) {
-                $evaluation_transactions = EvaluationTransaction::where('status', 3)
+                $evaluation_transactions = EvaluationTransaction::whereIn('status', EvaluationTransaction::WORKFLOW_IN_PROGRESS_STATUSES)
                     ->whereDate($type . '_date_time', '>', $start_dt)
                     ->whereDate($type . '_date_time', '<', $end_dt)
                     ->get();

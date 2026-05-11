@@ -114,7 +114,32 @@ final class Constants
             'id' => 6,
             'title' => 'Cancelled',
         ],
+        [
+            'id' => 7,
+            'title' => 'UnderObservationRequest',
+        ],
+        [
+            'id' => 8,
+            'title' => 'UnderEvaluationRequest',
+        ],
+        [
+            'id' => 9,
+            'title' => 'UnderReviewWorkflowRequest',
+        ],
     ];
+
+    /**
+     * Evaluation transaction status pickers (excludes legacy "in review" id 1).
+     *
+     * @return list<array{id: int, title: string}>
+     */
+    public static function evaluationTransactionStatusesForForms(): array
+    {
+        return array_values(array_filter(
+            self::TransactionStatuses,
+            fn (array $s): bool => (int) ($s['id'] ?? -1) !== 1
+        ));
+    }
 
 
     public function getConstant($const_name)

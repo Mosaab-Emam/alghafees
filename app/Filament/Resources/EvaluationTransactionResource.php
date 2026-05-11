@@ -166,14 +166,17 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge()
                     ->color(function (EvaluationTransaction $record): string {
-                        return match ($record->status) {
-                            0 => 'warning',
-                            1 => 'info',
-                            2 => 'primary',
-                            3 => 'danger',
-                            4 => 'success',
-                            5 => 'warning',
-                            6 => 'gray',
+                        return match ((int) $record->status) {
+                            EvaluationTransaction::STATUS_NEW => 'warning',
+                            EvaluationTransaction::STATUS_IN_REVIEW_LEGACY => 'info',
+                            EvaluationTransaction::STATUS_CONTACTED => 'primary',
+                            EvaluationTransaction::STATUS_REVIEWED_LEGACY => 'danger',
+                            EvaluationTransaction::STATUS_FINISHED => 'success',
+                            EvaluationTransaction::STATUS_PENDING => 'warning',
+                            EvaluationTransaction::STATUS_CANCELLED => 'gray',
+                            EvaluationTransaction::STATUS_UNDER_OBSERVATION => 'gray',
+                            EvaluationTransaction::STATUS_UNDER_EVALUATION => 'primary',
+                            EvaluationTransaction::STATUS_UNDER_REVIEW => 'info',
                             default => 'danger',
                         };
                     }),

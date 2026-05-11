@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\EvaluationTransactionResource\Pages;
 
 use App\Filament\Resources\EvaluationTransactionResource;
-use App\Models\ServiceCompany;
+use App\Models\Evaluation\EvaluationTransaction;
 use App\Models\Transaction_files;
 use App\Models\User;
 use Filament\Actions;
@@ -28,20 +28,22 @@ class EditEvaluationTransaction extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if ($data['review_id'] != null) {
-            $status = 4;
+        $data['status'] = EvaluationTransaction::resolveStatusFromRoleAssignments($data);
 
+        $allFourRolesFilled = EvaluationTransaction::filledRoleId($data, 'previewer_id')
+            && EvaluationTransaction::filledRoleId($data, 'review_id')
+            && EvaluationTransaction::filledRoleId($data, 'income_id')
+            && EvaluationTransaction::filledRoleId($data, 'approver_id');
+
+        if ($data['status'] === EvaluationTransaction::STATUS_FINISHED && $allFourRolesFilled) {
             $admin = User::find(1);
-            Notification::make()
-                ->title('الرجاء إكمال معلومات المعاملة')
-                ->body('المعاملة بالرقم: ' . $data['transaction_number'] . ' تم إكمالها')
-                ->sendToDatabase($admin);
-        } elseif ($data['previewer_id'] != null)
-            $status = 3;
-        else
-            $status = 0;
-
-        $data['status'] = $status;
+            if ($admin) {
+                Notification::make()
+                    ->title('الرجاء إكمال معلومات المعاملة')
+                    ->body('المعاملة بالرقم: ' . $data['transaction_number'] . ' تم إكمالها')
+                    ->sendToDatabase($admin);
+            }
+        }
 
         $old_files = Transaction_files::where('transaction_id', $this->record->id)->get();
         $updated_files = $data['uploaded_files']; // this is the new array after user deleted the files from select

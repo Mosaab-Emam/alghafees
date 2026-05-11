@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\EvaluationTransactionResource\Pages;
+use App\Helpers\Constants;
 use App\Models\Category;
 use App\Models\City;
 use App\Models\Evaluation\EvaluationCompany;
@@ -310,6 +311,41 @@ class EvaluationTransactionResource extends Resource
                         if (!$data['to'])
                             return null;
                         return __('resources/evaluation-transaction.to') . ' ' . \Carbon\Carbon::parse($data['to'])->toDateString();
+                    }),
+                Filter::make('statuses_any')
+                    ->form([
+                        Forms\Components\Select::make('statuses')
+                            ->label(__('admin.evaluation-transactions.filter_statuses_any'))
+                            ->multiple()
+                            ->options(collect(Constants::TransactionStatuses)->mapWithKeys(fn (array $item): array => [
+                                $item['id'] => __('admin.' . $item['title']),
+                            ])->all())
+                            ->searchable(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        $ids = $data['statuses'] ?? null;
+                        if (! is_array($ids) || $ids === []) {
+                            return $query;
+                        }
+                        $normalized = array_values(array_unique(array_map(
+                            static fn ($v): int => (int) $v,
+                            array_filter($ids, static fn ($v): bool => $v !== null && $v !== '')
+                        )));
+
+                        return $normalized === [] ? $query : $query->whereIn('status', $normalized);
+                    })
+                    ->indicateUsing(function (array $data): ?string {
+                        $ids = $data['statuses'] ?? null;
+                        if (! is_array($ids) || $ids === []) {
+                            return null;
+                        }
+                        $labels = collect($ids)
+                            ->filter(static fn ($v): bool => $v !== null && $v !== '')
+                            ->map(static fn ($id): string => (string) trans('admin.evaluation-transactions.statuses.' . (int) $id))
+                            ->unique()
+                            ->implode(', ');
+
+                        return $labels === '' ? null : __('admin.evaluation-transactions.filter_statuses_any') . ': ' . $labels;
                     }),
                 Tables\Filters\SelectFilter::make('company')
                     ->label(__('admin.company'))

@@ -12,10 +12,12 @@ class ScopeEvaluationTransactionsToDashboardYear
 {
     public function handle(Request $request, Closure $next): Response
     {
-        EvaluationTransaction::addGlobalScope(
-            FilamentDashboardEvaluationTransactionScope::class,
-            new FilamentDashboardEvaluationTransactionScope()
-        );
+        if (! EvaluationTransaction::hasGlobalScope(FilamentDashboardEvaluationTransactionScope::class)) {
+            EvaluationTransaction::addGlobalScope(
+                FilamentDashboardEvaluationTransactionScope::class,
+                new FilamentDashboardEvaluationTransactionScope()
+            );
+        }
 
         return $next($request);
     }

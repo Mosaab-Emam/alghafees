@@ -12,7 +12,6 @@ class FilamentDashboardEvaluationTransactionScope implements Scope
 
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->where('created_at', '>=', self::YEAR . '-01-01 00:00:00')
-            ->where('created_at', '<', (self::YEAR + 1) . '-01-01 00:00:00');
+        $builder->where('created_at', '>=', self::YEAR . '-01-01 00:00:00');
     }
 }

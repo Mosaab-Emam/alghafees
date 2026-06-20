@@ -59,6 +59,9 @@ class DashboardPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->persistentMiddleware([
+                ScopeEvaluationTransactionsToDashboardYear::class,
+            ])
             ->login(\Filament\Pages\Auth\Login::class)
             ->authMiddleware([
                 Authenticate::class,

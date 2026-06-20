@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Transaction_files;
+use App\Models\Scopes\FilamentDashboardEvaluationTransactionScope;
 use Illuminate\Validation\ValidationException;
 use Str;
 
@@ -115,7 +116,7 @@ class EvaluationTransaction extends Model
     protected static function booted(): void
     {
         static::creating(function (EvaluationTransaction $evaluationTransaction) {
-            if (is_numeric($evaluationTransaction->instrument_number) and EvaluationTransaction::where('instrument_number', $evaluationTransaction->instrument_number)->count()) {
+            if (is_numeric($evaluationTransaction->instrument_number) and static::withoutGlobalScope(FilamentDashboardEvaluationTransactionScope::class)->where('instrument_number', $evaluationTransaction->instrument_number)->count()) {
                 \DB::update('update evaluation_transactions set is_iterated=1 where instrument_number=?', [$evaluationTransaction->instrument_number]);
                 $evaluationTransaction->is_iterated = true;
             }
@@ -136,8 +137,9 @@ class EvaluationTransaction extends Model
         });
         static::updating(function (EvaluationTransaction $evaluationTransaction) {
             if ($evaluationTransaction->isDirty('instrument_number')) {
-                $new_trans = EvaluationTransaction::where('instrument_number', $evaluationTransaction->instrument_number)->where('id', '!=', $evaluationTransaction->id)->get();
-                $old_trans = EvaluationTransaction::where('instrument_number', $evaluationTransaction->getOriginal('instrument_number'))->where('id', '!=', $evaluationTransaction->id)->get();
+                $unscoped = static::withoutGlobalScope(FilamentDashboardEvaluationTransactionScope::class);
+                $new_trans = $unscoped->where('instrument_number', $evaluationTransaction->instrument_number)->where('id', '!=', $evaluationTransaction->id)->get();
+                $old_trans = $unscoped->where('instrument_number', $evaluationTransaction->getOriginal('instrument_number'))->where('id', '!=', $evaluationTransaction->id)->get();
                 if (is_numeric($evaluationTransaction->instrument_number) and is_numeric($evaluationTransaction->getOriginal('instrument_number'))) {
                     if ($new_trans->count() == 1) {
                         \DB::statement("update evaluation_transactions set is_iterated = true where instrument_number='" . $new_trans->first()->instrument_number . "'");

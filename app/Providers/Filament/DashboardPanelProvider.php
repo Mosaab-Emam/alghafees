@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\Filament\ScopeEvaluationTransactionsToDashboardYear;
+use App\Http\Middleware\Filament\RestrictDashboardToEvaluationTransactions;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -61,10 +62,12 @@ class DashboardPanelProvider extends PanelProvider
             ])
             ->persistentMiddleware([
                 ScopeEvaluationTransactionsToDashboardYear::class,
+                RestrictDashboardToEvaluationTransactions::class,
             ])
             ->login(\Filament\Pages\Auth\Login::class)
             ->authMiddleware([
                 Authenticate::class,
+                RestrictDashboardToEvaluationTransactions::class,
             ])
             ->databaseNotifications()
             ->plugins([
@@ -88,6 +91,10 @@ class DashboardPanelProvider extends PanelProvider
             ->renderHook(
                 PanelsRenderHook::SCRIPTS_AFTER,
                 fn (): string => view('filament.scripts.sidebar-hover-expand')->render(),
+            )
+            ->renderHook(
+                PanelsRenderHook::SCRIPTS_AFTER,
+                fn (): string => view('filament.scripts.evaluation-transactions-only-navigation')->render(),
             );
     }
 }

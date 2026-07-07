@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
+
 /**
  * @bodyParam first_name string required Customer first name. Example: Ahmed
  * @bodyParam last_name string required Customer last name. Example: Ali
@@ -54,7 +56,10 @@ class CreateRateRequestRequest extends Request
             'estate_region' => 'required|string|max:255',
             'estate_line_1' => 'required|string|max:255',
             'estate_line_2' => 'nullable|string|max:255',
-            'price_package_id' => 'required|exists:price_packages,id',
+            'price_package_id' => [
+                'required',
+                Rule::exists('price_packages', 'id')->whereNull('deleted_at'),
+            ],
             'source' => 'nullable|string|in:website,app,whatsapp',
             'instrument_image' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
             'construction_license' => 'nullable|file|mimes:jpeg,jpg,png,pdf|max:10240',
@@ -109,6 +114,8 @@ class CreateRateRequestRequest extends Request
             'other_contracts.file' => 'يجب أن يكون ملف',
             'other_contracts.mimes' => 'يجب أن يكون الملف من نوع: jpeg, jpg, png, pdf',
             'other_contracts.max' => 'يجب ألا يتجاوز حجم الملف 10 ميجابايت',
+            'price_package_id.required' => 'مطلوب',
+            'price_package_id.exists' => 'حزمة الأسعار غير متاحة',
         ];
     }
 }

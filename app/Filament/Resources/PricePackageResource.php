@@ -75,6 +75,11 @@ class PricePackageResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label(__('resources/price_packages.archived_at'))
+                    ->dateTime('Y-m-d')
+                    ->placeholder('—')
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('resources/price_packages.created_at'))
                     ->dateTime('Y-m-d')
@@ -85,16 +90,30 @@ class PricePackageResource extends Resource
                     ->toggleable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make()
+                    ->label(__('resources/price_packages.trashed_filter')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\RestoreAction::make()
+                    ->label(__('resources/price_packages.restore')),
                 Tables\Actions\DeleteAction::make()
-                    ->hidden(fn() => PricePackage::count() <= 1)
+                    ->label(__('resources/price_packages.archive'))
+                    ->modalHeading(__('resources/price_packages.archive_confirm_heading'))
+                    ->modalDescription(__('resources/price_packages.archive_confirm_description'))
+                    ->hidden(fn (PricePackage $record): bool => PricePackage::count() <= 1)
                     ->requiresConfirmation(),
             ])
             ->bulkActions([
                 //
+            ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
             ]);
     }
 

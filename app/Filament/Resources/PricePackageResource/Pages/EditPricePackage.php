@@ -14,8 +14,13 @@ class EditPricePackage extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\RestoreAction::make()
+                ->label(__('resources/price_packages.restore')),
             Actions\DeleteAction::make()
-                ->hidden(fn() => PricePackage::count() <= 1)
+                ->label(__('resources/price_packages.archive'))
+                ->modalHeading(__('resources/price_packages.archive_confirm_heading'))
+                ->modalDescription(__('resources/price_packages.archive_confirm_description'))
+                ->hidden(fn (): bool => PricePackage::count() <= 1)
                 ->requiresConfirmation(),
         ];
     }

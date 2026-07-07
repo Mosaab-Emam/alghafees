@@ -42,7 +42,7 @@ class RateRequest extends Model implements HasMedia
 
     public function price_package()
     {
-        return $this->belongsTo(PricePackage::class, 'price_package_id');
+        return $this->belongsTo(PricePackage::class, 'price_package_id')->withTrashed();
     }
 
     public function usage()

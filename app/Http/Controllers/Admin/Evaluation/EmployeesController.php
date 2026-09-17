@@ -59,6 +59,7 @@ class EmployeesController extends Controller
 
     public function store(ContentRequest $request)
     {
+        $request->validate(['phone' => ['nullable', 'string', 'regex:/^\+[1-9][0-9]{7,14}$/']]);
         $data = $request->all();
 
         $employee = $this->employeeRepository->createEmployee($data);
@@ -87,6 +88,7 @@ class EmployeesController extends Controller
 
     public function update(ContentRequest $request, $id)
     {
+        $request->validate(['phone' => ['nullable', 'string', 'regex:/^\+[1-9][0-9]{7,14}$/']]);
         $data = $request->except(['_token', '_method']);
 
         $this->employeeRepository->updateEmployee($id, $data);

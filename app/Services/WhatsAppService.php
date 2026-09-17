@@ -12,7 +12,7 @@ class WhatsAppService
 
     public function __construct()
     {
-        $this->apiKey = config('services.wasender.api_key', env('WASENDER_API_KEY'));
+        $this->apiKey = (string) config('services.wasender.api_key');
         $this->apiUrl = 'https://wasenderapi.com/api/send-message';
     }
 
@@ -24,13 +24,16 @@ class WhatsAppService
      * @return array Response from API
      * @throws \Exception
      */
-    public function sendMessage(string $phoneNumber, string $message): array
+    public function sendMessage(string $phoneNumber, string $message, bool $retryRateLimit = true): array
     {
+        if ($this->apiKey === '') {
+            throw new \RuntimeException('WASENDER_API_KEY is not configured.');
+        }
         // Ensure phone number is in E.164 format
         $formattedPhone = $this->formatPhoneNumber($phoneNumber);
 
         try {
-            return $this->doSend($formattedPhone, $message, true);
+            return $this->doSend($formattedPhone, $message, $retryRateLimit);
         } catch (\Exception $e) {
             Log::error('WhatsApp service exception', [
                 'phone' => $formattedPhone,
@@ -48,13 +51,16 @@ class WhatsAppService
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $this->apiKey,
             'Content-Type' => 'application/json',
-        ])->post($this->apiUrl, [
+        ])->connectTimeout(5)->timeout(20)->post($this->apiUrl, [
             'to' => $formattedPhone,
             'text' => $message,
         ]);
 
         if ($response->successful()) {
             $data = $response->json();
+            if (!is_array($data) || ($data['success'] ?? false) !== true) {
+                throw new \RuntimeException('WhatsApp API did not acknowledge the message.');
+            }
             Log::info('WhatsApp message sent successfully', [
                 'phone' => $formattedPhone,
                 'response' => $data,
@@ -77,7 +83,8 @@ class WhatsAppService
             'response' => $body,
         ]);
 
-        throw new \Exception('Failed to send WhatsApp message: ' . $body);
+        $response->throw();
+        throw new \RuntimeException('Unexpected WhatsApp API response.');
     }
 
     /**

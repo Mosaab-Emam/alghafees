@@ -17,6 +17,7 @@ class EvaluationEmployee extends Model
 
     protected $fillable = [
         'title',
+        'phone',
         'price',
         'position',
         'active',

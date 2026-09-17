@@ -54,6 +54,19 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="phone-field">@lang('admin.phone')</label>
+                                        <input id="phone-field" type="tel" dir="ltr" maxlength="16"
+                                            class="form-control @error('phone') is-invalid @enderror"
+                                            name="phone" value="{{ old('phone', $item->phone) }}" placeholder="+966501234567" />
+                                        <small class="form-text text-muted">رقم واتساب بالصيغة الدولية (اختياري).</small>
+                                        @error('phone')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+
                                 <div class="row">
 
                                     {{-- <div class="col-md-12">

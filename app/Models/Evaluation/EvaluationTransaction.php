@@ -13,6 +13,7 @@ use App\Models\Transaction_files;
 use App\Models\Scopes\FilamentDashboardEvaluationTransactionScope;
 use Illuminate\Validation\ValidationException;
 use Str;
+use App\Services\EvaluationRoleWhatsAppNotifier;
 
 
 /**
@@ -115,6 +116,8 @@ class EvaluationTransaction extends Model
 
     protected static function booted(): void
     {
+        static::created(fn (EvaluationTransaction $transaction) => $transaction->sendRoleAssignmentNotifications(true));
+        static::updated(fn (EvaluationTransaction $transaction) => $transaction->sendRoleAssignmentNotifications(false));
         static::creating(function (EvaluationTransaction $evaluationTransaction) {
             if (is_numeric($evaluationTransaction->instrument_number) and static::withoutGlobalScope(FilamentDashboardEvaluationTransactionScope::class)->where('instrument_number', $evaluationTransaction->instrument_number)->count()) {
                 \DB::update('update evaluation_transactions set is_iterated=1 where instrument_number=?', [$evaluationTransaction->instrument_number]);
@@ -168,6 +171,40 @@ class EvaluationTransaction extends Model
                 } else {
                     $evaluationTransaction->is_iterated = false;
                 }
+            }
+        });
+    }
+
+    /** The Arabic names match the assignment form, regardless of the legacy column names. */
+    public const ASSIGNMENT_ROLE_LABELS = [
+        'evaluation_employee_id' => 'الإدخال',
+        'previewer_id' => 'المعاين',
+        'review_id' => 'المقيم',
+        'income_id' => 'المراجع',
+        'approver_id' => 'المعتمد',
+    ];
+
+    private function sendRoleAssignmentNotifications(bool $created): void
+    {
+        $assignments = [];
+        foreach (array_keys(self::ASSIGNMENT_ROLE_LABELS) as $field) {
+            $employeeId = $this->getAttribute($field);
+            if (!$employeeId || (!$created && !$this->wasChanged($field))) {
+                continue;
+            }
+
+            $assignments[$field] = (int) $employeeId;
+        }
+        if (!$assignments) {
+            return;
+        }
+
+        $transactionId = (int) $this->getKey();
+        $transactionNumber = (string) ($this->transaction_number ?: $transactionId);
+        // Send synchronously once the save commits; rolled-back assignments must not notify.
+        $this->getConnection()->afterCommit(function () use ($assignments, $transactionId, $transactionNumber) {
+            foreach ($assignments as $field => $employeeId) {
+                app(EvaluationRoleWhatsAppNotifier::class)->send($transactionId, $employeeId, $field, $transactionNumber);
             }
         });
     }

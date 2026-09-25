@@ -59,6 +59,9 @@ class EvaluationEmployeeResource extends Resource
             ->schema([
                 Infolists\Components\TextEntry::make('title')
                     ->label(__('admin.Title')),
+                Infolists\Components\TextEntry::make('phone')
+                    ->label(__('admin.phone'))
+                    ->default('لم يحدد'),
                 Infolists\Components\TextEntry::make('price')
                     ->label(__('admin.Price'))
                     ->default('لم يحدد'),
@@ -81,6 +84,13 @@ class EvaluationEmployeeResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->label(__('admin.Price'))
                     ->numeric(),
+                Forms\Components\TextInput::make('phone')
+                    ->label(__('admin.phone'))
+                    ->tel()
+                    ->nullable()
+                    ->maxLength(16)
+                    ->regex('/^\+[1-9][0-9]{7,14}$/')
+                    ->helperText('رقم واتساب بالصيغة الدولية، مثال: +966501234567. اتركه فارغاً إذا لم ترغب في تلقي الإشعارات.'),
                 Forms\Components\Toggle::make('active')
                     ->label(__('admin.Publish'))
                     ->required()
@@ -95,6 +105,10 @@ class EvaluationEmployeeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label(__('admin.Title'))
+                    ->searchable()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label(__('admin.phone'))
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\IconColumn::make('active')

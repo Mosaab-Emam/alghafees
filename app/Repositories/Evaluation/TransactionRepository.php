@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Evaluation;
 
-use App\Models\Evaluation\EvaluationTransaction;
-use Illuminate\Support\Str;
 use App\Models\Evaluation\EvaluationTransaction as Transaction;
 use App\Interfaces\Evaluation\TransactionRepositoryInterface;
 use App\Models\Evaluation\EvaluationCompany;
@@ -146,7 +144,7 @@ class TransactionRepository implements TransactionRepositoryInterface
             );
         }
 
-        $items = $items->where('status', 3)->get();
+        $items = $items->whereIn('status', Transaction::WORKFLOW_IN_PROGRESS_STATUSES)->get();
 
         return $items;
 

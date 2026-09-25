@@ -27,18 +27,18 @@ class ListEvaluationTransactions extends ListRecords
             'all' => Tab::make(__('admin.evaluation-transactions.statuses.all')),
             '0' => Tab::make(__('admin.evaluation-transactions.statuses.0'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 0)),
-            '1' => Tab::make(__('admin.evaluation-transactions.statuses.1'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 1)),
-            '2' => Tab::make(__('admin.evaluation-transactions.statuses.2'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 2)),
-            '3' => Tab::make(__('admin.evaluation-transactions.statuses.3'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 3)),
+            '7' => Tab::make(__('admin.evaluation-transactions.statuses.7'))
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 7)),
+            '8' => Tab::make(__('admin.evaluation-transactions.statuses.8'))
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 8)),
+            '9' => Tab::make(__('admin.evaluation-transactions.statuses.9'))
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 9)),
             '4' => Tab::make(__('admin.evaluation-transactions.statuses.4'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 4)),
-            '5' => Tab::make(__('admin.evaluation-transactions.statuses.5'))
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 5)),
             '6' => Tab::make(__('admin.evaluation-transactions.statuses.6'))
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 6)),
+            '5' => Tab::make(__('admin.evaluation-transactions.statuses.5'))
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', 5)),
         ];
     }
 }

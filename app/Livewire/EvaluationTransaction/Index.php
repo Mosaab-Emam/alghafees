@@ -129,19 +129,7 @@ class Index extends Component implements HasForms
 
     public function save(): void
     {
-        if (
-            $this->previewer_id != null &&
-            $this->income_id != null &&
-            $this->review_id != null
-        ) {
-            $this->status = 4;
-        } else if (
-            ($this->previewer_id != null && $this->income_id != null) || $this->previewer_id != null
-        ) {
-            $this->status = 3;
-        } else {
-            $this->status = 0;
-        }
+        $this->status = $this->resolveStatusFromCurrentForm();
 
         $this->selected->update([
             'city_id' => $this->city_id,
@@ -161,20 +149,36 @@ class Index extends Component implements HasForms
 
     public function updatedPreviewerId($value): void
     {
-        if ($value != null and $this->selected->previewer_id == null) {
-            $this->status = 3;
+        if (!$this->selected) {
+            return;
         }
-        if ($value == null) {
-            $this->status = 0;
-        }
+        $this->status = $this->resolveStatusFromCurrentForm();
     }
 
     public function updatedReviewId($value): void
     {
-        if ($value != null and $this->selected->review_id == null)
-            $this->status = 4;
-        if ($value == null and $this->previewer_id != null)
-            $this->status = 3;
+        if (!$this->selected) {
+            return;
+        }
+        $this->status = $this->resolveStatusFromCurrentForm();
+    }
+
+    public function updatedIncomeId($value): void
+    {
+        if (!$this->selected) {
+            return;
+        }
+        $this->status = $this->resolveStatusFromCurrentForm();
+    }
+
+    protected function resolveStatusFromCurrentForm(): int
+    {
+        return EvaluationTransaction::resolveStatusFromRoleAssignments([
+            'previewer_id' => $this->previewer_id,
+            'review_id' => $this->review_id,
+            'income_id' => $this->income_id,
+            'approver_id' => $this->selected?->approver_id,
+        ]);
     }
 
     public function updateStatus(): void

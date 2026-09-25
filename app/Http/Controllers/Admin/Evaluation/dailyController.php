@@ -66,7 +66,7 @@ class dailyController extends Controller
         $company = $data['company'] ?? '';
         $counts = $this->transactionRepository->getCount();
         $items = $this->transactionRepository->getdailyTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
 
         if (isset($employee) && $employee != '') {
             $previewer = $items
@@ -131,7 +131,7 @@ class dailyController extends Controller
         $company = $data['company'] ?? '';
         $counts = $this->transactionRepository->getCount();
         $items = $this->transactionRepository->getReviewTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
 
         if (isset($employee) && $employee != '') {
             $previewer = $items
@@ -191,7 +191,7 @@ class dailyController extends Controller
         $to_date = $data['to_date'] ?? '';
         $company = $data['company'] ?? '';
          $items = $this->transactionRepository->getCompanyTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
         $counts = Count($items);
 
 
@@ -229,7 +229,7 @@ class dailyController extends Controller
         $from_date = $data['from_date'] ?? '';
         $to_date = $data['to_date'] ?? '';
         $items = $this->transactionRepository->getemployeeTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
         $counts = count($items);
 
 
@@ -285,7 +285,7 @@ class dailyController extends Controller
         $to_date = $data['to_date'] ?? '';
         $company = $data['company'] ?? '';
          $items = $this->transactionRepository->getCompanyTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
         $counts = Count($items);
 
 
@@ -330,7 +330,7 @@ class dailyController extends Controller
         $company = EvaluationCompany::find($id);
         $counts = $this->transactionRepository->getCount();
         $items = $this->transactionRepository->getPaginateTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
 
         if (isset($employee) && $employee != '') {
             $previewer = $items

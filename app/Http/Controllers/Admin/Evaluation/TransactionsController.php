@@ -114,7 +114,7 @@ class TransactionsController extends Controller
         $company = $data['company'] ?? '';
         $counts = $this->transactionRepository->getCount();
         $items = $this->transactionRepository->getPaginateTransactions($data);
-        $statuses = Constants::TransactionStatuses;
+        $statuses = Constants::evaluationTransactionStatusesForForms();
         /*
         عدد المعاملات  =(مجموع المعاين بيساوى 1+  مجموع الادخال بيساوى 0.5 + مجموع المراحعه بيساوى 0.5 )
         'previewer',
@@ -188,21 +188,7 @@ class TransactionsController extends Controller
         }
         $data = $request->all();
 
-        if (
-            $data['previewer_id'] != null &&
-            $data['income_id'] != null &&
-            $data['review_id'] != null
-        ) {
-            $status = 4;
-        } else if (
-            ($data['previewer_id'] != null && $data['income_id'] != null) || $data['previewer_id'] != null
-        ) {
-            $status = 3;
-        } else {
-            $status = 0;
-        }
-
-        $data['status'] = $status;
+        $data['status'] = EvaluationTransaction::resolveStatusFromRoleAssignments($data);
 
         if ($data['preview_date'] != null && $data['preview_time'] != null)
             $data['preview_date_time'] = $data['preview_date'] . ' ' . $data['preview_time'];
@@ -268,15 +254,7 @@ class TransactionsController extends Controller
     public function update(TransactionRequest $request, $id)
     {
         $data = $request->except(['_token', '_method']);
-        if ($data['review_id'] != null) {
-            $status = 4;
-        } elseif ($data['previewer_id'] != null) {
-            $status = 3;
-        } else {
-            $status = 0;
-        }
-
-        $data['status'] = $status;
+        $data['status'] = EvaluationTransaction::resolveStatusFromRoleAssignments($data);
 
 
         $this->transactionRepository->updateTransaction($id, $data);
@@ -315,10 +293,15 @@ class TransactionsController extends Controller
             $Newstatus = __('admin.PendingRequest');
         } elseif ($request->status == 6) {
             $Newstatus = __('admin.Cancelled');
+        } elseif ($request->status == 7) {
+            $Newstatus = __('admin.UnderObservationRequest');
+        } elseif ($request->status == 8) {
+            $Newstatus = __('admin.UnderEvaluationRequest');
+        } elseif ($request->status == 9) {
+            $Newstatus = __('admin.UnderReviewWorkflowRequest');
+        } else {
+            $Newstatus = (string) $request->status;
         }
-
-
-        //
         $transaction = EvaluationTransaction::find($id);
         $user = User::find('1');
         $message = "تمت تغير حالة معاملة برقم " . $transaction->instrument_number . " إالى" . $Newstatus;

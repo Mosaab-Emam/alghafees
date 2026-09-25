@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Http\Middleware\Filament\ScopeEvaluationTransactionsToDashboardYear;
+use App\Http\Middleware\Filament\RestrictDashboardToEvaluationTransactions;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -12,6 +13,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\SpatieLaravelTranslatablePlugin;
 use Filament\Support\Enums\MaxWidth;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -58,12 +60,14 @@ class DashboardPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->persistentMiddleware([
-                ScopeEvaluationTransactionsToDashboardYear::class,
-            ])
+             ->persistentMiddleware([
+                 ScopeEvaluationTransactionsToDashboardYear::class,
+                 RestrictDashboardToEvaluationTransactions::class,
+             ])
             ->login(\Filament\Pages\Auth\Login::class)
             ->authMiddleware([
                 Authenticate::class,
+                RestrictDashboardToEvaluationTransactions::class,
             ])
             ->databaseNotifications()
             ->plugins([
@@ -83,6 +87,14 @@ class DashboardPanelProvider extends PanelProvider
             ->brandLogo(asset('images/settings/1691238434rKMpDrJ2EhNquOPc8E04TfgLLnkyWRJpEXWNKeGP.png'))
             ->brandLogoHeight('3rem')
             ->favicon(asset('/favicon.png'))
-            ->sidebarCollapsibleOnDesktop();
+            ->sidebarCollapsibleOnDesktop()
+            ->renderHook(
+                PanelsRenderHook::SCRIPTS_AFTER,
+                fn (): string => view('filament.scripts.sidebar-hover-expand')->render(),
+            )
+            ->renderHook(
+                PanelsRenderHook::SCRIPTS_AFTER,
+                fn (): string => view('filament.scripts.evaluation-transactions-only-navigation')->render(),
+            );
     }
 }

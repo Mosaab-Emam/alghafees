@@ -78,7 +78,11 @@ class CompanyTransactions extends Page  implements HasTable
                             ->native(false),
                         Select::make('status')
                             ->label(__('admin.Status'))
-                            ->options(array_map(fn ($item): string => __('admin.' . $item['title']), Constants::TransactionStatuses))
+                            ->options(collect(Constants::evaluationTransactionStatusesForForms())
+                                ->mapWithKeys(fn (array $item): array => [
+                                    $item['id'] => __('admin.' . $item['title']),
+                                ])
+                                ->all())
                             ->searchable()
                             ->preload(),
                         Select::make('city')

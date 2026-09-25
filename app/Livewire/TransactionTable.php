@@ -216,6 +216,12 @@ final class TransactionTable extends PowerGridComponent implements HasForms
                     $status = __('admin.PendingRequest');
                 } elseif ($model->status == 6) {
                     $status = __('admin.Cancelled');
+                } elseif ($model->status == 7) {
+                    $status = __('admin.UnderObservationRequest');
+                } elseif ($model->status == 8) {
+                    $status = __('admin.UnderEvaluationRequest');
+                } elseif ($model->status == 9) {
+                    $status = __('admin.UnderReviewWorkflowRequest');
                 }
                 return view('components.status_change', [
                     'model' => $model,
@@ -236,6 +242,12 @@ final class TransactionTable extends PowerGridComponent implements HasForms
                     return __('admin.PendingRequest');
                 } elseif ($model->status == 6) {
                     return __('admin.Cancelled');
+                } elseif ($model->status == 7) {
+                    return __('admin.UnderObservationRequest');
+                } elseif ($model->status == 8) {
+                    return __('admin.UnderEvaluationRequest');
+                } elseif ($model->status == 9) {
+                    return __('admin.UnderReviewWorkflowRequest');
                 } else {
                     return '';
                 }

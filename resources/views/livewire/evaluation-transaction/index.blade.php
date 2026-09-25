@@ -9,12 +9,14 @@
         <x-filament::input.wrapper>
             <x-filament::input.select wire:model.live="status">
                 <option value="0">{{trans('admin.NewTransaction')}}</option>
-                <option value="1">{{trans('admin.InReviewRequest')}}</option>
                 <option value="2">{{trans('admin.ContactedRequest')}}</option>
                 <option value="3">{{trans('admin.ReviewedRequest')}}</option>
                 <option value="4">{{trans('admin.FinishedRequest')}}</option>
                 <option value="5">{{trans('admin.PendingRequest')}}</option>
                 <option value="6">{{trans('admin.Cancelled')}}</option>
+                <option value="7">{{trans('admin.UnderObservationRequest')}}</option>
+                <option value="8">{{trans('admin.UnderEvaluationRequest')}}</option>
+                <option value="9">{{trans('admin.UnderReviewWorkflowRequest')}}</option>
             </x-filament::input.select>
         </x-filament::input.wrapper>
         <x-slot:footerActions>

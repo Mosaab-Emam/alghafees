@@ -13,6 +13,12 @@
         <span class='badge badge-pill alert-table badge-warning'> {{__('admin.PendingRequest')}} </span>
     @elseif ($model->status == 6)
         <span class='badge badge-pill alert-table badge-warning'> {{__('admin.Cancelled')}} </span>
+    @elseif ($model->status == 7)
+        <span class='badge badge-pill alert-table badge-secondary'> {{__('admin.UnderObservationRequest')}} </span>
+    @elseif ($model->status == 8)
+        <span class='badge badge-pill alert-table badge-primary'> {{__('admin.UnderEvaluationRequest')}} </span>
+    @elseif ($model->status == 9)
+        <span class='badge badge-pill alert-table badge-info'> {{__('admin.UnderReviewWorkflowRequest')}} </span>
     @endif
 
     @if($model->status != 4 || auth()->user()->hasRole('super-admin'))

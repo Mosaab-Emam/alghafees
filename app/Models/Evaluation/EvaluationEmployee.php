@@ -17,6 +17,7 @@ class EvaluationEmployee extends Model
 
     protected $fillable = [
         'title',
+        'phone',
         'price',
         'position',
         'active',
@@ -41,6 +42,11 @@ class EvaluationEmployee extends Model
     public function transactionreview()
     {
         return $this->hasMany(EvaluationTransaction::class, 'review_id');
+    }
+
+    public function transactionApprover()
+    {
+        return $this->hasMany(EvaluationTransaction::class, 'approver_id');
     }
 
     public function getTotalAttribute()

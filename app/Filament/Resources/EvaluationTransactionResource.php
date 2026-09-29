@@ -127,6 +127,12 @@ class EvaluationTransactionResource extends Resource
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('transaction_number')
                     ->label(__('resources/evaluation-transaction.transaction_number'))
+                    ->limit(15)
+                    ->tooltip(fn (EvaluationTransaction $record): ?string =>
+                        strlen((string) $record->transaction_number) > 15
+                            ? (string) $record->transaction_number
+                            : null
+                    )
                     ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('owner_name')
@@ -184,6 +190,12 @@ class EvaluationTransactionResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('instrument_number')
                     ->label(__('resources/evaluation-transaction.instrument_number'))
+                    ->limit(15)
+                    ->tooltip(fn (EvaluationTransaction $record): ?string =>
+                        strlen((string) $record->instrument_number) > 15
+                            ? (string) $record->instrument_number
+                            : null
+                    )
                     ->searchable()
                     ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))

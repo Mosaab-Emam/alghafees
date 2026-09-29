@@ -466,24 +466,36 @@ class EvaluationTransaction extends Model
 
     public function getRegionAttributeAttribute(): string
     {
-        if ($this->region)
+        if ($this->region) {
             return $this->region;
-        else {
-            $value = '<div><strong>المدينة:</strong> ' . $this->newCity->name_ar . '</div>';
-            $value = $value . '<div><strong>رقم المخطط:</strong> ' . Str::limit($this->plan_no, 12) . '</div>';
-            $value = $value . '<div><strong>رقم القطعة:</strong> ' . Str::limit($this->plot_no, 12) . '</div>';
-            return $value;
         }
+
+        $cityName = $this->newCity?->name_ar;
+
+        if (! $cityName) {
+            return '';
+        }
+
+        $value = '<div><strong>المدينة:</strong> ' . $cityName . '</div>';
+        $value = $value . '<div><strong>رقم المخطط:</strong> ' . Str::limit($this->plan_no, 12) . '</div>';
+        $value = $value . '<div><strong>رقم القطعة:</strong> ' . Str::limit($this->plot_no, 12) . '</div>';
+
+        return $value;
     }
 
     public function getRegionTableValueAttribute(): string
     {
-        if ($this->region)
+        if ($this->region) {
             return $this->region;
-        else {
-            $value = $this->newCity->name_ar . ' - مخطط رقم: ' . $this->plan_no;
-            return $value;
         }
+
+        $cityName = $this->newCity?->name_ar;
+
+        if (! $cityName) {
+            return '';
+        }
+
+        return $cityName . ' - مخطط رقم: ' . $this->plan_no;
     }
     public function getDetailsSpanAttribute(): string
     {
@@ -505,11 +517,9 @@ class EvaluationTransaction extends Model
         return $output;
     }
 
-    public function getCompatibleCityAttribute()
+    public function getCompatibleCityAttribute(): ?string
     {
-        if ($this->new_city_id == null)
-            return $this->region;
-        return $this->newCity->name_ar;
+        return $this->newCity?->name_ar ?: $this->region;
     }
 
     public function getHasRepeatedInstrumentNumberAttribute()

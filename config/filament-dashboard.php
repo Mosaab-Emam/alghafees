@@ -13,6 +13,7 @@ return [
     */
     'full_access_emails' => [
         'admin@admin.com',
-        'musab2020@gmail.com'
+        'musab2020@gmail.com',
+        'alghafestaqeem.sa@gmail.com',
     ],
 ];

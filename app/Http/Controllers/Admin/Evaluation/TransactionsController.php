@@ -254,7 +254,8 @@ class TransactionsController extends Controller
     public function update(TransactionRequest $request, $id)
     {
         $data = $request->except(['_token', '_method']);
-        $data['status'] = EvaluationTransaction::resolveStatusFromRoleAssignments($data);
+        $transaction = $this->transactionRepository->getTransactionById($id);
+        $data['status'] = $transaction->resolveStatusForUpdate($data);
 
 
         $this->transactionRepository->updateTransaction($id, $data);

@@ -328,6 +328,33 @@ class EvaluationTransaction extends Model
     }
 
     /**
+     * Preserve status on unrelated edits and retain assignments omitted by locked fields.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    public function resolveStatusForUpdate(array $data): int
+    {
+        $roles = array_keys(self::roleAssignmentLockMap());
+        $currentAssignments = $this->only($roles);
+        $updatedAssignments = array_replace($currentAssignments, $data);
+
+        foreach ($roles as $role) {
+            $currentId = self::filledRoleId($currentAssignments, $role)
+                ? (string) $currentAssignments[$role]
+                : null;
+            $updatedId = self::filledRoleId($updatedAssignments, $role)
+                ? (string) $updatedAssignments[$role]
+                : null;
+
+            if ($currentId !== $updatedId) {
+                return self::resolveStatusFromRoleAssignments($updatedAssignments);
+            }
+        }
+
+        return (int) $this->status;
+    }
+
+    /**
      * @param  array<string, mixed>  $data
      */
     public static function resolveStatusFromRoleAssignments(array $data): int

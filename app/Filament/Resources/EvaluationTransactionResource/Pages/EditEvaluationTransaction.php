@@ -28,14 +28,22 @@ class EditEvaluationTransaction extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['status'] = EvaluationTransaction::resolveStatusFromRoleAssignments($data);
+        $data['status'] = $this->record->resolveStatusForUpdate($data);
+        $assignments = array_replace(
+            $this->record->only(array_keys(EvaluationTransaction::roleAssignmentLockMap())),
+            $data,
+        );
 
-        $allFourRolesFilled = EvaluationTransaction::filledRoleId($data, 'previewer_id')
-            && EvaluationTransaction::filledRoleId($data, 'review_id')
-            && EvaluationTransaction::filledRoleId($data, 'income_id')
-            && EvaluationTransaction::filledRoleId($data, 'approver_id');
+        $allFourRolesFilled = EvaluationTransaction::filledRoleId($assignments, 'previewer_id')
+            && EvaluationTransaction::filledRoleId($assignments, 'review_id')
+            && EvaluationTransaction::filledRoleId($assignments, 'income_id')
+            && EvaluationTransaction::filledRoleId($assignments, 'approver_id');
 
-        if ($data['status'] === EvaluationTransaction::STATUS_FINISHED && $allFourRolesFilled) {
+        if (
+            $data['status'] === EvaluationTransaction::STATUS_FINISHED
+            && (int) $this->record->status !== EvaluationTransaction::STATUS_FINISHED
+            && $allFourRolesFilled
+        ) {
             $admin = User::find(1);
             if ($admin) {
                 Notification::make()

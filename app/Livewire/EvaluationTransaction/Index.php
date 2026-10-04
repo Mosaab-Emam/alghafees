@@ -173,7 +173,7 @@ class Index extends Component implements HasForms
 
     protected function resolveStatusFromCurrentForm(): int
     {
-        return EvaluationTransaction::resolveStatusFromRoleAssignments([
+        return $this->selected->resolveStatusForUpdate([
             'previewer_id' => $this->previewer_id,
             'review_id' => $this->review_id,
             'income_id' => $this->income_id,

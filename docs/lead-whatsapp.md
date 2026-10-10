@@ -48,7 +48,7 @@ For immediate processing, run a supervised worker:
 php artisan queue:work lead_whatsapp --queue=lead-whatsapp --sleep=1 --timeout=45 --tries=0
 ```
 
-Locally, use `/opt/homebrew/opt/php@8.3/bin/php` instead of the system PHP 8.5. The existing Laravel scheduler also has a dedicated worker command that drains this queue every minute; it requires the normal `schedule:run` cron to be active. It processes only the new Contacts queue. No WA Sender account settings need to be queried or changed.
+Locally, use `/opt/homebrew/opt/php@8.3/bin/php` instead of the system PHP 8.5. The existing Laravel scheduler also drains this queue every minute; it requires the normal `schedule:run` cron to be active. Where PHP supports process spawning, it starts a bounded background worker. On shared hosting that disables `proc_open`, it processes ready jobs inside the existing cron process for up to 50 seconds, after the other scheduled callbacks. It returns immediately when there are no ready jobs. Delays extending beyond that run resume during a later minute's cron run. No persistent worker or server process is required on shared hosting. It processes only the new Contacts queue. No WA Sender account settings need to be queried or changed.
 
 The request timeout is 20 seconds, the worker timeout is 45 seconds, lock leases are 60 seconds, and the queue reservation timeout is 90 seconds. Keep that ordering when customizing workers to prevent overlapping API requests.
 

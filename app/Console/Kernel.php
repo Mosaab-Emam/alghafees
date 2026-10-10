@@ -9,7 +9,10 @@ use App\Notifications\TimeNotification;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
 use LaraZeus\Sky\Models\Post;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -23,10 +26,6 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('backup:clean')->daily()->at('01:00');
         $schedule->command('backup:run')->daily()->at('01:30');
-
-        // The existing scheduler also drains the dedicated contact-message queue.
-        $schedule->command('queue:work lead_whatsapp --queue=lead-whatsapp --sleep=1 --timeout=45 --tries=0 --max-time=50')
-            ->everyMinute()->withoutOverlapping(5)->runInBackground();
 
         // Send notifications for appointments
         $schedule->call(function () {
@@ -81,6 +80,28 @@ class Kernel extends ConsoleKernel
                 $tamara_checkout_session->save();
             }
         })->everyMinute();
+
+        // Shared hosting may disable proc_open, so run this last inside the existing cron process.
+        if (function_exists('proc_open')) {
+            $schedule->command('queue:work lead_whatsapp --queue=lead-whatsapp --sleep=1 --timeout=45 --tries=0 --max-time=50')
+                ->everyMinute()->withoutOverlapping(5)->runInBackground();
+        } else {
+            $schedule->call(function (): void {
+                if (! Schema::hasTable('lead_whatsapp_jobs') || ! DB::table('lead_whatsapp_jobs')
+                    ->where('queue', 'lead-whatsapp')->where('available_at', '<=', time())->exists()) {
+                    return;
+                }
+
+                Artisan::call('queue:work', [
+                    'connection' => 'lead_whatsapp',
+                    '--queue' => 'lead-whatsapp',
+                    '--sleep' => 1,
+                    '--timeout' => 45,
+                    '--tries' => 0,
+                    '--max-time' => 50,
+                ]);
+            })->name('lead-whatsapp-queue')->everyMinute()->withoutOverlapping(5);
+        }
 
 
         // $schedule->command('queue:work --stop-when-empty')

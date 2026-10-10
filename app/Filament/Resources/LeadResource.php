@@ -6,6 +6,7 @@ use App\Exports\LeadSpreadsheetExport;
 use App\Filament\Resources\LeadResource\Pages;
 use App\Models\Lead;
 use App\Rules\LeadPhone;
+use App\Services\LeadWhatsAppBatchService;
 use App\Support\LeadContactData;
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
@@ -43,7 +44,7 @@ class LeadResource extends Resource implements HasShieldPermissions
 
     public static function getPermissionPrefixes(): array
     {
-        return ['view_any', 'view', 'create', 'update', 'delete', 'delete_any', 'import', 'export'];
+        return ['view_any', 'view', 'create', 'update', 'delete', 'delete_any', 'import', 'export', 'send_whatsapp'];
     }
 
     public static function form(Form $form): Form
@@ -90,9 +91,45 @@ class LeadResource extends Resource implements HasShieldPermissions
             Tables\Filters\SelectFilter::make('lead_category_id')->label(__('leads.category'))
                 ->relationship('category', 'name')->searchable()->preload(),
         ])->actions([
+            Tables\Actions\Action::make('whatsapp')->label(__('leads.wa_send'))->icon('heroicon-o-chat-bubble-left-right')
+                ->visible(fn () => Gate::allows('sendWhatsApp', Lead::class))
+                ->disabled(fn (Lead $record) => app(LeadWhatsAppBatchService::class)->phoneOptions($record) === [])
+                ->tooltip(fn (Lead $record) => app(LeadWhatsAppBatchService::class)->phoneOptions($record) === [] ? __('leads.wa_reason_no_phone') : null)
+                ->modalSubmitActionLabel(__('leads.wa_send'))
+                ->mountUsing(function (Form $form, Lead $record, Tables\Actions\Action $action): void {
+                    $action->getLivewire()->prepareWhatsApp(collect([$record]));
+                    $form->fill(['phone' => array_key_first(app(LeadWhatsAppBatchService::class)->phoneOptions($record))]);
+                })
+                ->form([
+                    Forms\Components\Select::make('phone')->label(__('leads.phone'))->required()
+                        ->options(fn (Lead $record) => app(LeadWhatsAppBatchService::class)->phoneOptions($record))
+                        ->in(fn (Lead $record) => array_keys(app(LeadWhatsAppBatchService::class)->phoneOptions($record))),
+                    Forms\Components\Textarea::make('message')->label(__('leads.wa_message'))->required()
+                        ->maxLength(4000)->rows(6)->helperText(__('leads.wa_single_help'))
+                        ->mutateStateForValidationUsing(fn (?string $state) => LeadContactData::trim($state ?? '')),
+                ])
+                ->action(function (array $data, Tables\Actions\Action $action): void {
+                    $action->getLivewire()->queuePreparedWhatsApp($data['message'], $data['phone']);
+                }),
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
         ])->bulkActions([
+            Tables\Actions\BulkAction::make('whatsapp')->label(__('leads.wa_send_selected'))->icon('heroicon-o-chat-bubble-left-right')
+                ->visible(fn () => Gate::allows('sendWhatsApp', Lead::class))
+                ->modalWidth('4xl')->modalSubmitActionLabel(__('leads.wa_send'))
+                ->mountUsing(function (Form $form, Collection $records, Tables\Actions\BulkAction $action): void {
+                    $action->getLivewire()->prepareWhatsApp($records);
+                    $form->fill();
+                })
+                ->modalContent(fn (Tables\Actions\BulkAction $action) => view('filament.leads.whatsapp-preview', ['plan' => $action->getLivewire()->whatsAppPlan]))
+                ->form([
+                    Forms\Components\Textarea::make('message')->label(__('leads.wa_message'))->required()
+                        ->maxLength(4000)->rows(6)->mutateStateForValidationUsing(fn (?string $state) => LeadContactData::trim($state ?? '')),
+                ])
+                ->action(function (array $data, Tables\Actions\BulkAction $action): void {
+                    $action->getLivewire()->queuePreparedWhatsApp($data['message']);
+                    $action->getLivewire()->deselectAllTableRecords();
+                }),
             Tables\Actions\BulkAction::make('export')
                 ->label(__('leads.export_selected'))->icon('heroicon-o-arrow-down-tray')
                 ->visible(fn () => Gate::allows('export', Lead::class))

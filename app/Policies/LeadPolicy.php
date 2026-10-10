@@ -46,4 +46,9 @@ class LeadPolicy
     {
         return $user->can('export_lead') && $this->viewAny($user);
     }
+
+    public function sendWhatsApp(User $user): bool
+    {
+        return $user->can('send_whatsapp_lead') && $this->viewAny($user);
+    }
 }

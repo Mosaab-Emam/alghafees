@@ -56,4 +56,4 @@ The main export respects the current table search and category filter and includ
 
 Uploaded source files are temporary. Successful imports delete the temporary upload; unsuccessful uploads are left available for correction in the modal and are subject to Livewire's normal temporary-file cleanup.
 
-No automated tests or migrations were run during implementation, per the project instructions and the need to avoid touching the configured database.
+Automated tests were skipped per the project instructions. The Contacts/category and permission migrations were applied to the local database when the WhatsApp feature was added. Hosting still needs its normal migration deployment.

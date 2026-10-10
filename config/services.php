@@ -35,6 +35,8 @@ return [
         'api_key' => env('WASENDER_API_KEY'),
         'webhook_secret' => env('WASENDER_API_WEBHOOK_SECRET'),
         'chatbot_active_minutes' => (int) (env('WASENDER_CHATBOT_ACTIVE_MINUTES', 60) ?: 60),
+        'lead_cache_store' => env('WASENDER_LEAD_CACHE_STORE', 'file'),
+        'lead_batch_limit' => (int) env('WASENDER_LEAD_BATCH_LIMIT', 100),
     ],
 
 ];

@@ -24,6 +24,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:clean')->daily()->at('01:00');
         $schedule->command('backup:run')->daily()->at('01:30');
 
+        // The existing scheduler also drains the dedicated contact-message queue.
+        $schedule->command('queue:work lead_whatsapp --queue=lead-whatsapp --sleep=1 --timeout=45 --tries=0 --max-time=50')
+            ->everyMinute()->withoutOverlapping(5)->runInBackground();
+
         // Send notifications for appointments
         $schedule->call(function () {
             $user = User::find('1');

@@ -4,6 +4,7 @@
 /ignore
 /public/sitemap.xml
 /public/hot
+/public/build
 /public/storage
 /public/signed-contracts
 /public/reviews

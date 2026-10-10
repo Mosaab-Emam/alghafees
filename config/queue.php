@@ -30,6 +30,15 @@ return [
 
     'connections' => [
 
+        // Dedicated queue: does not change the app's existing synchronous jobs.
+        'lead_whatsapp' => [
+            'driver' => 'database',
+            'table' => 'lead_whatsapp_jobs',
+            'queue' => 'lead-whatsapp',
+            'retry_after' => 90,
+            'after_commit' => true,
+        ],
+
         'sync' => [
             'driver' => 'sync',
         ],

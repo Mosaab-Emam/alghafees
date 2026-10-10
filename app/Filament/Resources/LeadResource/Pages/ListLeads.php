@@ -6,8 +6,10 @@ use App\Exceptions\LeadImportException;
 use App\Exports\LeadSpreadsheetExport;
 use App\Filament\Resources\LeadCategoryResource;
 use App\Filament\Resources\LeadResource;
+use App\Filament\Resources\LeadResource\Pages\Concerns\InteractsWithLeadWhatsApp;
 use App\Models\Lead;
 use App\Services\LeadSpreadsheetImporter;
+use App\Services\LeadWhatsAppBatchService;
 use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
@@ -21,6 +23,8 @@ use Throwable;
 
 class ListLeads extends ListRecords
 {
+    use InteractsWithLeadWhatsApp;
+
     protected static string $resource = LeadResource::class;
 
     #[Locked]
@@ -29,6 +33,19 @@ class ListLeads extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('whatsappFiltered')->label(__('leads.wa_send_filtered'))->icon('heroicon-o-chat-bubble-left-right')
+                ->visible(fn () => Gate::allows('sendWhatsApp', Lead::class))
+                ->modalWidth('4xl')->modalSubmitActionLabel(__('leads.wa_send'))
+                ->mountUsing(function (\Filament\Forms\Form $form): void {
+                    $this->prepareWhatsApp($this->getFilteredTableQuery()->limit(app(LeadWhatsAppBatchService::class)->limit() + 1)->get());
+                    $form->fill();
+                })
+                ->modalContent(fn () => view('filament.leads.whatsapp-preview', ['plan' => $this->whatsAppPlan]))
+                ->form([
+                    \Filament\Forms\Components\Textarea::make('message')->label(__('leads.wa_message'))->required()->maxLength(4000)->rows(6)
+                        ->mutateStateForValidationUsing(fn (?string $state) => \App\Support\LeadContactData::trim($state ?? '')),
+                ])
+                ->action(fn (array $data) => $this->queuePreparedWhatsApp($data['message'])),
             Actions\Action::make('categories')->label(__('leads.categories'))->color('gray')
                 ->icon('heroicon-o-tag')->url(fn () => LeadCategoryResource::getUrl())
                 ->visible(fn () => LeadCategoryResource::canViewAny()),

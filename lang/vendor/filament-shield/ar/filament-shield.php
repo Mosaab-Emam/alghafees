@@ -69,6 +69,7 @@ return [
         'create' => 'إضافة',
         'import' => 'استيراد',
         'export' => 'تصدير',
+        'send_whatsapp' => 'إرسال واتساب',
         'update' => 'تعديل',
         'delete' => 'حذف',
         'delete_any' => 'حذف الكل',

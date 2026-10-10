@@ -11,6 +11,11 @@ class EvaluationRoleWhatsAppNotifier
 {
     public function send(int $transactionId, int $employeeId, string $roleField, string $transactionNumber): void
     {
+        // The data-entry role does not receive assignment messages, even through direct callers.
+        if ($roleField === 'evaluation_employee_id') {
+            return;
+        }
+
         $context = [
             'transaction_id' => $transactionId,
             'employee_id' => $employeeId,

@@ -142,21 +142,15 @@ class EvaluationTransactionResource extends Resource
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn($record) => !$record->owner_name)
                     ->color(fn($record) => !$record->owner_name ? 'danger' : ''),
-                Tables\Columns\TextColumn::make('region_table_value')
-                    ->label(__('resources/evaluation-transaction.city_table_value'))
-                    ->toggleable()
-                    ->default(__('resources/evaluation-transaction.unset'))
-                    ->badge(fn($record) => !$record->new_city_id && !$record->region)
-                    ->color(fn($record) => !$record->new_city_id && !$record->region ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('compatible_city')
                     ->label(__('resources/evaluation-transaction.city'))
-                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->toggleable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn($record) => !$record->new_city_id && !$record->region)
                     ->color(fn($record) => !$record->new_city_id && !$record->region ? 'danger' : ''),
                 Tables\Columns\TextColumn::make('plan_no')
                     ->label(__('resources/evaluation-transaction.plan_no'))
-                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->toggleable()
                     ->searchable()
                     ->default(__('resources/evaluation-transaction.unset'))
                     ->badge(fn($record) => !$record->plan_no)

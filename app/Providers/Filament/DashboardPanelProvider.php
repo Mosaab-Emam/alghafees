@@ -42,6 +42,7 @@ class DashboardPanelProvider extends PanelProvider
             ->navigationGroups([
                 // using __('') method to translate breaks skyplugin translation !!!
                 NavigationGroup::make(app()->getLocale() == 'ar' ? 'معاملات التقييم' : 'Evaluation transactions'),
+                NavigationGroup::make(app()->getLocale() == 'ar' ? 'جهات الاتصال' : 'Contacts'),
                 NavigationGroup::make(app()->getLocale() == 'ar' ? 'إدارة المحتوى' : 'Content Management'),
                 NavigationGroup::make(app()->getLocale() == 'ar' ? 'الإعدادات' : 'Settings'),
             ])

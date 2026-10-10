@@ -67,6 +67,8 @@ return [
         'view' => 'عرض',
         'view_any' => 'عرض الكل',
         'create' => 'إضافة',
+        'import' => 'استيراد',
+        'export' => 'تصدير',
         'update' => 'تعديل',
         'delete' => 'حذف',
         'delete_any' => 'حذف الكل',

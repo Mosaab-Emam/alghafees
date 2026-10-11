@@ -53,6 +53,9 @@
     <title>{{ $page['props']['title'] }}</title>
     <meta name="title" content="{{ $page['props']['title'] }}">
     <meta name="description" content="{{ $page['props']['description'] }}">
+    @if ($page['props']['noindex'] ?? false)
+        <meta name="robots" content="noindex, nofollow, noarchive">
+    @endif
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

@@ -45,6 +45,18 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],
 
+        // Dedicated transport for the training questionnaire; no global SMTP fallback.
+        'training_questionnaire' => [
+            'transport' => 'smtp',
+            'host' => env('TRAINING_QUESTIONNAIRE_MAIL_HOST'),
+            'port' => env('TRAINING_QUESTIONNAIRE_MAIL_PORT', 587),
+            'encryption' => env('TRAINING_QUESTIONNAIRE_MAIL_ENCRYPTION', 'tls'),
+            'username' => env('TRAINING_QUESTIONNAIRE_MAIL_USERNAME'),
+            'password' => env('TRAINING_QUESTIONNAIRE_MAIL_PASSWORD'),
+            'timeout' => env('TRAINING_QUESTIONNAIRE_MAIL_TIMEOUT', 30),
+            'local_domain' => env('TRAINING_QUESTIONNAIRE_MAIL_EHLO_DOMAIN'),
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],

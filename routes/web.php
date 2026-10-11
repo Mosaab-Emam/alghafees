@@ -17,6 +17,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Artisan;
 use \App\Http\Controllers;
 use App\Http\Controllers\Website\HomeController;
+use App\Http\Controllers\Website\TrainingQuestionnaireController;
 use App\Models\AboutUsStaticContent;
 use App\Models\BlogStaticContent;
 use App\Models\Category;
@@ -488,6 +489,13 @@ Route::get('/join-us', function () {
         'training_types' => TrainingType::all()->toArray()
     ]);
 });
+
+// Shared by direct link only; keep out of navigation and the sitemap.
+Route::get('/training-completion', [TrainingQuestionnaireController::class, 'show'])
+    ->name('training-questionnaire.show');
+Route::post('/training-completion', [TrainingQuestionnaireController::class, 'store'])
+    ->middleware('throttle:5,10')
+    ->name('training-questionnaire.store');
 
 Route::post('/join-us/trainee-application', function () {
     $validated = request()->validate([

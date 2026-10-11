@@ -88,6 +88,8 @@ export default function TrainingQuestionnaire({ questions }: Props) {
                         message = 'لقد تجاوزت عدد محاولات الإرسال المسموح. يرجى الانتظار ١٠ دقائق ثم المحاولة مرة أخرى.';
                     } else if (error.response?.status === 419) {
                         message = 'انتهت صلاحية الجلسة. يرجى نسخ بياناتك ثم تحديث الصفحة وإعادة المحاولة.';
+                    } else if (error.response?.status === 503 && typeof error.response.data?.message === 'string') {
+                        message = error.response.data.message;
                     } else if (!error.response) {
                         message = 'تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى.';
                     }

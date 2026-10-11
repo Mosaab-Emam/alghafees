@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'delivery_method' => env('TRAINING_QUESTIONNAIRE_DELIVERY_METHOD', 'email'),
+    'whatsapp_number' => env('TRAINING_QUESTIONNAIRE_WHATSAPP_NUMBER'),
     'recipient' => env('TRAINING_QUESTIONNAIRE_RECIPIENT', 'mosaab.emam123@gmail.com'),
     'from' => [
         'address' => env('TRAINING_QUESTIONNAIRE_MAIL_FROM_ADDRESS', 'taqeem@alghafestaqeem.com'),

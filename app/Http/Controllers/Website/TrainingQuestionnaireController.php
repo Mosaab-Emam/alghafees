@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TrainingQuestionnaireRequest;
-use App\Mail\TrainingQuestionnaireMail;
+use App\Services\TrainingQuestionnaireDelivery;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
-use RuntimeException;
+use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
@@ -25,23 +24,15 @@ class TrainingQuestionnaireController extends Controller
         ])->toResponse(request())->header('X-Robots-Tag', 'noindex, nofollow, noarchive');
     }
 
-    public function store(TrainingQuestionnaireRequest $request): JsonResponse
+    public function store(TrainingQuestionnaireRequest $request, TrainingQuestionnaireDelivery $delivery): JsonResponse
     {
         $answers = $request->safe()->except('website');
-        $startedAt = microtime(true);
-
         try {
-            // Send immediately: show success only after SMTP accepts the message.
-            $sent = Mail::mailer('training_questionnaire')->to(config('training.recipient'))
-                ->send(new TrainingQuestionnaireMail($answers));
-
-            if ($sent === null) {
-                throw new RuntimeException('The mailer did not return a sent message.');
-            }
+            $result = $delivery->send($answers);
         } catch (Throwable $exception) {
-            // Do not log applicants' personal data or SMTP credentials.
-            Log::error('Training questionnaire email delivery failed.', [
+            Log::error('Training questionnaire delivery configuration failed.', [
                 'exception_type' => get_class($exception),
+                'reason' => $exception instanceof InvalidArgumentException ? $exception->getMessage() : null,
             ]);
 
             return response()->json([
@@ -49,16 +40,13 @@ class TrainingQuestionnaireController extends Controller
             ], 503);
         }
 
-        Log::info('Training questionnaire email accepted by SMTP.', [
-            'mailer' => 'training_questionnaire',
-            'message_id' => $sent->getMessageId(),
-            'sender' => $sent->getEnvelope()->getSender()->getAddress(),
-            'recipients' => array_map(
-                fn ($address) => $address->getAddress(),
-                $sent->getEnvelope()->getRecipients()
-            ),
-            'duration_ms' => (int) round((microtime(true) - $startedAt) * 1000),
-        ]);
+        if ($result['failed'] !== []) {
+            return response()->json([
+                'message' => $result['sent'] !== []
+                    ? 'تم استلام بياناتك، لكن تعذر إكمال إرسالها عبر جميع وسائل التواصل. بياناتك ما زالت في النموذج، يرجى المحاولة لاحقًا.'
+                    : 'تعذر إرسال بياناتك حاليًا. بياناتك ما زالت في النموذج، يرجى المحاولة لاحقًا.',
+            ], 503);
+        }
 
         return response()->json(['message' => 'تم إرسال بياناتك بنجاح.']);
     }

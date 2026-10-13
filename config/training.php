@@ -24,10 +24,8 @@ return [
         'marital_status' => [
             'label' => 'ما هي الحالة الاجتماعية؟',
             'options' => [
-                'single' => 'أعزب / عزباء',
-                'married' => 'متزوج / متزوجة',
-                'divorced' => 'مطلق / مطلقة',
-                'widowed' => 'أرمل / أرملة',
+                'married' => 'متزوج',
+                'unmarried' => 'غير متزوج',
             ],
         ],
     ],

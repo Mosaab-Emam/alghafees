@@ -2,7 +2,7 @@
 
 The Arabic form is available at `/training-completion`. It requires no login and is intentionally absent from site navigation and the sitemap. The page sends `noindex, nofollow, noarchive` in both the HTML metadata and the `X-Robots-Tag` response header. Anyone with the URL can access it.
 
-All seven answers are required. The first three questions offer نعم / لا; marital status offers أعزب / عزباء, متزوج / متزوجة, مطلق / مطلقة, and أرمل / أرملة. Questions and answer labels are defined in `config/training.php` and shared by the form, validation, email templates, and WhatsApp message.
+All seven answers are required. The first three questions offer نعم / لا; marital status offers only متزوج and غير متزوج. Questions and answer labels are defined in `config/training.php` and shared by the form, validation, email templates, and WhatsApp message.
 
 Submissions are sent synchronously, with CSRF protection, server-side validation, a honeypot, and a limit of five POST requests per ten minutes per IP. The applicant receives a success state after all selected delivery services accept the messages. Failed sends retain the form answers. No questionnaire records or migrations are added, and no queue worker is required.
 
